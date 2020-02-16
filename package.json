@@ -1,0 +1,19 @@
+{
+  "name": "wuiqe",
+  "version": "0.0.1",
+  "description": "Web UI Quality Evaluator",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ezhmd/wuiqe.git"
+  },
+  "author": "Ezzat Chamudi",
+  "license": "LicenseRef-LICENSE",
+  "bugs": {
+    "url": "https://github.com/ezhmd/wuiqe/issues"
+  },
+  "homepage": "https://github.com/ezhmd/wuiqe#readme"
+}

@@ -1,4 +1,4 @@
-# WUIQE
+# Web Design Scraper
 
-Web UI Quality Evaluator
+Web Design Scraper
 (Work in Progress)

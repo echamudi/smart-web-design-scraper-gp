@@ -1,6 +1,6 @@
-# Web Design Scraper
+# Smart Web Design Scraper
 
-Web Design Scraper
+Smart Web Design Scraper
 
 (Work in Progress)
 

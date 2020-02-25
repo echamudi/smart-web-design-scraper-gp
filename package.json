@@ -1,19 +1,19 @@
 {
-  "name": "web-design-scraper",
+  "name": "swds",
   "version": "0.0.1",
-  "description": "Web Design Scraper",
+  "description": "Smart Web Design Scraper",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ezhmd/web-design-scraper.git"
+    "url": "git+https://github.com/ezhmd/smart-web-design-scraper.git"
   },
   "author": "Ezzat Chamudi",
   "license": "LicenseRef-LICENSE",
   "bugs": {
-    "url": "https://github.com/ezhmd/web-design-scraper/issues"
+    "url": "https://github.com/ezhmd/smart-web-design-scraper/issues"
   },
-  "homepage": "https://github.com/ezhmd/web-design-scraper#readme"
+  "homepage": "https://github.com/ezhmd/smart-web-design-scraper#readme"
 }

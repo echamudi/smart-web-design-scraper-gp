@@ -6,6 +6,20 @@ const User = require('../models/user');
 const router = express.Router(); 
 
 
+const { authenticate } = require('../middleware/authenticate') ; 
+const Session = require('../models/session') ; 
+
+
+const initSession = async(userID) => {
+    const token = await Session.generateToken() ; 
+    const session = new Session({token , userID}); 
+    await session.save(); 
+    return session ; 
+    }  
+      
+
+
+
 // checking if email id valid... 
 const isEmail = (email) => {
     if (typeof email !== 'string') {
@@ -19,24 +33,30 @@ const isEmail = (email) => {
 
 router.post('/register', async (req , res) => {
 try{
-
-    const{email , password} = req.body ; 
-    if(!isEmail(email)){ 
-        throw new Error('Emaild must be a valid email address.') ; 
+    const { email, password } = req.body;
+    // console.log(password) ; 
+    if (!isEmail(email)) {
+      throw new Error('Email must be a valid email address.');
     }
+    if (typeof password !== 'string') {
+      throw new Error('Password must be a string.');
+    }
+    const user = new User({ email, password });
+    const persistedUser = await user.save();
 
-    if(typeof password !== 'string') {
-        throw new Error('password must be a string') ; 
-    } 
+    const userID = persistedUser._id ; 
+    const session = await initSession(userID) ; 
 
-    const user = new User({email , password});
-    const presistedUser = await user.save() ; 
-
-    res.status(201).json({
-        title: 'User Registration Successful' , 
-        detail: 'user registered' 
-    }); 
-}catch(err) {
+    res.cookie('token' , {
+      httpOnly: true , 
+      sameSite : true , 
+      maxAge : 1209600000 , 
+      secure : process.env.NODE_ENV === 'production' 
+    }).status(201).json({
+      title: 'User Registration Successful',
+      detail: 'Successfully registered new user' // will only be set to true in production ...
+    });
+    }catch(err) {
     res.status(400).json({
         errors: [
           {
@@ -51,42 +71,78 @@ try{
 
 router.post('/login', async(req,res) =>{
 try{
-const {email ,password} = req.body ; 
-if(!isEmail(email)) {
-return res.status(400).json({
-    errors: [
+
+    const { email, password } = req.body;
+    if (!isEmail(email)) {
+      return res.status(400).json({
+        errors: [
+          {
+            title: 'Bad Request',
+            detail: 'Email must be a valid email address',
+          },
+        ],
+      });
+    }
+    if (typeof password !== 'string') {
+      return res.status(400).json({
+        errors: [
+          {
+            title: 'Bad Request',
+            detail: 'Password must be a string',
+          },
+        ],
+      });
+    }
+    //queries database to find a user with the received email
+    const user = await User.findOne({ email });
+    if (!user) {
+      throw new Error();
+    }
+
+    //using bcrypt to compare passwords
+    const passwordValidated = await bcrypt.compare(password, user.password);
+    if (!passwordValidated) {
+      throw new Error();
+    }
+
+    const userId = user._id ; 
+    const session = await initSession(userId) ;
+
+    res.cookie('token', {
+      httpOnly : true , 
+      sameSite : true , 
+      maxAge : 1209600000 , 
+      secure : process.env.NODE_ENV === 'producion'
+
+    }).json({
+      title: 'Login Successful',
+      detail: 'Successfully validated user credentials',
+    });
+  } catch (err) {
+    res.status(401).json({
+      errors: [
         {
-            title: 'bad request', 
-            detail : 'Email must be valid' 
+          title: 'Invalid Credentials',
+          detail: 'Check email and password combination',
+          errorMessage: err.message,
         },
-    ]
+      ],
+    });
+  }
 });
-}
 
-if(typeof password !== 'string') {
-return res.status(400).json({
-    errors:[
-        {
-            title: 'bad request',
-            detail: 'password must be a string'
-        },
-    ]
-});
-}
+router.get('/test',authenticate , async (req , res ) => {
+try{
+// using an object to grab the user id from the request session ...
+const {userId} = req.session ; 
 
-const user = await User.findOne({email}); 
-if(!user) {
-    throw new Error() ; 
-}
+// only retrieve the authenticated user's email ... 
+const user = await User.findById({ _id: userId }, { email: 1, _id: 0 });
 
-// check password using bcrypt...
-const passwordValidator = await bcrypt.compare(password , user.password);
-if(!passwordValidator){
-    throw new Error() ; 
-}
-res.status(200).json({
-    title: 'login successful', 
-    detail: 'user credentials were successfully validated'
+res.json({
+  title: 'Authentication successful', 
+  detail : 'Successfully authenticated user',
+  user  
 });
 }catch(err){
 res.status(401).json({
@@ -101,6 +157,45 @@ res.status(401).json({
 
 }
 });
+
+
+
+// test secure authenticate function...
+
+router.get('/authTest',authenticate,async(req,res) => {
+try{
+
+    // using object destructuring to grab the userId from the request session
+    const { userId } = req.session;
+
+    const user = await User.findById({ _id: userId }, { email: 1, _id: 0 });
+
+    res.json({
+        title: 'Authentication successful',
+        detail: 'successfully authenticated user'. 
+        user,
+    });
+}catch(err) {
+res.status(401).json({
+    errors:[
+        {
+            title: 'Unauthorized',
+            detail: 'Not authorized to access this route',
+            errorMessage: err.message,
+        }
+    ]
+});
+
+} 
+});
+
+
+
+
+
+
+
+
 
 
 module.exports = router ;

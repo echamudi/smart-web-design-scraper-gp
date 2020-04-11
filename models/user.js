@@ -2,6 +2,11 @@ const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 const bcrypt = require('bcryptjs'); 
 
+const Session = require('../models/session');
+
+
+
+
 
 const UserSchema = new mongoose.Schema({
     email: {
@@ -41,6 +46,21 @@ UserSchema.pre('save', function(next) {
       .catch((err) => next(err));
   });
   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   module.exports = mongoose.model('User', UserSchema);
 
 

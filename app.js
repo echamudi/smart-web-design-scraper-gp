@@ -3,7 +3,6 @@ const bodyParser = require('body-parser') ;
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose'); 
 
-
 const dbConfig = require('./config/dbconf.js');
 mongoose.Promise = global.Promise ; 
 mongoose
@@ -17,9 +16,9 @@ mongoose
     },
     (err) => console.log('Error connecting to mongoDB', err)
   );
-
-const app = express() ; 
-const port = process.env.PORT || 3000 ; 
+  const app = express() ; 
+  const port = process.env.PORT || 3000 ; 
+  
 
 // sets up the middleware for parsing bodies and cookies off of the request.
 app.use(bodyParser.json());
@@ -27,15 +26,7 @@ app.use(cookieParser());
 
 // routes ... 
 const userRoute  = require('./routes/users');
-
-
-
-
-app.use('api/users',userRoute);
-
-
-
-
+app.use('/api/users',userRoute);
 
 
 

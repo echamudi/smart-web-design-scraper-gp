@@ -14,19 +14,27 @@ app.use(function (req, res, next) {
 app.get('/api/analyze', async (req, res, next) => {
     let url = req.query.url;
     let size = req.query.size;
+    let factorData = {};
 
     try {
-
         await (async () => {
             const browser = await puppeteer.launch();
             const page = await browser.newPage();
+
+            if (size === "1024x768") {
+                await page.setViewport({
+                    width: 1024,
+                    height: 768
+                });
+            }
 
             await page.goto(url);
 
             page.on('console', msg => console.log('PAGE LOG:', msg.text()));
 
             // Get the "viewport" of the page, as reported by the page.
-            const data = await page.evaluate(() => {
+            const data = await page.evaluate(async () => {
+                let smallTextCount = 0;
                 let all = document.querySelectorAll("body *");
 
                 // Mark letters with too small letters
@@ -40,6 +48,7 @@ app.get('/api/analyze', async (req, res, next) => {
 
                     if (text !== '' && parseInt(getComputedStyle(currentEl).fontSize, 10) < 12) {
                         currentEl.style.border = 'solid 1px red';
+                        smallTextCount++;
                     }
                 }
 
@@ -77,12 +86,16 @@ app.get('/api/analyze', async (req, res, next) => {
                 var htmlString = document.documentElement.innerHTML;
 
                 return {
-                    html: htmlString
+                    html: htmlString,
+                    smallTextCount: smallTextCount
                 };
             });
 
             fs.mkdirSync('./temp', { recursive: true });
             fs.writeFileSync("./temp/result-1.html", data.html);
+            await page.screenshot({path: './temp/result-1.png'});
+
+            factorData.smallTextCount = data.smallTextCount;
 
             await browser.close();
         })();
@@ -90,10 +103,10 @@ app.get('/api/analyze', async (req, res, next) => {
         console.log(error);
     }
 
-
     res.json({
         inputURL: url,
-        inputSize: size
+        inputSize: size,
+        factorData: factorData
     });
 })
 

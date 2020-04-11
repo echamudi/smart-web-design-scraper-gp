@@ -10,11 +10,14 @@ app.use(function (req, res, next) {
     next();
 });
 
+app.use(express.static('temp'))
 
 app.get('/api/analyze', async (req, res, next) => {
     let url = req.query.url;
     let size = req.query.size;
     let factorData = {};
+
+    let fontSizeSmallLimit = 13;
 
     try {
         await (async () => {
@@ -33,7 +36,12 @@ app.get('/api/analyze', async (req, res, next) => {
             page.on('console', msg => console.log('PAGE LOG:', msg.text()));
 
             // Get the "viewport" of the page, as reported by the page.
-            const data = await page.evaluate(async () => {
+
+            let inputData = {
+                fontSizeSmallLimit: fontSizeSmallLimit
+            };
+
+            const data = await page.evaluate(async (inputData) => {
                 let smallTextCount = 0;
                 let all = document.querySelectorAll("body *");
 
@@ -46,7 +54,7 @@ app.get('/api/analyze', async (req, res, next) => {
                     console.log(text);
                     console.log(getComputedStyle(currentEl).fontSize);
 
-                    if (text !== '' && parseInt(getComputedStyle(currentEl).fontSize, 10) < 12) {
+                    if (text !== '' && parseInt(getComputedStyle(currentEl).fontSize, 10) < inputData.fontSizeSmallLimit) {
                         currentEl.style.border = 'solid 1px red';
                         smallTextCount++;
                     }
@@ -89,7 +97,7 @@ app.get('/api/analyze', async (req, res, next) => {
                     html: htmlString,
                     smallTextCount: smallTextCount
                 };
-            });
+            }, inputData);
 
             fs.mkdirSync('./temp', { recursive: true });
             fs.writeFileSync("./temp/result-1.html", data.html);
@@ -103,10 +111,15 @@ app.get('/api/analyze', async (req, res, next) => {
         console.log(error);
     }
 
+    let desc = `The page has ${factorData.smallTextCount} element(s) with too small font size (less than ${fontSizeSmallLimit} px).`;
+
     res.json({
         inputURL: url,
         inputSize: size,
-        factorData: factorData
+        factorData: factorData,
+        resultHtmlURL: "result-1.html",
+        resultScreenshotURL: "result-1.png",
+        analysisDescription: desc
     });
 })
 

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-analysis-result',
@@ -8,7 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class AnalysisResultComponent implements OnInit {
 
-  constructor(private activatedRoute: ActivatedRoute) { }
+  constructor(private activatedRoute: ActivatedRoute, private http: HttpClient) { }
 
   url: string;
   size: string;
@@ -17,6 +18,10 @@ export class AnalysisResultComponent implements OnInit {
     this.activatedRoute.queryParams.subscribe(params => {
       this.url = params['url'];
       this.size = params['size'];
+
+      this.http.get('http://localhost:3302/api/analyze?url=' + encodeURI(this.url) + '&size=' + encodeURI(this.size))
+        .subscribe(data => console.log(data));
+
     });
   }
 }

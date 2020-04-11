@@ -8,6 +8,8 @@ import { SavedAnalysesComponent } from './saved-analyses/saved-analyses.componen
 import { AnalysisResultComponent } from './analysis-result/analysis-result.component';
 import { PreferencesComponent } from './preferences/preferences.component';
 
+import { HttpClientModule } from '@angular/common/http';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -18,7 +20,8 @@ import { PreferencesComponent } from './preferences/preferences.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

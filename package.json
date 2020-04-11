@@ -1,9 +1,8 @@
 {
-  "name": "swds",
-  "version": "0.0.1",
-  "description": "Smart Web Design Scraper",
-  "main": "index.js",
-  "private" : true,
+  "name": "smart-web-design-scraper",
+  "version": "1.0.0",
+  "description": "the back end for the smart web design scraper experimental tool",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -11,10 +10,19 @@
     "type": "git",
     "url": "git+https://github.com/ezhmd/smart-web-design-scraper.git"
   },
-  "author": "Ezzat Chamudi",
-  "license": "LicenseRef-LICENSE",
+  "author": "ayman rahmon",
+  "license": "ISC",
   "bugs": {
     "url": "https://github.com/ezhmd/smart-web-design-scraper/issues"
   },
-  "homepage": "https://github.com/ezhmd/smart-web-design-scraper#readme"
+  "homepage": "https://github.com/ezhmd/smart-web-design-scraper#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.5",
+    "express": "^4.17.1",
+    "mongoose": "^5.9.7",
+    "mongoose-unique-validator": "^2.0.3",
+    "nodemon": "^2.0.3"
+  }
 }

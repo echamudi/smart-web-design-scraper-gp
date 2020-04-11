@@ -1,0 +1,13 @@
+{
+    "_id": "objectId",
+    "full_name": "string",
+    "email": "string",
+    "personal_config": {
+        "factor_1": "float (0-1)",
+        "factor_2": "float (0-1)",
+        "factor_3": "float (0-1)",
+        "factor_n": "float (0-1)"
+    },
+    "profile_picture": "string (path)",
+    "is_admin": "boolean"
+}

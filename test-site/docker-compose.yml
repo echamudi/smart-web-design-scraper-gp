@@ -3,6 +3,6 @@ services:
   apache:
     image: httpd:2.4
     ports:
-      - "9988:80"
+      - "3303:80"
     volumes:
-      - ./test/sample-site/:/usr/local/apache2/htdocs/
+      - ./public/:/usr/local/apache2/htdocs/

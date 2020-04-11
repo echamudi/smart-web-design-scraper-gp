@@ -7,7 +7,7 @@ import { AnalysisResultComponent } from './analysis-result/analysis-result.compo
 import { PreferencesComponent } from './preferences/preferences.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
+  { path: 'home', component: HomeComponent },
   { path: 'analysis-result', component: AnalysisResultComponent },
   { path: 'saved-analyses', component: SavedAnalysesComponent },
   { path: 'preferences', component: PreferencesComponent },

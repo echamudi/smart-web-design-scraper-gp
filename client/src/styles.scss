@@ -132,13 +132,17 @@ table {
 
 // Styles
 
+body {
+  font-family: sans-serif;
+}
+
 .container {
   display: grid;
   position: absolute;
   grid-template-areas:
     "navbar navbar"
     "sidebar content";
-  grid-template-columns: 200px 1fr;
+  grid-template-columns: 250px 1fr;
   grid-template-rows: 50px 1fr;
   width: 100%;
   height: 100%;
@@ -149,9 +153,11 @@ table {
 
   &__area-navbar {
     grid-area: navbar;
+    z-index: 10;
   }
 
   &__area-content {
+    background: #EEF0F6;
     position: relative;
     grid-area: content;
     overflow-y: scroll;
@@ -173,6 +179,27 @@ table {
 
 .sidebar {
   background: #FFFFFF;
+  height: 100%;
   border-right: solid 1px #DADCE9;
-  box-shadow: 0 6px 10px 0 rgba(0,0,0,0.03);
+  box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.03);
+  display: flex;
+  flex-direction: column;
+  padding: 20px 0;
+
+  &__item {
+    height: 40px;
+    line-height: 40px;
+    user-select: none;
+    color: #393C51;
+    outline: none;
+    padding: 0 10px;
+
+    &_active {
+      background: #F6F7FC;
+      color: #393C51;
+      font-weight: bold;
+      padding-left: 5px;
+      border-left: 5px solid #393C51;
+    }
+  }
 }

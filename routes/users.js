@@ -47,7 +47,7 @@ try{
     const userID = persistedUser._id ; 
     const session = await initSession(userID) ; 
 
-    res.cookie('token' , {
+    res.cookie('token',session.token , {
       httpOnly: true , 
       sameSite : true , 
       maxAge : 1209600000 , 
@@ -108,7 +108,7 @@ try{
     const userId = user._id ; 
     const session = await initSession(userId) ;
 
-    res.cookie('token', {
+    res.cookie('token',session.token, {
       httpOnly : true , 
       sameSite : true , 
       maxAge : 1209600000 , 
@@ -188,13 +188,6 @@ res.status(401).json({
 
 } 
 });
-
-
-
-
-
-
-
 
 
 

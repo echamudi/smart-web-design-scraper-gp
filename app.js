@@ -2,7 +2,6 @@ const express = require('express');
 const bodyParser = require('body-parser') ; 
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose'); 
-
 const dbConfig = require('./config/dbconf.js');
 mongoose.Promise = global.Promise ; 
 mongoose

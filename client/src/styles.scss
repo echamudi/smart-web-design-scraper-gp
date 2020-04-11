@@ -157,7 +157,7 @@ body {
   }
 
   &__area-content {
-    background: #EEF0F6;
+    background: #eef0f6;
     position: relative;
     grid-area: content;
     overflow-y: scroll;
@@ -178,9 +178,9 @@ body {
 }
 
 .sidebar {
-  background: #FFFFFF;
+  background: #ffffff;
   height: 100%;
-  border-right: solid 1px #DADCE9;
+  border-right: solid 1px #dadce9;
   box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.03);
   display: flex;
   flex-direction: column;
@@ -190,16 +190,90 @@ body {
     height: 40px;
     line-height: 40px;
     user-select: none;
-    color: #393C51;
+    color: #393c51;
     outline: none;
     padding: 0 10px;
 
     &_active {
-      background: #F6F7FC;
-      color: #393C51;
+      background: #f6f7fc;
+      color: #393c51;
       font-weight: bold;
       padding-left: 5px;
-      border-left: 5px solid #393C51;
+      border-left: 5px solid #393c51;
     }
+  }
+}
+
+app-home {
+  display: absolute;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-widget {
+  position: relative;
+  background: #ffffff;
+  border: 1px solid #dadce9;
+  border-radius: 19px;
+  width: 800px;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__image {
+    position: absolute;
+    top: -100px;
+    width: 440px;
+  }
+
+  &__title {
+    font-family: Lato-Bold;
+    font-size: 37px;
+    color: #393c51;
+    letter-spacing: -0.84px;
+    margin-top: 143px;
+    margin-bottom: 30px;
+  }
+
+  &__form-row {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+  }
+
+  &__form-item {
+    margin: 0px 8px;
+
+    input[type="text"] {
+      width: 300px;
+      border: 2px solid #c2c5d6;
+      font-size: 20px;
+      height: 50px;
+      border-radius: 4px;
+      margin: 8px 0;
+      outline: none;
+      padding: 8px;
+      box-sizing: border-box;
+    }
+
+    select {
+      margin: 10px 0;
+      font-size: 20px;
+      height: 50px;
+    }
+
+    input[type="submit"] {
+      background: #393C51;
+      box-shadow: 0 2px 4px 0 rgba(0,0,0,0.25);
+      border-radius: 10px;
+      height: 40px;
+      width: 200px;
+      font-size: 15px;
+      color: white;
+  }
   }
 }

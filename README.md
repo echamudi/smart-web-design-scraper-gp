@@ -2,7 +2,16 @@
 
 Smart Web Design Scraper
 
-(Work in Progress)
+## How to Run
+
+Angular Client
+```
+cd client
+npm start
+```
+It will start angular dev server at port 3301
+
+
 
 ## Authors
 - Ezzat Chamudi

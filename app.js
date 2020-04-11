@@ -25,6 +25,19 @@ const port = process.env.PORT || 3000 ;
 app.use(bodyParser.json());
 app.use(cookieParser()); 
 
+// routes ... 
+const userRoute  = require('./routes/users');
+
+
+
+
+app.use('api/users',userRoute);
+
+
+
+
+
+
 
 app.listen(port,()=>{
     console.log('server running on port  ' + port);

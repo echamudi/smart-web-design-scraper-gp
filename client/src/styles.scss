@@ -149,6 +149,7 @@ body {
 
   &__area-sidebar {
     grid-area: sidebar;
+    position: relative;
   }
 
   &__area-navbar {
@@ -179,6 +180,7 @@ body {
 
 .sidebar {
   background: #ffffff;
+  box-sizing: border-box;
   height: 100%;
   border-right: solid 1px #dadce9;
   box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.03);
@@ -267,13 +269,56 @@ app-home {
     }
 
     input[type="submit"] {
-      background: #393C51;
-      box-shadow: 0 2px 4px 0 rgba(0,0,0,0.25);
+      background: #393c51;
+      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
       border-radius: 10px;
       height: 40px;
       width: 200px;
       font-size: 15px;
       color: white;
+    }
   }
+}
+
+.result-page {
+  background: white;
+  width: 1200px;
+  margin: 50px auto;
+  padding: 20px;
+  box-sizing: border-box;
+
+  &__title {
+    font-family: Lato-Bold;
+    font-size: 37px;
+    color: #393c51;
+    letter-spacing: -0.84px;
+    margin: 10px 0;
   }
+
+  &__screenshot {
+    border: solid 3px #dadce9;
+    margin: 10px 0;
+  }
+
+  &__screenshot-container {
+    display: flex;
+    justify-content: center;
+    margin: 10px 0;
+  }
+
+  &__analysis-description {
+    background: #e8e8e8;
+    padding: 20px;
+    margin: 10px 0;
+  }
+}
+
+.button {
+  background: #393c51;
+  color: #fff;
+  border-radius: 6px;
+  border: none;
+  font-size: 16px;
+  padding: 15px 30px;
+  text-decoration: none;
 }

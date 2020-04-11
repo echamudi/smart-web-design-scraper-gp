@@ -1,2 +1,17 @@
-<p>analysis-result under construction</p>
-<p>{{ url }} {{ size }}</p>
+<div class="result-page">
+  <div class="result-page__title">Analysis Result</div>
+  <div class="result-page__url">URL: {{ url }}</div>
+  <div class="result-page__size">Size: {{ size }}</div>
+  <div *ngIf="showResult">
+    <div class="result-page__analysis-description">
+      {{ analysisDescription }}
+    </div>
+    <div class="result-page__screenshot-container">
+      <img class="result-page__screenshot" [src]="imageURL" />
+    </div>
+
+    <a href="{{resultHtmlURL}}" target="_blank">
+        <button class="button">Open HTML result</button>
+      </a>
+  </div>
+</div>

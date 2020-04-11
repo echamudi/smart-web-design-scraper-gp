@@ -1,10 +1,17 @@
-<div class="nav">
-  Smart Web Design Scraper
+<div class="container">
+    <div class="container__area-navbar">
+        <div class="nav">
+            Smart Web Design Scraper
+        </div>
+    </div>
+    <div class="container__area-sidebar">
+        <div class="">
+            <a routerLink="/" routerLinkActive="active">Home</a>
+            <a routerLink="/saved-analyses" routerLinkActive="active">Saved Analyses</a>
+            <a routerLink="/preferences" routerLinkActive="active">Preferences</a>
+        </div>
+    </div>
+    <div class="container__area-content">
+        <router-outlet></router-outlet>
+    </div>
 </div>
-
-<div>
-  <a routerLink="/" routerLinkActive="active">Home</a>
-  <a routerLink="/saved-analyses" routerLinkActive="active">Saved Analyses</a>
-  <a routerLink="/preferences" routerLinkActive="active">Preferences</a>
-</div>
-<router-outlet></router-outlet>

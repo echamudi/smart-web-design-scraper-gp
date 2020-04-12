@@ -7,6 +7,12 @@ const fs = require('fs');
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "http://localhost:3301");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header ("Pragma-directive", "no-cache");
+    res.header ("Cache-directive", "no-cache");
+    res.header ("Cache-control", "o-cache");
+    res.header ("Pragma", "no-cache");
+    res.header ("Expires", "0");
+
     next();
 });
 

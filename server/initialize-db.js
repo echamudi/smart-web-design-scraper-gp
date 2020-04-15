@@ -1,7 +1,6 @@
 const db = require('./models');
 
 const Role = db.role;
-const dbConfig = require('./configs/database.config');
 
 function initial() {
     Role.estimatedDocumentCount((err, count) => {
@@ -29,17 +28,4 @@ function initial() {
     });
 }
 
-db.mongoose
-    .connect(`mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    })
-    .then(() => {
-        console.log('Successfully connect to MongoDB.');
-        initial();
-        process.exit();
-    })
-    .catch((err) => {
-        console.error('Connection error', err);
-        process.exit();
-    });
+module.exports = initial;

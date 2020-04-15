@@ -51,20 +51,20 @@ const UserSchema = new mongoose.Schema({
 UserSchema.plugin(uniqueValidator);
 
 
-UserSchema.pre('save', (next) => {
-    const user = this;
+// UserSchema.pre('save', (next) => {
+//     const user = this;
 
-    if (!user.isModified('password')) {
-        next();
-    }
+//     if (!user.isModified('password')) {
+//         next();
+//     }
 
-    bcrypt.hash(user.password, 10)
-        .then((hash) => {
-            user.password = hash;
-            next();
-        })
-        .catch((err) => next(err));
-});
+//     bcrypt.hash(user.password, 8)
+//         .then((hash) => {
+//             user.password = hash;
+//             next();
+//         })
+//         .catch((err) => next(err));
+// });
 
 
 module.exports = mongoose.model('User', UserSchema);

@@ -4,9 +4,29 @@ const cors = require('cors');
 
 const app = express();
 
+const initial = require('./initialize-db');
+
 const corsOptions = {
-    origin: 'http://localhost:4200',
+    origin: 'http://localhost:3301',
 };
+
+const dbConfig = require('./configs/database.config');
+const db = require('./models');
+
+db.mongoose
+    .connect(`mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    })
+    .then(() => {
+        console.log('Successfully connect to MongoDB.');
+        initial();
+    })
+    .catch((err) => {
+        console.error('Connection error', err);
+        process.exit();
+    });
+
 
 app.use(cors(corsOptions));
 

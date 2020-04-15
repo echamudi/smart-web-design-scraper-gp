@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Global } from './_common/global';
 import { TokenStorageService } from './_services/token-storage.service';
 import { Router, NavigationStart } from '@angular/router';
-import { ActivatedRoute } from '@angular/router'
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +11,7 @@ import { ActivatedRoute } from '@angular/router'
 })
 export class AppComponent implements OnInit {
 
-  showSidebar = false;
+  isLoggedIn = false;
 
   constructor(private tokenStorageService: TokenStorageService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
@@ -19,7 +19,7 @@ export class AppComponent implements OnInit {
     Global.isLoggedIn = !!this.tokenStorageService.getToken();
 
     if (Global.isLoggedIn) {
-      this.showSidebar = true;
+      this.isLoggedIn = true;
 
       const user = this.tokenStorageService.getUser();
       Global.roles = user.roles;

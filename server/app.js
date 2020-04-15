@@ -22,15 +22,15 @@ const port = 3302;
 // sets up the middleware for parsing bodies and cookies off of the request.
 app.use(bodyParser.json());
 app.use(cookieParser());
+app.use(express.static('temp'));
 
 // routes ...
 const userRoute = require('./routes/users');
+const analyzerRoute = require('./routes/analyzer');
 
 app.use('/api/users', userRoute);
+analyzerRoute(app);
 
 app.listen(port, () => {
     console.log(`server running on port  ${port}`);
 });
-
-
-module.exports = { app };

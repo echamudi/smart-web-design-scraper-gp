@@ -3,8 +3,6 @@ const puppeteer = require('puppeteer');
 const fs = require('fs');
 
 module.exports = function (app) {
-    app.use(express.static('temp'));
-
     app.get('/api/analyze', async (req, res, next) => {
         res.header('Access-Control-Allow-Origin', 'http://localhost:3301');
         res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');

@@ -6,7 +6,7 @@ body {
   font-family: sans-serif;
 }
 
-.container {
+.sw-container {
   display: grid;
   position: absolute;
   grid-template-areas:
@@ -17,17 +17,17 @@ body {
   width: 100%;
   height: 100%;
 
-  &__area-sidebar {
+  &-areaSidebar {
     grid-area: sidebar;
     position: relative;
   }
 
-  &__area-navbar {
+  &-areaNavbar {
     grid-area: navbar;
     z-index: 10;
   }
 
-  &__area-content {
+  &-areaContent {
     background: #eef0f6;
     position: relative;
     grid-area: content;
@@ -35,7 +35,7 @@ body {
   }
 }
 
-.nav {
+.sw-nav {
   background: #ffffff;
   border-bottom: solid 1px #dadce9;
   box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.03);
@@ -48,7 +48,7 @@ body {
   padding: 0 10px;
 }
 
-.sidebar {
+.sw-sidebar {
   background: #ffffff;
   box-sizing: border-box;
   height: 100%;
@@ -58,7 +58,7 @@ body {
   flex-direction: column;
   padding: 20px 0;
 
-  &__item {
+  &-item {
     height: 40px;
     line-height: 40px;
     user-select: none;
@@ -85,7 +85,7 @@ app-home {
   align-items: center;
 }
 
-.search-widget {
+.sw-searchWidget {
   position: relative;
   background: #ffffff;
   border: 1px solid #dadce9;
@@ -96,13 +96,13 @@ app-home {
   flex-direction: column;
   align-items: center;
 
-  &__image {
+  &-image {
     position: absolute;
     top: -100px;
     width: 440px;
   }
 
-  &__title {
+  &-title {
     font-family: Lato-Bold;
     font-size: 37px;
     color: #393c51;
@@ -111,13 +111,13 @@ app-home {
     margin-bottom: 30px;
   }
 
-  &__form-row {
+  &-formRow {
     display: flex;
     width: 100%;
     justify-content: center;
   }
 
-  &__form-item {
+  &-formItem {
     margin: 0px 8px;
 
     input[type="text"] {
@@ -150,14 +150,14 @@ app-home {
   }
 }
 
-.result-page {
+.sw-resultPage {
   background: white;
   width: 1200px;
   margin: 50px auto;
   padding: 20px;
   box-sizing: border-box;
 
-  &__title {
+  &-title {
     font-family: Lato-Bold;
     font-size: 37px;
     color: #393c51;
@@ -165,25 +165,25 @@ app-home {
     margin: 10px 0;
   }
 
-  &__screenshot {
+  &-screenshot {
     border: solid 3px #dadce9;
     margin: 10px 0;
   }
 
-  &__screenshot-container {
+  &-screenshotContainer {
     display: flex;
     justify-content: center;
     margin: 10px 0;
   }
 
-  &__analysis-description {
+  &-analysisDescription {
     background: #e8e8e8;
     padding: 20px;
     margin: 10px 0;
   }
 }
 
-.button {
+.sw-button {
   background: #393c51;
   color: #fff;
   border-radius: 6px;

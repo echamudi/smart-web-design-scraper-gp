@@ -1,13 +1,13 @@
-<div class="result-page">
-  <div class="result-page__title">Analysis Result</div>
-  <div class="result-page__url">URL: {{ url }}</div>
-  <div class="result-page__size">Size: {{ size }}</div>
+<div class="sw-result-page">
+  <div class="sw-resultPage-title">Analysis Result</div>
+  <div class="sw-resultPage-url">URL: {{ url }}</div>
+  <div class="sw-resultPage-size">Size: {{ size }}</div>
   <div *ngIf="showResult">
-    <div class="result-page__analysis-description">
+    <div class="sw-resultPage-analysisDescription">
       {{ analysisDescription }}
     </div>
-    <div class="result-page__screenshot-container">
-      <img class="result-page__screenshot" [src]="imageURL" />
+    <div class="sw-resultPage-screenshotContainer">
+      <img class="sw-resultPage-screenshot" [src]="imageURL" />
     </div>
 
     <a href="{{resultHtmlURL}}" target="_blank">

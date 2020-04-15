@@ -35,15 +35,4 @@ const UserSchema = new mongoose.Schema({
 
 UserSchema.plugin(uniqueValidator);
 
-
-UserSchema.pre('save', function (next) {
-    if (!this.isModified('password')) {
-        next();
-    }
-
-    this.password = bcrypt.hashSync(this.password, 8);
-    next();
-});
-
-
 module.exports = mongoose.model('User', UserSchema);

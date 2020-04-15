@@ -18,6 +18,10 @@
     "rules": {
         "no-console": "off",
         "no-underscore-dangle": "off",
+        "prefer-arrow-callback": "off",
+        "func-names": "off",
+        "no-shadow": "off",
+        "no-param-reassign": "off",
         "indent": [
             "error",
             4

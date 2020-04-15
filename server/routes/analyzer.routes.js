@@ -1,9 +1,8 @@
-const express = require('express');
 const puppeteer = require('puppeteer');
 const fs = require('fs');
 
 module.exports = function (app) {
-    app.get('/api/analyze', async (req, res, next) => {
+    app.get('/api/analyze', async (req, res) => {
         res.header('Access-Control-Allow-Origin', 'http://localhost:3301');
         res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
         res.header('Pragma-directive', 'no-cache');
@@ -45,7 +44,7 @@ module.exports = function (app) {
                     const all = document.querySelectorAll('body *');
 
                     // Mark letters with too small letters
-                    for (let i = 0, max = all.length; i < max; i++) {
+                    for (let i = 0, max = all.length; i < max; i += 1) {
                         const currentEl = all[i];
                         let text = [].reduce.call(currentEl.childNodes, (a, b) => a + (b.nodeType === Node.TEXT_NODE ? b.textContent : ''), '');
                         text = text.trim();
@@ -61,12 +60,12 @@ module.exports = function (app) {
 
                     // Get Style
                     const css = [];
-                    for (let i = 0; i < document.styleSheets.length; i++) {
+                    for (let i = 0; i < document.styleSheets.length; i += 1) {
                         const sheet = document.styleSheets[i];
                         const rules = ('cssRules' in sheet) ? sheet.cssRules : sheet.rules;
                         if (rules) {
                             css.push(`\n/* Stylesheet : ${sheet.href || '[inline styles]'} */`);
-                            for (let j = 0; j < rules.length; j++) {
+                            for (let j = 0; j < rules.length; j += 1) {
                                 const rule = rules[j];
                                 if ('cssText' in rule) css.push(rule.cssText);
                                 else css.push(`${rule.selectorText} {\n${rule.style.cssText}\n}\n`);
@@ -77,7 +76,7 @@ module.exports = function (app) {
 
                     // Remove CSS linking from HTML
                     const hs = document.querySelectorAll('link[rel="stylesheet"]');
-                    for (let i = 0, max = hs.length; i < max; i++) {
+                    for (let i = 0, max = hs.length; i < max; i += 1) {
                         hs[i].parentNode.removeChild(hs[i]);
                     }
 

@@ -23,16 +23,6 @@ function initial() {
             });
 
             new Role({
-                name: 'moderator',
-            }).save((err) => {
-                if (err) {
-                    console.log('error', err);
-                }
-
-                console.log("added 'moderator' to roles collection");
-            });
-
-            new Role({
                 name: 'admin',
             }).save((err) => {
                 if (err) {
@@ -74,7 +64,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // simple route
 app.get('/', (req, res) => {
-    res.json({ message: 'SWDS server.' });
+    res.json({ message: 'SWDS server is running!' });
 });
 
 // routes

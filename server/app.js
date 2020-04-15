@@ -6,16 +6,16 @@ const dbConfig = require('./config/dbconf.js');
 
 mongoose.Promise = global.Promise;
 mongoose
-  .connect(
-    dbConfig.url,
-    { useNewUrlParser: true },
-  )
-  .then(
-    () => {
-      console.log('Connected to mongoDB');
-    },
-    (err) => console.log('Error connecting to mongoDB', err),
-  );
+    .connect(
+        dbConfig.url,
+        { useNewUrlParser: true },
+    )
+    .then(
+        () => {
+            console.log('Connected to mongoDB');
+        },
+        (err) => console.log('Error connecting to mongoDB', err),
+    );
 const app = express();
 const port = 3302;
 
@@ -29,7 +29,7 @@ const userRoute = require('./routes/users');
 app.use('/api/users', userRoute);
 
 app.listen(port, () => {
-  console.log(`server running on port  ${port}`);
+    console.log(`server running on port  ${port}`);
 });
 
 

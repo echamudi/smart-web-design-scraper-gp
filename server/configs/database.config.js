@@ -1,3 +1,5 @@
 module.exports = {
-    url: 'mongodb://localhost:27017/scrapeDB',
+    HOST: 'localhost',
+    PORT: 27017,
+    DB: 'scrapeDB',
 };

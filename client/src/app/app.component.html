@@ -1,7 +1,12 @@
 <div class="sw-container" [class.sw-container_noSidebar]="!isLoggedIn">
     <div class="sw-container-areaNavbar">
         <div class="sw-nav">
-            Smart Web Design Scraper <a *ngIf="isLoggedIn" (click)="logout()">log out</a>
+          <div class="sw-nav-title">Smart Web Design Scraper</div>
+          <div class="sw-nav-middle"></div>
+          <div class="sw-nav-username" *ngIf="isLoggedIn">Hello, {{ username }}!</div>
+          <div class="sw-nav-log" *ngIf="isLoggedIn">
+              <a (click)="logout()" class="sw-link">Log Out</a>
+          </div>
         </div>
     </div>
     <div class="sw-container-areaSidebar">

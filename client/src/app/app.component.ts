@@ -12,6 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 export class AppComponent implements OnInit {
 
   isLoggedIn = false;
+  username: string;
 
   constructor(private tokenStorageService: TokenStorageService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
@@ -25,7 +26,8 @@ export class AppComponent implements OnInit {
       Global.roles = user.roles;
       Global.username = user.username;
 
-      //
+      this.username = user.username;
+
       this.router.events.subscribe((event: any) => {
         if (event instanceof NavigationStart && (event.url === '/' || event.url === '/login' || event.url === '/signup')) {
           this.router.navigateByUrl('/home');

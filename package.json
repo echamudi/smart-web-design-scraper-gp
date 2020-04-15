@@ -6,6 +6,8 @@
   "private": true,
   "scripts": {
     "start-server": "cd server && npx nodemon app.js",
+    "start-client": "cd client && npm start",
+    "start-sample-website": "cd sample-website && docker-compose up",
     "test-server-api": "cd test && npx mocha server-api.js"
   },
   "repository": {

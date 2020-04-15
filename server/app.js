@@ -16,7 +16,7 @@ mongoose
     (err) => console.log('Error connecting to mongoDB', err)
   );
 const app = express();
-const port = 3301;
+const port = 3302;
 
 
 // sets up the middleware for parsing bodies and cookies off of the request.

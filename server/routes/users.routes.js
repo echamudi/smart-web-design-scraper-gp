@@ -1,13 +1,13 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 
-const User = require('../models/user');
+const User = require('../models/user.model');
 
 const router = express.Router();
 
 
-const { authenticate } = require('../middleware/authenticate');
-const Session = require('../models/session');
+const { authenticate } = require('../middleware/authenticate.middleware');
+const Session = require('../models/session.model');
 
 
 const initSession = async (userID) => {

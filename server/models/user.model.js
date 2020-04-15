@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 const bcrypt = require('bcryptjs');
 
-const Session = require('./session');
+const Session = require('./session.model');
 
 
 const UserSchema = new mongoose.Schema({

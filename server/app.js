@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
-const dbConfig = require('./config/dbconf.js');
+const dbConfig = require('./config/database.config.js');
 
 mongoose.Promise = global.Promise;
 mongoose
@@ -25,8 +25,8 @@ app.use(cookieParser());
 app.use(express.static('temp'));
 
 // routes ...
-const userRoute = require('./routes/users');
-const analyzerRoute = require('./routes/analyzer');
+const userRoute = require('./routes/users.routes');
+const analyzerRoute = require('./routes/analyzer.routes');
 
 app.use('/api/users', userRoute);
 analyzerRoute(app);

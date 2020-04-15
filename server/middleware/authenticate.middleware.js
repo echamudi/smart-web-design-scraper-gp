@@ -1,5 +1,5 @@
-const User = require('../models/user');
-const Session = require('../models/session');
+const User = require('../models/user.model');
+const Session = require('../models/session.model');
 
 const authenticate = async (req, res, next) => {
     try {

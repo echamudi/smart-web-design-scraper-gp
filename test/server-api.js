@@ -23,7 +23,6 @@ describe('Server API test', () => {
                 username: `testuser${ts}`,
                 email: `test${ts}@test.com`,
                 password: '123456789',
-                roles: ['user'],
             })
             .set('Content-Type', 'application/json')
             .set('Accept', 'application/json')

@@ -1,31 +1,58 @@
-const User = require('../models/user.model');
-const Session = require('../models/session.model');
+const jwt = require('jsonwebtoken');
+const config = require('../configs/auth.config');
+const db = require('../models');
 
-const authenticate = async (req, res, next) => {
-    try {
-        const { token } = req.cookies;
-        console.log(req.cookies);
-        if (typeof token !== 'string') {
-            throw new Error('Request cookie is invalid.');
-        }
-        const session = await Session.findOne({ token, status: 'valid' });
-        if (!session) {
-            res.clearCookie('token');
-            throw new Error('Your session has expired. You need to log in.');
-        }
-        req.session = session;
-        next();
-    } catch (err) {
-        res.status(401).json({
-            errors: [
-                {
-                    title: 'Unauthorized',
-                    detail: 'Authentication credentials invalid',
-                    errorMessage: err.message,
-                },
-            ],
-        });
+const User = db.user;
+const Role = db.role;
+
+verifyToken = (req, res, next) => {
+    const token = req.headers['x-access-token'];
+
+    if (!token) {
+        return res.status(403).send({ message: 'No token provided!' });
     }
+
+    jwt.verify(token, config.secret, (err, decoded) => {
+        if (err) {
+            return res.status(401).send({ message: 'Unauthorized!' });
+        }
+        req.userId = decoded.id;
+        next();
+    });
 };
 
-module.exports = { authenticate };
+isAdmin = (req, res, next) => {
+    User.findById(req.userId).exec((err, user) => {
+        if (err) {
+            res.status(500).send({ message: err });
+            return;
+        }
+
+        Role.find(
+            {
+                _id: { $in: user.roles },
+            },
+            (err, roles) => {
+                if (err) {
+                    res.status(500).send({ message: err });
+                    return;
+                }
+
+                for (let i = 0; i < roles.length; i++) {
+                    if (roles[i].name === 'admin') {
+                        next();
+                        return;
+                    }
+                }
+
+                res.status(403).send({ message: 'Require Admin Role!' });
+            },
+        );
+    });
+};
+
+const authJwt = {
+    verifyToken,
+    isAdmin,
+};
+module.exports = authJwt;

@@ -55,13 +55,13 @@ module.exports = function (app) {
 
                         if (text !== '' && parseInt(getComputedStyle(currentEl).fontSize, 10) < inputData.fontSizeSmallLimit) {
                             currentEl.style.border = 'solid 1px red';
-                            smallTextCount++;
+                            smallTextCount += 1;
                         }
                     }
 
                     // Get Style
                     const css = [];
-                    for (var i = 0; i < document.styleSheets.length; i++) {
+                    for (let i = 0; i < document.styleSheets.length; i++) {
                         const sheet = document.styleSheets[i];
                         const rules = ('cssRules' in sheet) ? sheet.cssRules : sheet.rules;
                         if (rules) {
@@ -77,7 +77,7 @@ module.exports = function (app) {
 
                     // Remove CSS linking from HTML
                     const hs = document.querySelectorAll('link[rel="stylesheet"]');
-                    for (var i = 0, max = hs.length; i < max; i++) {
+                    for (let i = 0, max = hs.length; i < max; i++) {
                         hs[i].parentNode.removeChild(hs[i]);
                     }
 

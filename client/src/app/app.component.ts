@@ -24,7 +24,12 @@ export class AppComponent implements OnInit {
       Global.roles = user.roles;
       Global.username = user.username;
 
-      this.router.navigateByUrl('/home');
+      this.router.events.subscribe((ev: any) => {
+        if (ev.url === '/') {
+          this.router.navigateByUrl('/home');
+        }
+      });
+
     } else {
       this.router.navigateByUrl('/login');
     }

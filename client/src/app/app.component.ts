@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Global } from './_common/global';
 import { TokenStorageService } from './_services/token-storage.service';
-import { Router } from '@angular/router';
+import { Router, NavigationStart } from '@angular/router';
+import { ActivatedRoute } from '@angular/router'
 
 @Component({
   selector: 'app-root',
@@ -12,7 +13,7 @@ export class AppComponent implements OnInit {
 
   showSidebar = false;
 
-  constructor(private tokenStorageService: TokenStorageService, private router: Router) { }
+  constructor(private tokenStorageService: TokenStorageService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
     Global.isLoggedIn = !!this.tokenStorageService.getToken();
@@ -24,14 +25,20 @@ export class AppComponent implements OnInit {
       Global.roles = user.roles;
       Global.username = user.username;
 
-      this.router.events.subscribe((ev: any) => {
-        if (ev.url === '/') {
+      //
+      this.router.events.subscribe((event: any) => {
+        if (event instanceof NavigationStart && (event.url === '/' || event.url === '/login' || event.url === '/signup')) {
           this.router.navigateByUrl('/home');
         }
       });
 
     } else {
-      this.router.navigateByUrl('/login');
+      // Guard non login and signup pages for public users
+      this.router.events.subscribe((event: any) => {
+        if (event instanceof NavigationStart && (event.url !== '/login' && event.url !== '/signup')) {
+          this.router.navigateByUrl('/login');
+        }
+      });
     }
   }
 

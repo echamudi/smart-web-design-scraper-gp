@@ -5,7 +5,7 @@
         </div>
     </div>
     <div class="container__area-sidebar">
-        <div class="sidebar">
+        <div class="sidebar" *ngIf="showSidebar">
             <div class="sidebar__item" routerLink="/home" routerLinkActive="sidebar__item_active">Home</div>
             <div class="sidebar__item" routerLink="/saved-analyses" routerLinkActive="sidebar__item_active">Saved Analyses</div>
             <div class="sidebar__item" routerLink="/preferences" routerLinkActive="sidebar__item_active">Preferences</div>

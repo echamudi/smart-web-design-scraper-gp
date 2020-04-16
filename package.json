@@ -3,18 +3,33 @@
   "version": "0.0.1",
   "description": "Smart Web Design Scraper",
   "main": "index.js",
-  "private" : true,
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start-server": "cd server && npx nodemon app.js",
+    "start-client": "cd client && npm start",
+    "start-sample-website": "cd sample-website && docker-compose up",
+    "test-server-api": "cd test && npx mocha server-api.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ezhmd/smart-web-design-scraper.git"
   },
-  "author": "Ezzat Chamudi",
   "license": "LicenseRef-LICENSE",
   "bugs": {
     "url": "https://github.com/ezhmd/smart-web-design-scraper/issues"
   },
-  "homepage": "https://github.com/ezhmd/smart-web-design-scraper#readme"
+  "homepage": "https://github.com/ezhmd/smart-web-design-scraper#readme",
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.1.0",
+    "eslint-plugin-import": "^2.20.2"
+  },
+  "dependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "mocha": "^7.1.1",
+    "nock": "^12.0.3",
+    "sinon": "^9.0.2",
+    "supertest": "^4.0.2"
+  }
 }

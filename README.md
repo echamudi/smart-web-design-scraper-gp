@@ -2,7 +2,13 @@
 
 Smart Web Design Scraper
 
-(Work in Progress)
+## Running the app
+```sh
+# run in 3 different terminal windows
+npm run start-client            # http://localhost:3301
+npm run start-server            # http://localhost:3302
+npm run start-sample-website    # http://localhost:3303
+```
 
 ## Authors
 - Ezzat Chamudi

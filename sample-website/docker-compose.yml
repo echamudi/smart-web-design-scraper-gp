@@ -1,0 +1,8 @@
+version: "3.2"
+services:
+  apache:
+    image: httpd:2.4
+    ports:
+      - "3303:80"
+    volumes:
+      - ./public/:/usr/local/apache2/htdocs/

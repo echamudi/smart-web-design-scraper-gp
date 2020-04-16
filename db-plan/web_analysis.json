@@ -1,0 +1,34 @@
+{
+    "_id": "objectId",
+    "owner_id": "objectId",
+
+    "date": "date",
+    "overall_score": "float (0-100)",
+    "recommendation": "string",
+    "website_url": "string",
+    "screen_size": {
+        "w": "integer",
+        "h": "integer"
+    },
+    "image_snapshot": "string (path)",
+    "webpage_files": "string (path)",
+    "tree_model": {
+    },
+
+    "factor_scores": {
+        "factor_1": {
+            "score": "float (0-100)",
+            "recommendation": "string",
+            "metadata": {
+
+            }
+        },
+        "factor_n": {
+            "score": "float (0-100)",
+            "recommendation": "string",
+            "metadata": {
+
+            }
+        }
+    }
+}

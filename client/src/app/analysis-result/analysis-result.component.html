@@ -1,17 +1,40 @@
-<div class="sw-result-page">
-  <div class="sw-resultPage-title">Analysis Result</div>
-  <div class="sw-resultPage-url">URL: {{ url }}</div>
-  <div class="sw-resultPage-size">Size: {{ size }}</div>
-  <div *ngIf="showResult">
-    <div class="sw-resultPage-analysisDescription">
-      {{ analysisDescription }}
+<div class="container">
+  <div class="row">
+    <div class="col mt-5">
+      <div class="card">
+        <div class="card-body">
+          <h1>Analysis Result</h1>
+          <div class="row mb-3 mt-2">
+            <div class="col d-flex align-items-center">
+              <div>URL: {{ url }}</div>
+            </div>
+            <div class="col d-flex align-items-center">
+              <div>Screen Size: {{ size }}</div>
+            </div>
+            <div class="col d-flex justify-content-end">
+              <a class="btn btn-primary" href="{{resultHtmlURL}}" target="_blank" *ngIf="showResult">
+                Open HTML result
+              </a>
+            </div>
+          </div>
+          <div *ngIf="!showResult">
+            <div class="alert alert-dark">
+              <div class="progress">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 100%"></div>
+              </div>
+              <div class="mt-2 mb-2 text-center">Please wait...</div>
+            </div>
+          </div>
+          <div *ngIf="showResult">
+            <div class="alert alert-info" role="alert">
+              {{ analysisDescription }}
+            </div>
+            <div class="sw-resultPage-screenshotContainer">
+              <img class="sw-resultPage-screenshot" [src]="imageURL" />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="sw-resultPage-screenshotContainer">
-      <img class="sw-resultPage-screenshot" [src]="imageURL" />
-    </div>
-
-    <a href="{{resultHtmlURL}}" target="_blank">
-        <button class="button">Open HTML result</button>
-      </a>
   </div>
 </div>

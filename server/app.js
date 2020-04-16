@@ -36,6 +36,9 @@ app.use(bodyParser.json());
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// Public files on a dir
+app.use(express.static('temp'));
+
 // simple route
 app.get('/', (req, res) => {
     res.json({ message: 'SWDS server is running!' });

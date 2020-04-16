@@ -29,8 +29,8 @@ export class AnalysisResultComponent implements OnInit {
         .subscribe((data: any) => {
           console.log(data);
 
-          this.imageURL = 'http://localhost:3302/' + data.resultScreenshotURL;
-          this.resultHtmlURL = 'http://localhost:3302/' + data.resultHtmlURL;
+          this.imageURL = 'http://localhost:3302/results/' + data.resultScreenshotURL;
+          this.resultHtmlURL = 'http://localhost:3302/results/' + data.resultHtmlURL;
           this.analysisDescription = data.analysisDescription;
 
           this.showResult = true;

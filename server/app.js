@@ -37,7 +37,15 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Public files on a dir
-app.use(express.static('temp'));
+app.use('/results', express.static('temp', {
+    setHeaders(res) {
+        res.header('Pragma-directive', 'no-cache');
+        res.header('Cache-directive', 'no-cache');
+        res.header('Cache-control', 'no-store');
+        res.header('Pragma', 'no-cache');
+        res.header('Expires', '0');
+    },
+}));
 
 // simple route
 app.get('/', (req, res) => {

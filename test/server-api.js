@@ -77,4 +77,21 @@ describe('Server API test', () => {
     });
 
     // After running test, remove users with db.users.remove( { username: {$regex : "testuser"}});
+
+
+    // TODO add tests
+
+    // GET /api/test/all --> must be available for public users, must response 200
+
+    // GET /api/test/user --> for all logged in users, must response 200
+
+    // GET /api/test/admin --> for logged in users with admin role, must return 200
+
+    // POST /api/auth/signin --> must be able to sign in with following raw JSON
+    // {
+    //     "username": "someusername",
+    //     "password": "somepassword"
+    // }
+    //
+    // must return with JWT token
 });

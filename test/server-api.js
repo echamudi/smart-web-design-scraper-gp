@@ -79,19 +79,49 @@ describe('Server API test', () => {
     // After running test, remove users with db.users.remove( { username: {$regex : "testuser"}});
 
 
-    // TODO add tests
+    // TODO for Ayman: add tests
 
-    // GET /api/test/all --> must be available for public users, must response 200
+    // GET /api/test/all
+    // Request header   :
+    // (nothing)
+    //
+    // Response : 200
 
-    // GET /api/test/user --> for all logged in users, must response 200
+    // GET /api/test/user
+    // Request header   :
+    // x-access-token   <jwt-token>
+    //
+    // Response : 200
+    // Body     : 'User Content'
 
-    // GET /api/test/admin --> for logged in users with admin role, must return 200
-
-    // POST /api/auth/signin --> must be able to sign in with following raw JSON
+    // GET /api/test/user
+    // Request header   :
+    // (nothing)
+    //
+    // Response : 403
+    // Body     :
     // {
-    //     "username": "someusername",
-    //     "password": "somepassword"
+    //     "message": "No token provided!"
+    // }
+
+    // POST /api/auth/signin
+    // Request header   :
+    // (nothing)
+    // Request body     :
+    // {
+    //     "username": "<some-username>",
+    //     "password": "<some-password>"
     // }
     //
-    // must return with JWT token
+    // Response : 200
+    // Body     :
+    // {
+    //     "id": "5e977858943d3e6e36764fbd",
+    //     "username": "ezzat",
+    //     "email": "testezzat@test.com",
+    //     "roles": [
+    //         "ROLE_USER"
+    //     ],
+    //     "accessToken": "<jwt-token>"
+    // }
 });

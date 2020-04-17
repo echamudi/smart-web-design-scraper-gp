@@ -87,9 +87,30 @@ describe('Server API test', () => {
     //
     // Response : 200
 
+    // POST /api/auth/signin
+    // Request header   :
+    // (nothing)
+    // Request body     :
+    // {
+    //     "username": "<some-username>",
+    //     "password": "<some-password>"
+    // }
+    //
+    // Response : 200
+    // Body     : (it will be something like this)
+    // {
+    //     "id": "5e977858943d3e6e36764fbd",
+    //     "username": "ezzat",
+    //     "email": "testezzat@test.com",
+    //     "roles": [
+    //         "ROLE_USER"
+    //     ],
+    //     "accessToken": "<jwt-token>"
+    // }
+
     // GET /api/test/user
     // Request header   :
-    // x-access-token   <jwt-token>
+    // x-access-token   <jwt-token> <-- use the token generated from the login test previously
     //
     // Response : 200
     // Body     : 'User Content'
@@ -104,24 +125,4 @@ describe('Server API test', () => {
     //     "message": "No token provided!"
     // }
 
-    // POST /api/auth/signin
-    // Request header   :
-    // (nothing)
-    // Request body     :
-    // {
-    //     "username": "<some-username>",
-    //     "password": "<some-password>"
-    // }
-    //
-    // Response : 200
-    // Body     :
-    // {
-    //     "id": "5e977858943d3e6e36764fbd",
-    //     "username": "ezzat",
-    //     "email": "testezzat@test.com",
-    //     "roles": [
-    //         "ROLE_USER"
-    //     ],
-    //     "accessToken": "<jwt-token>"
-    // }
 });

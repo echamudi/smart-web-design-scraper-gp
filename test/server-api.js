@@ -77,4 +77,51 @@ describe('Server API test', () => {
     });
 
     // After running test, remove users with db.users.remove( { username: {$regex : "testuser"}});
+
+
+    // TODO for Ayman: add tests
+
+    // GET /api/test/all
+    // Request header   :
+    // (nothing)
+    //
+    // Response : 200
+
+    // GET /api/test/user
+    // Request header   :
+    // x-access-token   <jwt-token>
+    //
+    // Response : 200
+    // Body     : 'User Content'
+
+    // GET /api/test/user
+    // Request header   :
+    // (nothing)
+    //
+    // Response : 403
+    // Body     :
+    // {
+    //     "message": "No token provided!"
+    // }
+
+    // POST /api/auth/signin
+    // Request header   :
+    // (nothing)
+    // Request body     :
+    // {
+    //     "username": "<some-username>",
+    //     "password": "<some-password>"
+    // }
+    //
+    // Response : 200
+    // Body     :
+    // {
+    //     "id": "5e977858943d3e6e36764fbd",
+    //     "username": "ezzat",
+    //     "email": "testezzat@test.com",
+    //     "roles": [
+    //         "ROLE_USER"
+    //     ],
+    //     "accessToken": "<jwt-token>"
+    // }
 });

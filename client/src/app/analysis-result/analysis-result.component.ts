@@ -22,8 +22,8 @@ export class AnalysisResultComponent implements OnInit {
     this.showResult = false;
 
     this.activatedRoute.queryParams.subscribe(params => {
-      this.url = params['url'];
-      this.size = params['size'];
+      this.url = params.url;
+      this.size = params.size;
 
       this.http.get('http://localhost:3302/api/analyze?url=' + encodeURI(this.url) + '&size=' + encodeURI(this.size))
         .subscribe((data: any) => {

@@ -6,18 +6,23 @@
           <h1>Analysis Result</h1>
           <div class="row mb-3 mt-2">
             <div class="col d-flex align-items-center">
-              <div>URL: {{ url }}</div>
+              <div>
+                <div class="text-bold">URL :</div> {{ url }}
+              </div>
             </div>
             <div class="col d-flex align-items-center">
-              <div>Screen Size: {{ size }}</div>
+              <div>
+                <div class="text-bold">Screen Size :</div> {{ size }}
+              </div>
             </div>
             <div class="col d-flex justify-content-end">
-              <a class="btn btn-primary" href="{{resultHtmlURL}}" target="_blank" *ngIf="showResult">
+              <!-- <a class="btn btn-primary" href="{{resultHtmlURL}}" target="_blank" *ngIf="showResult">
                 Open HTML result
-              </a>
+              </a> -->
             </div>
           </div>
-          <div *ngIf="!showResult">
+          <hr>
+          <div *ngIf="!showResult && !showError">
             <div class="alert alert-dark">
               <div class="progress">
                 <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 100%"></div>
@@ -25,13 +30,56 @@
               <div class="mt-2 mb-2 text-center">Please wait...</div>
             </div>
           </div>
+          <!-- Result -->
           <div *ngIf="showResult">
-            <div class="alert alert-info" role="alert">
-              {{ analysisDescription }}
+            <div class="row">
+              <div class="col-3">
+                <div class="list-group">
+                  <button type="button" class="list-group-item list-group-item-action list-header"
+                    disabled>Font</button>
+                  <button type="button" class="list-group-item list-group-item-action" [ngClass]="{'active': currentPage === 'Font Size'}" (click)="currentPage = 'Font Size'">
+                    Font Size
+                  </button>
+                  <button type="button" class="list-group-item list-group-item-action">
+                    Text Contrast Ratio
+                  </button>
+                  <button type="button" class="list-group-item list-group-item-action list-header"
+                    disabled>Color</button>
+                  <button type="button" class="list-group-item list-group-item-action" [ngClass]="{'active': currentPage === 'Dominant Colors'}" (click)="currentPage = 'Dominant Colors'">Dominant Colors</button>
+                </div>
+              </div>
+              <div class="col-9">
+                <!-- Font Size -->
+                <div *ngIf="currentPage == 'Font Size'">
+                  <h2>Font Size</h2>
+                  <p>
+                    {{ analysisDescription }}
+                  </p>
+                  <div class="sw-resultPage-screenshotContainer">
+                    <img class="sw-resultPage-screenshot" [src]="imageFontSizeURL" />
+                  </div>
+                </div>
+                <!-- Dominant Colors -->
+                <div *ngIf="currentPage == 'Dominant Colors'">
+                  <h2>Dominant Colors</h2>
+                  <div class="d-flex justify-content-center">
+                    <div class="ml-3 mr-3 d-flex flex-column align-items-center" *ngFor="let vibrantItem of vibrants">
+                      <div class="text-bold">{{vibrantItem.name}}</div>
+                      <div style="width: 50px; height: 50px;" [ngStyle]="{'background-color': vibrantItem.hex}">
+                      </div>
+                      <div>{{vibrantItem.hex}}</div>
+                    </div>
+                  </div>
+                  <div class="sw-resultPage-screenshotContainer">
+                    <img class="sw-resultPage-screenshot" [src]="imageVanillaURL" />
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="sw-resultPage-screenshotContainer">
-              <img class="sw-resultPage-screenshot" [src]="imageURL" />
-            </div>
+          </div>
+          <!-- Error -->
+          <div *ngIf="showError">
+            <div class="alert alert-danger">Cannot access the requested URL</div>
           </div>
         </div>
       </div>

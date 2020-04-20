@@ -7,7 +7,7 @@
   "scripts": {
     "start-server": "cd server && npx nodemon app.js",
     "start-client": "cd client && npm start",
-    "start-sample-website": "cd sample-website && docker-compose up",
+    "start-sample-website": "cd sample-website && npx http-server -p 3303",
     "test-server-api": "cd test && npx mocha server-api.js"
   },
   "repository": {
@@ -27,6 +27,7 @@
   "dependencies": {
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
+    "chai-json-schema": "^1.5.1",
     "mocha": "^7.1.1",
     "nock": "^12.0.3",
     "sinon": "^9.0.2",

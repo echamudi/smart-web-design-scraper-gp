@@ -86,7 +86,7 @@ describe('Server API test', () => {
     // (nothing)
     //
     // Response : 200
-    it('test all parts', (done) => {
+    it('allows public to use public api (/api/test/all)', (done) => {
         request.get('/api/test/all')
             .set('Content-Type', 'application/json')
             .set('Accept', 'application/json')
@@ -95,14 +95,12 @@ describe('Server API test', () => {
     });
 
     let token = '';
-    it('sign in correctly', (done) => {
+    it('signs in correctly', (done) => {
         request
             .post('/api/auth/signin')
             .send({
                 username: `testuser${ts}`,
                 password: '123456789',
-                //    username : `testuser15874350990`,
-                //    password : '123456789'
             })
             .set('Content-Type', 'application/json')
             .set('Accept', 'application/json')
@@ -115,20 +113,19 @@ describe('Server API test', () => {
                 expect(res.body).to.have.property('accessToken');
                 token = res.body.accessToken;
                 done();
-            // assert.deepStrictEqual(res.body , {
-            //     id: '5e9e43d40642fa08019db5ba',
-            //     username: 'testuser15874303563',
-            //     email: 'test15874303563@test.com',
-            //     roles: [
-            //     'ROLE_USER'
-            //  ],
-            //     accessToken: '',
-            // });
+                // assert.deepStrictEqual(res.body , {
+                //     id: '5e9e43d40642fa08019db5ba',
+                //     username: 'testuser15874303563',
+                //     email: 'test15874303563@test.com',
+                //     roles: [
+                //     'ROLE_USER'
+                //  ],
+                //     accessToken: '',
+                // });
             });
     });
 
-
-    it('authenticating using a JWT token', (done) => {
+    it('authenticates user using a JWT token', (done) => {
         request.get('/api/test/user')
             .set('Content-Type', 'application/json')
             .set('Accept', 'application/json')
@@ -137,7 +134,7 @@ describe('Server API test', () => {
     });
 
 
-    it(' no token is provided test', (done) => {
+    it('denies user content if no token is provided', (done) => {
         request.get('/api/test/user')
             .expect(403)
             .end((err, res) => {

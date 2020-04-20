@@ -80,33 +80,44 @@ describe('Server API test', () => {
 
 
     // TODO for Ayman: add tests
-
     // GET /api/test/all
     // Request header   :
     // (nothing)
     //
     // Response : 200
+    it("test all parts" , (done) => {
+        request.get("/pai/test/all")
+        .expect(200) ;
+
+    });
+
 
     // POST /api/auth/signin
-    // Request header   :
-    // (nothing)
-    // Request body     :
-    // {
-    //     "username": "<some-username>",
-    //     "password": "<some-password>"
-    // }
-    //
-    // Response : 200
-    // Body     : (it will be something like this)
-    // {
-    //     "id": "5e977858943d3e6e36764fbd",
-    //     "username": "ezzat",
-    //     "email": "testezzat@test.com",
-    //     "roles": [
-    //         "ROLE_USER"
-    //     ],
-    //     "accessToken": "<jwt-token>"
-    // }
+    it("sign in correctly" , (done)=>{
+        request
+        .post("/api/auth/signin")
+        .send({
+    
+        username : `testuser${ts}-otheruser`,
+        password : '123456789'
+        })
+        .set('Content-Type', 'application/json')
+        .set('Accept', 'application/json')
+        .expect(200).end((err,res)=>{
+            assert.seepStrictEqual(res.body , {
+                id: 'anonymous',
+                username: 'anonymous',
+                email: 'anonymous',
+                roles: [
+                "anonymous"
+             ],
+                accessToken: 'anonymous',
+            }) ; 
+        });
+    });
+
+
+
 
     // GET /api/test/user
     // Request header   :
@@ -114,6 +125,10 @@ describe('Server API test', () => {
     //
     // Response : 200
     // Body     : 'User Content'
+
+
+
+
 
     // GET /api/test/user
     // Request header   :
@@ -125,4 +140,9 @@ describe('Server API test', () => {
     //     "message": "No token provided!"
     // }
 
+
+
+
+
+    
 });

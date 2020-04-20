@@ -6,6 +6,14 @@
   box-shadow: 0px 5px 5px 0 rgba(0, 0, 0, 0.05);
 }
 
+.list-header {
+  padding-top: 20px;
+  padding-bottom: 5px;
+  padding-left: 10px;
+  font-size: 15px;
+  font-weight: bold;
+}
+
 // Styles
 
 body {
@@ -194,6 +202,7 @@ app-home {
   &-screenshot {
     border: solid 3px #dadce9;
     margin: 10px 0;
+    max-width: 100%;
   }
 
   &-screenshotContainer {

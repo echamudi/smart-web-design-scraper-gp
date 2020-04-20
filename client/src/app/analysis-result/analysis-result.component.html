@@ -17,7 +17,7 @@
               </a>
             </div>
           </div>
-          <div *ngIf="!showResult">
+          <div *ngIf="!showResult && !showError">
             <div class="alert alert-dark">
               <div class="progress">
                 <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 100%"></div>
@@ -32,6 +32,9 @@
             <div class="sw-resultPage-screenshotContainer">
               <img class="sw-resultPage-screenshot" [src]="imageURL" />
             </div>
+          </div>
+          <div *ngIf="showError">
+            <div class="alert alert-danger">Cannot access the requested URL</div>
           </div>
         </div>
       </div>

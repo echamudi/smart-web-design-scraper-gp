@@ -17,6 +17,7 @@ export class AnalysisResultComponent implements OnInit {
   resultHtmlURL: string;
   analysisDescription: string;
   showResult: boolean;
+  showError: boolean;
 
   ngOnInit(): void {
     this.showResult = false;
@@ -34,6 +35,8 @@ export class AnalysisResultComponent implements OnInit {
           this.analysisDescription = data.analysisDescription;
 
           this.showResult = true;
+        }, (error: any) => {
+          this.showError = true;
         });
     });
   }

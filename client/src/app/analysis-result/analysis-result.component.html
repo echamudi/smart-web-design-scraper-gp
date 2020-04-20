@@ -17,7 +17,8 @@
               </a>
             </div>
           </div>
-          <div *ngIf="!showResult">
+          <hr>
+          <div *ngIf="!showResult && !showError">
             <div class="alert alert-dark">
               <div class="progress">
                 <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 100%"></div>
@@ -25,13 +26,59 @@
               <div class="mt-2 mb-2 text-center">Please wait...</div>
             </div>
           </div>
+          <!-- Result -->
           <div *ngIf="showResult">
-            <div class="alert alert-info" role="alert">
-              {{ analysisDescription }}
+            <div class="accordion" id="accordionExample">
+              <div class="card">
+                <div class="card-header" id="headingOne">
+                  <h2 class="mb-0">
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne"
+                      aria-expanded="true" aria-controls="collapseOne">
+                      Font Size
+                    </button>
+                  </h2>
+                </div>
+                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+                  data-parent="#accordionExample">
+                  <div class="card-body">
+                    <p>
+                      {{ analysisDescription }}
+                    </p>
+                    <div class="sw-resultPage-screenshotContainer">
+                      <img class="sw-resultPage-screenshot" [src]="imageFontSizeURL" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-header" id="headingTwo">
+                  <h2 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                      data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                      Dominant Colors
+                    </button>
+                  </h2>
+                </div>
+                <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo"
+                  data-parent="#accordionExample">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-center">
+                      <div class="ml-3 mr-3 d-flex flex-column align-items-center" *ngFor="let vibrantItem of vibrants">
+                        <div class="text-bold">{{vibrantItem.name}}</div>
+                        <div style="width: 50px; height: 50px;" [ngStyle]="{'background-color': vibrantItem.hex}">
+                        </div>
+                        <div>{{vibrantItem.hex}}</div>
+                      </div>
+                    </div>
+                    <img class="sw-resultPage-screenshot" [src]="imageVanillaURL" />
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="sw-resultPage-screenshotContainer">
-              <img class="sw-resultPage-screenshot" [src]="imageURL" />
-            </div>
+          </div>
+          <!-- Error -->
+          <div *ngIf="showError">
+            <div class="alert alert-danger">Cannot access the requested URL</div>
           </div>
         </div>
       </div>

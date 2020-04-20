@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SavedAnalysesComponent } from './saved-analyses.component';
+import { PreviousAnalysisComponent } from './previous-analysis.component';
 
-describe('SavedAnalysesComponent', () => {
-  let component: SavedAnalysesComponent;
-  let fixture: ComponentFixture<SavedAnalysesComponent>;
+describe('PreviousAnalysisComponent', () => {
+  let component: PreviousAnalysisComponent;
+  let fixture: ComponentFixture<PreviousAnalysisComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SavedAnalysesComponent ]
+      declarations: [ PreviousAnalysisComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SavedAnalysesComponent);
+    fixture = TestBed.createComponent(PreviousAnalysisComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -18,16 +18,21 @@ module.exports = function (app) {
         // Puppeteer Process
         try {
             await (async () => {
-                const browser = await puppeteer.launch();
+                const browser = await puppeteer.launch({
+                    args: ['--lang=en-US'],
+                });
                 const page = await browser.newPage();
 
-                if (size === '1024x768') {
+                if (size === '1440x900') {
                     await page.setViewport({
-                        width: 1024,
-                        height: 768,
+                        width: 1440,
+                        height: 900,
                     });
                 }
 
+                await page.setExtraHTTPHeaders({
+                    'Accept-Language': 'en-US',
+                });
                 const response = await page.goto(url);
 
                 if (response._status === 200) {

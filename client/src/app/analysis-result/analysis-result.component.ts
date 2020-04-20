@@ -21,6 +21,7 @@ export class AnalysisResultComponent implements OnInit {
   showResult: boolean;
   showError: boolean;
   vibrants: {name, hex}[];
+  currentPage: string;
 
   ngOnInit(): void {
     this.showResult = false;
@@ -29,6 +30,7 @@ export class AnalysisResultComponent implements OnInit {
     this.activatedRoute.queryParams.subscribe(params => {
       this.url = params.url;
       this.size = params.size;
+      this.currentPage = 'Font Size';
 
       this.http.get('http://localhost:3302/api/analyze?url=' + encodeURI(this.url) + '&size=' + encodeURI(this.size))
         .subscribe((data: any) => {

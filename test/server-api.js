@@ -80,17 +80,11 @@ describe('Server API test', () => {
     // After running test, remove users with db.users.remove( { username: {$regex : "testuser"}});
 
 
-    // TODO for Ayman: add tests
-    // GET /api/test/all
-    // Request header   :
-    // (nothing)
-    //
-    // Response : 200
     it('allows public to use public api (/api/test/all)', (done) => {
         request.get('/api/test/all')
             .set('Content-Type', 'application/json')
             .set('Accept', 'application/json')
-        // .expect('Content-Type', /json/)
+            // .expect('Content-Type', /json/)
             .expect(200, done);
     });
 

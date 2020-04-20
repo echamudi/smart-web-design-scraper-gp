@@ -12,6 +12,10 @@ module.exports = function (app) {
 
         const fontSizeSmallLimit = 13;
 
+        // If page doesn't respond, put this to true
+        let pageResponseWell = false;
+
+        // Puppeteer Process
         try {
             await (async () => {
                 const browser = await puppeteer.launch();
@@ -24,7 +28,13 @@ module.exports = function (app) {
                     });
                 }
 
-                await page.goto(url);
+                const response = await page.goto(url);
+
+                if (response._statusText === 'OK') {
+                    pageResponseWell = true;
+                } else {
+                    return;
+                }
 
                 page.on('console', (msg) => console.log('PAGE LOG:', msg.text()));
 
@@ -44,8 +54,8 @@ module.exports = function (app) {
                         let text = [].reduce.call(currentEl.childNodes, (a, b) => a + (b.nodeType === Node.TEXT_NODE ? b.textContent : ''), '');
                         text = text.trim();
 
-                        console.log(text);
-                        console.log(getComputedStyle(currentEl).fontSize);
+                        // console.log(text);
+                        // console.log(getComputedStyle(currentEl).fontSize);
 
                         if (text !== '' && parseInt(getComputedStyle(currentEl).fontSize, 10) < inputData.fontSizeSmallLimit) {
                             currentEl.style.border = 'solid 1px red';
@@ -102,15 +112,23 @@ module.exports = function (app) {
             console.log(error);
         }
 
-        const desc = `The page has ${factorData.smallTextCount} element(s) with too small font size (less than ${fontSizeSmallLimit} px).`;
 
-        res.json({
-            inputURL: url,
-            inputSize: size,
-            factorData,
-            resultHtmlURL: 'result-1.html',
-            resultScreenshotURL: 'result-1.png',
-            analysisDescription: desc,
-        });
+        // Prepare Response
+        if (pageResponseWell) {
+            const desc = `The page has ${factorData.smallTextCount} element(s) with too small font size (less than ${fontSizeSmallLimit} px).`;
+
+            res.json({
+                inputURL: url,
+                inputSize: size,
+                factorData,
+                resultHtmlURL: 'result-1.html',
+                resultScreenshotURL: 'result-1.png',
+                analysisDescription: desc,
+            });
+        } else {
+            res.status(400).json({
+                message: 'page doesn\'t respond',
+            });
+        }
     });
 };

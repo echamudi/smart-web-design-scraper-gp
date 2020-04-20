@@ -30,7 +30,9 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/node-vibrant/dist/vibrant.min.js"
+            ]
           },
           "configurations": {
             "production": {

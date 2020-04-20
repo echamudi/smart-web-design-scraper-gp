@@ -4,7 +4,7 @@ const { expect } = require('chai');
 
 const ts = Math.round((new Date()).getTime() / 100);
 
-describe('Server API test', () => {
+describe('Basic server test', () => {
     it('runs GET / correctly', (done) => {
         request
             .get('/')
@@ -17,6 +17,16 @@ describe('Server API test', () => {
             });
     });
 
+    it('allows public to use public api (/api/test/all)', (done) => {
+        request.get('/api/test/all')
+            .set('Content-Type', 'application/json')
+            .set('Accept', 'application/json')
+            // .expect('Content-Type', /json/)
+            .expect(200, done);
+    });
+});
+
+describe('Sign up tests', () => {
     it('signs up the user correctly', (done) => {
         request
             .post('/api/auth/signup')
@@ -76,18 +86,9 @@ describe('Server API test', () => {
                 done();
             });
     });
+});
 
-    // After running test, remove users with db.users.remove( { username: {$regex : "testuser"}});
-
-
-    it('allows public to use public api (/api/test/all)', (done) => {
-        request.get('/api/test/all')
-            .set('Content-Type', 'application/json')
-            .set('Accept', 'application/json')
-            // .expect('Content-Type', /json/)
-            .expect(200, done);
-    });
-
+describe('Login tests', () => {
     let token = '';
     it('signs in correctly', (done) => {
         request
@@ -127,7 +128,6 @@ describe('Server API test', () => {
             .expect(200, done);
     });
 
-
     it('denies user content if no token is provided', (done) => {
         request.get('/api/test/user')
             .expect(403)
@@ -139,3 +139,5 @@ describe('Server API test', () => {
             });
     });
 });
+
+// After running test, remove users with db.users.remove( { username: {$regex : "testuser"}});

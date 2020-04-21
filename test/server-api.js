@@ -1,6 +1,8 @@
 const request = require('supertest')('http://localhost:3302');
 const assert = require('assert');
 
+const chai = require("chai"); 
+const expect = require('chai').expect;
 const ts = Math.round((new Date()).getTime() / 100);
 
 describe('Server API test', () => {
@@ -86,63 +88,68 @@ describe('Server API test', () => {
     //
     // Response : 200
     it("test all parts" , (done) => {
-        request.get("/pai/test/all")
-        .expect(200) ;
-
+        request.get('/api/test/all')
+        .set('Content-Type', 'application/json')
+        .set('Accept', 'application/json')
+    // .expect('Content-Type', /json/)
+        .expect(200 ,done);
     });
 
-
-    // POST /api/auth/signin
+    console.log('testuser${ts}-otheruser') ;
+    var token = ''; 
     it("sign in correctly" , (done)=>{
         request
         .post("/api/auth/signin")
         .send({
-    
-        username : `testuser${ts}-otheruser`,
-        password : '123456789'
+            username: `testuser${ts}`,
+            password: '123456789',
+        //    username : `testuser15874350990`,
+        //    password : '123456789'
         })
         .set('Content-Type', 'application/json')
         .set('Accept', 'application/json')
-        .expect(200).end((err,res)=>{
-            assert.seepStrictEqual(res.body , {
-                id: 'anonymous',
-                username: 'anonymous',
-                email: 'anonymous',
-                roles: [
-                "anonymous"
-             ],
-                accessToken: 'anonymous',
-            }) ; 
+        .expect(200)
+        .end((err,res)=>{
+
+            expect(res.body).to.have.property("id") ; 
+            expect(res.body).to.have.property("username");
+            expect(res.body).to.have.property("email");
+            expect(res.body).to.have.property("roles");
+            expect(res.body).to.have.property("accessToken");
+            token = res.body.accessToken;
+            done() ; 
+            // assert.deepStrictEqual(res.body , {
+            //     id: '5e9e43d40642fa08019db5ba',
+            //     username: 'testuser15874303563',
+            //     email: 'test15874303563@test.com',
+            //     roles: [
+            //     'ROLE_USER'
+            //  ],
+            //     accessToken: '',
+            // });
         });
     });
 
 
+    it("authenticating using a JWT token" , (done) => {
+        request.get('/api/test/user')
+        .set('Content-Type', 'application/json')
+        .set('Accept', 'application/json')
+        .set('x-access-token',token )
+        .expect(200 ,done);
+    });
 
 
-    // GET /api/test/user
-    // Request header   :
-    // x-access-token   <jwt-token> <-- use the token generated from the login test previously
-    //
-    // Response : 200
-    // Body     : 'User Content'
+  
+    it(" no token is provided test" , (done) => {
+        request.get("/api/test/user")      
+        .expect(403)
+        .end((err,res)=> {
+            assert.deepStrictEqual(res.body, {
+                message: 'No token provided!',
+            });
+            done() ; 
+    });
+    });
 
-
-
-
-
-    // GET /api/test/user
-    // Request header   :
-    // (nothing)
-    //
-    // Response : 403
-    // Body     :
-    // {
-    //     "message": "No token provided!"
-    // }
-
-
-
-
-
-    
 });

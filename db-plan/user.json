@@ -1,13 +1,43 @@
 {
     "_id": "objectId",
-    "full_name": "string",
+    "username": "string",
     "email": "string",
-    "personal_config": {
-        "factor_1": "float (0-1)",
-        "factor_2": "float (0-1)",
-        "factor_3": "float (0-1)",
-        "factor_n": "float (0-1)"
-    },
+    "password": "passwords",
+    "roles": "array of roles",
     "profile_picture": "string (path)",
-    "is_admin": "boolean"
+    "personal_config": {
+        "factor_1": {
+            "item_1": {
+                "weight": "float (0-1)",
+                "prop1": "any",
+                "prop2": "any",
+                "...": "..."
+            },
+            "item_2": {
+                "weight": "float (0-1)",
+                "prop1": "any",
+                "prop2": "any",
+                "...": "..."
+            },
+            "...": "..."
+        },
+        "factor_2": {
+            "item_1": {
+                "weight": "float (0-1)",
+                "prop1": "any",
+                "prop2": "any",
+                "...": "..."
+            },
+            "item_2": {
+                "weight": "float (0-1)",
+                "prop1": "any",
+                "prop2": "any",
+                "...": "..."
+            },
+            "...": "..."
+        },
+        "...": "..."
+    }
 }
+
+

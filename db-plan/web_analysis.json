@@ -11,7 +11,8 @@
     },
     "image_snapshot": "string (path)",
     "webpage_files": "string (path)",
-    "tree_model": {
+    "configuration": {
+        "...": "..."
     },
     "factor_scores": {
         "factor_1": {

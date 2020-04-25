@@ -8,3 +8,11 @@ const Role = mongoose.model(
 );
 
 module.exports = Role;
+
+// const RoleSchema = new mongoose.Schema({
+//     name: {
+//         type: String,
+//     },
+// });
+
+// module.exports = mongoose.model('Role', RoleSchema);

@@ -3,7 +3,7 @@
     "username": "string",
     "email": "string",
     "password": "passwords",
-    "roles": "array of roles",
+    "roles": "array of role ids",
     "profile_picture": "string (path)",
     "personal_config": {
         "factor_1": {

@@ -1,3 +1,5 @@
+// TODO: Revisit this file, we don't need it
+
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import config from '../configs/auth.config';

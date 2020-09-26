@@ -28,8 +28,11 @@ export class SignupComponent implements OnInit {
         // Login
         this.authService.login(this.form).subscribe(
           dataLogin => {
-            this.tokenStorage.saveToken(dataLogin.accessToken);
-            this.tokenStorage.saveUser(dataLogin);
+            this.tokenStorage.saveToken(dataLogin.data.login.token);
+            this.tokenStorage.saveUser({
+              username: dataLogin.data.login.user.username,
+              roles: dataLogin.data.login.user.roles
+            });
 
             window.location.reload();
           },

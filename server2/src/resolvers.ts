@@ -53,6 +53,9 @@ const login: IFieldResolver<any, any> = async (parent, args, context, info) => {
 export const resolvers: IResolvers = {
     Query: {
         login,
+        // TODO: add getUser
+    },
+    Mutation: {
         // TODO: add signup resolver
     }
 };

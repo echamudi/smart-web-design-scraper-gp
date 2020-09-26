@@ -23,7 +23,7 @@ export const typeDefs = gql`
     }
 
     type Query {
-        getCurrentUser(token: String): User
+        getUser(token: String): User
         login(username: String!, password: String!): LoginResult
     }
 `;

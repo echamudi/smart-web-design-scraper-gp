@@ -31,5 +31,7 @@ export const typeDefs = gql`
 
     type SignupResult {
         success: Boolean
+        username: String
+        email: String
     }
 `;

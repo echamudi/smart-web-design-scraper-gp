@@ -63,6 +63,34 @@ export const resolvers: IResolvers = {
     },
     Mutation: {
         signup: async (parent, args: {username: string, password: string, email: string}, context: ContextInterface, info) => {
+            // Check arguments
+
+            const username = args.username?.trim() ?? '';
+            const password = args.password?.trim() ?? '';
+            const email = args.email?.trim() ?? '';
+
+            if (username === '') {
+                return new Error('username can\'t be empty');
+            }
+
+            if (password === '') {
+                return new Error('password can\'t be empty');
+            }
+
+            if (email === '') {
+                return new Error('email can\'t be empty');
+            }
+
+            if (await User.findOne({ username })) {
+                return new Error('username already exists');
+            }
+
+            if (await User.findOne({ email })) {
+                return new Error('email already exists');
+            }
+
+            // Get user role id
+
             const userRole = await Role.findOne({ name: 'user' });
 
             let roles: string[];
@@ -71,6 +99,8 @@ export const resolvers: IResolvers = {
             } else {
                 return new Error('can\'t find "user" role');
             }
+
+            // Save user
 
             const user = new User({
                 username: args.username,
@@ -87,7 +117,9 @@ export const resolvers: IResolvers = {
             console.log(savedUser);
 
             return {
-                success: true
+                success: true,
+                username,
+                email
             }
         }
     },

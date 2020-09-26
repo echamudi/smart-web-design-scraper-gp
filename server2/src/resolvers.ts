@@ -45,6 +45,7 @@ export const resolvers: IResolvers = {
             }
         
             return {
+                success: true,
                 user: {
                     username: user.username,
                     email: user.email,
@@ -125,12 +126,15 @@ export const resolvers: IResolvers = {
     },
     User: {
         username: async (parent, args, context: ContextInterface, info) => {
+            if (parent?.username) return parent.username
             return context.user?.username;
         },
         email: async (parent, args, context: ContextInterface, info) => {
+            if (parent?.email) return parent.email;
             return context.user?.email;
         },
         roles: async (parent, args, context: ContextInterface, info) => {
+            if (parent?.roles) return parent.roles;
             return context.user?.roles?.map(role => role.name);
         },
         isUser: async (parent, args, context: ContextInterface, info) => {

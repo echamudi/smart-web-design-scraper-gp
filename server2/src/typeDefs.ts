@@ -20,7 +20,7 @@ export const typeDefs = gql`
     }
 
     type LoginResult {
-        message: String
+        success: Boolean
         user: User
         token: String
     }

@@ -5,6 +5,7 @@ import bcrypt from 'bcryptjs';
 import { context, ContextInterface } from './context';
 
 import { db } from './models';
+import { UserInterface } from './models/user.model';
 
 const User = db.user;
 const Role = db.role;
@@ -52,7 +53,7 @@ export const resolvers: IResolvers = {
                 token: token
             };
         },
-        getCurrentUser: async (parent, args: ContextInterface, context, info) => {
+        getCurrentUser: async (parent, args, context: ContextInterface, info) => {
             if (context.user) {
                 return {};
             } else {
@@ -61,7 +62,34 @@ export const resolvers: IResolvers = {
         }
     },
     Mutation: {
-        // TODO: add signup resolver
+        signup: async (parent, args: {username: string, password: string, email: string}, context: ContextInterface, info) => {
+            const userRole = await Role.findOne({ name: 'user' });
+
+            let roles: string[];
+            if (userRole) {
+                roles = [ userRole._id ];
+            } else {
+                return new Error('can\'t find "user" role');
+            }
+
+            const user = new User({
+                username: args.username,
+                email: args.email,
+                password: bcrypt.hashSync(args.password, 8),
+                roles
+            });
+
+            const savedUser = await user.save();
+
+            if (!savedUser) {
+                return new Error('Something is wrong while saving user');
+            }
+            console.log(savedUser);
+
+            return {
+                success: true
+            }
+        }
     },
     User: {
         username: async (parent, args, context: ContextInterface, info) => {

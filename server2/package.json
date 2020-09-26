@@ -5,6 +5,9 @@
   "main": "index.js",
   "private": true,
   "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "start": "nodemon dist",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

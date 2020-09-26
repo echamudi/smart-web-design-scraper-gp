@@ -8,7 +8,7 @@ import { db } from './models';
 const User = db.user;
 const Role = db.role;
 
-const login: IFieldResolver<any, any> = async (parent, args, context, info) => {
+const login: IFieldResolver<any, {username: string, password: string}> = async (parent, args, context, info) => {
     const user = await User.findOne({
         username: args.username,
     }).populate('roles', '-__v');

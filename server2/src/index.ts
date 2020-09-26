@@ -1,8 +1,11 @@
 import { ApolloServer, gql } from "apollo-server-express";
 import express from "express";
 import mongoose from "mongoose";
+
 import { resolvers } from "./resolvers";
 import { typeDefs } from "./typeDefs";
+import { context } from "./context"
+
 import dbConfig from "./configs/database.config"
 
 const startServer = async () => {
@@ -10,7 +13,8 @@ const startServer = async () => {
 
   const server = new ApolloServer({
     typeDefs,
-    resolvers
+    resolvers,
+    context
   });
 
   server.applyMiddleware({ app });

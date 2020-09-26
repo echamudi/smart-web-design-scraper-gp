@@ -7,7 +7,13 @@ import { UserInterface } from './models/user.model';
 const User = db.user;
 const Role = db.role;
 
-export const context: ContextFunction = async ({ req }) => {
+export interface ContextInterface {
+  user: UserInterface | null,
+  isUser: boolean,
+  isAdmin: boolean
+}
+
+export const context: ContextFunction<any, ContextInterface> = async ({ req }) => {
     const token = req.headers['x-access-token'];
 
     // Get userId
@@ -43,7 +49,6 @@ export const context: ContextFunction = async ({ req }) => {
     }
 
     return {
-      hello: 'hi',
       user,
       isUser,
       isAdmin

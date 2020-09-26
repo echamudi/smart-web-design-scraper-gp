@@ -9,7 +9,9 @@ export const typeDefs = gql`
     type User {
         username: String!
         email: String!
-        roles: [String!]!
+        roles: [String!]
+        isUser: Boolean
+        isAdmin: Boolean
     }
 
     type Mutation {
@@ -23,7 +25,7 @@ export const typeDefs = gql`
     }
 
     type Query {
-        getUser(token: String): User
+        getCurrentUser: User
         login(username: String!, password: String!): LoginResult
     }
 `;

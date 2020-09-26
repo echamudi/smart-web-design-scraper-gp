@@ -2,8 +2,9 @@ import { gql } from "apollo-server-express";
 
 // TODO: write schema
 export const typeDefs = gql`
-    type Role {
-        name: String
+    type Query {
+        getCurrentUser: User
+        login(username: String!, password: String!): LoginResult
     }
 
     type User {
@@ -14,8 +15,8 @@ export const typeDefs = gql`
         isAdmin: Boolean
     }
 
-    type Mutation {
-        signup(username: String!, password: String!, email: String!): User
+    type Role {
+        name: String
     }
 
     type LoginResult {
@@ -24,8 +25,11 @@ export const typeDefs = gql`
         token: String
     }
 
-    type Query {
-        getCurrentUser: User
-        login(username: String!, password: String!): LoginResult
+    type Mutation {
+        signup(username: String!, password: String!, email: String!): SignupResult
+    }
+
+    type SignupResult {
+        success: Boolean
     }
 `;

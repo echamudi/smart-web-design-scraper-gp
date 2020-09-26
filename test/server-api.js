@@ -1,3 +1,5 @@
+// This test code tests the old /server
+
 const request = require('supertest')('http://localhost:3302');
 const assert = require('assert');
 const { expect } = require('chai');

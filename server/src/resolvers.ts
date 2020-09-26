@@ -18,9 +18,7 @@ export const resolvers: IResolvers = {
             }).populate('roles', '-__v');
         
             if (!user) {
-                return {
-                    message: 'User not found!'
-                };
+                return new Error('user or password is not valid');
             }
         
             const passwordIsValid = bcrypt.compareSync(
@@ -29,9 +27,7 @@ export const resolvers: IResolvers = {
             );
         
             if (!passwordIsValid) {
-                return {
-                    message: 'Invalid Password!'
-                };
+                return new Error('user or password is not valid');
             }
         
             const token = jwt.sign({ id: user.id }, config.secret, {

@@ -5,10 +5,10 @@
   "main": "index.js",
   "private": true,
   "scripts": {
-    "start-server": "cd server && npx nodemon app.js",
+    "start-server": "cd server && npx tsc && npx nodemon dist",
     "start-client": "cd client && npm start",
     "start-sample-website": "cd sample-website && npx http-server -p 3303",
-    "test-server-api": "cd test && npx mocha server-api.js"
+    "test-server": "cd test && npx mocha server-graphql.js"
   },
   "repository": {
     "type": "git",

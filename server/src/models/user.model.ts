@@ -1,8 +1,15 @@
-const mongoose = require('mongoose');
-const uniqueValidator = require('mongoose-unique-validator');
-const bcrypt = require('bcryptjs');
+import mongoose, { Schema, Document } from "mongoose";
+import uniqueValidator from 'mongoose-unique-validator';
+import { RoleInterface } from './role.model';
 
-const UserSchema = new mongoose.Schema({
+export interface UserInterface extends Document {
+    username: string;
+    email: string;
+    password: string;
+    roles: RoleInterface[]
+}
+
+const UserSchema: Schema = new mongoose.Schema({
     username: {
         type: String,
         required: true,
@@ -35,4 +42,4 @@ const UserSchema = new mongoose.Schema({
 
 UserSchema.plugin(uniqueValidator);
 
-module.exports = mongoose.model('User', UserSchema);
+export const User = mongoose.model<UserInterface>('User', UserSchema);

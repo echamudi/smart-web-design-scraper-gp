@@ -1,23 +1,10 @@
 import textSize from '../evaluator/content-side/text-size';
 import { SwdsConfig } from '../types/types';
+import { styleElementFactory, getStyleElement } from './style-tools';
 
 if ((window as any).SWDS === undefined) {
     (window as any).SWDS = {};
     const SWDS = (window as any).SWDS;
-
-    // Helper functions
-
-    function styleElementFactory(dataLabel: string) {
-        if (document.querySelector(`[data-swds-styleElem-${dataLabel}='1']`) !== null) return;
-
-        const elem = document.createElement('style');
-        elem.setAttribute('data-swds-styleElem-' + dataLabel, '1');
-        document.getElementsByTagName("head")[0].appendChild(elem);
-    }
-
-    function getStyleElement(dataLabel: string) {
-        return document.querySelector(`[data-swds-styleElem-${dataLabel}='1']`);
-    }
 
     // Analyzer
 
@@ -45,7 +32,6 @@ if ((window as any).SWDS === undefined) {
 
         if (message == "analyze") {
             const analysisResult = analyze(config);
-            sendResponse(analysisResult);
 
             const styleElement = getStyleElement('textSize') as HTMLElement;
 
@@ -65,7 +51,7 @@ if ((window as any).SWDS === undefined) {
                 styleElement.innerHTML = ``;
             }
 
-            sendResponse(0);
+            sendResponse(analysisResult);
             return;
         };
     });

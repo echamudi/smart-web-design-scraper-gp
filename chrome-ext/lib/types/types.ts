@@ -1,6 +1,6 @@
 export interface SwdsConfig {
-    smallTexts__marking: boolean;
-    smallTexts__minimumSize: number;
+    textSize__marking: boolean;
+    textSize__minimumSize: number;
 }
 
 export interface AppState {

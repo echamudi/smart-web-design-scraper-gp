@@ -30,19 +30,19 @@ class App extends React.Component {
   public state: AppState = {
     analyzingStatus: '',
     config: {
-      smallTexts__marking: false,
-      smallTexts__minimumSize: 16
+      textSize__marking: false,
+      textSize__minimumSize: 16
     }
   };
 
   constructor(props:any) {
     super(props);
     init().then((tabId) => {
-      chrome.tabs.sendMessage(tabId, { message: "smallTexts-marking", config: this.state.config});
+      chrome.tabs.sendMessage(tabId, { message: "textSize-marking", config: this.state.config});
     });
     
     this.analyzeHandler = this.analyzeHandler.bind(this);
-    this.markSmallTextsToggle = this.markSmallTextsToggle.bind(this);
+    this.marktextSizeToggle = this.marktextSizeToggle.bind(this);
     this.setMinimumFontSize = this.setMinimumFontSize.bind(this);
   }
 
@@ -60,18 +60,18 @@ class App extends React.Component {
     }, 100);
   };
 
-  async markSmallTextsToggle(e: React.ChangeEvent<HTMLInputElement>) {
+  async marktextSizeToggle(e: React.ChangeEvent<HTMLInputElement>) {
     await this.setState((prevState: Readonly<AppState>) => {
       const config: SwdsConfig = {
         ...prevState.config,
-        smallTexts__marking: !prevState.config.smallTexts__marking
+        textSize__marking: !prevState.config.textSize__marking
       }
 
       return { config };
     });
 
     const tabId = await init();
-    chrome.tabs.sendMessage(tabId, { message: "smallTexts-marking", config: this.state.config});
+    chrome.tabs.sendMessage(tabId, { message: "textSize-marking", config: this.state.config});
   };
 
   async setMinimumFontSize(e: React.ChangeEvent<HTMLInputElement>) {
@@ -79,7 +79,7 @@ class App extends React.Component {
     await this.setState((prevState: Readonly<AppState>) => {
       const config: SwdsConfig = {
         ...prevState.config,
-        smallTexts__minimumSize: e.target.value as unknown as number
+        textSize__minimumSize: e.target.value as unknown as number
       }
 
       return { config };
@@ -99,14 +99,14 @@ class App extends React.Component {
         <h2>Parameters</h2>
         <h3>Small Texts</h3>
         <label>
-          <input type="checkbox" checked={this.state.config.smallTexts__marking} onChange={this.markSmallTextsToggle}/> Show small text marks
+          <input type="checkbox" checked={this.state.config.textSize__marking} onChange={this.marktextSizeToggle}/> Show small text marks
         </label>
         <br />
         <div>
-          <input type="range" min="1" max="30" value={this.state.config.smallTexts__minimumSize} onChange={this.setMinimumFontSize} />
+          <input type="range" min="1" max="30" value={this.state.config.textSize__minimumSize} onChange={this.setMinimumFontSize} />
         </div>
         <div>
-          Minimum Font Size: {this.state.config.smallTexts__minimumSize ?? 16}
+          Minimum Font Size: {this.state.config.textSize__minimumSize ?? 16}
         </div>
         {/* Report button Logout button */}
       </div>

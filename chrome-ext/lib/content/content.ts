@@ -1,4 +1,4 @@
-import smallTexts from '../evaluator/content-side/smallTexts';
+import textSize from '../evaluator/content-side/textSize';
 import { SwdsConfig } from '../types/types';
 
 if ((window as any).SWDS === undefined) {
@@ -25,14 +25,14 @@ if ((window as any).SWDS === undefined) {
 
         // Analyze Contents
         const html = document.documentElement.outerHTML;
-        const smallTexts__result = smallTexts(document, config.smallTexts__minimumSize);
+        const textSize__result = textSize(document, config.textSize__minimumSize);
 
         // Create style elements
-        styleElementFactory('smallTexts');
+        styleElementFactory('textSize');
 
         return {
             html,
-            smallTexts__result,
+            textSize__result,
             config
         };
     }
@@ -49,22 +49,22 @@ if ((window as any).SWDS === undefined) {
             return;
         };
 
-        if (message == "smallTexts-marking") {
-            const styleElement = getStyleElement('smallTexts') as HTMLElement;
+        if (message == "textSize-marking") {
+            const styleElement = getStyleElement('textSize') as HTMLElement;
 
             if (styleElement === null) {
                 throw new Error()
             };
 
-            if (config.smallTexts__marking === true) {
+            if (config.textSize__marking === true) {
                 styleElement.innerHTML = `
-                    [data-swds-smallTexts='1'] {
+                    [data-swds-textSize='1'] {
                         box-shadow: inset 1px 1px 0 0 red, inset -1px -1px 0 0 red !important;
                     }
                 `;
             }
 
-            if (config.smallTexts__marking === false) {
+            if (config.textSize__marking === false) {
                 styleElement.innerHTML = ``;
             }
 

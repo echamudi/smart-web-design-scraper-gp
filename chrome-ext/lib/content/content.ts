@@ -1,5 +1,5 @@
 import { textSize, textSizeStyler } from '../evaluator/content-side/text-size';
-import { SwdsConfig } from '../types/types';
+import { AnalysisConfig } from '../types/types';
 
 if ((window as any).SWDS === undefined) {
     (window as any).SWDS = {};
@@ -9,7 +9,7 @@ if ((window as any).SWDS === undefined) {
         // console.log(sender.tab ? "from a content script:" + sender.tab.url : "from the extension");
         // console.log(sender);
         const message = request.message as string;
-        const config = request.config as SwdsConfig;
+        const config = request.config as AnalysisConfig;
 
         if (message == "analyze") {
 

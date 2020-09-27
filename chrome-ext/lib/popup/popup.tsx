@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { AppState, SwdsConfig } from '../types/types';
+import { AppState, AnalysisConfig } from '../types/types';
 
 // Returns tabId number
 async function init(): Promise<number> {
@@ -64,7 +64,7 @@ class App extends React.Component {
 
   marktextSizeToggle(e: React.ChangeEvent<HTMLInputElement>) {
     this.setState((prevState: Readonly<AppState>) => {
-      const config: SwdsConfig = {
+      const config: AnalysisConfig = {
         ...prevState.config,
         textSize: {
           ...prevState.config.textSize,
@@ -79,7 +79,7 @@ class App extends React.Component {
   setMinimumFontSize(e: React.ChangeEvent<HTMLInputElement>) {
     e.persist();
     this.setState((prevState: Readonly<AppState>) => {
-      const config: SwdsConfig = {
+      const config: AnalysisConfig = {
         ...prevState.config,
         textSize: {
           ...prevState.config.textSize,

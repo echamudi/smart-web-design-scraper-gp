@@ -1,4 +1,4 @@
-import { SwdsConfig } from "../../types/types";
+import { AnalysisConfig } from "../../types/types";
 import { styleElementFactory, getStyleElement } from "../../helpers/style-tools";
 
 export interface TextSizeConfig {

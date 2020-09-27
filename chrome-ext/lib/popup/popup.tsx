@@ -60,8 +60,8 @@ class App extends React.Component {
     }, 100);
   };
 
-  async marktextSizeToggle(e: React.ChangeEvent<HTMLInputElement>) {
-    await this.setState((prevState: Readonly<AppState>) => {
+  marktextSizeToggle(e: React.ChangeEvent<HTMLInputElement>) {
+    this.setState((prevState: Readonly<AppState>) => {
       const config: SwdsConfig = {
         ...prevState.config,
         textSize__marking: !prevState.config.textSize__marking
@@ -69,14 +69,11 @@ class App extends React.Component {
 
       return { config };
     });
-
-    const tabId = await init();
-    chrome.tabs.sendMessage(tabId, { message: "textSize-marking", config: this.state.config});
   };
 
-  async setMinimumFontSize(e: React.ChangeEvent<HTMLInputElement>) {
+  setMinimumFontSize(e: React.ChangeEvent<HTMLInputElement>) {
     e.persist();
-    await this.setState((prevState: Readonly<AppState>) => {
+    this.setState((prevState: Readonly<AppState>) => {
       const config: SwdsConfig = {
         ...prevState.config,
         textSize__minimumSize: e.target.value as unknown as number
@@ -84,8 +81,6 @@ class App extends React.Component {
 
       return { config };
     });
-
-    this.analyzeHandler();
   }
 
   render() {

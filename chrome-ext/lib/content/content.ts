@@ -46,10 +46,7 @@ if ((window as any).SWDS === undefined) {
         if (message == "analyze") {
             const analysisResult = analyze(config);
             sendResponse(analysisResult);
-            return;
-        };
 
-        if (message == "textSize-marking") {
             const styleElement = getStyleElement('textSize') as HTMLElement;
 
             if (styleElement === null) {

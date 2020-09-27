@@ -1,6 +1,5 @@
-import textSize from '../evaluator/content-side/text-size';
+import { textSize, textSizeStyler } from '../evaluator/content-side/text-size';
 import { SwdsConfig } from '../types/types';
-import { styleElementFactory, getStyleElement } from './style-tools';
 
 if ((window as any).SWDS === undefined) {
     (window as any).SWDS = {};
@@ -16,36 +15,15 @@ if ((window as any).SWDS === undefined) {
 
             // Analyze Contents
             const html = document.documentElement.outerHTML;
-            const textSize__result = textSize(document, config.textSize__minimumSize);
 
-            // Create style elements
-            styleElementFactory('textSize');
+            const textSize__result = textSize(document, config.textSize__minimumSize);
+            textSizeStyler(config);
 
             const analysisResult = {
                 html,
                 textSize__result,
                 config
             };
-
-
-            // TextSize factor styler
-            const styleElement = getStyleElement('textSize') as HTMLElement;
-
-            if (styleElement === null) {
-                throw new Error()
-            };
-
-            if (config.textSize__marking === true) {
-                styleElement.innerHTML = `
-                    [data-swds-textSize='1'] {
-                        box-shadow: inset 1px 1px 0 0 red, inset -1px -1px 0 0 red !important;
-                    }
-                `;
-            }
-
-            if (config.textSize__marking === false) {
-                styleElement.innerHTML = ``;
-            }
 
             // Result
             sendResponse(analysisResult);

@@ -1,4 +1,4 @@
-import { TextSizeConfig, TextSizeResult } from "../evaluator/content-side/text-size";
+import { TextSizeConfig, TextSizeResult } from "../chrome-ext/lib/evaluator/content-side/text-size";
 
 export interface AnalysisConfig {
     textSize: TextSizeConfig

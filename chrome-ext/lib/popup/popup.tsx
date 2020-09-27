@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { AppState, AnalysisConfig } from '../types/types';
+import { AppState, AnalysisConfig } from '../../../types/types';
 
 // Returns tabId number
 async function init(): Promise<number> {

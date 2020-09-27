@@ -1,5 +1,5 @@
 import { textSize, textSizeStyler } from '../evaluator/content-side/text-size';
-import { AnalysisConfig, AnalysisResult } from '../types/types';
+import { AnalysisConfig, AnalysisResult } from '../../../types/types';
 
 if ((window as any).SWDS === undefined) {
     (window as any).SWDS = {};

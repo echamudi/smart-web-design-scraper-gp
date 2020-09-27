@@ -1,5 +1,5 @@
 import { SwdsConfig } from "../../types/types";
-import { styleElementFactory, getStyleElement } from "../../content/style-tools";
+import { styleElementFactory, getStyleElement } from "../../helpers/style-tools";
 
 /**
  * @param elements elements to be evaluated, ideally all elements in the page

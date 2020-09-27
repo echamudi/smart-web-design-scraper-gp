@@ -1,4 +1,4 @@
-import textSize from '../evaluator/content-side/textSize';
+import textSize from '../evaluator/content-side/text-size';
 import { SwdsConfig } from '../types/types';
 
 if ((window as any).SWDS === undefined) {

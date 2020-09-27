@@ -2,7 +2,7 @@ import { SwdsConfig } from "../../types/types";
 import { styleElementFactory, getStyleElement } from "../../helpers/style-tools";
 
 /**
- * @param elements elements to be evaluated, ideally all elements in the page
+ * @param doc elements to be evaluated, ideally all elements in the page
  * @param fontSizeThreshold 
  */
 export function textSize(doc: Document, fontSizeThreshold: number) {

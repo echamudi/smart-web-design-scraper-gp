@@ -30,8 +30,10 @@ class App extends React.Component {
   public state: AppState = {
     analyzingStatus: '',
     config: {
-      textSize__marking: false,
-      textSize__minimumSize: 16
+      textSize: {
+        marking: false,
+        minimumSize: 16
+      }
     }
   };
 
@@ -64,7 +66,10 @@ class App extends React.Component {
     this.setState((prevState: Readonly<AppState>) => {
       const config: SwdsConfig = {
         ...prevState.config,
-        textSize__marking: !prevState.config.textSize__marking
+        textSize: {
+          ...prevState.config.textSize,
+          marking: !prevState.config.textSize.marking
+        }
       }
 
       return { config };
@@ -76,7 +81,10 @@ class App extends React.Component {
     this.setState((prevState: Readonly<AppState>) => {
       const config: SwdsConfig = {
         ...prevState.config,
-        textSize__minimumSize: e.target.value as unknown as number
+        textSize: {
+          ...prevState.config.textSize,
+          minimumSize: e.target.value as unknown as number
+        }
       }
 
       return { config };
@@ -94,14 +102,14 @@ class App extends React.Component {
         <h2>Parameters</h2>
         <h3>Small Texts</h3>
         <label>
-          <input type="checkbox" checked={this.state.config.textSize__marking} onChange={this.marktextSizeToggle}/> Show small text marks
+          <input type="checkbox" checked={this.state.config.textSize.marking} onChange={this.marktextSizeToggle}/> Show small text marks
         </label>
         <br />
         <div>
-          <input type="range" min="1" max="30" value={this.state.config.textSize__minimumSize} onChange={this.setMinimumFontSize} />
+          <input type="range" min="1" max="30" value={this.state.config.textSize.minimumSize} onChange={this.setMinimumFontSize} />
         </div>
         <div>
-          Minimum Font Size: {this.state.config.textSize__minimumSize ?? 16}
+          Minimum Font Size: {this.state.config.textSize.minimumSize ?? 16}
         </div>
         {/* Report button Logout button */}
       </div>

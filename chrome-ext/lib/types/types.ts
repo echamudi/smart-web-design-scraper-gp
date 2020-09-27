@@ -1,6 +1,7 @@
+import { TextSizeConfig } from "../evaluator/content-side/text-size";
+
 export interface SwdsConfig {
-    textSize__marking: boolean;
-    textSize__minimumSize: number;
+    textSize: TextSizeConfig
 }
 
 export interface AppState {

@@ -16,8 +16,8 @@ if ((window as any).SWDS === undefined) {
             // Analyze Contents
             const html = document.documentElement.outerHTML;
 
-            const textSize__result = textSize(document, config.textSize__minimumSize);
-            textSizeStyler(config);
+            const textSize__result = textSize(document, config.textSize);
+            textSizeStyler(config.textSize);
 
             const analysisResult = {
                 html,

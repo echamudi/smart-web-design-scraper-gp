@@ -1,5 +1,5 @@
 import { textSize, textSizeStyler } from '../evaluator/content-side/text-size';
-import { AnalysisConfig } from '../types/types';
+import { AnalysisConfig, AnalysisResult } from '../types/types';
 
 if ((window as any).SWDS === undefined) {
     (window as any).SWDS = {};
@@ -16,13 +16,13 @@ if ((window as any).SWDS === undefined) {
             // Analyze Contents
             const html = document.documentElement.outerHTML;
 
-            const textSize__result = textSize(document, config.textSize);
+            const textSizeResult = textSize(document, config.textSize);
             textSizeStyler(config.textSize);
 
-            const analysisResult = {
+            const analysisResult: AnalysisResult = {
                 html,
-                textSize__result,
-                config
+                textSizeResult,
+                analysisConfig: config
             };
 
             // Result

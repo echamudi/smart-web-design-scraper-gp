@@ -16,4 +16,6 @@ export interface AppState {
     analyzingStatus: string;
     config: AnalysisConfig;
     result: AnalysisResult | null;
+    vibrantTemp: any;
+    imageTemp: string | null;
 }

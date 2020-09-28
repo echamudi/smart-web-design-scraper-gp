@@ -69,7 +69,7 @@ export function textSize(doc: Document, config: TextSizeConfig): TextSizeResult 
         }
     }
 
-    const score = (1 - (totalSmallCharacters / totalCharacters)) * 100;
+    const score = Math.floor((1 - (totalSmallCharacters / totalCharacters)) * 100);
 
     return { totalElements, totalSmallCharacters, totalCharacters, score };
 }

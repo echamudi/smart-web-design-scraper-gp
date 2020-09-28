@@ -3,7 +3,7 @@
   "version": "1.0",
   "description": "Web Design Scraper",
   "manifest_version": 2,
-  "permissions": ["tabCapture","activeTab","declarativeContent","storage"],
+  "permissions": ["tabCapture","activeTab","declarativeContent","storage", "captureVisibleTab"],
   "background": {
     "scripts": ["background.js"],
     "persistent": false

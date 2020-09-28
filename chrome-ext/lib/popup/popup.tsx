@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { AppState, AnalysisConfig, AnalysisResult } from '../../../types/types';
+import Vibrant from 'node-vibrant';
 
 // Returns tabId number
 async function init(): Promise<number> {
@@ -35,7 +36,9 @@ class App extends React.Component {
         minimumSize: 16
       }
     },
-    result: null
+    result: null,
+    vibrantTemp: null,
+    imageTemp: null,
   };
 
   constructor(props:any) {
@@ -52,11 +55,23 @@ class App extends React.Component {
   async analyzeHandler() {
     const tabId = await init();
     this.setState(() => ({ analyzingStatus: 'Please wait...' }));
+    const $this = this;
   
     setTimeout(() => {
       chrome.tabs.sendMessage(tabId, { message: "analyze", config: this.state.config}, (response: AnalysisResult) => {
         console.log(response);
-        this.setState(() => ({ analyzingStatus: 'Done!', result: response }));
+
+        // TODO: refactor vibrant
+        chrome.tabs.captureVisibleTab({}, function (image) {
+          $this.setState(() => ({ imageTemp: image }));
+          // You can add that image HTML5 canvas, or Element.
+          Vibrant.from(image).getPalette((err, palette) => {
+            console.log(palette);
+            $this.setState(() => ({ vibrantTemp: palette }));
+          });
+        });
+       
+        $this.setState(() => ({ analyzingStatus: 'Done!', result: response }));
       });
     }, 100);
   };
@@ -115,6 +130,10 @@ class App extends React.Component {
         {
           this.state.result &&
           <div>
+            {
+              this.state.imageTemp &&
+              <img src={this.state.imageTemp} alt="" width="300px"/>
+            }
             <h3>Text Size</h3>
             <table>
               <tbody>
@@ -131,10 +150,34 @@ class App extends React.Component {
             </table>
             <h3>Text Font Type</h3>
             <ul>
-              {this.state.result.textFontTypeResult.fonts.map(stack => (
-                <li>{stack}</li>
+              {this.state.result.textFontTypeResult.fonts.map((stack, i) => (
+                <li key={i}>{stack}</li>
               ))}
             </ul>
+            {
+              this.state.vibrantTemp &&
+              <div>
+                <h3>Vibrant / Color Harmony</h3>
+                <p>Vibrant: {this.state.vibrantTemp.Vibrant.hex}
+                  <span style={{ display: 'inline-block', height: 30, width: 75, backgroundColor: this.state.vibrantTemp.Vibrant.hex }}></span>
+                </p>
+                <p>Muted: {this.state.vibrantTemp.Muted.hex}
+                  <span style={{ display: 'inline-block', height: 30, width: 75, backgroundColor: this.state.vibrantTemp.Muted.hex }}></span>
+                </p>
+                <p>LightVibrant: {this.state.vibrantTemp.LightVibrant.hex}
+                  <span style={{ display: 'inline-block', height: 30, width: 75, backgroundColor: this.state.vibrantTemp.LightVibrant.hex }}></span>
+                </p>
+                <p>LightMuted: {this.state.vibrantTemp.LightMuted.hex}
+                  <span style={{ display: 'inline-block', height: 30, width: 75, backgroundColor: this.state.vibrantTemp.LightMuted.hex }}></span>
+                </p>
+                <p>DarkVibrant: {this.state.vibrantTemp.DarkVibrant.hex}
+                  <span style={{ display: 'inline-block', height: 30, width: 75, backgroundColor: this.state.vibrantTemp.DarkVibrant.hex }}></span>
+                </p>
+                <p>DarkMuted: {this.state.vibrantTemp.DarkMuted.hex}
+                  <span style={{ display: 'inline-block', height: 30, width: 75, backgroundColor: this.state.vibrantTemp.DarkMuted.hex }}></span>
+                </p>
+              </div>
+            }
           </div>
         }
       </div>

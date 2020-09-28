@@ -22,6 +22,8 @@ if ((window as any).SWDS === undefined) {
 
             const textFontTypeResult = textFontType();
 
+            // Result
+
             const analysisResult: AnalysisResult = {
                 html,
                 textSizeResult,

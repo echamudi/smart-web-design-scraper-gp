@@ -22,13 +22,30 @@ if ((window as any).SWDS === undefined) {
 
             const textFontTypeResult = textFontType();
 
+            // TEMP pictures
+            const picturesResult = {
+                count: document.images.length
+            };
+            var images = [];
+            var elements = document.body.getElementsByTagName("*");
+            
+            Array.prototype.forEach.call(elements, function ( el ) {
+                var style = window.getComputedStyle( el );
+                if ( style.backgroundImage != "none" ) {
+                    images.push( style.backgroundImage.slice( 4, -1 ).replace(/['"]/g, ""))
+                }
+            })
+
+            picturesResult.count += images.length;
+
             // Result
 
             const analysisResult: AnalysisResult = {
                 html,
                 textSizeResult,
                 textFontTypeResult,
-                analysisConfig: config
+                analysisConfig: config,
+                picturesResult,
             };
 
             // Result

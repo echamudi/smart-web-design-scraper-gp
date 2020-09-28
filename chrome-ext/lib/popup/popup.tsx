@@ -154,6 +154,14 @@ class App extends React.Component {
                 <li key={i}>{stack}</li>
               ))}
             </ul>
+            <h3>Images</h3>
+            <table>
+              <tbody>
+                <tr>
+                  <th>Total images</th><td>{this.state.result.picturesResult.count}</td>
+                </tr>
+              </tbody>
+            </table>
             {
               this.state.vibrantTemp &&
               <div>

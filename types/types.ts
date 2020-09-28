@@ -10,6 +10,7 @@ export interface AnalysisResult {
 
     textSizeResult: TextSizeResult;
     textFontTypeResult:  { fonts: string[] };
+    picturesResult: { count: number };
 }
 
 export interface AppState {

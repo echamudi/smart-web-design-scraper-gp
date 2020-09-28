@@ -33,7 +33,7 @@ class App extends React.Component {
     config: {
       textSize: {
         marking: false,
-        minimumSize: 16
+        minimumSize: 12
       }
     },
     result: null,

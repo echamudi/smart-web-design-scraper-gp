@@ -20,5 +20,9 @@ export interface AppState {
     config: AnalysisConfig;
     result: AnalysisResult | null;
     vibrantTemp: any;
-    imageTemp: string | null;
+
+    /**
+     * viewport snapshot
+     */
+    snapshot: string | null;
 }

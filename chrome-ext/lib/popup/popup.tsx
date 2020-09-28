@@ -38,7 +38,7 @@ class App extends React.Component {
     },
     result: null,
     vibrantTemp: null,
-    imageTemp: null,
+    snapshot: null,
   };
 
   constructor(props:any) {
@@ -131,8 +131,8 @@ class App extends React.Component {
           this.state.result &&
           <div>
             {
-              this.state.imageTemp &&
-              <img src={this.state.imageTemp} alt="" width="300px"/>
+              this.state.snapshot &&
+              <img src={this.state.snapshot} alt="" width="300px"/>
             }
             <h3>Text Size</h3>
             <table>

@@ -1,5 +1,3 @@
-// @ts-nocheck
-
 /**
  * List unique CSS properties for all DOM elements
  * Initially created to list unique font stacks on a page
@@ -43,10 +41,10 @@ export function styleInPage(css: string, verbose: Boolean) {
     }
 
     // set vars
-    let style: any,
+    let style: string,
         thisNode,
-        styleId,
-        allStyles = [],
+        styleId: string,
+        allStyles: Array<[string, string] | string> = [],
         nodes = document.body.getElementsByTagName('*'),
         styleBefore,
         styleAfter
@@ -56,7 +54,7 @@ export function styleInPage(css: string, verbose: Boolean) {
         thisNode = <HTMLElement>nodes[i];
         if (thisNode.style) {
             styleId = '#' + (thisNode.id || thisNode.nodeName + '(' + i + ')');
-            style = thisNode.style.fontFamily || getComputedStyle(thisNode, '')[css];
+            style = thisNode.style.fontFamily || (getComputedStyle(thisNode, '') as any)[css];
 
             // get element’s style
             if (style) {
@@ -67,11 +65,11 @@ export function styleInPage(css: string, verbose: Boolean) {
                 }
 
                 // add data-attribute with key for allStyles array
-                thisNode.dataset.styleId = allStyles.indexOf(style);
+                thisNode.dataset.styleId = allStyles.indexOf(style).toString();
             }
 
             // get element:before’s style
-            styleBefore = getComputedStyle(thisNode, ':before')[css];
+            styleBefore = (getComputedStyle(thisNode, ':before') as any)[css];
             if (styleBefore) {
                 if (verbose) {
                     allStyles.push([styleId, styleBefore]);
@@ -80,11 +78,11 @@ export function styleInPage(css: string, verbose: Boolean) {
                 }
 
                 // add data-attribute with key for allStyles array
-                thisNode.dataset.styleId = allStyles.indexOf(styleBefore);
+                thisNode.dataset.styleId = allStyles.indexOf(styleBefore).toString();
             }
 
             // get element:after’s style
-            styleAfter = getComputedStyle(thisNode, ':after')[css];
+            styleAfter = (getComputedStyle(thisNode, ':after') as any)[css];
             if (styleAfter) {
                 if (verbose) {
                     allStyles.push([styleId, styleAfter]);
@@ -93,7 +91,7 @@ export function styleInPage(css: string, verbose: Boolean) {
                 }
 
                 // add data-attribute with key for allStyles array
-                thisNode.dataset.styleId = allStyles.indexOf(styleAfter);
+                thisNode.dataset.styleId = allStyles.indexOf(styleAfter).toString();
             }
         }
     }
@@ -104,46 +102,46 @@ export function styleInPage(css: string, verbose: Boolean) {
  * Highlight elements with the specified style
  * @param {integer} styleId data-style-id to highlight
  */
-function highlightInPage(styleId: any) {
-    var thisNode,
-        allNodes = document.body.getElementsByTagName('*'),
-        nodes = document.body.querySelectorAll('[data-style-id="' + styleId + '"]');
+// function highlightInPage(styleId: any) {
+//     var thisNode,
+//         allNodes = document.body.getElementsByTagName('*'),
+//         nodes = document.body.querySelectorAll('[data-style-id="' + styleId + '"]');
 
-    // remove previous highlights
-    for (var i = 0; i < allNodes.length; i++) {
-        allNodes[i].classList.remove('style-highlight');
-    }
+//     // remove previous highlights
+//     for (var i = 0; i < allNodes.length; i++) {
+//         allNodes[i].classList.remove('style-highlight');
+//     }
 
-    // add highlight to specified nodes
-    for (var i = 0; i < nodes.length; i++) {
-        thisNode = nodes[i];
-        thisNode.classList.add('style-highlight');
-    }
-}
+//     // add highlight to specified nodes
+//     for (var i = 0; i < nodes.length; i++) {
+//         thisNode = nodes[i];
+//         thisNode.classList.add('style-highlight');
+//     }
+// }
 
 /**
  * Clear all highlights
  */
-function clearHighlights() {
-    highlightInPage(undefined);
-}
+// function clearHighlights() {
+//     highlightInPage(undefined);
+// }
 
 /**
  * Add blank stylesheet for highlight rule
  * @returns {CSSStyleSheet} new blankstylesheet
  */
-var sheet = (function () {
-    // Create the <style> tag
-    var style = document.createElement("style");
+// var sheet = (function () {
+//     // Create the <style> tag
+//     var style = document.createElement("style");
 
-    // WebKit hack :(
-    style.appendChild(document.createTextNode(""));
+//     // WebKit hack :(
+//     style.appendChild(document.createTextNode(""));
 
-    // Add the <style> element to the page
-    document.head.appendChild(style);
+//     // Add the <style> element to the page
+//     document.head.appendChild(style);
 
-    return style.sheet;
-})();
+//     return style.sheet;
+// })();
 
 /**
  * Add specified CSS rule to the specified stylesheet
@@ -152,13 +150,13 @@ var sheet = (function () {
  * @param {string}        rules    CSS properties for this selector
  * @param {integer}       index    index detailing where to add the new rule
  */
-function addCSSRule(sheet: any, selector: any, rules: any, index = 0) {
-    if ("insertRule" in sheet) {
-        sheet.insertRule(selector + "{" + rules + "}", index);
-    } else if ("addRule" in sheet) {
-        sheet.addRule(selector, rules, index);
-    }
-}
+// function addCSSRule(sheet: any, selector: any, rules: any, index = 0) {
+//     if ("insertRule" in sheet) {
+//         sheet.insertRule(selector + "{" + rules + "}", index);
+//     } else if ("addRule" in sheet) {
+//         sheet.addRule(selector, rules, index);
+//     }
+// }
 
 // add a yellow background to highlighted elements
-addCSSRule(sheet, ".style-highlight", "background-color: yellow");
+// addCSSRule(sheet, ".style-highlight", "background-color: yellow");

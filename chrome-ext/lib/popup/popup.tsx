@@ -126,10 +126,10 @@ class App extends React.Component {
           Analyze
         </button>
         <div>{this.state.analyzingStatus}</div>
-        <h2>Result</h2>
         {
           this.state.result &&
-          <div>
+          <>
+            <h2>Result</h2>
             {
               this.state.snapshot &&
               <img src={this.state.snapshot} alt="" width="300px"/>
@@ -186,7 +186,7 @@ class App extends React.Component {
                 </p>
               </div>
             }
-          </div>
+          </>
         }
       </div>
     )

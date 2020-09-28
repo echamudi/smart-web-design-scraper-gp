@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { AppState, AnalysisConfig, AnalysisResult } from '../../../types/types';
-import Vibrant from 'node-vibrant';
+import { colorHarmony } from '../evaluator/extension-side/color-harmony';
 
 // Returns tabId number
 async function init(): Promise<number> {
@@ -36,8 +36,7 @@ class App extends React.Component {
         minimumSize: 12
       }
     },
-    result: null,
-    vibrantTemp: null,
+    result: {},
     snapshot: null,
   };
 
@@ -55,23 +54,28 @@ class App extends React.Component {
   async analyzeHandler() {
     const tabId = await init();
     this.setState(() => ({ analyzingStatus: 'Please wait...' }));
-    const $this = this;
   
     setTimeout(() => {
       chrome.tabs.sendMessage(tabId, { message: "analyze", config: this.state.config}, (response: AnalysisResult) => {
         console.log(response);
 
-        // TODO: refactor vibrant
-        chrome.tabs.captureVisibleTab({}, function (image) {
-          $this.setState(() => ({ imageTemp: image }));
-          // You can add that image HTML5 canvas, or Element.
-          Vibrant.from(image).getPalette((err, palette) => {
-            console.log(palette);
-            $this.setState(() => ({ vibrantTemp: palette }));
+        chrome.tabs.captureVisibleTab({}, async (image) => {
+          const colorHarmonyResult = await colorHarmony(image);
+      
+          this.setState((prevState: Readonly<AppState>) => {
+            const result: AnalysisResult = {
+              ...prevState.result,
+              colorHarmonyResult,
+            }
+
+            return { 
+              result,
+              snapshot: image
+            };
           });
         });
        
-        $this.setState(() => ({ analyzingStatus: 'Done!', result: response }));
+        this.setState(() => ({ analyzingStatus: 'Done!', result: response }));
       });
     }, 100);
   };
@@ -138,19 +142,19 @@ class App extends React.Component {
             <table>
               <tbody>
                 <tr>
-                  <th>Total characters in page</th><td>{this.state.result.textSizeResult.totalCharacters}</td>
+                  <th>Total characters in page</th><td>{this.state.result.textSizeResult?.totalCharacters}</td>
                 </tr>
                 <tr>
-                  <th>Total small characters</th><td>{this.state.result.textSizeResult.totalSmallCharacters}</td>
+                  <th>Total small characters</th><td>{this.state.result.textSizeResult?.totalSmallCharacters}</td>
                 </tr>
                 <tr>
-                  <th>Score</th><td>{this.state.result.textSizeResult.score}</td>
+                  <th>Score</th><td>{this.state.result.textSizeResult?.score}</td>
                 </tr>
               </tbody>
             </table>
             <h3>Text Font Type</h3>
             <ul>
-              {this.state.result.textFontTypeResult.fonts.map((stack, i) => (
+              {this.state.result.textFontTypeResult?.fonts.map((stack, i) => (
                 <li key={i}>{stack}</li>
               ))}
             </ul>
@@ -158,31 +162,31 @@ class App extends React.Component {
             <table>
               <tbody>
                 <tr>
-                  <th>Total images</th><td>{this.state.result.picturesResult.count}</td>
+                  <th>Total images</th><td>{this.state.result.picturesResult?.count}</td>
                 </tr>
               </tbody>
             </table>
             {
-              this.state.vibrantTemp &&
+              this.state.result.colorHarmonyResult?.vibrant &&
               <div>
                 <h3>Vibrant / Color Harmony</h3>
-                <p>Vibrant: {this.state.vibrantTemp.Vibrant.hex}
-                  <span style={{ display: 'inline-block', height: 30, width: 75, backgroundColor: this.state.vibrantTemp.Vibrant.hex }}></span>
+                <p>Vibrant: {this.state.result.colorHarmonyResult?.vibrant.Vibrant?.hex}
+                  <span style={{ display: 'inline-block', height: 30, width: 75, backgroundColor: this.state.result.colorHarmonyResult?.vibrant.Vibrant?.hex }}></span>
                 </p>
-                <p>Muted: {this.state.vibrantTemp.Muted.hex}
-                  <span style={{ display: 'inline-block', height: 30, width: 75, backgroundColor: this.state.vibrantTemp.Muted.hex }}></span>
+                <p>Muted: {this.state.result.colorHarmonyResult?.vibrant.Muted?.hex}
+                  <span style={{ display: 'inline-block', height: 30, width: 75, backgroundColor: this.state.result.colorHarmonyResult?.vibrant.Muted?.hex }}></span>
                 </p>
-                <p>LightVibrant: {this.state.vibrantTemp.LightVibrant.hex}
-                  <span style={{ display: 'inline-block', height: 30, width: 75, backgroundColor: this.state.vibrantTemp.LightVibrant.hex }}></span>
+                <p>LightVibrant: {this.state.result.colorHarmonyResult?.vibrant.LightVibrant?.hex}
+                  <span style={{ display: 'inline-block', height: 30, width: 75, backgroundColor: this.state.result.colorHarmonyResult?.vibrant.LightVibrant?.hex }}></span>
                 </p>
-                <p>LightMuted: {this.state.vibrantTemp.LightMuted.hex}
-                  <span style={{ display: 'inline-block', height: 30, width: 75, backgroundColor: this.state.vibrantTemp.LightMuted.hex }}></span>
+                <p>LightMuted: {this.state.result.colorHarmonyResult?.vibrant.LightMuted?.hex}
+                  <span style={{ display: 'inline-block', height: 30, width: 75, backgroundColor: this.state.result.colorHarmonyResult?.vibrant.LightMuted?.hex }}></span>
                 </p>
-                <p>DarkVibrant: {this.state.vibrantTemp.DarkVibrant.hex}
-                  <span style={{ display: 'inline-block', height: 30, width: 75, backgroundColor: this.state.vibrantTemp.DarkVibrant.hex }}></span>
+                <p>DarkVibrant: {this.state.result.colorHarmonyResult?.vibrant.DarkVibrant?.hex}
+                  <span style={{ display: 'inline-block', height: 30, width: 75, backgroundColor: this.state.result.colorHarmonyResult?.vibrant.DarkVibrant?.hex }}></span>
                 </p>
-                <p>DarkMuted: {this.state.vibrantTemp.DarkMuted.hex}
-                  <span style={{ display: 'inline-block', height: 30, width: 75, backgroundColor: this.state.vibrantTemp.DarkMuted.hex }}></span>
+                <p>DarkMuted: {this.state.result.colorHarmonyResult?.vibrant.DarkMuted?.hex}
+                  <span style={{ display: 'inline-block', height: 30, width: 75, backgroundColor: this.state.result.colorHarmonyResult?.vibrant.DarkMuted?.hex }}></span>
                 </p>
               </div>
             }

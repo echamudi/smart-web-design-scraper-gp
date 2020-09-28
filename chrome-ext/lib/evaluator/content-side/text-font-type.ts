@@ -1,6 +1,13 @@
 import { styleInPage } from "../../helpers/style-parser";
 
-export function textFontType(): { fonts: string[] } {
+export interface TextFontTypeResult {
+    /**
+     * font stacks
+     */
+    fonts: string[];
+}
+
+export function textFontType(): TextFontTypeResult {
     var fontStacksInUse = styleInPage('fontFamily', false) as string[];
     
     return {

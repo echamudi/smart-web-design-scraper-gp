@@ -1,6 +1,7 @@
 import { textSize, textSizeStyler } from '../evaluator/content-side/text-size';
 import { AnalysisConfig, AnalysisResult } from '../../../types/types';
 import { textFontType } from '../evaluator/content-side/text-font-type';
+import { pictures } from '../evaluator/content-side/pictures';
 
 if ((window as any).SWDS === undefined) {
     (window as any).SWDS = {};
@@ -22,21 +23,7 @@ if ((window as any).SWDS === undefined) {
 
             const textFontTypeResult = textFontType();
 
-            // TEMP pictures
-            const picturesResult = {
-                count: document.images.length
-            };
-            var images = [];
-            var elements = document.body.getElementsByTagName("*");
-            
-            Array.prototype.forEach.call(elements, function ( el ) {
-                var style = window.getComputedStyle( el );
-                if ( style.backgroundImage != "none" ) {
-                    images.push( style.backgroundImage.slice( 4, -1 ).replace(/['"]/g, ""))
-                }
-            })
-
-            picturesResult.count += images.length;
+            const picturesResult = pictures(document);
 
             // Result
 

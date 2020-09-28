@@ -1,4 +1,6 @@
 import { TextSizeConfig, TextSizeResult } from "../chrome-ext/lib/evaluator/content-side/text-size";
+import { TextFontTypeResult } from "../chrome-ext/lib/evaluator/content-side/text-font-type";
+import { PicturesResult } from "../chrome-ext/lib/evaluator/content-side/pictures";
 
 export interface AnalysisConfig {
     textSize: TextSizeConfig
@@ -9,8 +11,8 @@ export interface AnalysisResult {
     analysisConfig: AnalysisConfig;
 
     textSizeResult: TextSizeResult;
-    textFontTypeResult:  { fonts: string[] };
-    picturesResult: { count: number };
+    textFontTypeResult: TextFontTypeResult;
+    picturesResult: PicturesResult;
 }
 
 export interface AppState {

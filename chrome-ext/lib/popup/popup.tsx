@@ -117,16 +117,24 @@ class App extends React.Component {
           <div>
             <h3>Text Size</h3>
             <table>
-              <tr>
-                <th>Total characters in page</th><td>{this.state.result.textSizeResult.totalCharacters}</td>
-              </tr>
-              <tr>
-                <th>Total small characters</th><td>{this.state.result.textSizeResult.totalSmallCharacters}</td>
-              </tr>
-              <tr>
-                <th>Score</th><td>{this.state.result.textSizeResult.score}</td>
-              </tr>
+              <tbody>
+                <tr>
+                  <th>Total characters in page</th><td>{this.state.result.textSizeResult.totalCharacters}</td>
+                </tr>
+                <tr>
+                  <th>Total small characters</th><td>{this.state.result.textSizeResult.totalSmallCharacters}</td>
+                </tr>
+                <tr>
+                  <th>Score</th><td>{this.state.result.textSizeResult.score}</td>
+                </tr>
+              </tbody>
             </table>
+            <h3>Text Font Type</h3>
+            <ul>
+              {this.state.result.textFontTypeResult.fonts.map(stack => (
+                <li>{stack}</li>
+              ))}
+            </ul>
           </div>
         }
       </div>

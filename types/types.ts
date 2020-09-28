@@ -9,6 +9,7 @@ export interface AnalysisResult {
     analysisConfig: AnalysisConfig;
 
     textSizeResult: TextSizeResult;
+    textFontTypeResult:  { fonts: string[] };
 }
 
 export interface AppState {

@@ -1,5 +1,6 @@
 import { textSize, textSizeStyler } from '../evaluator/content-side/text-size';
 import { AnalysisConfig, AnalysisResult } from '../../../types/types';
+import { textFontType } from '../evaluator/content-side/text-font-type';
 
 if ((window as any).SWDS === undefined) {
     (window as any).SWDS = {};
@@ -19,9 +20,12 @@ if ((window as any).SWDS === undefined) {
             const textSizeResult = textSize(document, config.textSize);
             textSizeStyler(config.textSize);
 
+            const textFontTypeResult = textFontType();
+
             const analysisResult: AnalysisResult = {
                 html,
                 textSizeResult,
+                textFontTypeResult,
                 analysisConfig: config
             };
 

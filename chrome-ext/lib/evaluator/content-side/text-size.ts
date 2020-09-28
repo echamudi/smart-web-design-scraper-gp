@@ -20,9 +20,19 @@ export interface TextSizeResult {
     totalElements: number;
 
     /**
-     * total characters with font size under threshold
+     * total characters
      */
     totalCharacters: number;
+
+    /**
+     * total characters with font size under threshold
+     */
+    totalSmallCharacters: number;
+
+    /**
+     * Score
+     */
+    score: number;
 }
 
 /**
@@ -32,6 +42,7 @@ export function textSize(doc: Document, config: TextSizeConfig): TextSizeResult 
     const elements: NodeListOf<Element> = doc.querySelectorAll('body *');
 
     let totalElements = 0;
+    let totalSmallCharacters = 0;
     let totalCharacters = 0;
     const all = elements;
 
@@ -48,15 +59,19 @@ export function textSize(doc: Document, config: TextSizeConfig): TextSizeResult 
 
         // console.log(text);
         // console.log(getComputedStyle(currentEl).fontSize);
-        
+
+        totalCharacters += [...text].length;
+
         if (text !== '' && parseInt(getComputedStyle(currentEl).fontSize, 10) < config.minimumSize) {
             currentEl.setAttribute('data-swds-textSize', '1');
             totalElements += 1;
-            totalCharacters += [...text].length;
+            totalSmallCharacters += [...text].length;
         }
     }
 
-    return {totalElements, totalCharacters};
+    const score = (1 - (totalSmallCharacters / totalCharacters)) * 100;
+
+    return { totalElements, totalSmallCharacters, totalCharacters, score };
 }
 
 export function textSizeStyler(config: TextSizeConfig) {

@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { AppState, AnalysisConfig } from '../../../types/types';
+import { AppState, AnalysisConfig, AnalysisResult } from '../../../types/types';
 
 // Returns tabId number
 async function init(): Promise<number> {
@@ -34,7 +34,8 @@ class App extends React.Component {
         marking: false,
         minimumSize: 16
       }
-    }
+    },
+    result: null
   };
 
   constructor(props:any) {
@@ -51,13 +52,11 @@ class App extends React.Component {
   async analyzeHandler() {
     const tabId = await init();
     this.setState(() => ({ analyzingStatus: 'Please wait...' }));
-    this.render();
   
     setTimeout(() => {
-      chrome.tabs.sendMessage(tabId, { message: "analyze", config: this.state.config}, (response) => {
+      chrome.tabs.sendMessage(tabId, { message: "analyze", config: this.state.config}, (response: AnalysisResult) => {
         console.log(response);
-        this.setState(() => ({ analyzingStatus: 'Done!' }));
-        this.render();
+        this.setState(() => ({ analyzingStatus: 'Done!', result: response }));
       });
     }, 100);
   };
@@ -95,12 +94,8 @@ class App extends React.Component {
     return (
       <div>
         <h1>Web Design Scraper</h1>
-        <button onClick={this.analyzeHandler} className="main-button">
-          Analyze
-        </button>
-        <div>{this.state.analyzingStatus}</div>
         <h2>Parameters</h2>
-        <h3>Small Texts</h3>
+        <h3>Text Size</h3>
         <label>
           <input type="checkbox" checked={this.state.config.textSize.marking} onChange={this.marktextSizeToggle}/> Show small text marks
         </label>
@@ -111,7 +106,29 @@ class App extends React.Component {
         <div>
           Minimum Font Size: {this.state.config.textSize.minimumSize ?? 16}
         </div>
-        {/* Report button Logout button */}
+        <h2>Analyze</h2>
+        <button onClick={this.analyzeHandler} className="main-button">
+          Analyze
+        </button>
+        <div>{this.state.analyzingStatus}</div>
+        <h2>Result</h2>
+        {
+          this.state.result &&
+          <div>
+            <h3>Text Size</h3>
+            <table>
+              <tr>
+                <th>Total characters in page</th><td>{this.state.result.textSizeResult.totalCharacters}</td>
+              </tr>
+              <tr>
+                <th>Total small characters</th><td>{this.state.result.textSizeResult.totalSmallCharacters}</td>
+              </tr>
+              <tr>
+                <th>Score</th><td>{this.state.result.textSizeResult.score}</td>
+              </tr>
+            </table>
+          </div>
+        }
       </div>
     )
   }

@@ -14,4 +14,5 @@ export interface AnalysisResult {
 export interface AppState {
     analyzingStatus: string;
     config: AnalysisConfig;
+    result: AnalysisResult | null;
 }

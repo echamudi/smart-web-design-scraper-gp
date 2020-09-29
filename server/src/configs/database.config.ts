@@ -1,5 +1,5 @@
 export default {
-    HOST: 'localhost',
+    HOST: 'mongo',
     PORT: 27017,
-    DB: 'scrapeDB',
+    DB: 'swdsdb',
 };

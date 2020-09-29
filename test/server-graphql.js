@@ -1,6 +1,6 @@
 // This test code tests the new /server2
 
-const request = require('supertest')('http://localhost:4000');
+const request = require('supertest')('http://localhost:3001');
 const { assert } = require('chai');
 
 const ts = Math.round((new Date()).getTime() / 100);

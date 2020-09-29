@@ -7,8 +7,12 @@ import { typeDefs } from "./graphql/typeDefs";
 import { context } from "./graphql/context"
 
 import dbConfig from "./configs/database.config"
+import { Role } from "./models/role.model";
 
 const startServer = async () => {
+
+  // Prepare express
+
   const app = express();
 
   const server = new ApolloServer({
@@ -19,12 +23,27 @@ const startServer = async () => {
 
   server.applyMiddleware({ app });
 
+  // Prepare database
+
   await mongoose.connect(`mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`, {
     useNewUrlParser: true
   });
 
-  app.listen({ port: 4000 }, () =>
-    console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`)
+  const userRole = await Role.findOne({ name: 'user' });
+
+  if(!userRole) {
+    await new Role({name: 'user'}).save()
+  }
+
+  const adminRole = await Role.findOne({ name: 'admin' });
+  if(!userRole) {
+    await new Role({name: 'admin'}).save()
+  }
+
+  // Start server
+
+  app.listen({ port: 80 }, () =>
+    console.log(`🚀 Server ready at http://localhost:80${server.graphqlPath}`)
   );
 };
 

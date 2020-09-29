@@ -1,0 +1,32 @@
+version: "3.8"
+services:
+  angular:
+    container_name: angular
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    volumes:
+      - ./client:/usr/src/app
+  express:
+    container_name: express
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - "3001:80"
+    volumes:
+      - ./server:/usr/src/app
+  mongo:
+    container_name: mongo
+    image: mongo:4.4.1-bionic
+    ports:
+      - "3002:27017"
+    volumes:
+      - ./mongo/db:/data/db
+    environment: 
+      MONGO_INITDB_DATABASE: swdsdb
+      # TODO: Add mongodb security
+      # MONGO_INITDB_ROOT_USERNAME: swds_root_dev
+      # MONGO_INITDB_ROOT_PASSWORD: swds_password_dev

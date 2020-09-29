@@ -1,11 +1,10 @@
 import { IResolverObject, IResolvers, IFieldResolver } from 'apollo-server';
 import jwt, { VerifyErrors } from 'jsonwebtoken';
-import config from './configs/auth.config';
+import config from '../configs/auth.config';
 import bcrypt from 'bcryptjs';
 import { context, ContextInterface } from './context';
 
-import { db } from './models';
-import { UserInterface } from './models/user.model';
+import { db } from '../models';
 
 const User = db.user;
 const Role = db.role;

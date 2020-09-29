@@ -1,8 +1,8 @@
 import { ContextFunction } from 'apollo-server-core';
-import { db } from './models';
-import { verifyToken } from "./helpers/verifyToken";
+import { db } from '../models';
+import { verifyToken } from "../helpers/verifyToken";
 import { Types } from 'mongoose';
-import { UserInterface } from './models/user.model';
+import { UserInterface } from '../models/user.model';
 
 const User = db.user;
 const Role = db.role;

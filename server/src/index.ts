@@ -2,9 +2,9 @@ import { ApolloServer, gql } from "apollo-server-express";
 import express from "express";
 import mongoose from "mongoose";
 
-import { resolvers } from "./resolvers";
-import { typeDefs } from "./typeDefs";
-import { context } from "./context"
+import { resolvers } from "./graphql/resolvers";
+import { typeDefs } from "./graphql/typeDefs";
+import { context } from "./graphql/context"
 
 import dbConfig from "./configs/database.config"
 

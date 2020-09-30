@@ -2,9 +2,9 @@ version: "3.8"
 services:
   angular:
     container_name: angular
-    build:
-      context: ./client
-      dockerfile: Dockerfile
+    image: node:buster
+    working_dir: "/usr/src/app"
+    command: "npm start"
     ports:
       - "3000:80"
     volumes:
@@ -13,9 +13,9 @@ services:
       - "express"
   express:
     container_name: express
-    build:
-      context: ./server
-      dockerfile: Dockerfile
+    image: node:buster
+    working_dir: "/usr/src/app"
+    command: "npm start"
     ports:
       - "3001:80"
     volumes:

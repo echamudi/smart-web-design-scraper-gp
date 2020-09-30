@@ -11,6 +11,8 @@ services:
       - ./client:/usr/src/app
     depends_on:
       - "express"
+    environment: 
+      DOCKER_CONTAINER: angular
   express:
     container_name: express
     image: node:14.11.0-alpine3.12
@@ -22,6 +24,8 @@ services:
       - ./server:/usr/src/app
     depends_on:
       - "mongo"
+    environment: 
+      DOCKER_CONTAINER: express
   mongo:
     container_name: mongo
     image: mongo:4.4.1-bionic
@@ -31,6 +35,3 @@ services:
       - ./mongo/db:/data/db
     environment: 
       MONGO_INITDB_DATABASE: swdsdb
-      # TODO: Add mongodb security
-      # MONGO_INITDB_ROOT_USERNAME: swds_root_dev
-      # MONGO_INITDB_ROOT_PASSWORD: swds_password_dev

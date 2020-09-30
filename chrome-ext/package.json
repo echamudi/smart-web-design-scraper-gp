@@ -6,6 +6,7 @@
   "private": "true",
   "scripts": {
     "watch": "npx rimraf ./dist && npx webpack --mode=development --watch",
+    "build": "npx rimraf ./dist && npx webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

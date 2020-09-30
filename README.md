@@ -5,28 +5,49 @@ Smart Web Design Scraper
 ## Running development mode
 
 ```sh
-# Terminal 1: Express
-cd server
-npm install
-npm start
+# Install node modules if it's not installed yet
+(cd client && npm install)
+(cd server && npm install)
+(cd chrome-ext && npm install)
+```
 
-# Terminal 2: Angular
-cd client
-npm install
-npm start
-
-# Terminal 3: Mongo
+### Terminal 1: Mongo
+```
 docker-compose -f dev.docker-compose.yml up
 ```
+
+### Terminal 2: Express
+```
+cd server
+npm start
+```
+
+### Terminal 3: Angular
+```
+cd client
+npm start
+```
+
+### Terminal 4: Chrome Extension
+```
+cd chrome-ext
+npm run watch
+```
+
 ## Running the app
 
 ```sh
-cd client
-npm install
-cd ..
-cd server
-npm install
-cd ..
+# Install node modules if it's not installed yet
+(cd client && npm install)
+(cd server && npm install)
+(cd chrome-ext && npm install)
+
+# Compile codes
+(cd client && npm run build)
+(cd server && npm run build)
+(cd chrome-ext && npm run build)
+
+# Run docker
 docker-compose up
 ```
 

@@ -118,5 +118,4 @@ dist
 
 ## mongodb container volume
 
-/mongo/db/*
-!/mongo/db/.gitkeep
+/mongo/db

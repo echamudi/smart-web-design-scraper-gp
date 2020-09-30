@@ -16,7 +16,7 @@ npm install
 npm start
 
 # Terminal 3: Mongo
-docker-compose -f mongo.docker-compose.yml up
+docker-compose -f dev.docker-compose.yml up
 ```
 ## Running the app
 

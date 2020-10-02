@@ -103,8 +103,6 @@ public class SymmetryResource {
 
 
 
-
-
     private BufferedImage decodeImage(String img) {
         BufferedImage buffimg = null ;
         try {

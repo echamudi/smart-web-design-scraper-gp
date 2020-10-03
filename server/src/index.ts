@@ -42,8 +42,9 @@ const startServer = async () => {
 
   // Start server
 
-  app.listen({ port: 80 }, () =>
-    console.log(`🚀 Server ready at http://localhost:80${server.graphqlPath}`)
+
+  app.listen({ port: 3001 }, () =>
+    console.log(`🚀 Server ready at http://localhost:3001${server.graphqlPath}`)
   );
 };
 

@@ -28,6 +28,20 @@ async function init(): Promise<number> {
 // }, function (window) { });
 
 class App extends React.Component {
+  constructor(props:any) {
+    super(props);
+  }
+
+  render() {
+    return (
+      <>
+        <Analyzer />
+      </>
+    )
+  }
+}
+
+class Analyzer extends React.Component {
   public state: AppState = {
     analyzingStatus: '',
     config: {

@@ -2,6 +2,13 @@ import React, { SyntheticEvent } from 'react';
 import ReactDOM from 'react-dom';
 import { AppState, AnalysisConfig, AnalysisResult } from '../../../types/types';
 import { colorHarmony } from '../evaluator/extension-side/color-harmony';
+import { ApolloClient, InMemoryCache } from '@apollo/client';
+import { gql } from '@apollo/client';
+
+const client = new ApolloClient({
+  uri: 'http://localhost:3001/graphql',
+  cache: new InMemoryCache()
+});
 
 // Returns tabId number
 async function init(): Promise<number> {
@@ -29,14 +36,25 @@ async function init(): Promise<number> {
 
 class App extends React.Component {
   public state = {
-    loginEmail: '',
-    loginPassword: ''
+    loginUsername: '',
+    loginPassword: '',
+    position: 'loading', // loading | loggedout | loggedin
   };
 
-  constructor(props:any) {
+  constructor(props: any) {
     super(props);
     this.handleHTMLInputElement = this.handleHTMLInputElement.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.logout = this.logout.bind(this);
+  }
+
+  componentDidMount() {
+    chrome.storage.local.get('token', (token) => {
+      console.log(token);
+      this.setState({
+        position: token ? 'loggedin' : 'loggedout'
+      });
+    });
   }
 
   handleHTMLInputElement(event: React.ChangeEvent<HTMLInputElement>) {
@@ -47,28 +65,64 @@ class App extends React.Component {
     this.setState({
       [name]: value
     });
-
-    console.log(this.state);
   }
 
   handleSubmit() {
-    alert('A name was submitted: ' + this.state.loginEmail);
+    client
+      .query({
+        query: gql`query ($username: String!, $password: String!) {
+          login(username: $username, password: $password) {
+              token
+          }
+      }`,
+        variables: {
+          username: this.state.loginUsername,
+          password: this.state.loginPassword
+        }
+      })
+      .then(result => {
+        chrome.storage.local.set({token: result.data.token}, () => {
+          this.setState({
+            position: 'loggedin'
+          });
+        });
+      })
+      .catch(err => console.log(err));
+  }
+
+  logout() {
+    chrome.storage.local.set({token: undefined}, () => {
+      this.setState({
+        position: 'loggedout'
+      });
+    });
   }
 
   render() {
     return (
       <div className="container">
-        <form>
-          <div className="form-group">
-            <label>Email address</label>
-            <input type="email" className="form-control" name="loginEmail" onChange={this.handleHTMLInputElement}/>
-          </div>
-          <div className="form-group">
-            <label>Password</label>
-            <input type="password" className="form-control" name="loginPassword" onChange={this.handleHTMLInputElement}/>
-          </div>
-          <button className="btn btn-primary" onClick={this.handleSubmit}>Submit</button>
-        </form>
+        { this.state.position === 'loggedout' &&
+          <>
+            <form>
+              <div className="form-group">
+                <label>Username</label>
+                <input type="text" className="form-control" name="loginUsername" onChange={this.handleHTMLInputElement} />
+              </div>
+              <div className="form-group">
+                <label>Password</label>
+                <input type="password" className="form-control" name="loginPassword" onChange={this.handleHTMLInputElement} />
+              </div>
+            </form>
+            <button className="btn btn-primary" onClick={this.handleSubmit}>Submit</button>
+          </>
+        }
+        {
+          this.state.position === 'loggedin' &&
+          <>
+            <button type="button" className="btn btn-link" onClick={this.logout}>Log Out</button>
+            <Analyzer />
+          </>
+        }
       </div>
     )
   }
@@ -87,12 +141,12 @@ class Analyzer extends React.Component {
     snapshot: null,
   };
 
-  constructor(props:any) {
+  constructor(props: any) {
     super(props);
     init().then((tabId) => {
-      chrome.tabs.sendMessage(tabId, { message: "textSize-marking", config: this.state.config});
+      chrome.tabs.sendMessage(tabId, { message: "textSize-marking", config: this.state.config });
     });
-    
+
     this.analyzeHandler = this.analyzeHandler.bind(this);
     this.marktextSizeToggle = this.marktextSizeToggle.bind(this);
     this.setMinimumFontSize = this.setMinimumFontSize.bind(this);
@@ -101,27 +155,27 @@ class Analyzer extends React.Component {
   async analyzeHandler() {
     const tabId = await init();
     this.setState(() => ({ analyzingStatus: 'Please wait...' }));
-  
+
     setTimeout(() => {
-      chrome.tabs.sendMessage(tabId, { message: "analyze", config: this.state.config}, (response: AnalysisResult) => {
+      chrome.tabs.sendMessage(tabId, { message: "analyze", config: this.state.config }, (response: AnalysisResult) => {
         console.log(response);
 
         chrome.tabs.captureVisibleTab({}, async (image) => {
           const colorHarmonyResult = await colorHarmony(image);
-      
+
           this.setState((prevState: Readonly<AppState>) => {
             const result: AnalysisResult = {
               ...prevState.result,
               colorHarmonyResult,
             }
 
-            return { 
+            return {
               result,
               snapshot: image
             };
           });
         });
-       
+
         this.setState(() => ({ analyzingStatus: 'Done!', result: response }));
       });
     }, 100);
@@ -163,7 +217,7 @@ class Analyzer extends React.Component {
         <h2>Parameters</h2>
         <h3>Text Size</h3>
         <label>
-          <input type="checkbox" checked={this.state.config.textSize.marking} onChange={this.marktextSizeToggle}/> Show small text marks
+          <input type="checkbox" checked={this.state.config.textSize.marking} onChange={this.marktextSizeToggle} /> Show small text marks
         </label>
         <br />
         <div>
@@ -183,7 +237,7 @@ class Analyzer extends React.Component {
             <h2>Result</h2>
             {
               this.state.snapshot &&
-              <img src={this.state.snapshot} alt="" width="300px"/>
+              <img src={this.state.snapshot} alt="" width="300px" />
             }
             <h3>Text Size</h3>
             <table>

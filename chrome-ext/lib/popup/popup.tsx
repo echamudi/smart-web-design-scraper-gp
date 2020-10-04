@@ -49,10 +49,10 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    chrome.storage.local.get('token', (token) => {
-      console.log(token);
+    chrome.storage.local.get((items) => {
+      console.log(items);
       this.setState({
-        position: token ? 'loggedin' : 'loggedout'
+        position: items.token ? 'loggedin' : 'loggedout'
       });
     });
   }
@@ -81,7 +81,7 @@ class App extends React.Component {
         }
       })
       .then(result => {
-        chrome.storage.local.set({token: result.data.token}, () => {
+        chrome.storage.local.set({token: result.data.login.token}, () => {
           this.setState({
             position: 'loggedin'
           });
@@ -91,7 +91,7 @@ class App extends React.Component {
   }
 
   logout() {
-    chrome.storage.local.set({token: undefined}, () => {
+    chrome.storage.local.set({token: false}, () => {
       this.setState({
         position: 'loggedout'
       });
@@ -103,6 +103,7 @@ class App extends React.Component {
       <div className="container">
         { this.state.position === 'loggedout' &&
           <>
+            <div className="h3">Smart Web Design Scraper</div>
             <form>
               <div className="form-group">
                 <label>Username</label>

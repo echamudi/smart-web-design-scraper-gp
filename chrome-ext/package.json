@@ -33,6 +33,7 @@
   "dependencies": {
     "@types/react": "^16.9.41",
     "@types/react-dom": "^16.9.8",
+    "bootstrap": "^4.5.2",
     "css-loader": "^4.3.0",
     "mini-css-extract-plugin": "^0.11.3",
     "node-sass": "^4.14.1",

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { SyntheticEvent } from 'react';
 import ReactDOM from 'react-dom';
 import { AppState, AnalysisConfig, AnalysisResult } from '../../../types/types';
 import { colorHarmony } from '../evaluator/extension-side/color-harmony';
@@ -28,15 +28,48 @@ async function init(): Promise<number> {
 // }, function (window) { });
 
 class App extends React.Component {
+  public state = {
+    loginEmail: '',
+    loginPassword: ''
+  };
+
   constructor(props:any) {
     super(props);
+    this.handleHTMLInputElement = this.handleHTMLInputElement.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleHTMLInputElement(event: React.ChangeEvent<HTMLInputElement>) {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
+
+    console.log(this.state);
+  }
+
+  handleSubmit() {
+    alert('A name was submitted: ' + this.state.loginEmail);
   }
 
   render() {
     return (
-      <>
-        <Analyzer />
-      </>
+      <div className="container">
+        <form>
+          <div className="form-group">
+            <label>Email address</label>
+            <input type="email" className="form-control" name="loginEmail" onChange={this.handleHTMLInputElement}/>
+          </div>
+          <div className="form-group">
+            <label>Password</label>
+            <input type="password" className="form-control" name="loginPassword" onChange={this.handleHTMLInputElement}/>
+          </div>
+          <button className="btn btn-primary" onClick={this.handleSubmit}>Submit</button>
+        </form>
+      </div>
     )
   }
 }

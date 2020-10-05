@@ -1,7 +1,7 @@
-import { TextSizeConfig, TextSizeResult } from "../chrome-ext/lib/evaluator/content-side/text-size";
-import { TextFontTypeResult } from "../chrome-ext/lib/evaluator/content-side/text-font-type";
-import { PicturesResult } from "../chrome-ext/lib/evaluator/content-side/pictures";
-import { ColorHarmonyResult } from "../chrome-ext/lib/evaluator/extension-side/color-harmony";
+import { TextSizeConfig, TextSizeResult } from "ChromeExt/evaluator/content-side/text-size";
+import { TextFontTypeResult } from "ChromeExt/evaluator/content-side/text-font-type";
+import { PicturesResult } from "ChromeExt/evaluator/content-side/pictures";
+import { ColorHarmonyResult } from "ChromeExt/evaluator/extension-side/color-harmony";
 
 export interface AnalysisConfig {
     textSize: TextSizeConfig

@@ -1,0 +1,13 @@
+// This tsconfig is only for vscode linting
+
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "Shared/*": ["../shared/*"],
+      "ChromeExt/*": ["./chrome-ext/lib/*"],
+      "Angular/*": ["./client/src/*"],
+      "Express/*": ["./server/src/*"],
+    }
+  }
+}

@@ -10,6 +10,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.Buffer;
@@ -40,35 +41,36 @@ public class SymmetryResource {
     }
 
 
-    private static double verticalSymmetryTest(BufferedImage buffImg) {
+    private static double verticalSymmetryTest(BufferedImage buffImg)  {
         int rows = buffImg.getWidth() ;
         int columns = buffImg.getHeight() ;
         int allVisited = 0 ;
         int nonSymmetrical = 0 ;
         int Symmetrical = 0 ;
-        for(int i = 0 , k = rows -1 ; i <rows /2 ; i ++ , k--  ) {
+//        System.out.println("width : " + rows + " height :" + columns ) ;
 
-            for(int j = 0 ; j < columns   ; j++  ) {
+        for(int i = 0 , k = columns -1 ; i < columns /2 ; i ++ , k--  ) {
+
+            for(int j = 0 ; j < rows   ; j++  ) {
                 allVisited++ ;
-//                System.out.println("i = "+ i +" j = "+j + " || " +"k = "+ k + " j = " + j );
+//                System.out.println("j = "+j + " i = "+ i +" || " + " j = " + j+" k = "+ k  );
 
-                Color c1 = new Color(buffImg.getRGB(i,j)) ;
-                Color c2  = new Color(buffImg.getRGB(k,j)) ;
+                Color c1 = new Color(buffImg.getRGB(j,i)) ;
+                Color c2  = new Color(buffImg.getRGB(j,k)) ;
 
                 if (howDiff(c1,c2) >= 2) {
                     nonSymmetrical++ ;
                 } else {
                     Symmetrical++ ;
+                    buffImg.setRGB(j,i,0);
+
                 }
             }
         }
-/*
-        System.out.println("width : " + rows + " height :" + columns ) ;
         System.out.println("all visited : " +allVisited) ;
         System.out.println( "mv symmetric = " + Symmetrical);
         System.out.println( "mv No symmetric = " + nonSymmetrical);
-*/
-
+//        ImageIO.write(buffImg,"PNG",new File("/home/tatsujin/test-tralala.png"));
         return ((double)Symmetrical/(double)allVisited) * 100 ;
     }
 
@@ -83,6 +85,8 @@ public class SymmetryResource {
 
             for(int j =0 ; j < columns  ; j++ ) {
                 allpixelsVisit++;
+                System.out.println("i = "+ i +" j = "+j + " || " +"k = "+ k + " j = " + j );
+
                 Color c1 = new Color(img.getRGB(i,j)) ;
                 Color c2 = new Color(img.getRGB(k,j)) ;
                 if(howDiff(c1,c2) >= 2 ) {

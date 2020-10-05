@@ -1,5 +1,5 @@
 import { textSize, textSizeStyler } from '../evaluator/content-side/text-size';
-import { AnalysisConfig, AnalysisResult } from '../../../types/types';
+import { AnalysisConfig, AnalysisResult } from 'Shared/types/types';
 import { textFontType } from '../evaluator/content-side/text-font-type';
 import { pictures } from '../evaluator/content-side/pictures';
 

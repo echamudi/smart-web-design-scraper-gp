@@ -1,6 +1,6 @@
 import React, { SyntheticEvent } from 'react';
 import ReactDOM from 'react-dom';
-import { AppState, AnalysisConfig, AnalysisResult } from '../../../types/types';
+import { AppState, AnalysisConfig, AnalysisResult } from 'Shared/types/types';
 import { colorHarmony } from '../evaluator/extension-side/color-harmony';
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 import { gql } from '@apollo/client';

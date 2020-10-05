@@ -2,9 +2,8 @@ package com.smartwebdesignscraper.symmetrycheckservice.resources;
 
 
 import models.Result;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import models.SymmetryCallBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -21,16 +20,16 @@ import java.util.Base64;
 public class SymmetryResource {
 
 
-    @RequestMapping("/{img}")
-    public Result checkSymmetry(@PathVariable("img") String img) {
+    @PostMapping("/test")
+    public Result checkSymmetry(@RequestBody SymmetryCallBody img) {
         // decoding the image...
         // TODO (1) find a solution for too long String problem of tombcat...
         // TODO (2) decode the image to a BufferedImage and set it to the following variable ...
-        BufferedImage buffImg  = null;
+        BufferedImage buffimg = decodeImage(img.getImg());
 
 
         // dummy for later...
-        return new Result(horizontalSymmetryTest(buffImg),verticalSymmetryTest(buffImg)) ;
+        return new Result(horizontalSymmetryTest(buffimg),verticalSymmetryTest(buffimg)) ;
     }
 
     private static double howDiff(Color c1 , Color c2) {
@@ -62,7 +61,7 @@ public class SymmetryResource {
                     nonSymmetrical++ ;
                 } else {
                     Symmetrical++ ;
-                    buffImg.setRGB(j,i,0);
+//                    buffImg.setRGB(j,i,0);
 
                 }
             }

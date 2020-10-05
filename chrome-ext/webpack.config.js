@@ -71,6 +71,12 @@ module.exports = {
   devtool: "", // fastest! doc: https://webpack.js.org/configuration/devtool/
   resolve: {
     extensions: [ '.tsx', '.ts', '.js' ],
+    alias: {
+      "Shared": path.resolve(__dirname, '../shared'),
+      "ChromeExt": path.resolve(__dirname, '../chrome-ext/lib'),
+      "Angular": path.resolve(__dirname, '../client/src'),
+      "Express": path.resolve(__dirname, '../server/src'),
+    }
   },
   output: {
     filename: '[name].js',

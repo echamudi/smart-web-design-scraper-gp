@@ -4,6 +4,7 @@ import { AppState, AnalysisConfig, AnalysisResult } from 'Shared/types/types';
 import { colorHarmony } from '../evaluator/extension-side/color-harmony';
 import { ApolloClient, InMemoryCache, NormalizedCacheObject } from '@apollo/client';
 import { gql } from '@apollo/client';
+import { login } from 'Shared/apollo-client/auth'
 
 const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
   uri: 'http://localhost:3001/graphql',
@@ -68,19 +69,8 @@ class App extends React.Component {
   }
 
   handleSubmit() {
-    client
-      .query({
-        query: gql`query ($username: String!, $password: String!) {
-          login(username: $username, password: $password) {
-              token
-          }
-      }`,
-        variables: {
-          username: this.state.loginUsername,
-          password: this.state.loginPassword
-        }
-      })
-      .then(result => {
+    login(client, this.state.loginUsername, this.state.loginPassword)
+    .then(result => {
         chrome.storage.local.set({ token: result.data.login.token }, () => {
           this.setState({
             position: 'loggedin'

@@ -4,7 +4,7 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "Shared/*": ["../shared/*"],
+      "Shared/*": ["./shared/*"],
       "ChromeExt/*": ["./chrome-ext/lib/*"],
       "Angular/*": ["./client/src/*"],
       "Express/*": ["./server/src/*"],

@@ -81,7 +81,7 @@ class App extends React.Component {
         }
       })
       .then(result => {
-        chrome.storage.local.set({token: result.data.login.token}, () => {
+        chrome.storage.local.set({ token: result.data.login.token }, () => {
           this.setState({
             position: 'loggedin'
           });
@@ -91,7 +91,7 @@ class App extends React.Component {
   }
 
   logout() {
-    chrome.storage.local.set({token: false}, () => {
+    chrome.storage.local.set({ token: false }, () => {
       this.setState({
         position: 'loggedout'
       });
@@ -101,7 +101,7 @@ class App extends React.Component {
   render() {
     return (
       <div className="container">
-        { this.state.position === 'loggedout' &&
+        {this.state.position === 'loggedout' &&
           <>
             <div className="h3">Smart Web Design Scraper</div>
             <form>
@@ -214,86 +214,117 @@ class Analyzer extends React.Component {
   render() {
     return (
       <div>
-        <h1>Web Design Scraper</h1>
-        <h2>Parameters</h2>
-        <h3>Text Size</h3>
-        <label>
-          <input type="checkbox" checked={this.state.config.textSize.marking} onChange={this.marktextSizeToggle} /> Show small text marks
-        </label>
-        <br />
-        <div>
-          <input type="range" min="1" max="30" value={this.state.config.textSize.minimumSize} onChange={this.setMinimumFontSize} />
+        <div className="card">
+          <div className="card-header">
+            Analyze
+          </div>
+          <div className="card-body">
+            <h5 className="card-title">Font Size</h5>
+            <label>
+              <input type="checkbox" checked={this.state.config.textSize.marking} onChange={this.marktextSizeToggle} /> Show small text marks
+            </label>
+            <br />
+            <div>
+              <input type="range" min="1" max="30" value={this.state.config.textSize.minimumSize} onChange={this.setMinimumFontSize} />
+            </div>
+            <div>
+              Minimum Font Size: {this.state.config.textSize.minimumSize ?? 16}
+            </div>
+            <button type="button" className="btn btn-primary" onClick={this.analyzeHandler}>Analyze</button>
+          </div>
         </div>
-        <div>
-          Minimum Font Size: {this.state.config.textSize.minimumSize ?? 16}
+
+        <div className="card" style={{marginTop: '20px'}}>
+          <div className="card-body">
+            {/* <div>{this.state.analyzingStatus}</div> */}
+            {
+              this.state.result &&
+              <>
+                <h3>Result</h3>
+                {
+                  this.state.snapshot &&
+                  <>
+                    <img src={this.state.snapshot} alt="" width="300px" />
+                    <hr/>
+                  </>
+                }
+                {
+                  this.state.result.textSizeResult &&
+                  <>
+                    <h5 className="card-title">Text Size</h5>
+                    <table>
+                      <tbody>
+                        <tr>
+                          <th>Total characters in page</th><td>{this.state.result.textSizeResult?.totalCharacters}</td>
+                        </tr>
+                        <tr>
+                          <th>Total small characters</th><td>{this.state.result.textSizeResult?.totalSmallCharacters}</td>
+                        </tr>
+                        <tr>
+                          <th>Score</th><td>{this.state.result.textSizeResult?.score}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div className="progress">
+                      <div className="progress-bar" role="progressbar" style={{width: this.state.result.textSizeResult?.score + '%'}}>{this.state.result.textSizeResult?.score}%</div>
+                    </div>
+                    <hr/>
+                  </>
+                }
+                {
+                  this.state.result.textFontTypeResult &&
+                  <>
+                    <h5 className="card-title">Text Font Type</h5>
+                    <ul>
+                      {this.state.result.textFontTypeResult?.fonts.map((stack, i) => (
+                        <li key={i}>{stack}</li>
+                      ))}
+                    </ul>
+                    <hr/>
+                  </>
+                }
+                {
+                  this.state.result.picturesResult &&
+                  <>
+                    <h5 className="card-title">Images</h5>
+                    <table>
+                      <tbody>
+                        <tr>
+                          <th>Total images</th><td>{this.state.result.picturesResult?.count}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <hr/>
+                  </>
+                }
+                {
+                  this.state.result.colorHarmonyResult?.vibrant &&
+                  <div>
+                    <h5 className="card-title">Vibrant / Color Harmony</h5>
+                    <p>Vibrant: {this.state.result.colorHarmonyResult?.vibrant.Vibrant?.hex}
+                      <span style={{ display: 'inline-block', height: 30, width: 75, backgroundColor: this.state.result.colorHarmonyResult?.vibrant.Vibrant?.hex }}></span>
+                    </p>
+                    <p>Muted: {this.state.result.colorHarmonyResult?.vibrant.Muted?.hex}
+                      <span style={{ display: 'inline-block', height: 30, width: 75, backgroundColor: this.state.result.colorHarmonyResult?.vibrant.Muted?.hex }}></span>
+                    </p>
+                    <p>LightVibrant: {this.state.result.colorHarmonyResult?.vibrant.LightVibrant?.hex}
+                      <span style={{ display: 'inline-block', height: 30, width: 75, backgroundColor: this.state.result.colorHarmonyResult?.vibrant.LightVibrant?.hex }}></span>
+                    </p>
+                    <p>LightMuted: {this.state.result.colorHarmonyResult?.vibrant.LightMuted?.hex}
+                      <span style={{ display: 'inline-block', height: 30, width: 75, backgroundColor: this.state.result.colorHarmonyResult?.vibrant.LightMuted?.hex }}></span>
+                    </p>
+                    <p>DarkVibrant: {this.state.result.colorHarmonyResult?.vibrant.DarkVibrant?.hex}
+                      <span style={{ display: 'inline-block', height: 30, width: 75, backgroundColor: this.state.result.colorHarmonyResult?.vibrant.DarkVibrant?.hex }}></span>
+                    </p>
+                    <p>DarkMuted: {this.state.result.colorHarmonyResult?.vibrant.DarkMuted?.hex}
+                      <span style={{ display: 'inline-block', height: 30, width: 75, backgroundColor: this.state.result.colorHarmonyResult?.vibrant.DarkMuted?.hex }}></span>
+                    </p>
+                  </div>
+                }
+              </>
+            }
+          </div>
         </div>
-        <h2>Analyze</h2>
-        <button onClick={this.analyzeHandler} className="main-button">
-          Analyze
-        </button>
-        <div>{this.state.analyzingStatus}</div>
-        {
-          this.state.result &&
-          <>
-            <h2>Result</h2>
-            {
-              this.state.snapshot &&
-              <img src={this.state.snapshot} alt="" width="300px" />
-            }
-            <h3>Text Size</h3>
-            <table>
-              <tbody>
-                <tr>
-                  <th>Total characters in page</th><td>{this.state.result.textSizeResult?.totalCharacters}</td>
-                </tr>
-                <tr>
-                  <th>Total small characters</th><td>{this.state.result.textSizeResult?.totalSmallCharacters}</td>
-                </tr>
-                <tr>
-                  <th>Score</th><td>{this.state.result.textSizeResult?.score}</td>
-                </tr>
-              </tbody>
-            </table>
-            <h3>Text Font Type</h3>
-            <ul>
-              {this.state.result.textFontTypeResult?.fonts.map((stack, i) => (
-                <li key={i}>{stack}</li>
-              ))}
-            </ul>
-            <h3>Images</h3>
-            <table>
-              <tbody>
-                <tr>
-                  <th>Total images</th><td>{this.state.result.picturesResult?.count}</td>
-                </tr>
-              </tbody>
-            </table>
-            {
-              this.state.result.colorHarmonyResult?.vibrant &&
-              <div>
-                <h3>Vibrant / Color Harmony</h3>
-                <p>Vibrant: {this.state.result.colorHarmonyResult?.vibrant.Vibrant?.hex}
-                  <span style={{ display: 'inline-block', height: 30, width: 75, backgroundColor: this.state.result.colorHarmonyResult?.vibrant.Vibrant?.hex }}></span>
-                </p>
-                <p>Muted: {this.state.result.colorHarmonyResult?.vibrant.Muted?.hex}
-                  <span style={{ display: 'inline-block', height: 30, width: 75, backgroundColor: this.state.result.colorHarmonyResult?.vibrant.Muted?.hex }}></span>
-                </p>
-                <p>LightVibrant: {this.state.result.colorHarmonyResult?.vibrant.LightVibrant?.hex}
-                  <span style={{ display: 'inline-block', height: 30, width: 75, backgroundColor: this.state.result.colorHarmonyResult?.vibrant.LightVibrant?.hex }}></span>
-                </p>
-                <p>LightMuted: {this.state.result.colorHarmonyResult?.vibrant.LightMuted?.hex}
-                  <span style={{ display: 'inline-block', height: 30, width: 75, backgroundColor: this.state.result.colorHarmonyResult?.vibrant.LightMuted?.hex }}></span>
-                </p>
-                <p>DarkVibrant: {this.state.result.colorHarmonyResult?.vibrant.DarkVibrant?.hex}
-                  <span style={{ display: 'inline-block', height: 30, width: 75, backgroundColor: this.state.result.colorHarmonyResult?.vibrant.DarkVibrant?.hex }}></span>
-                </p>
-                <p>DarkMuted: {this.state.result.colorHarmonyResult?.vibrant.DarkMuted?.hex}
-                  <span style={{ display: 'inline-block', height: 30, width: 75, backgroundColor: this.state.result.colorHarmonyResult?.vibrant.DarkMuted?.hex }}></span>
-                </p>
-              </div>
-            }
-          </>
-        }
       </div>
     )
   }

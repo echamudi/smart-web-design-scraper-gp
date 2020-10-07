@@ -23,13 +23,11 @@ public class SymmetryResource {
     @PostMapping("/test")
     public Result checkSymmetry(@RequestBody SymmetryCallBody img) {
         // decoding the image...
-        // TODO (1) find a solution for too long String problem of tombcat...
-        // TODO (2) decode the image to a BufferedImage and set it to the following variable ...
         BufferedImage buffimg = decodeImage(img.getImg());
+//            System.out.println("img : " + img) ;
 
-
-        // dummy for later...
         return new Result(horizontalSymmetryTest(buffimg),verticalSymmetryTest(buffimg)) ;
+//        return new Result(51564,91) ;
     }
 
     private static double howDiff(Color c1 , Color c2) {
@@ -62,7 +60,6 @@ public class SymmetryResource {
                 } else {
                     Symmetrical++ ;
 //                    buffImg.setRGB(j,i,0);
-
                 }
             }
         }
@@ -84,7 +81,7 @@ public class SymmetryResource {
 
             for(int j =0 ; j < columns  ; j++ ) {
                 allpixelsVisit++;
-                System.out.println("i = "+ i +" j = "+j + " || " +"k = "+ k + " j = " + j );
+//                System.out.println("i = "+ i +" j = "+j + " || " +"k = "+ k + " j = " + j );
 
                 Color c1 = new Color(img.getRGB(i,j)) ;
                 Color c2 = new Color(img.getRGB(k,j)) ;

@@ -1,10 +1,13 @@
 package models;
 
-public class SymmetryCallBody {
+import javax.annotation.PostConstruct;
+
+
+public class SymmetryCallBody   {
 
     private String img  ;
 
-
+   public SymmetryCallBody() {}
     public SymmetryCallBody(String img) {
         this.img = img;
     }

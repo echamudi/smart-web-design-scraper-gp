@@ -280,7 +280,10 @@ class Analyzer extends React.Component {
                     <table>
                       <tbody>
                         <tr>
-                          <th>Total images</th><td>{this.state.result.picturesResult?.count}</td>
+                          <th>Total images</th><td>{this.state.result.picturesResult?.allCount}</td>
+                        </tr>
+                        <tr>
+                          <th>Total visible images</th><td>{this.state.result.picturesResult?.visibleCount}</td>
                         </tr>
                       </tbody>
                     </table>

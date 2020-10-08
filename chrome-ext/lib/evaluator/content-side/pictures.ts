@@ -1,7 +1,6 @@
 import { PicturesResult, PictureData } from 'Shared/types/factors';
 
 export function pictures(doc: Document): PicturesResult {
-    // get all img
     let picturesResult: PicturesResult = {
         allCount: -1, // All images
         visibleCount: -1, // All visible image in the page
@@ -13,15 +12,35 @@ export function pictures(doc: Document): PicturesResult {
     // get imgs
     const imgs: HTMLImageElement[] = Array.from(doc.images);
     imgs.forEach(el => {
+        const bound = el.getBoundingClientRect();
+
         picturesData.push({
             url: el.src,
             tagName: el.tagName,
             width: el.clientWidth,
             height: el.clientHeight,
             area: el.clientWidth * el.clientHeight,
-            x: el.offsetLeft + el.clientLeft,
-            y: el.offsetTop + el.clientTop,
+            x: bound.left,
+            y: bound.top,
             visible: el.offsetParent !== null
+        })
+    });
+
+    // get svgs
+    const svgs: SVGSVGElement[] = Array.from(doc.getElementsByTagName('svg'));
+    svgs.forEach(el => {
+        const bound = el.getBoundingClientRect();
+        const invisible = bound.x === 0 && bound.y === 0 && bound.width === 0 && bound.height === 0;
+
+        picturesData.push({
+            url: '',
+            tagName: el.tagName,
+            width: el.clientWidth,
+            height: el.clientHeight,
+            area: el.clientWidth * el.clientHeight,
+            x: bound.left,
+            y: bound.top,
+            visible: !invisible
         })
     });
 

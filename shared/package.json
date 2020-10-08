@@ -11,6 +11,7 @@
   "dependencies": {
     "@apollo/client": "^3.2.2",
     "graphql": "^15.3.0",
+    "node-vibrant": "^3.1.5",
     "react": "^16.13.1"
   }
 }

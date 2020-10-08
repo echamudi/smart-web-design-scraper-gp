@@ -1,9 +1,5 @@
-import { Palette } from "node-vibrant/lib/color";
 import Vibrant from "node-vibrant";
-
-export interface ColorHarmonyResult {
-    vibrant: Palette | undefined;
-}
+import { ColorHarmonyResult } from 'Shared/types/factors';
 
 /**
  * 

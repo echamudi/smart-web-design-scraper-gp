@@ -1,38 +1,5 @@
 import { styleElementFactory, getStyleElement } from "../../helpers/style-tools";
-
-export interface TextSizeConfig {
-    /**
-     * Show or hide red markings on result screen
-     */
-    marking: boolean,
-
-    /**
-     * minimum font size threshold
-     */
-    minimumSize: number,
-}
-
-export interface TextSizeResult {
-    /**
-     * total elements with font size under threshold
-     */
-    totalElements: number;
-
-    /**
-     * total characters
-     */
-    totalCharacters: number;
-
-    /**
-     * total characters with font size under threshold
-     */
-    totalSmallCharacters: number;
-
-    /**
-     * Score
-     */
-    score: number;
-}
+import { TextSizeConfig, TextSizeResult } from 'Shared/types/factors';
 
 /**
  * @param doc elements to be evaluated, ideally all elements in the page

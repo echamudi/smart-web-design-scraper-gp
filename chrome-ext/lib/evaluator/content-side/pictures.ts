@@ -1,25 +1,4 @@
-export interface PicturesResult {
-    /**
-     * Number of pictures in the page (visible + invisible)
-     */
-    allCount: number;
-    /**
-     * Number of pictures in the page (visible)
-     */
-    visibleCount: number;
-    data: PictureData[];
-}
-
-type PictureData = {
-    url: string,
-    tagName: string,
-    width: number,
-    height: number,
-    area: number, // width x height
-    x: number,
-    y: number,
-    visible: boolean,
-};
+import { PicturesResult, PictureData } from 'Shared/types/factors';
 
 export function pictures(doc: Document): PicturesResult {
     // get all img

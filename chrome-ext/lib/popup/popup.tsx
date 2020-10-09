@@ -155,7 +155,7 @@ class Analyzer extends React.Component {
           const colorHarmonyResult = await colorHarmony(image);
 
           this.setState((prevState: Readonly<AppState>) => {
-            const result: AnalysisResult = {
+            const result: Partial<AnalysisResult> = {
               ...prevState.result,
               colorHarmonyResult,
             }

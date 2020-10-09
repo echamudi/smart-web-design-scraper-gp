@@ -9,21 +9,21 @@ export interface AnalysisConfig {
 }
 
 export interface AnalysisResult {
-    html?: string;
-    analysisConfig?: AnalysisConfig;
+    html: string;
+    analysisConfig: AnalysisConfig;
 
-    textSizeResult?: TextSizeResult;
-    textFontTypeResult?: TextFontTypeResult;
-    picturesResult?: PicturesResult;
-    colorHarmonyResult?: ColorHarmonyResult;
-    elementCountResult?: ElementCountResult;
-    browserInfoResult?: BrowserInfoResult;
+    textSizeResult: TextSizeResult;
+    textFontTypeResult: TextFontTypeResult;
+    picturesResult: PicturesResult;
+    colorHarmonyResult: ColorHarmonyResult;
+    elementCountResult: ElementCountResult;
+    browserInfoResult: BrowserInfoResult;
 }
 
 export interface AppState {
     analyzingStatus: string;
     config: AnalysisConfig;
-    result: AnalysisResult;
+    result: Partial<AnalysisResult>;
 
     /**
      * viewport snapshot

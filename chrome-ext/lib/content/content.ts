@@ -33,7 +33,7 @@ if ((window as any).SWDS === undefined) {
 
             // Result
 
-            const analysisResult: AnalysisResult = {
+            const analysisResult: Partial<AnalysisResult> = {
                 html,
                 textSizeResult,
                 textFontTypeResult,

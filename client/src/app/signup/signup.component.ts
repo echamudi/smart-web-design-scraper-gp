@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../_services/auth.service';
 import { TokenStorageService } from '../_services/token-storage.service';
+import { login } from 'Shared/apollo-client/auth';
+import { from as observableFrom } from 'rxjs';
 
 @Component({
   selector: 'app-signup',
@@ -30,7 +32,9 @@ export class SignupComponent implements OnInit {
         this.isSuccessful = true;
         this.isSignUpFailed = false;
 
-        this.authService.login(this.form).subscribe(
+        observableFrom(
+          login(this.authService.client, this.form.username, this.form.password)
+        ).subscribe(
           dataLogin => {
             if (dataLogin.errors) {
               this.errorMessage = dataLogin.errors[0].message;

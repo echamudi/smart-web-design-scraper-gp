@@ -1,12 +1,17 @@
-import { ApolloClient, InMemoryCache, NormalizedCacheObject, ApolloQueryResult } from '@apollo/client';
-import { gql } from '@apollo/client';
+import { ApolloClient, InMemoryCache, NormalizedCacheObject, ApolloQueryResult, gql } from '@apollo/client/core';
 
-export function login(client: any, username: string, password: string): Promise<ApolloQueryResult<any>> {
+export function login(client: ApolloClient<NormalizedCacheObject>, username: string, password: string): Promise<ApolloQueryResult<any>> {
     return client
         .query({
             query: gql`query ($username: String!, $password: String!) {
                 login(username: $username, password: $password) {
-                    token
+                success,
+                user {
+                    username,
+                    email,
+                    roles
+                },
+                token
                 }
             }`,
             variables: {

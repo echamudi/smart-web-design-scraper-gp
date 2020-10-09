@@ -21,7 +21,7 @@ if ((window as any).SWDS === undefined) {
             const textSizeResult = textSize(document, config.textSize);
             textSizeStyler(config.textSize);
 
-            const textFontTypeResult = textFontType();
+            const textFontTypeResult = textFontType(window);
 
             const picturesResult = pictures(document);
 

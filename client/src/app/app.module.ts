@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-import { authInterceptorProviders } from './_helper/auth.interceptor';
+// import { authInterceptorProviders } from './_helper/auth.interceptor';
 import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -31,7 +31,9 @@ import { PreviousAnalysisComponent } from './previous-analysis/previous-analysis
     FormsModule,
     HttpClientModule
   ],
-  providers: [authInterceptorProviders],
+  providers: [
+    // authInterceptorProviders
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

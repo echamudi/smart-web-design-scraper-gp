@@ -6,6 +6,7 @@ Smart Web Design Scraper
 
 ```sh
 # Install node modules if it's not installed yet
+(cd shared && npm install)
 (cd client && npm install)
 (cd server && npm install)
 (cd chrome-ext && npm install)
@@ -38,6 +39,7 @@ npm run watch
 
 ```sh
 # Install node modules if it's not installed yet
+(cd shared && npm install)
 (cd client && npm install)
 (cd server && npm install)
 (cd chrome-ext && npm install)

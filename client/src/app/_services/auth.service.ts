@@ -3,11 +3,11 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ApolloClient, InMemoryCache, NormalizedCacheObject } from '@apollo/client/core';
 
-const AUTH_API = 'http://localhost:3001/graphql/';
+// const AUTH_API = 'http://localhost:3001/graphql/';
 
-const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-};
+// const httpOptions = {
+//   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+// };
 
 @Injectable({
   providedIn: 'root'
@@ -47,22 +47,22 @@ export class AuthService {
   //   }, httpOptions);
   // }
 
-  register(user): Observable<any> {
-    return this.http.post(AUTH_API, {
-      query: `
-        mutation ($username: String!, $password: String!, $email: String!) {
-          signup(username: $username, password: $password, email: $email) {
-            success,
-            username,
-            email
-          }
-        }
-      `,
-      variables: {
-        username: user.username,
-        password: user.password,
-        email: user.email
-      }
-    }, httpOptions);
-  }
+  // register(user): Observable<any> {
+  //   return this.http.post(AUTH_API, {
+  //     query: `
+  //       mutation ($username: String!, $password: String!, $email: String!) {
+  //         signup(username: $username, password: $password, email: $email) {
+  //           success,
+  //           username,
+  //           email
+  //         }
+  //       }
+  //     `,
+  //     variables: {
+  //       username: user.username,
+  //       password: user.password,
+  //       email: user.email
+  //     }
+  //   }, httpOptions);
+  // }
 }

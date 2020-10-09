@@ -3,6 +3,7 @@ import { AuthService } from '../_services/auth.service';
 import { TokenStorageService } from '../_services/token-storage.service';
 import { login } from 'Shared/apollo-client/auth';
 import { from as observableFrom } from 'rxjs';
+import { gql } from '@apollo/client/core';
 
 @Component({
   selector: 'app-signup',
@@ -21,10 +22,25 @@ export class SignupComponent implements OnInit {
   }
 
   onSubmit() {
-    this.authService.register(this.form).subscribe(
+    observableFrom(
+      this.authService.client.mutate({
+        mutation: gql`mutation ($username: String!, $password: String!, $email: String!) {
+          signup(username: $username, password: $password, email: $email) {
+            success,
+            username,
+            email
+          }
+        }`,
+        variables: {
+            username: this.form.username,
+            password: this.form.password,
+            email: this.form.email
+        }
+      })
+    ).subscribe(
       data => {
         if (data.errors) {
-          this.errorMessage = data.errors[0].message;
+          this.errorMessage = data.errors?.[0]?.message ?? 'undefined error';
           this.isSignUpFailed = true;
           return;
         }
@@ -56,7 +72,7 @@ export class SignupComponent implements OnInit {
         );
       },
       err => {
-        this.errorMessage = err.error.message;
+        this.errorMessage = err.message;
         this.isSignUpFailed = true;
       }
     );

@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
     ).subscribe(
       data => {
         if (data.errors) {
-          this.errorMessage = data.errors[0].message;
+          this.errorMessage = data.errors?.[0]?.message ?? 'undefined error';
           this.isLoginFailed = true;
           return;
         }
@@ -53,7 +53,7 @@ export class LoginComponent implements OnInit {
         window.location.reload();
       },
       err => {
-        this.errorMessage = err.error.message;
+        this.errorMessage = err.message;
         this.isLoginFailed = true;
       }
     );

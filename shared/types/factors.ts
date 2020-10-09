@@ -1,4 +1,4 @@
-import { Palette } from "ChromeExt/../node_modules/node-vibrant/lib/color";
+import { Palette } from "node-vibrant/lib/color";
 
 // factor id: pictures
 
@@ -75,6 +75,8 @@ export interface TextSizeResult {
 export interface ColorHarmonyResult {
     vibrant: Palette | undefined;
 }
+
+export type ColorHarmonyPallete = Palette;
 
 // factor id: element-count
 

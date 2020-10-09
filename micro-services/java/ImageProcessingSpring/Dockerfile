@@ -69,8 +69,8 @@ COPY opencv-install.sh opencv-install.sh
 RUN chmod +x opencv-install.sh && sync && ./opencv-install.sh
 LABEL maintainer="spring"
 EXPOSE 8080
-USER app
 RUN mkdir /app
+#USER app
 COPY --from=build /home/gradle/src/build/libs/*.jar /app/spring-boot-application.jar
 CMD bash
 #ADD target/build/libs/*.jar app.jar

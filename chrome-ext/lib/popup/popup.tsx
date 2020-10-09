@@ -266,7 +266,7 @@ class Analyzer extends React.Component {
                   <>
                     <h5 className="card-title">Text Font Type</h5>
                     <ul>
-                      {this.state.result.textFontTypeResult?.fonts.map((stack, i) => (
+                      {this.state.result.textFontTypeResult?.usedFonts.map((stack, i) => (
                         <li key={i}>{stack}</li>
                       ))}
                     </ul>

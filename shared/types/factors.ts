@@ -29,9 +29,14 @@ export type PictureData = {
 
 export interface TextFontTypeResult {
     /**
-     * font stacks
+     * all font stacks
      */
-    fonts: string[];
+    stacks: string[];
+
+    /**
+     * The first font of each font stack in allFonts
+     */
+    usedFonts: string[];
 }
 
 // factor id: text-size

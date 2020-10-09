@@ -86,3 +86,11 @@ export interface ElementCountResult {
      */
     list: Record<string, number>;
 }
+
+// factor id: browser-info
+
+export interface BrowserInfoResult {
+    userAgent: string;
+    viewportWidth: number;
+    viewportHeight: number;
+}

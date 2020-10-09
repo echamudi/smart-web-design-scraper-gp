@@ -3,6 +3,7 @@ import { AnalysisConfig, AnalysisResult } from 'Shared/types/types';
 import { textFontType } from '../evaluator/content-side/text-font-type';
 import { pictures } from '../evaluator/content-side/pictures';
 import { elementCount } from '../evaluator/content-side/element-count';
+import { browserInfo } from '../evaluator/content-side/browser-info';
 
 if ((window as any).SWDS === undefined) {
     (window as any).SWDS = {};
@@ -28,6 +29,8 @@ if ((window as any).SWDS === undefined) {
 
             const elementCountResult = elementCount(document);
 
+            const browserInfoResult = browserInfo(window);
+
             // Result
 
             const analysisResult: AnalysisResult = {
@@ -36,7 +39,8 @@ if ((window as any).SWDS === undefined) {
                 textFontTypeResult,
                 analysisConfig: config,
                 picturesResult,
-                elementCountResult
+                elementCountResult,
+                browserInfoResult
             };
 
             // Result

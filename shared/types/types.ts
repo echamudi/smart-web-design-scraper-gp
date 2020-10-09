@@ -1,4 +1,4 @@
-import { TextSizeConfig, TextSizeResult } from "./factors";
+import { TextSizeConfig, TextSizeResult, BrowserInfoResult } from "./factors";
 import { TextFontTypeResult } from "./factors";
 import { PicturesResult } from "./factors";
 import { ColorHarmonyResult } from "./factors";
@@ -17,6 +17,7 @@ export interface AnalysisResult {
     picturesResult?: PicturesResult;
     colorHarmonyResult?: ColorHarmonyResult;
     elementCountResult?: ElementCountResult;
+    browserInfoResult?: BrowserInfoResult;
 }
 
 export interface AppState {

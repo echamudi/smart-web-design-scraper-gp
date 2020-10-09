@@ -13,5 +13,5 @@ export function login(client: any, username: string, password: string): Promise<
                 username,
                 password,
             }
-        })
+        });
 }

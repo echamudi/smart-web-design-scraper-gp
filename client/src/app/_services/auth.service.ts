@@ -15,11 +15,15 @@ const httpOptions = {
 export class AuthService {
 
   client: ApolloClient<NormalizedCacheObject>;
+  uri = 'http://localhost:3001/graphql';
+  cache: InMemoryCache;
 
   constructor(private http: HttpClient) {
+    this.cache = new InMemoryCache();
+
     this.client = new ApolloClient({
-      uri: 'http://localhost:3001/graphql',
-      cache: new InMemoryCache()
+      uri: this.uri,
+      cache: this.cache,
     });
   }
 

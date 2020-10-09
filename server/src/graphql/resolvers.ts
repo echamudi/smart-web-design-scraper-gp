@@ -8,6 +8,7 @@ import { db } from '../models';
 
 const User = db.user;
 const Role = db.role;
+const History = db.history;
 
 export const resolvers: IResolvers = {
     Query: {
@@ -117,7 +118,28 @@ export const resolvers: IResolvers = {
                 username,
                 email
             }
-        }
+        },
+        saveAnalysis: async (parent, args: {data: string}, context: ContextInterface, info) => {
+            const uid = context.user?.id;
+
+            if (typeof uid !== 'string') {
+                return new Error('user is not logged in');
+            }
+
+            const analysis = new History({
+                owner: uid,
+                data: 'Tralala'
+            });
+
+            const savedAnalysis = await analysis.save();
+
+            if (!savedAnalysis) {
+                return new Error('Something is wrong while saving analysis');
+            }
+
+            console.log(context);
+            return true;
+        },
     },
     User: {
         username: async (parent, args, context: ContextInterface, info) => {

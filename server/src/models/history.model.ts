@@ -1,7 +1,7 @@
 import mongoose, { Schema, Document } from "mongoose";
 
 export interface HistoryInterface extends Document {
-    owner: string,
+    owner: mongoose.Types.ObjectId,
     data: string,
     createdAt?: Date,
     updatedAt?: Date

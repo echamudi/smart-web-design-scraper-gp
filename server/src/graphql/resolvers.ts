@@ -2,6 +2,7 @@ import { IResolverObject, IResolvers, IFieldResolver } from 'apollo-server';
 import jwt, { VerifyErrors } from 'jsonwebtoken';
 import config from '../configs/auth.config';
 import bcrypt from 'bcryptjs';
+import mongoose from 'mongoose';
 import { context, ContextInterface } from './context';
 
 import { db } from '../models';
@@ -55,6 +56,24 @@ export const resolvers: IResolvers = {
                 return {};
             } else {
                 return null;
+            }
+        },
+        getAnalysis: async (parent, args: {id: string}, context: ContextInterface, info) => {
+            const uid = context.user?.id;
+
+            if (typeof uid !== 'string') {
+                return new Error('user is not logged in');
+            }
+
+            const analysis = await History.findOne({ _id: args.id });
+
+            if (!analysis?.owner.equals(uid)) {
+                return new Error('user doesn\'t have previledge to see the document');
+            }
+
+            return {
+                date: analysis?.createdAt,
+                data: analysis?.data
             }
         }
     },
@@ -160,5 +179,5 @@ export const resolvers: IResolvers = {
         isAdmin: async (parent, args, context: ContextInterface, info) => {
             return context.isAdmin;
         },
-    }
+    },
 };

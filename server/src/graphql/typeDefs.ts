@@ -4,6 +4,12 @@ export const typeDefs = gql`
     type Query {
         getCurrentUser: User
         login(username: String!, password: String!): LoginResult
+        getAnalysis(id: ID!): Analysis
+    }
+
+    type Analysis {
+        date: String
+        data: String
     }
 
     type User {

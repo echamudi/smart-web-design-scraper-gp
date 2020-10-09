@@ -70,10 +70,10 @@ RUN chmod +x opencv-install.sh && sync && ./opencv-install.sh
 LABEL maintainer="spring"
 EXPOSE 8080
 USER app
-RUN mkdir /home/app2
-COPY --from=build /home/gradle/src/build/libs/*.jar /home/app2/spring-boot-application.jar
+RUN mkdir /app
+COPY --from=build /home/gradle/src/build/libs/*.jar /app/spring-boot-application.jar
 CMD bash
 #ADD target/build/libs/*.jar app.jar
 
-ENTRYPOINT ["java", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseCGroupMemoryLimitForHeap", "-Djava.security.egd=file:/dev/./urandom","-jar","/home/app2/spring-boot-application.jar"]
+ENTRYPOINT ["java", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseCGroupMemoryLimitForHeap", "-Djava.security.egd=file:/dev/./urandom","-jar","/app/spring-boot-application.jar"]
 #ENTRYPOINT ["java","-jar","/app.jar"]

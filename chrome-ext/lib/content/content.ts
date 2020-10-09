@@ -2,6 +2,7 @@ import { textSize, textSizeStyler } from '../evaluator/content-side/text-size';
 import { AnalysisConfig, AnalysisResult } from 'Shared/types/types';
 import { textFontType } from '../evaluator/content-side/text-font-type';
 import { pictures } from '../evaluator/content-side/pictures';
+import { elementCount } from '../evaluator/content-side/element-count';
 
 if ((window as any).SWDS === undefined) {
     (window as any).SWDS = {};
@@ -25,6 +26,8 @@ if ((window as any).SWDS === undefined) {
 
             const picturesResult = pictures(document);
 
+            const elementCountResult = elementCount(document);
+
             // Result
 
             const analysisResult: AnalysisResult = {
@@ -33,6 +36,7 @@ if ((window as any).SWDS === undefined) {
                 textFontTypeResult,
                 analysisConfig: config,
                 picturesResult,
+                elementCountResult
             };
 
             // Result

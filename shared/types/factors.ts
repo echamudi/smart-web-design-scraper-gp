@@ -75,3 +75,14 @@ export interface TextSizeResult {
 export interface ColorHarmonyResult {
     vibrant: Palette | undefined;
 }
+
+// factor id: element-count
+
+export interface ElementCountResult {
+    count: number;
+
+    /**
+     * Count of each tag name
+     */
+    list: Record<string, number>;
+}

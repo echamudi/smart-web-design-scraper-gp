@@ -1,8 +1,10 @@
 package com.sdws.ImageProcessingSpring.resources;
 
 
-import com.sdws.ImageProcessingSpring.models.Result;
+import com.sdws.ImageProcessingSpring.models.SymmetryHorizontalResult;
+import com.sdws.ImageProcessingSpring.models.SymmetryResult;
 import com.sdws.ImageProcessingSpring.models.SymmetryCallBody;
+import com.sdws.ImageProcessingSpring.models.SymmetryVerticalResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,13 +24,12 @@ public class SymmetryResource {
 
 
     @PostMapping("/test")
-    public Result checkSymmetry(@RequestBody SymmetryCallBody img) {
+    public SymmetryResult checkSymmetry(@RequestBody SymmetryCallBody img) {
         // decoding the image...
         BufferedImage buffimg = decodeImage(img.getImg());
 //            System.out.println("img : " + img) ;
 
-        return new Result(horizontalSymmetryTest(buffimg),verticalSymmetryTest(buffimg)) ;
-//        return new Result(51564,91) ;
+        return new SymmetryResult(horizontalSymmetryTest(buffimg),verticalSymmetryTest(buffimg)) ;
     }
 
     private static double howDiff(Color c1 , Color c2) {
@@ -39,7 +40,7 @@ public class SymmetryResource {
     }
 
 
-    private static double verticalSymmetryTest(BufferedImage buffImg)  {
+    private static SymmetryVerticalResult verticalSymmetryTest(BufferedImage buffImg)  {
         int rows = buffImg.getWidth() ;
         int columns = buffImg.getHeight() ;
         int allVisited = 0 ;
@@ -64,15 +65,17 @@ public class SymmetryResource {
                 }
             }
         }
-        System.out.println("all visited : " +allVisited) ;
-        System.out.println( "mv symmetric = " + Symmetrical);
-        System.out.println( "mv No symmetric = " + nonSymmetrical);
+//        System.out.println("all visited : " +allVisited) ;
+//        System.out.println( "mv symmetric = " + Symmetrical);
+//        System.out.println( "mv No symmetric = " + nonSymmetrical);
 //        ImageIO.write(buffImg,"PNG",new File("/home/tatsujin/test-tralala.png"));
-        return ((double)Symmetrical/(double)allVisited) * 100 ;
+        double percentage = ((double)Symmetrical/(double)allVisited) * 100 ;
+
+        return new SymmetryVerticalResult(percentage,allVisited , Symmetrical , nonSymmetrical ) ;
     }
 
 
-    private  double horizontalSymmetryTest(BufferedImage img) {
+    private  SymmetryHorizontalResult horizontalSymmetryTest(BufferedImage img) {
         int rows = img.getWidth() ;
         int columns = img.getHeight() ;
         int HorizontalnonSymmetricalPixel =  0 ;
@@ -99,7 +102,9 @@ public class SymmetryResource {
         System.out.println( "m symmetric = " + HorizontalsymmetricalPixel);
         System.out.println( "m No symmetric = " + HorizontalnonSymmetricalPixel);
 */
-        return ((double)HorizontalsymmetricalPixel/(double)allpixelsVisit ) *100 ;
+        double percentage = ((double)HorizontalsymmetricalPixel/(double)allpixelsVisit ) *100 ;
+
+        return new SymmetryHorizontalResult(percentage , allpixelsVisit,HorizontalsymmetricalPixel , HorizontalnonSymmetricalPixel);
     }
 
 

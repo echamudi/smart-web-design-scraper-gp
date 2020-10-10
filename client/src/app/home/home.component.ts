@@ -13,7 +13,7 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onSubmit(url, size): void {
-    this.router.navigateByUrl(`analysis-result?url=${encodeURI(url)}&size=${encodeURI(size)}`);
-  }
+  // onSubmit(url, size): void {
+  //   this.router.navigateByUrl(`analysis-result?url=${encodeURI(url)}&size=${encodeURI(size)}`);
+  // }
 }

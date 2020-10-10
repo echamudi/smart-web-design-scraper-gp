@@ -1,3 +1,5 @@
+## Github NodeJS ignores
+
 # Logs
 logs
 *.log
@@ -113,3 +115,7 @@ dist
 .yarn/unplugged
 .yarn/build-state.yml
 .pnp.*
+
+## mongodb container volume
+
+/mongo/db

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-const AUTH_API = 'http://localhost:3302/api/auth/';
+const AUTH_API = 'http://localhost:3001/graphql/';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -16,17 +16,41 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   login(credentials): Observable<any> {
-    return this.http.post(AUTH_API + 'signin', {
-      username: credentials.username,
-      password: credentials.password
+    return this.http.post(AUTH_API, {
+      query: `query ($username: String!, $password: String!) {
+          login(username: $username, password: $password) {
+              success,
+              user {
+                  username,
+                  email,
+                  roles
+              },
+              token
+          }
+      }`,
+      variables: {
+        username: credentials.username,
+        password: credentials.password
+      }
     }, httpOptions);
   }
 
   register(user): Observable<any> {
-    return this.http.post(AUTH_API + 'signup', {
-      username: user.username,
-      email: user.email,
-      password: user.password
+    return this.http.post(AUTH_API, {
+      query: `
+        mutation ($username: String!, $password: String!, $email: String!) {
+          signup(username: $username, password: $password, email: $email) {
+            success,
+            username,
+            email
+          }
+        }
+      `,
+      variables: {
+        username: user.username,
+        password: user.password,
+        email: user.email
+      }
     }, httpOptions);
   }
 }

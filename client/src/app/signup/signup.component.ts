@@ -21,15 +21,28 @@ export class SignupComponent implements OnInit {
   onSubmit() {
     this.authService.register(this.form).subscribe(
       data => {
-        console.log(data);
+        if (data.errors) {
+          this.errorMessage = data.errors[0].message;
+          this.isSignUpFailed = true;
+          return;
+        }
+
         this.isSuccessful = true;
         this.isSignUpFailed = false;
 
-        // Login
         this.authService.login(this.form).subscribe(
           dataLogin => {
-            this.tokenStorage.saveToken(dataLogin.accessToken);
-            this.tokenStorage.saveUser(dataLogin);
+            if (dataLogin.errors) {
+              this.errorMessage = dataLogin.errors[0].message;
+              this.isSignUpFailed = true;
+              return;
+            }
+
+            this.tokenStorage.saveToken(dataLogin.data.login.token);
+            this.tokenStorage.saveUser({
+              username: dataLogin.data.login.user.username,
+              roles: dataLogin.data.login.user.roles
+            });
 
             window.location.reload();
           },

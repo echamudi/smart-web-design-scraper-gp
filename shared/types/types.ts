@@ -24,6 +24,7 @@ export interface AppState {
     analyzingStatus: string;
     config: AnalysisConfig;
     result: Partial<AnalysisResult>;
+    lastReceiptId?: string,
 
     /**
      * viewport snapshot

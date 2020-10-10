@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { AppState, AnalysisConfig, AnalysisResult } from 'Shared/types/types';
 import { ColorHarmonyResult } from 'Shared/types/factors';
 import { colorHarmony } from '../evaluator/extension-side/color-harmony';
-import { ApolloClient, InMemoryCache, NormalizedCacheObject } from 'Shared/node_modules/@apollo/client/core';
+import { ApolloClient, InMemoryCache, NormalizedCacheObject, gql } from 'Shared/node_modules/@apollo/client/core';
 import { login } from 'Shared/apollo-client/auth'
 
 const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
@@ -130,6 +130,7 @@ class Analyzer extends React.Component {
     },
     result: {},
     snapshot: null,
+    lastReceiptId: undefined
   };
 
   constructor(props: any) {
@@ -141,18 +142,21 @@ class Analyzer extends React.Component {
     this.analyzeHandler = this.analyzeHandler.bind(this);
     this.marktextSizeToggle = this.marktextSizeToggle.bind(this);
     this.setMinimumFontSize = this.setMinimumFontSize.bind(this);
+    this.openQuickReport = this.openQuickReport.bind(this);
   }
 
   async analyzeHandler() {
     const tabId = await init();
-    this.setState(() => ({ analyzingStatus: 'Please wait...' }));
+    this.setState(() => ({ analyzingStatus: 'Please wait...', lastReceiptId: undefined }));
 
+    // Get screenshots
     const image: string = await new Promise<string>((resolve, reject) => {
       chrome.tabs.captureVisibleTab({}, async (image) => {
         resolve(image);
       });
     });
 
+    // Calculate all values
     let [analysisResult, colorHarmonyResult] = await Promise.all([
       new Promise<Partial<AnalysisResult>>((resolve, reject) => {
         chrome.tabs.sendMessage(tabId, { message: "analyze", config: this.state.config }, (response: Partial<AnalysisResult>) => {
@@ -167,12 +171,38 @@ class Analyzer extends React.Component {
       })
     ]);
 
+    // Combine contentside result with extensionside result
     analysisResult = {
       ...analysisResult,
+      html: '', // remove html for now
       colorHarmonyResult
     };
 
-    this.setState(() => ({ analyzingStatus: 'Done!', result: analysisResult, snapshot: image }));
+    // Get token
+    const token: string = await new Promise<string>((resolve, reject) => {
+      chrome.storage.local.get('token', (items) => {
+        resolve(items.token);
+      });
+    });
+
+    // Send result to server
+    const sentReceipt = await client.mutate({
+      mutation: gql`mutation ($data: String!) {
+        saveAnalysis(data: $data)
+      }`,
+      variables: {
+        data: JSON.stringify(analysisResult)
+      },
+      context: {
+          headers: {
+            'x-access-token': token
+          }
+      }
+    });
+
+    console.log('sentReceipt', sentReceipt);
+
+    this.setState(() => ({ analyzingStatus: 'Done!', result: analysisResult, snapshot: image, lastReceiptId: sentReceipt.data?.saveAnalysis }));
   };
 
   marktextSizeToggle(e: React.ChangeEvent<HTMLInputElement>) {
@@ -204,8 +234,14 @@ class Analyzer extends React.Component {
     });
   }
 
+  openQuickReport() {
+    if (typeof this.state.lastReceiptId === 'string' && this.state.lastReceiptId.length > 1) {
+      chrome.tabs.create({ url: 'http://localhost:3000/analysis-result?q=' + this.state.lastReceiptId });
+    }
+  }
+
   render() {
-    return (
+    return ( 
       <div>
         <div className="card">
           <div className="card-header">
@@ -230,12 +266,12 @@ class Analyzer extends React.Component {
         <div className="card" style={{marginTop: '20px'}}>
           <div className="card-body">
             {
-              this.state.result?.html &&
-              <button type="button" className="btn btn-primary" onClick={() => {}}>Open Report</button>
+              this.state.lastReceiptId &&
+              <button type="button" className="btn btn-primary" onClick={this.openQuickReport}>Open Report</button>
             }
           </div>
+          {/*
           <div className="card-body">
-            {/* <div>{this.state.analyzingStatus}</div> */}
             {
               this.state.result &&
               <>
@@ -326,7 +362,8 @@ class Analyzer extends React.Component {
               </>
             }
           </div>
-        </div>
+          */}
+          </div>
       </div>
     )
   }

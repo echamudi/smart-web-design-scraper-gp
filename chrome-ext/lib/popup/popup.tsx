@@ -146,29 +146,27 @@ class Analyzer extends React.Component {
     const tabId = await init();
     this.setState(() => ({ analyzingStatus: 'Please wait...' }));
 
-    setTimeout(() => {
-      chrome.tabs.sendMessage(tabId, { message: "analyze", config: this.state.config }, (response: AnalysisResult) => {
-        console.log(response);
+    chrome.tabs.sendMessage(tabId, { message: "analyze", config: this.state.config }, (response: AnalysisResult) => {
+      console.log(response);
 
-        chrome.tabs.captureVisibleTab({}, async (image) => {
-          const colorHarmonyResult = await colorHarmony(image);
+      chrome.tabs.captureVisibleTab({}, async (image) => {
+        const colorHarmonyResult = await colorHarmony(image);
 
-          this.setState((prevState: Readonly<AppState>) => {
-            const result: Partial<AnalysisResult> = {
-              ...prevState.result,
-              colorHarmonyResult,
-            }
+        this.setState((prevState: Readonly<AppState>) => {
+          const result: Partial<AnalysisResult> = {
+            ...prevState.result,
+            colorHarmonyResult,
+          }
 
-            return {
-              result,
-              snapshot: image
-            };
-          });
+          return {
+            result,
+            snapshot: image
+          };
         });
-
-        this.setState(() => ({ analyzingStatus: 'Done!', result: response }));
       });
-    }, 100);
+
+      this.setState(() => ({ analyzingStatus: 'Done!', result: response }));
+    });
   };
 
   marktextSizeToggle(e: React.ChangeEvent<HTMLInputElement>) {
@@ -224,6 +222,12 @@ class Analyzer extends React.Component {
         </div>
 
         <div className="card" style={{marginTop: '20px'}}>
+          <div className="card-body">
+            {
+              this.state.result?.html &&
+              <button type="button" className="btn btn-primary" onClick={() => {}}>Open Report</button>
+            }
+          </div>
           <div className="card-body">
             {/* <div>{this.state.analyzingStatus}</div> */}
             {

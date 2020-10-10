@@ -147,7 +147,7 @@ export const resolvers: IResolvers = {
 
             const analysis = new History({
                 owner: uid,
-                data: 'Tralala'
+                data: args.data
             });
 
             const savedAnalysis = await analysis.save();
@@ -156,8 +156,7 @@ export const resolvers: IResolvers = {
                 return new Error('Something is wrong while saving analysis');
             }
 
-            console.log(context);
-            return true;
+            return analysis.id;
         },
     },
     User: {

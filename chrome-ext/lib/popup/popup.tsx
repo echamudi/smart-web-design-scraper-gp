@@ -1,6 +1,7 @@
 import React, { SyntheticEvent } from 'react';
 import ReactDOM from 'react-dom';
 import { AppState, AnalysisConfig, AnalysisResult } from 'Shared/types/types';
+import { ColorHarmonyResult } from 'Shared/types/factors';
 import { colorHarmony } from '../evaluator/extension-side/color-harmony';
 import { ApolloClient, InMemoryCache, NormalizedCacheObject } from 'Shared/node_modules/@apollo/client/core';
 import { login } from 'Shared/apollo-client/auth'
@@ -146,27 +147,32 @@ class Analyzer extends React.Component {
     const tabId = await init();
     this.setState(() => ({ analyzingStatus: 'Please wait...' }));
 
-    chrome.tabs.sendMessage(tabId, { message: "analyze", config: this.state.config }, (response: AnalysisResult) => {
-      console.log(response);
-
+    const image: string = await new Promise<string>((resolve, reject) => {
       chrome.tabs.captureVisibleTab({}, async (image) => {
-        const colorHarmonyResult = await colorHarmony(image);
-
-        this.setState((prevState: Readonly<AppState>) => {
-          const result: Partial<AnalysisResult> = {
-            ...prevState.result,
-            colorHarmonyResult,
-          }
-
-          return {
-            result,
-            snapshot: image
-          };
-        });
+        resolve(image);
       });
-
-      this.setState(() => ({ analyzingStatus: 'Done!', result: response }));
     });
+
+    let [analysisResult, colorHarmonyResult] = await Promise.all([
+      new Promise<Partial<AnalysisResult>>((resolve, reject) => {
+        chrome.tabs.sendMessage(tabId, { message: "analyze", config: this.state.config }, (response: Partial<AnalysisResult>) => {
+          resolve(response);
+        });
+      }),
+      new Promise<ColorHarmonyResult>((resolve, reject) => {
+        chrome.tabs.captureVisibleTab({}, async (image) => {
+          const result = await colorHarmony(image);
+          resolve(result);
+        });
+      })
+    ]);
+
+    analysisResult = {
+      ...analysisResult,
+      colorHarmonyResult
+    };
+
+    this.setState(() => ({ analyzingStatus: 'Done!', result: analysisResult, snapshot: image }));
   };
 
   marktextSizeToggle(e: React.ChangeEvent<HTMLInputElement>) {

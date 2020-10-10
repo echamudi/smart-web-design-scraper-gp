@@ -23,7 +23,7 @@ export class AuthService {
 
     this.client = new ApolloClient({
       uri: this.uri,
-      cache: this.cache,
+      cache: this.cache
     });
   }
 

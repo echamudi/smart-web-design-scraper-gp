@@ -45,7 +45,7 @@ if ((window as any).SWDS === undefined) {
 
             // Result
             sendResponse(analysisResult);
-            return;
+            // return;
         };
     });
 }

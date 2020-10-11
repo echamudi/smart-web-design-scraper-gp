@@ -175,8 +175,13 @@ class Analyzer extends React.Component {
     analysisResult = {
       ...analysisResult,
       html: '', // remove html for now
-      colorHarmonyResult
+      colorHarmonyResult,
+      screenshot: image
     };
+
+    // if (this.state.snapshot) {
+    //   analysisResult.screnshot = this.state.snapshot;
+    // }
 
     // Get token
     const token: string = await new Promise<string>((resolve, reject) => {

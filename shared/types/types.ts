@@ -12,6 +12,7 @@ export interface AnalysisResult {
     html: string;
     analysisConfig: AnalysisConfig;
 
+    screenshot: string;
     textSizeResult: TextSizeResult;
     textFontTypeResult: TextFontTypeResult;
     picturesResult: PicturesResult;

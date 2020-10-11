@@ -8,6 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AnalysisResult } from 'Shared/types/types';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { MatSliderChange } from '@angular/material/slider';
+import { TextSizeResult, TextSizeConfig } from 'Shared/types/factors';
 
 @Component({
   selector: 'app-analysis-result',
@@ -72,17 +73,7 @@ export class AnalysisResultComponent implements OnInit {
           this.analysisResultRaw = JSON.stringify(this.analysisResult, null, 2);
 
           console.log('analysisResult', this.analysisResult);
-
-          // Factor Item: Text Size
-          this.fiTextSizeBarData = Object
-            .keys(this.analysisResult.textSizeResult.textSizeMap)
-            .sort((a, b) => Number(a) - Number(b))
-            .map((key) => ({
-              name: key + 'px',
-              value: this.analysisResult.textSizeResult.textSizeMap[key]
-            }));
-
-          this.fiTextSizeUpdateScore();
+          this.buildReport();
         },
         err => {
           console.log('err', err);
@@ -92,21 +83,43 @@ export class AnalysisResultComponent implements OnInit {
     });
   }
 
+  buildReport() {
+    // Factor Item: Text Size
+    this.fiTextSizeBarData = Object
+      .keys(this.analysisResult.textSizeResult.textSizeMap)
+      .sort((a, b) => Number(a) - Number(b))
+      .map((key) => ({
+        name: key + 'px',
+        value: this.analysisResult.textSizeResult.textSizeMap[key]
+      }));
+
+    this.fiTextSizeUpdateScore({
+      allChars: this.analysisResult.textSizeResult.totalCharacters,
+      textSizeMap: this.analysisResult.textSizeResult.textSizeMap,
+      minimumSize: this.analysisResult.analysisConfig.textSize.minimumSize
+    });
+  }
+
   // Factor Item: Text Size
   fiTextSizeMinimumSizeChange(el: MatSliderChange) {
     this.analysisResult.analysisConfig.textSize.minimumSize = el.value;
 
-    this.fiTextSizeUpdateScore();
-
-    console.log(this.analysisResult.analysisConfig.textSize.minimumSize);
+    this.fiTextSizeUpdateScore({
+      allChars: this.analysisResult.textSizeResult.totalCharacters,
+      textSizeMap: this.analysisResult.textSizeResult.textSizeMap,
+      minimumSize: this.analysisResult.analysisConfig.textSize.minimumSize
+    });
   }
 
-  fiTextSizeUpdateScore() {
-    const allChars: number = this.analysisResult.textSizeResult.totalCharacters;
+  fiTextSizeUpdateScore({allChars, textSizeMap, minimumSize}: {
+    allChars: TextSizeResult['totalCharacters'],
+    textSizeMap: TextSizeResult['textSizeMap'],
+    minimumSize: TextSizeConfig['minimumSize']
+  }) {
     const affectedChars: number = Object
-      .keys(this.analysisResult.textSizeResult.textSizeMap)
-      .filter((size) => Number(size) < this.analysisResult.analysisConfig.textSize.minimumSize)
-      .reduce((prev, curr) => prev += this.analysisResult.textSizeResult.textSizeMap[curr], 0);
+      .keys(textSizeMap)
+      .filter((size) => Number(size) < minimumSize)
+      .reduce((prev, curr) => prev += textSizeMap[curr], 0);
     const nonAffectedChars: number = allChars - affectedChars;
 
     this.fiTextSizeScore = Math.floor(nonAffectedChars * 100 / allChars);

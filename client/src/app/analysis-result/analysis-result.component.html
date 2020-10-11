@@ -88,7 +88,7 @@
                 </div>
 
                 <div *ngIf="currentPage == 'Text Size'">
-                  <h3>Text Sizes</h3>
+                  <h3>Text Size Distribution</h3>
                   <ngx-charts-bar-vertical
                     style="display: block;"
                     [showDataLabel]="true"
@@ -104,10 +104,10 @@
                   <hr>
 
                   <h3>Config</h3>
-                  <mat-slider style="width: 300px" min="0" max="50" step="1" thumbLabel
+                  <p><b>Minimum Text Size:</b> {{ this.analysisResult.analysisConfig.textSize.minimumSize }} px</p>
+                  <mat-slider style="width: 500px" min="0" max="30" step="1" thumbLabel
                   [value]="this.analysisResult.analysisConfig.textSize.minimumSize"
                   (change)="fiTextSizeMinimumSizeChange($event)"></mat-slider>
-                  <p><b>Minimum Text Size:</b> {{ this.analysisResult.analysisConfig.textSize.minimumSize }} px</p>
                   <hr>
 
                   <h3>Score</h3>

@@ -67,9 +67,23 @@
               <div class="col-9">
                 <div *ngIf="currentPage == 'Home'">
                   <div class="h3">URL</div>
-                  <p>{{ analysisResult.browserInfoResult.url }}</p>
-                  <div class="h3">Screenshot</div>
-                  <img [src]="analysisResult.screenshot" alt="" width="100%">
+                    <a [href]="analysisResult.browserInfoResult.url">{{ analysisResult.browserInfoResult.url }}</a>
+                  <hr>
+                  <div class="h3">Viewport Snapshot</div>
+                  <table class="table table-bordered">
+                    <tr>
+                      <td></td>
+                      <td style="text-align: center;"><b>Viewport Width:</b> {{analysisResult.browserInfoResult.viewportWidth}}px</td>
+                    </tr>
+                    <tr>
+                      <td style="vertical-align: middle;">
+                        <span style="writing-mode: vertical-rl;">
+                          <b>Viewport Height:</b> {{analysisResult.browserInfoResult.viewportHeight}}px
+                        </span>
+                      </td>
+                      <td><img [src]="analysisResult.screenshot" alt="" width="100%"></td>
+                    </tr>
+                  </table>
                 </div>
 
                 <div *ngIf="currentPage == 'Raw JSON'">

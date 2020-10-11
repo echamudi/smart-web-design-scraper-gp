@@ -65,9 +65,11 @@ export class AnalysisResultComponent implements OnInit {
           this.showResult = true;
           this.analysisResult = JSON.parse(data.data.getAnalysis.data);
           this.analysisResultRaw = JSON.stringify(this.analysisResult, null, 2);
+
+          console.log('analysisResult', this.analysisResult);
         },
         err => {
-          console.log(err);
+          console.log('err', err);
           this.showError = true;
         }
       );

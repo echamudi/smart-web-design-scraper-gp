@@ -46,6 +46,9 @@
                     Text Size
                     <span class="badge badge-primary badge-pill">{{ this.fiTextSizeScore }}</span>
                   </button>
+                  <button type="button" class="list-group-item d-flex justify-content-between align-items-center" [ngClass]="{'active': currentPage === 'Type of Font'}" (click)="currentPage = 'Type of Font'">
+                    Type of Font
+                  </button>
 
                   <button type="button" class="list-group-item list-group-item-action list-header" disabled>
                     Color Usage
@@ -136,11 +139,38 @@
                   </div>
                 </div>
 
+                <div *ngIf="currentPage == 'Type of Font'">
+                  <h3>
+                    Used Fonts
+                  </h3>
+                  <p>
+                    {{ analysisResult.textFontTypeResult.usedFonts.join(', ') }}
+                  </p>
+                  <hr>
+
+                  <h3>
+                    All Font Stacks
+                  </h3>
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Stack</th>
+                      </tr>
+                    </thead>
+                    <tr *ngFor="let item of analysisResult.textFontTypeResult.stacks; let i = index">
+                      <td>{{ i }}</td>
+                      <td>{{ item }}</td>
+                    </tr>
+                  </table>
+                </div>
+
                 <div *ngIf="currentPage == 'Raw JSON'">
                   <pre>
 {{ analysisResultRaw }}
                   </pre>
                 </div>
+
               </div>
             </div>
           </div>

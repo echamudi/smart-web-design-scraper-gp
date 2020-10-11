@@ -58,6 +58,13 @@
                   </button>
 
                   <button type="button" class="list-group-item list-group-item-action list-header" disabled>
+                    Other Data
+                  </button>
+                  <button type="button" class="list-group-item list-group-item-action" [ngClass]="{'active': currentPage === 'Element Count'}" (click)="currentPage = 'Element Count'">
+                    Element Count
+                  </button>
+
+                  <button type="button" class="list-group-item list-group-item-action list-header" disabled>
                     Debug
                   </button>
                   <button type="button" class="list-group-item list-group-item-action" [ngClass]="{'active': currentPage === 'Raw JSON'}" (click)="currentPage = 'Raw JSON'">
@@ -120,6 +127,8 @@
                     [showXAxisLabel]="true"
                     [showYAxisLabel]="true"
                     [view]="[600, 300]"
+                    [xAxisLabel]="'Text Size'"
+                    [yAxisLabel]="'Total Characters'"
                     >
                   </ngx-charts-bar-vertical>
                   <div class="clearfix"></div>
@@ -165,6 +174,20 @@
                       <td>{{ item }}</td>
                     </tr>
                   </table>
+                </div>
+                <div *ngIf="currentPage == 'Element Count'">
+                  <h3>Element Tag Distribution</h3>
+                  <ngx-charts-bar-horizontal
+                  [view]="[500, fiElementCountBarData.length * 50]"
+                  [showDataLabel]="true"
+                  [results]="fiElementCountBarData"
+                  [xAxis]="true"
+                  [yAxis]="true"
+                  [showXAxisLabel]="true"
+                  [showYAxisLabel]="true"
+                  [xAxisLabel]="'count'"
+                  >
+                  </ngx-charts-bar-horizontal>
                 </div>
 
                 <div *ngIf="currentPage == 'Raw JSON'">

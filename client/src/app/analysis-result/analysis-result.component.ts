@@ -36,6 +36,8 @@ export class AnalysisResultComponent implements OnInit {
 
   fiColorHarmonyVibrantItems: {name: string, r: number, g: number, b: number}[] = [];
 
+  fiElementCountBarData: {name: string, value: number}[] = [];
+
   ngOnInit(): void {
     this.showResult = false;
     this.showError = false;
@@ -109,6 +111,15 @@ export class AnalysisResultComponent implements OnInit {
         g: this.analysisResult.colorHarmonyResult.vibrant[key].rgb[1],
         b: this.analysisResult.colorHarmonyResult.vibrant[key].rgb[2]
       }));
+
+    // Factor Item: Element Count
+    this.fiElementCountBarData = Object
+    .keys(this.analysisResult.elementCountResult.list)
+    .sort((a, b) => a.localeCompare(b))
+    .map((key) => ({
+      name: key,
+      value: this.analysisResult.elementCountResult.list[key]
+    }));
   }
 
   // Factor Item: Text Size

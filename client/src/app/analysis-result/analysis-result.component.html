@@ -89,7 +89,28 @@
                 </div>
 
                 <div *ngIf="currentPage == 'Text Size'">
+                  <h3>Score</h3>
+                  <ngx-charts-gauge
+                    [view]="[500, 300]"
+                    [scheme]="{
+                      domain: ['#5AA454']
+                    }"
+                    [min]="0"
+                    [max]="100"
+                    [results]="[{name: 'Score', value: fiTextSizeScore}]">
+                  </ngx-charts-gauge>
+                  <div class="clearfix"></div>
+                  <hr>
+
+                  <h3>Config</h3>
+                  <p><b>Minimum Text Size:</b> {{ this.analysisResult.analysisConfig.textSize.minimumSize }} px</p>
+                  <mat-slider style="width: 500px" min="0" max="30" step="1" thumbLabel
+                  [value]="this.analysisResult.analysisConfig.textSize.minimumSize"
+                  (change)="fiTextSizeMinimumSizeChange($event)"></mat-slider>
+                  <hr>
+
                   <h3>Text Size Distribution</h3>
+                  <p>Character count based on text size</p>
                   <ngx-charts-bar-vertical
                     style="display: block;"
                     [showDataLabel]="true"
@@ -102,26 +123,7 @@
                     >
                   </ngx-charts-bar-vertical>
                   <div class="clearfix"></div>
-                  <hr>
 
-                  <h3>Config</h3>
-                  <p><b>Minimum Text Size:</b> {{ this.analysisResult.analysisConfig.textSize.minimumSize }} px</p>
-                  <mat-slider style="width: 500px" min="0" max="30" step="1" thumbLabel
-                  [value]="this.analysisResult.analysisConfig.textSize.minimumSize"
-                  (change)="fiTextSizeMinimumSizeChange($event)"></mat-slider>
-                  <hr>
-
-                  <h3>Score</h3>
-                  <ngx-charts-gauge
-                    [view]="[500, 400]"
-                    [scheme]="{
-                      domain: ['#5AA454']
-                    }"
-                    [min]="0"
-                    [max]="100"
-                    [results]="[{name: 'Score', value: fiTextSizeScore}]">
-                  </ngx-charts-gauge>
-                  <div class="clearfix"></div>
                 </div>
 
                 <div *ngIf="currentPage == 'Color Harmony'">

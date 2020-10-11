@@ -6,6 +6,8 @@ import { from as observableFrom } from 'rxjs';
 import { gql } from '@apollo/client/core';
 import { ActivatedRoute } from '@angular/router';
 import { AnalysisResult } from 'Shared/types/types';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { MatSliderChange } from '@angular/material/slider';
 
 @Component({
   selector: 'app-analysis-result',
@@ -28,6 +30,9 @@ export class AnalysisResultComponent implements OnInit {
   // vibrants: {name, hex}[];
   currentPage: string;
   analysisResult: Partial<AnalysisResult>;
+
+  fiTextSizeBarData: {name: string, value: number}[] = [];
+  fiTextSizeScore: number = 0;
 
   ngOnInit(): void {
     this.showResult = false;
@@ -67,6 +72,17 @@ export class AnalysisResultComponent implements OnInit {
           this.analysisResultRaw = JSON.stringify(this.analysisResult, null, 2);
 
           console.log('analysisResult', this.analysisResult);
+
+          // Factor Item: Text Size
+          this.fiTextSizeBarData = Object
+            .keys(this.analysisResult.textSizeResult.textSizeMap)
+            .sort((a, b) => Number(a) - Number(b))
+            .map((key) => ({
+              name: key + 'px',
+              value: this.analysisResult.textSizeResult.textSizeMap[key]
+            }));
+
+          this.fiTextSizeUpdateScore();
         },
         err => {
           console.log('err', err);
@@ -74,33 +90,25 @@ export class AnalysisResultComponent implements OnInit {
         }
       );
     });
+  }
 
-    // this.activatedRoute.queryParams.subscribe(params => {
-    //   this.q = params.q;
-      // this.size = params.size;
-      // this.currentPage = 'Font Size';
+  // Factor Item: Text Size
+  fiTextSizeMinimumSizeChange(el: MatSliderChange) {
+    this.analysisResult.analysisConfig.textSize.minimumSize = el.value;
 
-      // this.http.get('http://localhost:3302/api/analyze?url=' + encodeURI(this.url) + '&size=' + encodeURI(this.size))
-      //   .subscribe((data: any) => {
-      //     console.log(data);
+    this.fiTextSizeUpdateScore();
 
-      //     this.imageFontSizeURL = 'http://localhost:3302/results/' + data.resultScreenshotURL + '-font-size.png';
-      //     this.imageVanillaURL = 'http://localhost:3302/results/' + data.resultScreenshotURL + '-vanilla.png';
-      //     this.resultHtmlURL = 'http://localhost:3302/results/' + data.resultHtmlURL;
-      //     this.analysisDescription = data.analysisDescription;
+    console.log(this.analysisResult.analysisConfig.textSize.minimumSize);
+  }
 
-      //     this.vibrants = [];
+  fiTextSizeUpdateScore() {
+    const allChars: number = this.analysisResult.textSizeResult.totalCharacters;
+    const affectedChars: number = Object
+      .keys(this.analysisResult.textSizeResult.textSizeMap)
+      .filter((size) => Number(size) < this.analysisResult.analysisConfig.textSize.minimumSize)
+      .reduce((prev, curr) => prev += this.analysisResult.textSizeResult.textSizeMap[curr], 0);
+    const nonAffectedChars: number = allChars - affectedChars;
 
-      //     Vibrant.from(this.imageVanillaURL).getPalette((err, palette) => {
-      //       Object.keys(palette).forEach((key) => {
-      //         this.vibrants.push({name: key, hex: palette[key].hex});
-      //       });
-      //     });
-
-      //     this.showResult = true;
-      //   }, (error: any) => {
-      //     this.showError = true;
-      //   });
-    // });
+    this.fiTextSizeScore = Math.floor(nonAffectedChars * 100 / allChars);
   }
 }

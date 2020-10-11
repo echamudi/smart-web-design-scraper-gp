@@ -40,10 +40,10 @@
                   </button>
 
                   <button type="button" class="list-group-item list-group-item-action list-header" disabled>
-                    Font
+                    Typography
                   </button>
-                  <button type="button" class="list-group-item list-group-item-action" [ngClass]="{'active': currentPage === 'Font Size'}" (click)="currentPage = 'Font Size'">
-                    Font Size
+                  <button type="button" class="list-group-item list-group-item-action" [ngClass]="{'active': currentPage === 'Text Size'}" (click)="currentPage = 'Text Size'">
+                    Text Size
                   </button>
                   <button type="button" class="list-group-item list-group-item-action">
                     Text Contrast Ratio
@@ -65,6 +65,7 @@
                 </div>
               </div>
               <div class="col-9">
+
                 <div *ngIf="currentPage == 'Home'">
                   <div class="h3">URL</div>
                     <a [href]="analysisResult.browserInfoResult.url">{{ analysisResult.browserInfoResult.url }}</a>
@@ -85,6 +86,43 @@
                     </tr>
                   </table>
                 </div>
+
+                <div *ngIf="currentPage == 'Text Size'">
+                  <h3>Text Sizes</h3>
+                  <ngx-charts-bar-vertical
+                    style="display: block;"
+                    [showDataLabel]="true"
+                    [results]="fiTextSizeBarData"
+                    [xAxis]="true"
+                    [yAxis]="true"
+                    [showXAxisLabel]="true"
+                    [showYAxisLabel]="true"
+                    [view]="[600, 300]"
+                    >
+                  </ngx-charts-bar-vertical>
+                  <div class="clearfix"></div>
+                  <hr>
+
+                  <h3>Config</h3>
+                  <mat-slider style="width: 300px" min="0" max="50" step="1" thumbLabel
+                  [value]="this.analysisResult.analysisConfig.textSize.minimumSize"
+                  (change)="fiTextSizeMinimumSizeChange($event)"></mat-slider>
+                  <p><b>Minimum Text Size:</b> {{ this.analysisResult.analysisConfig.textSize.minimumSize }} px</p>
+                  <hr>
+
+                  <h3>Score</h3>
+                  <ngx-charts-gauge
+                    [view]="[500, 400]"
+                    [scheme]="{
+                      domain: ['#5AA454']
+                    }"
+                    [min]="0"
+                    [max]="100"
+                    [results]="[{name: 'Score', value: fiTextSizeScore}]">
+                  </ngx-charts-gauge>
+                  <div class="clearfix"></div>
+                </div>
+
 
                 <div *ngIf="currentPage == 'Raw JSON'">
                   <pre>

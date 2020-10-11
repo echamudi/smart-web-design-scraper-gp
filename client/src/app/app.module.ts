@@ -1,8 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // import { authInterceptorProviders } from './_helper/auth.interceptor';
 import { FormsModule } from '@angular/forms';
+import { MatSliderModule } from '@angular/material/slider';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -29,7 +32,10 @@ import { PreviousAnalysisComponent } from './previous-analysis/previous-analysis
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgxChartsModule,
+    BrowserAnimationsModule,
+    MatSliderModule
   ],
   providers: [
     // authInterceptorProviders

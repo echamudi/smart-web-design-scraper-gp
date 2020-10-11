@@ -102,6 +102,7 @@ export interface ElementCountResult {
 // factor id: browser-info
 
 export interface BrowserInfoResult {
+    url: string,
     userAgent: string;
     viewportWidth: number;
     viewportHeight: number;

@@ -35,22 +35,43 @@
             <div class="row">
               <div class="col-3">
                 <div class="list-group">
-                  <button type="button" class="list-group-item list-group-item-action list-header"
-                    disabled>Font</button>
+                  <button type="button" class="list-group-item list-group-item-action" [ngClass]="{'active': currentPage === 'Home'}" (click)="currentPage = 'Home'">
+                    Home
+                  </button>
+
+                  <button type="button" class="list-group-item list-group-item-action list-header" disabled>
+                    Font
+                  </button>
                   <button type="button" class="list-group-item list-group-item-action" [ngClass]="{'active': currentPage === 'Font Size'}" (click)="currentPage = 'Font Size'">
                     Font Size
                   </button>
                   <button type="button" class="list-group-item list-group-item-action">
                     Text Contrast Ratio
                   </button>
-                  <button type="button" class="list-group-item list-group-item-action list-header"
-                    disabled>Color</button>
-                  <button type="button" class="list-group-item list-group-item-action" [ngClass]="{'active': currentPage === 'Dominant Colors'}" (click)="currentPage = 'Dominant Colors'">Dominant Colors</button>
-                  <button type="button" class="list-group-item list-group-item-action list-header" disabled>Debug</button>
-                  <button type="button" class="list-group-item list-group-item-action" [ngClass]="{'active': currentPage === 'Raw JSON'}" (click)="currentPage = 'Raw JSON'">Raw JSON</button>
+
+                  <button type="button" class="list-group-item list-group-item-action list-header" disabled>
+                    Color
+                  </button>
+                  <button type="button" class="list-group-item list-group-item-action" [ngClass]="{'active': currentPage === 'Dominant Colors'}" (click)="currentPage = 'Dominant Colors'">
+                    Dominant Colors
+                  </button>
+
+                  <button type="button" class="list-group-item list-group-item-action list-header" disabled>
+                    Debug
+                  </button>
+                  <button type="button" class="list-group-item list-group-item-action" [ngClass]="{'active': currentPage === 'Raw JSON'}" (click)="currentPage = 'Raw JSON'">
+                    Raw JSON
+                  </button>
                 </div>
               </div>
               <div class="col-9">
+                <div *ngIf="currentPage == 'Home'">
+                  <div class="h3">URL</div>
+                  <p>{{ analysisResult.browserInfoResult.url }}</p>
+                  <div class="h3">Screenshot</div>
+                  <img [src]="analysisResult.screenshot" alt="" width="100%">
+                </div>
+
                 <div *ngIf="currentPage == 'Raw JSON'">
                   <pre>
 {{ analysisResultRaw }}

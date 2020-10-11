@@ -50,10 +50,10 @@
                   </button>
 
                   <button type="button" class="list-group-item list-group-item-action list-header" disabled>
-                    Color
+                    Color Usage
                   </button>
-                  <button type="button" class="list-group-item list-group-item-action" [ngClass]="{'active': currentPage === 'Dominant Colors'}" (click)="currentPage = 'Dominant Colors'">
-                    Dominant Colors
+                  <button type="button" class="list-group-item list-group-item-action" [ngClass]="{'active': currentPage === 'Color Harmony'}" (click)="currentPage = 'Color Harmony'">
+                    Color Harmony
                   </button>
 
                   <button type="button" class="list-group-item list-group-item-action list-header" disabled>
@@ -123,6 +123,20 @@
                   <div class="clearfix"></div>
                 </div>
 
+                <div *ngIf="currentPage == 'Color Harmony'">
+                  <h3>Screenshot</h3>
+                  <img [src]="analysisResult.screenshot" alt="" width="100%">
+                  <hr>
+                  <h3>Dominant Colors</h3>
+                  <div class="d-flex justify-content-center">
+                    <div class="ml-3 mr-3 d-flex flex-column align-items-center" *ngFor="let vibrantItem of this.fiColorHarmonyVibrantItems">
+                      <div class="text-bold">{{vibrantItem.name}}</div>
+                      <div style="width: 50px; height: 50px;" [ngStyle]="{'background-color': 'rgb(' + vibrantItem.r + ', ' + vibrantItem.g + ', ' + vibrantItem.b + ')'}">
+                      </div>
+                      <div><b>RGB: </b>{{vibrantItem.r}}, {{vibrantItem.g}}, {{vibrantItem.b}}</div>
+                    </div>
+                  </div>
+                </div>
 
                 <div *ngIf="currentPage == 'Raw JSON'">
                   <pre>

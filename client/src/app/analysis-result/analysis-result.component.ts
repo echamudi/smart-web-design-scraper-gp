@@ -28,12 +28,13 @@ export class AnalysisResultComponent implements OnInit {
   // analysisDescription: string;
   showResult: boolean;
   showError: boolean;
-  // vibrants: {name, hex}[];
   currentPage: string;
   analysisResult: Partial<AnalysisResult>;
 
   fiTextSizeBarData: {name: string, value: number}[] = [];
   fiTextSizeScore: number = 0;
+
+  fiColorHarmonyVibrantItems: {name: string, r: number, g: number, b: number}[] = [];
 
   ngOnInit(): void {
     this.showResult = false;
@@ -98,6 +99,16 @@ export class AnalysisResultComponent implements OnInit {
       textSizeMap: this.analysisResult.textSizeResult.textSizeMap,
       minimumSize: this.analysisResult.analysisConfig.textSize.minimumSize
     });
+
+    // Factor Item: Color Harmony
+    this.fiColorHarmonyVibrantItems = Object
+      .keys(this.analysisResult.colorHarmonyResult.vibrant)
+      .map((key) => ({
+        name: key,
+        r: this.analysisResult.colorHarmonyResult.vibrant[key].rgb[0],
+        g: this.analysisResult.colorHarmonyResult.vibrant[key].rgb[1],
+        b: this.analysisResult.colorHarmonyResult.vibrant[key].rgb[2]
+      }));
   }
 
   // Factor Item: Text Size

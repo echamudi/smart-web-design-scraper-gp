@@ -57,7 +57,7 @@ export interface TextSizeResult {
     /**
      * total elements with font size under threshold
      */
-    totalElements: number;
+    // totalElements: number;
 
     /**
      * total characters
@@ -67,12 +67,17 @@ export interface TextSizeResult {
     /**
      * total characters with font size under threshold
      */
-    totalSmallCharacters: number;
+    // totalSmallCharacters: number;
+
+    /**
+     * Characters counter for each font size
+     */
+    textSizeMap: Record<number, number>;
 
     /**
      * Score
      */
-    score: number;
+    // score: number;
 }
 
 // factor id: color-harmony

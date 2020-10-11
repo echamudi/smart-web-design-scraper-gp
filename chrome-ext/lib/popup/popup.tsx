@@ -185,6 +185,8 @@ class Analyzer extends React.Component {
       });
     });
 
+    console.log('analysisResult', analysisResult);
+
     // Send result to server
     const sentReceipt = await client.mutate({
       mutation: gql`mutation ($data: String!) {

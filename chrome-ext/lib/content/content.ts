@@ -20,8 +20,8 @@ if ((window as any).SWDS === undefined) {
             // Analyze Contents
             const html = document.documentElement.outerHTML;
 
-            const textSizeResult = textSize(document, config.textSize);
-            textSizeStyler(config.textSize);
+            const textSizeResult = textSize(document);
+            // textSizeStyler(config.textSize);
 
             const textFontTypeResult = textFontType(window);
 

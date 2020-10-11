@@ -4,13 +4,15 @@ import { TextSizeConfig, TextSizeResult } from 'Shared/types/factors';
 /**
  * @param doc elements to be evaluated, ideally all elements in the page
  */
-export function textSize(doc: Document, config: TextSizeConfig): TextSizeResult {
+export function textSize(doc: Document): TextSizeResult {
     const elements: NodeListOf<Element> = doc.querySelectorAll('body *');
 
-    let totalElements = 0;
-    let totalSmallCharacters = 0;
+    // let totalElements = 0;
+    // let totalSmallCharacters = 0;
     let totalCharacters = 0;
     const all = elements;
+
+    const textSizeMap: Record<number, number> = {};
 
     // Mark letters with too small letters
     for (let i = 0, max = all.length; i < max; i += 1) {
@@ -28,16 +30,25 @@ export function textSize(doc: Document, config: TextSizeConfig): TextSizeResult 
 
         totalCharacters += [...text].length;
 
-        if (text !== '' && parseInt(getComputedStyle(currentEl).fontSize, 10) < config.minimumSize) {
-            currentEl.setAttribute('data-swds-textSize', '1');
-            totalElements += 1;
-            totalSmallCharacters += [...text].length;
+        if (text !== '') {
+            const fontSize = parseInt(getComputedStyle(currentEl).fontSize, 10);
+
+            if (textSizeMap[fontSize] === undefined) {
+                textSizeMap[fontSize] = [...text].length;
+            } else {
+                textSizeMap[fontSize] += [...text].length;
+            }
+
+
+            // currentEl.setAttribute('data-swds-textSize', '1');
+            // totalElements += 1;
+            // totalSmallCharacters += [...text].length;
         }
     }
 
-    const score = Math.floor((1 - (totalSmallCharacters / totalCharacters)) * 100);
+    // const score = Math.floor((1 - (totalSmallCharacters / totalCharacters)) * 100);
 
-    return { totalElements, totalSmallCharacters, totalCharacters, score };
+    return { totalCharacters, textSizeMap };
 }
 
 export function textSizeStyler(config: TextSizeConfig) {

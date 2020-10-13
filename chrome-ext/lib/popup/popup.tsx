@@ -158,7 +158,7 @@ class Analyzer extends React.Component {
     });
 
     // Calculate all values
-    let [analysisResult, colorHarmonyResult, symmetryResult] = await Promise.all([
+    let [analysisResult, colorHarmonyResult, symmetryResult] = await Promise.allSettled([
       new Promise<Partial<AnalysisResult>>((resolve, reject) => {
         chrome.tabs.sendMessage(tabId, { message: "analyze", config: this.state.config }, (response: Partial<AnalysisResult>) => {
           resolve(response);
@@ -176,12 +176,17 @@ class Analyzer extends React.Component {
       })
     ]);
 
+    if (analysisResult.status === 'rejected') {
+      console.log('Can\'t get analysisResult');
+      return;
+    }
+
     // Combine contentside result with extensionside result
-    analysisResult = {
-      ...analysisResult,
+    const finalAnalysisResult: Partial<AnalysisResult> = {
+      ...analysisResult.value,
       html: '', // remove html for now
-      colorHarmonyResult,
-      symmetryResult,
+      colorHarmonyResult: colorHarmonyResult.status === 'fulfilled' ? colorHarmonyResult.value : undefined,
+      symmetryResult: symmetryResult.status === 'fulfilled' ? symmetryResult.value : undefined,
       screenshot: image
     };
 
@@ -196,7 +201,7 @@ class Analyzer extends React.Component {
       });
     });
 
-    console.log('analysisResult', analysisResult);
+    console.log('finalAnalysisResult', finalAnalysisResult);
 
     // Send result to server
     const sentReceipt = await client.mutate({
@@ -204,7 +209,7 @@ class Analyzer extends React.Component {
         saveAnalysis(data: $data)
       }`,
       variables: {
-        data: JSON.stringify(analysisResult)
+        data: JSON.stringify(finalAnalysisResult)
       },
       context: {
           headers: {
@@ -215,7 +220,7 @@ class Analyzer extends React.Component {
 
     console.log('sentReceipt', sentReceipt);
 
-    this.setState(() => ({ analyzingStatus: 'Done!', result: analysisResult, snapshot: image, lastReceiptId: sentReceipt.data?.saveAnalysis }));
+    this.setState(() => ({ analyzingStatus: 'Done!', result: finalAnalysisResult, snapshot: image, lastReceiptId: sentReceipt.data?.saveAnalysis }));
   };
 
   marktextSizeToggle(e: React.ChangeEvent<HTMLInputElement>) {

@@ -1,9 +1,5 @@
-import { Palette } from "node-vibrant/lib/color";
 import Vibrant from "node-vibrant";
-
-export interface ColorHarmonyResult {
-    vibrant: Palette | undefined;
-}
+import { ColorHarmonyResult, ColorHarmonyPallete } from 'Shared/types/factors';
 
 /**
  * 
@@ -12,7 +8,7 @@ export interface ColorHarmonyResult {
 export async function colorHarmony(imageURI: string): Promise<ColorHarmonyResult> {
     return new Promise((resolve, reject) => {
         Vibrant.from(imageURI).getPalette((err, palette) => {
-            resolve({ vibrant: palette })
+            resolve({ vibrant: palette as ColorHarmonyPallete })
         });
     });
 }

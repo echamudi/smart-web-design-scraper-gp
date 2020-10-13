@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 // const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   entry: {
@@ -11,6 +12,7 @@ module.exports = {
     popup: './lib/popup/popup.tsx',
     preferences: './lib/preferences/preferences.tsx',
     report: './lib/report/report.tsx',
+    style: './lib/style/style.scss'
   },
   module: {
     rules: [
@@ -18,6 +20,21 @@ module.exports = {
         test: /\.tsx?$/,
         use: 'ts-loader',
         exclude: /node_modules/,
+      },
+      {
+        test: /\.s[ac]ss$/i,
+        exclude: /node_modules/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          {
+            loader: 'sass-loader',
+            options: {
+              // Prefer `dart-sass`
+              implementation: require('node-sass'),
+            },
+          },
+        ],
       },
     ],
   },
@@ -39,6 +56,12 @@ module.exports = {
       template: 'lib/report/report.html',
       chunks: ['report']
     }),
+    new MiniCssExtractPlugin({
+      // Options similar to the same options in webpackOptions.output
+      // both options are optional
+      // filename: '[name].css',
+      // chunkFilename: '[id].css',
+    }),
     new CopyWebpackPlugin({
       patterns: [
       { from: './lib/manifest.json', to: './manifest.json' },
@@ -48,6 +71,12 @@ module.exports = {
   devtool: "", // fastest! doc: https://webpack.js.org/configuration/devtool/
   resolve: {
     extensions: [ '.tsx', '.ts', '.js' ],
+    alias: {
+      "Shared": path.resolve(__dirname, '../shared'),
+      "ChromeExt": path.resolve(__dirname, '../chrome-ext/lib'),
+      "Angular": path.resolve(__dirname, '../client/src'),
+      "Express": path.resolve(__dirname, '../server/src'),
+    }
   },
   output: {
     filename: '[name].js',

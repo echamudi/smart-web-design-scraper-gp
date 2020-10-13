@@ -1,7 +1,9 @@
 import { textSize, textSizeStyler } from '../evaluator/content-side/text-size';
-import { AnalysisConfig, AnalysisResult } from '../../../types/types';
+import { AnalysisConfig, AnalysisResult } from 'Shared/types/types';
 import { textFontType } from '../evaluator/content-side/text-font-type';
 import { pictures } from '../evaluator/content-side/pictures';
+import { elementCount } from '../evaluator/content-side/element-count';
+import { browserInfo } from '../evaluator/content-side/browser-info';
 
 if ((window as any).SWDS === undefined) {
     (window as any).SWDS = {};
@@ -18,26 +20,32 @@ if ((window as any).SWDS === undefined) {
             // Analyze Contents
             const html = document.documentElement.outerHTML;
 
-            const textSizeResult = textSize(document, config.textSize);
-            textSizeStyler(config.textSize);
+            const textSizeResult = textSize(document);
+            // textSizeStyler(config.textSize);
 
-            const textFontTypeResult = textFontType();
+            const textFontTypeResult = textFontType(window);
 
             const picturesResult = pictures(document);
 
+            const elementCountResult = elementCount(document);
+
+            const browserInfoResult = browserInfo(window);
+
             // Result
 
-            const analysisResult: AnalysisResult = {
+            const analysisResult: Partial<AnalysisResult> = {
                 html,
                 textSizeResult,
                 textFontTypeResult,
                 analysisConfig: config,
                 picturesResult,
+                elementCountResult,
+                browserInfoResult
             };
 
             // Result
             sendResponse(analysisResult);
-            return;
+            // return;
         };
     });
 }

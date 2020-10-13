@@ -18,7 +18,7 @@ These steps are required before development or production compilation.
 
 ### Terminal 1: Mongo & Spring
 ```
-docker-compose -f dev.docker-compose.yml up
+docker-compose -f dev.docker-compose.yml up --build
 ```
 
 ### Terminal 2: Express

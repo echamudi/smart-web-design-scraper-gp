@@ -12,11 +12,25 @@ public class ColorsUtils {
 
     // returns the array {red , green , Blue}
     public static int[] getRGBArr(int pixel) {
-//        int alpha = (pixel >> 24 )
         Color color  = new Color(pixel);
-
         return new int[] {color.getRed(),color.getGreen(),color.getBlue()};
     }
+
+
+    // used to check if the color is black , white or one of the greys ...
+    private boolean isGray(int[] rgbArr) {
+
+        int rgDiff = rgbArr[0] - rgbArr[1];
+        int rbDiff = rgbArr[0] - rgbArr[2];
+
+        int tolerance = 10;
+
+        if (rgDiff > tolerance || rgDiff < -tolerance)
+            if (rbDiff > tolerance || rbDiff < -tolerance)
+                return false;
+        return true;
+    }
+
 
 
 

@@ -2,15 +2,19 @@
 
 Smart Web Design Scraper
 
-## Running development mode
+## Preparation
+
+These steps are required before development or production compilation.
 
 ```sh
-# Install node modules if it's not installed yet
+# Install node modules
 (cd shared && npm install)
 (cd client && npm install)
 (cd server && npm install)
 (cd chrome-ext && npm install)
 ```
+
+## Running development mode
 
 ### Terminal 1: Mongo
 ```
@@ -38,12 +42,6 @@ npm run watch
 ## Running the app
 
 ```sh
-# Install node modules if it's not installed yet
-(cd shared && npm install)
-(cd client && npm install)
-(cd server && npm install)
-(cd chrome-ext && npm install)
-
 # Compile codes
 (cd client && npm run build)
 (cd server && npm run build)

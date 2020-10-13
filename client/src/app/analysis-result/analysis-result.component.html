@@ -3,22 +3,12 @@
     <div class="col mt-5">
       <div class="card">
         <div class="card-body">
-          <h1>Analysis Result</h1>
           <div class="row mb-3 mt-2">
             <div class="col d-flex align-items-center">
-              <!-- <div>
-                <div class="text-bold">URL :</div> {{ url }}
-              </div> -->
-            </div>
-            <div class="col d-flex align-items-center">
-              <!-- <div>
-                <div class="text-bold">Screen Size :</div> {{ size }}
-              </div> -->
+              <h1>Analysis Result</h1>
             </div>
             <div class="col d-flex justify-content-end">
-              <!-- <a class="btn btn-primary" href="{{resultHtmlURL}}" target="_blank" *ngIf="showResult">
-                Open HTML result
-              </a> -->
+              Final Score: {{ finalScore }}
             </div>
           </div>
           <hr>
@@ -35,8 +25,8 @@
             <div class="row">
               <div class="col-3">
                 <div class="list-group">
-                  <button type="button" class="list-group-item list-group-item-action" [ngClass]="{'active': currentPage === 'Home'}" (click)="currentPage = 'Home'">
-                    Home
+                  <button type="button" class="list-group-item list-group-item-action" [ngClass]="{'active': currentPage === 'Overview'}" (click)="currentPage = 'Overview'">
+                    Overview
                   </button>
 
                   <button type="button" class="list-group-item list-group-item-action list-header" disabled>
@@ -82,8 +72,8 @@
               </div>
               <div class="col-9">
 
-                <!-- HOME -->
-                <div *ngIf="currentPage == 'Home'">
+                <!-- OVERVIEW -->
+                <div *ngIf="currentPage == 'Overview'">
                   <div class="h3">URL</div>
                     <a [href]="analysisResult.browserInfoResult.url">{{ analysisResult.browserInfoResult.url }}</a>
                   <hr>
@@ -101,6 +91,39 @@
                       </td>
                       <td><img [src]="analysisResult.screenshot" alt="" width="100%"></td>
                     </tr>
+                  </table>
+                  <hr>
+                  <div class="h3">Score Summary</div>
+                  <table class="table">
+                    <tbody>
+                      <tr>
+                        <th scope="row" style="width: 120px;">Horizontal Symmetry</th>
+                        <td style="width: 120px;">{{ fiSymmetryHScore }}</td>
+                        <td>
+                          <div class="progress">
+                            <div class="progress-bar" role="progressbar" [ngStyle]="{width: fiSymmetryHScore + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Vertical Symmetry</th>
+                        <td>{{ fiSymmetryVScore }}</td>
+                        <td>
+                          <div class="progress">
+                            <div class="progress-bar" role="progressbar" [ngStyle]="{width: fiSymmetryVScore + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Text Size</th>
+                        <td>{{ fiTextSizeScore }}</td>
+                        <td>
+                          <div class="progress">
+                            <div class="progress-bar" role="progressbar" [ngStyle]="{width: fiTextSizeScore + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
                   </table>
                 </div>
 
@@ -128,10 +151,10 @@
                   <div class="clearfix"></div>
                   <hr>
                   <h3>Config</h3>
-                  <p><b>Acceptable Treshold:</b> {{ fiSymmetryConfigAcceptableThreshold }}%</p>
+                  <p><b>Acceptable Threshold:</b> {{ fiSymmetryConfigAcceptableThreshold }}%</p>
                   <mat-slider style="width: 500px" min="0" max="100" step="5" thumbLabel
                   [value]="fiSymmetryConfigAcceptableThreshold"
-                  (change)="fiSymmetryAcceptableTresholdChange($event)"></mat-slider>
+                  (change)="fiSymmetryAcceptableThresholdChange($event)"></mat-slider>
                   <hr>
                   <div class="h3">Analysis</div>
                   <table class="table">
@@ -160,6 +183,7 @@
                   <img [src]="analysisResult.screenshot" alt="" width="100%">
                   <hr>
                   <h3>Score</h3>
+                  <p><b>Text Size Score:</b> {{ fiTextSizeScore }}%</p>
                   <ngx-charts-gauge
                     [view]="[500, 300]"
                     [scheme]="{
@@ -167,7 +191,8 @@
                     }"
                     [min]="0"
                     [max]="100"
-                    [results]="[{name: 'Score', value: fiTextSizeScore}]">
+                    [results]="[{name: 'Score', value: fiTextSizeScore}]"
+                  >
                   </ngx-charts-gauge>
                   <div class="clearfix"></div>
                   <hr>
@@ -199,7 +224,7 @@
 
                 <!-- COLOR HARMONY -->
                 <div *ngIf="currentPage == 'Color Harmony'">
-                  <h3>Screenshot</h3>
+                  <h2>Color Harmony</h2>
                   <img [src]="analysisResult.screenshot" alt="" width="100%">
                   <hr>
                   <h3>Dominant Colors</h3>

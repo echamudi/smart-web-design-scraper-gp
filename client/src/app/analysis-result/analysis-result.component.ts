@@ -42,6 +42,8 @@ export class AnalysisResultComponent implements OnInit {
 
   fiElementCountBarData: {name: string, value: number}[] = [];
 
+  finalScore: number = 0;
+
   ngOnInit(): void {
     this.showResult = false;
     this.showError = false;
@@ -94,7 +96,7 @@ export class AnalysisResultComponent implements OnInit {
     // Factor Item: Symmetry
     this.fiSymmetryUpdateScore({
       symmetryResult: this.analysisResult.symmetryResult,
-      acceptableTreshold: this.fiSymmetryConfigAcceptableThreshold
+      acceptableThreshold: this.fiSymmetryConfigAcceptableThreshold
     });
 
     // Factor Item: Text Size
@@ -133,31 +135,31 @@ export class AnalysisResultComponent implements OnInit {
   }
 
   // Factor Item: Symmetry
-  fiSymmetryAcceptableTresholdChange(el: MatSliderChange) {
+  fiSymmetryAcceptableThresholdChange(el: MatSliderChange) {
     this.fiSymmetryConfigAcceptableThreshold = el.value;
 
     this.fiSymmetryUpdateScore({
       symmetryResult: this.analysisResult.symmetryResult,
-      acceptableTreshold: this.fiSymmetryConfigAcceptableThreshold
+      acceptableThreshold: this.fiSymmetryConfigAcceptableThreshold
     });
   }
 
-  fiSymmetryUpdateScore({symmetryResult, acceptableTreshold}:
+  fiSymmetryUpdateScore({symmetryResult, acceptableThreshold}:
     {
       symmetryResult: SymmetryResult,
-      acceptableTreshold: number
+      acceptableThreshold: number
     }): void {
 
-    let sanitizedAcceptableTreshold = acceptableTreshold;
+    let sanitizedAcceptableThreshold = acceptableThreshold;
 
-    if (sanitizedAcceptableTreshold < 1) { sanitizedAcceptableTreshold = 1; }
-    if (sanitizedAcceptableTreshold > 100) { sanitizedAcceptableTreshold = 100; }
+    if (sanitizedAcceptableThreshold < 1) { sanitizedAcceptableThreshold = 1; }
+    if (sanitizedAcceptableThreshold > 100) { sanitizedAcceptableThreshold = 100; }
 
     const tempVScore = Math.floor(
-      ((symmetryResult.vExactSymmetricalPixels * 100 / symmetryResult.visitedPixels) / sanitizedAcceptableTreshold) * 100
+      ((symmetryResult.vExactSymmetricalPixels * 100 / symmetryResult.visitedPixels) / sanitizedAcceptableThreshold) * 100
     );
     const tempHScore = Math.floor(
-      ((symmetryResult.hExactSymmetricalPixels * 100 / symmetryResult.visitedPixels) / sanitizedAcceptableTreshold) * 100
+      ((symmetryResult.hExactSymmetricalPixels * 100 / symmetryResult.visitedPixels) / sanitizedAcceptableThreshold) * 100
     );
 
     if (tempVScore < 1) { this.fiSymmetryVScore = 1; }
@@ -167,6 +169,8 @@ export class AnalysisResultComponent implements OnInit {
     if (tempHScore < 1) { this.fiSymmetryHScore = 1; }
     else if (tempHScore > 100) { this.fiSymmetryHScore = 100; }
     else { this.fiSymmetryHScore = tempHScore; }
+
+    this.updateFinalScore();
   }
 
   // Factor Item: Text Size
@@ -192,5 +196,13 @@ export class AnalysisResultComponent implements OnInit {
     const nonAffectedChars: number = allChars - affectedChars;
 
     this.fiTextSizeScore = Math.floor(nonAffectedChars * 100 / allChars);
+
+    this.updateFinalScore();
+  }
+
+  updateFinalScore(): void {
+    this.finalScore = Math.floor(
+      (this.fiSymmetryHScore + this.fiSymmetryVScore + this.fiTextSizeScore) / 3
+    );
   }
 }

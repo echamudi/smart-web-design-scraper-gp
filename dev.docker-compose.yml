@@ -1,0 +1,20 @@
+# Development docker-compose
+
+version: "3.8"
+services:
+  mongo:
+    container_name: mongo
+    image: mongo:4.4.1-bionic
+    ports:
+      - "3002:27017"
+    volumes:
+      - ./mongo/db:/data/db
+    environment: 
+      MONGO_INITDB_DATABASE: swdsdb
+  spring:
+    container_name: spring
+    build:
+      context: ./micro-services/java/ImageProcessingSpring
+      dockerfile: Dockerfile
+    ports:
+      - "3003:8080"

@@ -2,12 +2,53 @@
 
 Smart Web Design Scraper
 
-## Running the app
+## Preparation
+
+These steps are required before development or production compilation.
+
 ```sh
-# run in 3 different terminal windows
-npm run start-client            # http://localhost:3301
-npm run start-server            # http://localhost:3302
-npm run start-sample-website    # http://localhost:3303
+# Install node modules
+(cd shared && npm install)
+(cd client && npm install)
+(cd server && npm install)
+(cd chrome-ext && npm install)
+```
+
+## Running development mode
+
+### Terminal 1: Mongo & Spring
+```
+docker-compose -f dev.docker-compose.yml up --build
+```
+
+### Terminal 2: Express
+```
+cd server
+npm start
+```
+
+### Terminal 3: Angular
+```
+cd client
+npm start
+```
+
+### Terminal 4: Chrome Extension
+```
+cd chrome-ext
+npm run watch
+```
+
+## Running the app
+
+```sh
+# Compile codes
+(cd client && npm run build)
+(cd server && npm run build)
+(cd chrome-ext && npm run build)
+
+# Run docker
+docker-compose up
 ```
 
 ## Authors

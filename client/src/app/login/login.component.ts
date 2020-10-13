@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../_services/auth.service';
 import { TokenStorageService } from '../_services/token-storage.service';
 import { Router } from '@angular/router';
+import { login } from 'Shared/apollo-client/auth';
+import { from as observableFrom } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -25,10 +27,24 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-    this.authService.login(this.form).subscribe(
+    console.log(this.form);
+    observableFrom(
+      login(this.authService.client, this.form.username, this.form.password)
+    ).subscribe(
       data => {
-        this.tokenStorage.saveToken(data.accessToken);
-        this.tokenStorage.saveUser(data);
+        if (data.errors) {
+          this.errorMessage = data.errors?.[0]?.message ?? 'undefined error';
+          this.isLoginFailed = true;
+          return;
+        }
+
+        console.log(data);
+
+        this.tokenStorage.saveToken(data.data.login.token);
+        this.tokenStorage.saveUser({
+          username: data.data.login.user.username,
+          roles: data.data.login.user.roles
+        });
 
         this.isLoginFailed = false;
         this.isLoggedIn = true;
@@ -37,7 +53,7 @@ export class LoginComponent implements OnInit {
         window.location.reload();
       },
       err => {
-        this.errorMessage = err.error.message;
+        this.errorMessage = err.message;
         this.isLoginFailed = true;
       }
     );

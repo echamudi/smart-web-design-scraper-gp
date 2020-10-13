@@ -1,5 +1,21 @@
 import { Palette } from "node-vibrant/lib/color";
 
+// factor id: symmetry
+
+export interface SymmetryResult {
+    visitedPixels: number,
+
+    /**
+     * Exact vertical symmetry pixels count
+     */
+    vExactSymmetricalPixels: number,
+
+    /**
+     * Exact horizontal symmetry pixels count
+     */
+    hExactSymmetricalPixels: number
+}
+
 // factor id: pictures
 
 export interface PicturesResult {

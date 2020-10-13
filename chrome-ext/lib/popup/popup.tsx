@@ -1,10 +1,11 @@
 import React, { SyntheticEvent } from 'react';
 import ReactDOM from 'react-dom';
 import { AppState, AnalysisConfig, AnalysisResult } from 'Shared/types/types';
-import { ColorHarmonyResult } from 'Shared/types/factors';
+import { ColorHarmonyResult, SymmetryResult } from 'Shared/types/factors';
 import { colorHarmony } from '../evaluator/extension-side/color-harmony';
 import { ApolloClient, InMemoryCache, NormalizedCacheObject, gql } from 'Shared/node_modules/@apollo/client/core';
 import { login } from 'Shared/apollo-client/auth'
+import { symmetry } from '../evaluator/extension-side/symmetry';
 
 const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
   uri: 'http://localhost:3001/graphql',
@@ -157,7 +158,7 @@ class Analyzer extends React.Component {
     });
 
     // Calculate all values
-    let [analysisResult, colorHarmonyResult] = await Promise.all([
+    let [analysisResult, colorHarmonyResult, symmetryResult] = await Promise.all([
       new Promise<Partial<AnalysisResult>>((resolve, reject) => {
         chrome.tabs.sendMessage(tabId, { message: "analyze", config: this.state.config }, (response: Partial<AnalysisResult>) => {
           resolve(response);
@@ -168,6 +169,10 @@ class Analyzer extends React.Component {
           const result = await colorHarmony(image);
           resolve(result);
         });
+      }),
+      new Promise<SymmetryResult>(async (resolve, reject) => {
+        const result = await symmetry(image);
+        resolve(result);
       })
     ]);
 
@@ -176,6 +181,7 @@ class Analyzer extends React.Component {
       ...analysisResult,
       html: '', // remove html for now
       colorHarmonyResult,
+      symmetryResult,
       screenshot: image
     };
 

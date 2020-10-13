@@ -1,3 +1,5 @@
+# Production docker-compose
+
 version: "3.8"
 services:
   angular:
@@ -37,3 +39,8 @@ services:
       - ./mongo/db:/data/db
     environment: 
       MONGO_INITDB_DATABASE: swdsdb
+  spring:
+    container_name: spring
+    build:
+      context: ./micro-services/java/ImageProcessingSpring
+      dockerfile: Dockerfile

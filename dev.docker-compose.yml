@@ -1,4 +1,6 @@
+# Production docker-compose
 # Just like docker-compose, except it's mongo only
+
 version: "3.8"
 services:
   mongo:

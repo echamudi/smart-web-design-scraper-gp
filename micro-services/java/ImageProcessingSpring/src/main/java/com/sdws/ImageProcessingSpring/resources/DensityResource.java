@@ -1,7 +1,6 @@
 package com.sdws.ImageProcessingSpring.resources;
 
 import com.sdws.ImageProcessingSpring.models.density.DensityCallBody;
-import com.sdws.ImageProcessingSpring.utils.ColorsUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,11 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import org.opencv.core.Core ;
 
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.*;
 
 import static com.sdws.ImageProcessingSpring.utils.ColorsUtils.getRGBArr;
@@ -52,13 +47,17 @@ public class DensityResource {
             }
         }
         // getting the most common color...
+        int mostCommonColor = getMostCommonColor(colorsCounts) ;
+        //  getting percentage of the dominant color in the rest of the image ...
+        int allPixels =  width * height ;
+        double percentageOfDominantColor = ((int)colorsCounts.get(mostCommonColor) / allPixels) * 100  ;
 
 
-        return Core.VERSION;
+        return String.valueOf(percentageOfDominantColor);
     }
 
 
-    private int  gettingMostCommonColor(Map map) {
+    private int getMostCommonColor(Map map) {
     List list = new LinkedList<>(map.entrySet());
     // sorting the map in reverse order ...
     Collections.sort(list, new Comparator<>() {

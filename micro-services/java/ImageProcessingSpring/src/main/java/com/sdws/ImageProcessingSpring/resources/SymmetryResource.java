@@ -21,7 +21,7 @@ import java.util.Base64;
 
 @RestController
 @RequestMapping("/symmetry")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*") // Temporarily allowing all origins
 public class SymmetryResource {
 
 

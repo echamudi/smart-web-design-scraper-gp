@@ -1,9 +1,6 @@
 package com.sdws.ImageProcessingSpring.resources;
 
-import com.sdws.ImageProcessingSpring.models.DensityCallBody;
-import com.sdws.ImageProcessingSpring.models.SymmetryCallBody;
-import com.sdws.ImageProcessingSpring.models.SymmetryResult;
-import org.opencv.osgi.OpenCVInterface;
+import com.sdws.ImageProcessingSpring.models.density.DensityCallBody;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +14,6 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Base64;
-import org.opencv.core.Core ;
 
 @RestController
 

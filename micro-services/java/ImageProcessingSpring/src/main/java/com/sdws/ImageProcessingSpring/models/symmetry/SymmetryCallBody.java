@@ -1,11 +1,12 @@
-package com.sdws.ImageProcessingSpring.models;
+package com.sdws.ImageProcessingSpring.models.symmetry;
 
-public class DensityCallBody {
+
+public class SymmetryCallBody   {
 
     private String img  ;
 
-    public DensityCallBody() {}
-    public DensityCallBody(String img) {
+   public SymmetryCallBody() {}
+    public SymmetryCallBody(String img) {
         this.img = img;
     }
 
@@ -16,7 +17,4 @@ public class DensityCallBody {
     public void setImg(String img) {
         this.img = img;
     }
-
-
-
 }

@@ -40,11 +40,19 @@
                   </button>
 
                   <button type="button" class="list-group-item list-group-item-action list-header" disabled>
+                    Distribution of Components
+                  </button>
+                  <button type="button" class="list-group-item d-flex justify-content-between align-items-center" [ngClass]="{'active': currentPage === 'Symmetry'}" (click)="currentPage = 'Symmetry'">
+                    Symmetry
+                    <span class="badge badge-primary badge-pill">{{ (fiSymmetryHScore + fiSymmetryVScore) / 2 }}</span>
+                  </button>
+
+                  <button type="button" class="list-group-item list-group-item-action list-header" disabled>
                     Typography
                   </button>
                   <button type="button" class="list-group-item d-flex justify-content-between align-items-center" [ngClass]="{'active': currentPage === 'Text Size'}" (click)="currentPage = 'Text Size'">
                     Text Size
-                    <span class="badge badge-primary badge-pill">{{ this.fiTextSizeScore }}</span>
+                    <span class="badge badge-primary badge-pill">{{ fiTextSizeScore }}</span>
                   </button>
                   <button type="button" class="list-group-item d-flex justify-content-between align-items-center" [ngClass]="{'active': currentPage === 'Type of Font'}" (click)="currentPage = 'Type of Font'">
                     Type of Font
@@ -74,6 +82,7 @@
               </div>
               <div class="col-9">
 
+                <!-- HOME -->
                 <div *ngIf="currentPage == 'Home'">
                   <div class="h3">URL</div>
                     <a [href]="analysisResult.browserInfoResult.url">{{ analysisResult.browserInfoResult.url }}</a>
@@ -82,12 +91,12 @@
                   <table class="table table-bordered">
                     <tr>
                       <td></td>
-                      <td style="text-align: center;"><b>Viewport Width:</b> {{analysisResult.browserInfoResult.viewportWidth}}px</td>
+                      <td style="text-align: center;"><b>Viewport Width:</b> {{analysisResult.browserInfoResult.viewportWidth}}pt</td>
                     </tr>
                     <tr>
                       <td style="vertical-align: middle;">
                         <span style="writing-mode: vertical-rl;">
-                          <b>Viewport Height:</b> {{analysisResult.browserInfoResult.viewportHeight}}px
+                          <b>Viewport Height:</b> {{analysisResult.browserInfoResult.viewportHeight}}pt
                         </span>
                       </td>
                       <td><img [src]="analysisResult.screenshot" alt="" width="100%"></td>
@@ -95,7 +104,61 @@
                   </table>
                 </div>
 
+                <!-- SYMMETRY -->
+                <div *ngIf="currentPage == 'Symmetry'">
+                  <div class="h2">Symmetry</div>
+                  <hr>
+                  <img [src]="analysisResult.screenshot" alt="" width="100%">
+                  <hr>
+                  <div class="h3">Score</div>
+                  <p><b>Horizontal Symmetry Score:</b> {{ fiSymmetryHScore }}%</p>
+                  <p><b>Vertical Symmetry Score:</b> {{ fiSymmetryVScore }}%</p>
+                  <ngx-charts-gauge
+                    [view]="[500, 300]"
+                    [scheme]="{
+                      domain: ['#5AA454', '#563d7c']
+                    }"
+                    [min]="0"
+                    [max]="100"
+                    [results]="[{name: 'Horizontal', value: fiSymmetryHScore}, {name: 'Vertical', value: fiSymmetryVScore}]"
+                    [legend]="true"
+                    [legendPosition]="'bottom'"
+                    >
+                  </ngx-charts-gauge>
+                  <div class="clearfix"></div>
+                  <hr>
+                  <h3>Config</h3>
+                  <p><b>Acceptable Treshold:</b> {{ fiSymmetryConfigAcceptableThreshold }}%</p>
+                  <mat-slider style="width: 500px" min="0" max="100" step="5" thumbLabel
+                  [value]="fiSymmetryConfigAcceptableThreshold"
+                  (change)="fiSymmetryAcceptableTresholdChange($event)"></mat-slider>
+                  <hr>
+                  <div class="h3">Analysis</div>
+                  <table class="table">
+                    <tbody>
+                      <tr>
+                        <th scope="row">Total Pixels</th>
+                        <td>{{ analysisResult.symmetryResult.visitedPixels }}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Horizontal Symmetrical Pixels</th>
+                        <td>{{ analysisResult.symmetryResult.hExactSymmetricalPixels }}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Vertical Symmetrical Pixels</th>
+                        <td>{{ analysisResult.symmetryResult.vExactSymmetricalPixels }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <hr>
+                </div>
+
+                <!-- TEXT SIZE -->
                 <div *ngIf="currentPage == 'Text Size'">
+                  <div class="h2">Text Size</div>
+                  <hr>
+                  <img [src]="analysisResult.screenshot" alt="" width="100%">
+                  <hr>
                   <h3>Score</h3>
                   <ngx-charts-gauge
                     [view]="[500, 300]"
@@ -132,9 +195,9 @@
                     >
                   </ngx-charts-bar-vertical>
                   <div class="clearfix"></div>
-
                 </div>
 
+                <!-- COLOR HARMONY -->
                 <div *ngIf="currentPage == 'Color Harmony'">
                   <h3>Screenshot</h3>
                   <img [src]="analysisResult.screenshot" alt="" width="100%">
@@ -150,6 +213,7 @@
                   </div>
                 </div>
 
+                <!-- TYPE OF FONT -->
                 <div *ngIf="currentPage == 'Type of Font'">
                   <h3>
                     Used Fonts
@@ -175,6 +239,8 @@
                     </tr>
                   </table>
                 </div>
+
+                <!-- ELEMENT COUNT -->
                 <div *ngIf="currentPage == 'Element Count'">
                   <h3>Element Tag Distribution</h3>
                   <ngx-charts-bar-horizontal
@@ -190,6 +256,7 @@
                   </ngx-charts-bar-horizontal>
                 </div>
 
+                <!-- RAW JSON -->
                 <div *ngIf="currentPage == 'Raw JSON'">
                   <pre>
 {{ analysisResultRaw }}

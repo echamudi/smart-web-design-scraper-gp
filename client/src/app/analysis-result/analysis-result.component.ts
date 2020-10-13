@@ -8,7 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AnalysisResult } from 'Shared/types/types';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { MatSliderChange } from '@angular/material/slider';
-import { TextSizeResult, TextSizeConfig } from 'Shared/types/factors';
+import { TextSizeResult, TextSizeConfig, SymmetryResult } from 'Shared/types/factors';
 
 @Component({
   selector: 'app-analysis-result',
@@ -28,8 +28,12 @@ export class AnalysisResultComponent implements OnInit {
   // analysisDescription: string;
   showResult: boolean;
   showError: boolean;
-  currentPage: string;
+  currentPage: string = 'Home';
   analysisResult: Partial<AnalysisResult>;
+
+  fiSymmetryConfigAcceptableThreshold: number = 80; // TODO: Fix this hardcoded number
+  fiSymmetryVScore: number = 0;
+  fiSymmetryHScore: number = 0;
 
   fiTextSizeBarData: {name: string, value: number}[] = [];
   fiTextSizeScore: number = 0;
@@ -87,6 +91,12 @@ export class AnalysisResultComponent implements OnInit {
   }
 
   buildReport() {
+    // Factor Item: Symmetry
+    this.fiSymmetryUpdateScore({
+      symmetryResult: this.analysisResult.symmetryResult,
+      acceptableTreshold: this.fiSymmetryConfigAcceptableThreshold
+    });
+
     // Factor Item: Text Size
     this.fiTextSizeBarData = Object
       .keys(this.analysisResult.textSizeResult.textSizeMap)
@@ -120,6 +130,43 @@ export class AnalysisResultComponent implements OnInit {
       name: key,
       value: this.analysisResult.elementCountResult.list[key]
     }));
+  }
+
+  // Factor Item: Symmetry
+  fiSymmetryAcceptableTresholdChange(el: MatSliderChange) {
+    this.fiSymmetryConfigAcceptableThreshold = el.value;
+
+    this.fiSymmetryUpdateScore({
+      symmetryResult: this.analysisResult.symmetryResult,
+      acceptableTreshold: this.fiSymmetryConfigAcceptableThreshold
+    });
+  }
+
+  fiSymmetryUpdateScore({symmetryResult, acceptableTreshold}:
+    {
+      symmetryResult: SymmetryResult,
+      acceptableTreshold: number
+    }): void {
+
+    let sanitizedAcceptableTreshold = acceptableTreshold;
+
+    if (sanitizedAcceptableTreshold < 1) { sanitizedAcceptableTreshold = 1; }
+    if (sanitizedAcceptableTreshold > 100) { sanitizedAcceptableTreshold = 100; }
+
+    const tempVScore = Math.floor(
+      ((symmetryResult.vExactSymmetricalPixels * 100 / symmetryResult.visitedPixels) / sanitizedAcceptableTreshold) * 100
+    );
+    const tempHScore = Math.floor(
+      ((symmetryResult.hExactSymmetricalPixels * 100 / symmetryResult.visitedPixels) / sanitizedAcceptableTreshold) * 100
+    );
+
+    if (tempVScore < 1) { this.fiSymmetryVScore = 1; }
+    else if (tempVScore > 100) { this.fiSymmetryVScore = 100; }
+    else { this.fiSymmetryVScore = tempVScore; }
+
+    if (tempHScore < 1) { this.fiSymmetryHScore = 1; }
+    else if (tempHScore > 100) { this.fiSymmetryHScore = 100; }
+    else { this.fiSymmetryHScore = tempHScore; }
   }
 
   // Factor Item: Text Size

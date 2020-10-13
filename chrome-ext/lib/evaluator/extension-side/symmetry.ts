@@ -18,11 +18,33 @@ export async function symmetry(imageURI: string): Promise<SymmetryResult> {
             },
         }).then(res => {
             res.json().then((res) => {
-                resolve({
-                    visitedPixels: res?.horizontalSymmetry?.allVisitedPixels ?? -1,
-                    vExactSymmetricalPixels: res?.verticalSymmetry?.symmetricalPixels ?? -1,
-                    hExactSymmetricalPixels: res?.horizontalSymmetry?.symmetricalPixels ?? -1
-                });
+                const visitedPixelsRaw: any = res?.horizontalSymmetry?.allVisitedPixels;
+                const vExactSymmetricalPixelsRaw: any = res?.verticalSymmetry?.symmetricalPixels;
+                const hExactSymmetricalPixelsRaw: any = res?.horizontalSymmetry?.symmetricalPixels;
+
+                let visitedPixels: number;
+                let vExactSymmetricalPixels: number;
+                let hExactSymmetricalPixels: number;
+
+                if (typeof visitedPixelsRaw === 'number') {
+                    visitedPixels = Math.floor(visitedPixelsRaw)
+                } else {
+                    visitedPixels = -1;
+                }
+
+                if (typeof vExactSymmetricalPixelsRaw === 'number') {
+                    vExactSymmetricalPixels = Math.floor(vExactSymmetricalPixelsRaw)
+                } else {
+                    vExactSymmetricalPixels = -1;
+                }
+
+                if (typeof hExactSymmetricalPixelsRaw === 'number') {
+                    hExactSymmetricalPixels = Math.floor(hExactSymmetricalPixelsRaw)
+                } else {
+                    hExactSymmetricalPixels = -1;
+                }
+
+                resolve({ visitedPixels, vExactSymmetricalPixels, hExactSymmetricalPixels });
             })
         }).catch(err => {
             resolve(err);

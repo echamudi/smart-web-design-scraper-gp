@@ -266,7 +266,7 @@ class Analyzer extends React.Component {
             Analyze
           </div>
           <div className="card-body">
-            <h5 className="card-title">Font Size</h5>
+            {/* <h5 className="card-title">Font Size</h5>
             <label>
               <input type="checkbox" checked={this.state.config.textSize.marking} onChange={this.marktextSizeToggle} /> Show small text marks
             </label>
@@ -276,7 +276,7 @@ class Analyzer extends React.Component {
             </div>
             <div>
               Minimum Font Size: {this.state.config.textSize.minimumSize ?? 16}
-            </div>
+            </div> */}
             <button type="button" className="btn btn-primary" onClick={this.analyzeHandler}>Analyze</button>
           </div>
         </div>

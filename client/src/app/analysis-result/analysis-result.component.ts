@@ -28,7 +28,7 @@ export class AnalysisResultComponent implements OnInit {
   // analysisDescription: string;
   showResult: boolean;
   showError: boolean;
-  currentPage: string = 'Home';
+  currentPage: string = 'Overview';
   analysisResult: Partial<AnalysisResult>;
 
   fiSymmetryConfigAcceptableThreshold: number = 80; // TODO: Fix this hardcoded number
@@ -41,6 +41,10 @@ export class AnalysisResultComponent implements OnInit {
   fiColorHarmonyVibrantItems: {name: string, r: number, g: number, b: number}[] = [];
 
   fiElementCountBarData: {name: string, value: number}[] = [];
+
+  fiPicturesConfigAcceptableThreshold: number = 300000; // TODO: Fix this hardcoded number
+  fiPicturesTotalArea: number = 0;
+  fiPicturesScore: number = 0;
 
   finalScore: number = 0;
 
@@ -132,6 +136,18 @@ export class AnalysisResultComponent implements OnInit {
       name: key,
       value: this.analysisResult.elementCountResult.list[key]
     }));
+
+    // Factor Item: Pictures
+    this.fiPicturesTotalArea = this.analysisResult.picturesResult.data.reduce((prev, curr) => {
+      if (curr.visible) {
+        prev += curr.area;
+        return prev;
+      } else {
+        return prev;
+      }
+    }, 0);
+
+    this.fiPictureUpdateScore();
   }
 
   // Factor Item: Symmetry
@@ -200,9 +216,27 @@ export class AnalysisResultComponent implements OnInit {
     this.updateFinalScore();
   }
 
+  // Factor Item: Text Size
+  fiPicturesAcceptableThresholdChange(el: MatSliderChange) {
+    this.fiPicturesConfigAcceptableThreshold = el.value;
+
+    this.fiPictureUpdateScore();
+  }
+
+  fiPictureUpdateScore() {
+    let score = (this.fiPicturesTotalArea / this.fiPicturesConfigAcceptableThreshold) * 100;
+
+    if (score > 100) score = 100;
+    if (score < 1) score = 1;
+
+    this.fiPicturesScore = Math.floor(score);
+
+    this.updateFinalScore();
+  }
+
   updateFinalScore(): void {
     this.finalScore = Math.floor(
-      (this.fiSymmetryHScore + this.fiSymmetryVScore + this.fiTextSizeScore) / 3
+      (this.fiSymmetryHScore + this.fiSymmetryVScore + this.fiTextSizeScore + this.fiPicturesScore) / 4
     );
   }
 }

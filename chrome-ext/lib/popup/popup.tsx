@@ -2,7 +2,7 @@ import React, { SyntheticEvent } from 'react';
 import ReactDOM from 'react-dom';
 import { AppState, AnalysisConfig, AnalysisResult } from 'Shared/types/types';
 import { DominantColorsResult, SymmetryResult } from 'Shared/types/factors';
-import { dominantColors } from '../evaluator/extension-side/color-harmony';
+import { dominantColors } from '../evaluator/extension-side/dominant-colors';
 import { ApolloClient, InMemoryCache, NormalizedCacheObject, gql } from 'Shared/node_modules/@apollo/client/core';
 import { login } from 'Shared/apollo-client/auth'
 import { symmetry } from '../evaluator/extension-side/symmetry';

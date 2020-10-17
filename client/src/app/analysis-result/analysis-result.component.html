@@ -38,7 +38,6 @@
                         </button>
                         <button type="button" class="list-group-item d-flex justify-content-between align-items-center" [ngClass]="{'active': currentPage === 'Symmetry'}" (click)="currentPage = 'Symmetry'">
                           Symmetry
-                          <span class="badge badge-primary badge-pill">{{ (fiSymmetryLRScore + fiSymmetryTBScore) / 2 }}</span>
                         </button>
 
                         <button type="button" class="list-group-item list-group-item-action list-header" disabled>
@@ -46,7 +45,6 @@
                         </button>
                         <button type="button" class="list-group-item d-flex justify-content-between align-items-center" [ngClass]="{'active': currentPage === 'Use of Pictures'}" (click)="currentPage = 'Use of Pictures'">
                           Use of Pictures
-                          <span class="badge badge-primary badge-pill">{{ fiPicturesScore }}</span>
                         </button>
 
                         <button type="button" class="list-group-item list-group-item-action list-header" disabled>
@@ -54,7 +52,6 @@
                         </button>
                         <button type="button" class="list-group-item d-flex justify-content-between align-items-center" [ngClass]="{'active': currentPage === 'Text Size'}" (click)="currentPage = 'Text Size'">
                           Text Size
-                          <span class="badge badge-primary badge-pill">{{ fiTextSizeScore }}</span>
                         </button>
                         <button type="button" class="list-group-item d-flex justify-content-between align-items-center" [ngClass]="{'active': currentPage === 'Type of Font'}" (click)="currentPage = 'Type of Font'">
                           Type of Font
@@ -65,7 +62,6 @@
                         </button>
                         <button type="button" class="list-group-item d-flex justify-content-between align-items-center" [ngClass]="{'active': currentPage === 'Dominant Colors'}" (click)="currentPage = 'Dominant Colors'">
                           Dominant Colors
-                          <span class="badge badge-primary badge-pill">{{ fiDominantColorsVibrantScore }}</span>
                         </button>
 
                         <button type="button" class="list-group-item list-group-item-action list-header" disabled>

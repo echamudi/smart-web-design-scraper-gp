@@ -19,12 +19,12 @@ export async function symmetry(imageURI: string): Promise<SymmetryResult> {
         }).then(res => {
             res.json().then((res) => {
                 const visitedPixelsRaw: any = res?.horizontalSymmetry?.allVisitedPixels;
-                const vExactSymmetricalPixelsRaw: any = res?.verticalSymmetry?.symmetricalPixels;
-                const hExactSymmetricalPixelsRaw: any = res?.horizontalSymmetry?.symmetricalPixels;
+                const tbExactSymmetricalPixelsRaw: any = res?.verticalSymmetry?.symmetricalPixels;
+                const lrExactSymmetricalPixelsRaw: any = res?.horizontalSymmetry?.symmetricalPixels;
 
                 let visitedPixels: number;
-                let vExactSymmetricalPixels: number;
-                let hExactSymmetricalPixels: number;
+                let tbExactSymmetricalPixels: number;
+                let lrExactSymmetricalPixels: number;
 
                 if (typeof visitedPixelsRaw === 'number') {
                     visitedPixels = Math.floor(visitedPixelsRaw)
@@ -32,19 +32,19 @@ export async function symmetry(imageURI: string): Promise<SymmetryResult> {
                     visitedPixels = -1;
                 }
 
-                if (typeof vExactSymmetricalPixelsRaw === 'number') {
-                    vExactSymmetricalPixels = Math.floor(vExactSymmetricalPixelsRaw)
+                if (typeof tbExactSymmetricalPixelsRaw === 'number') {
+                    tbExactSymmetricalPixels = Math.floor(tbExactSymmetricalPixelsRaw)
                 } else {
-                    vExactSymmetricalPixels = -1;
+                    tbExactSymmetricalPixels = -1;
                 }
 
-                if (typeof hExactSymmetricalPixelsRaw === 'number') {
-                    hExactSymmetricalPixels = Math.floor(hExactSymmetricalPixelsRaw)
+                if (typeof lrExactSymmetricalPixelsRaw === 'number') {
+                    lrExactSymmetricalPixels = Math.floor(lrExactSymmetricalPixelsRaw)
                 } else {
-                    hExactSymmetricalPixels = -1;
+                    lrExactSymmetricalPixels = -1;
                 }
 
-                resolve({ visitedPixels, vExactSymmetricalPixels, hExactSymmetricalPixels });
+                resolve({ visitedPixels, tbExactSymmetricalPixels, lrExactSymmetricalPixels });
             })
         }).catch(err => {
             resolve(err);

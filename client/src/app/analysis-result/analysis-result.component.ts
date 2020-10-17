@@ -31,8 +31,8 @@ export class AnalysisResultComponent implements OnInit {
   currentPage: string = 'Overview';
   analysisResult: Partial<AnalysisResult>;
 
-  fiSymmetryVScore: number = 0;
-  fiSymmetryHScore: number = 0;
+  fiSymmetryTBScore: number = 0;
+  fiSymmetryLRScore: number = 0;
 
   fiTextSizeBarData: {name: string, value: number}[] = [];
   fiTextSizeScore: number = 0;
@@ -170,19 +170,19 @@ export class AnalysisResultComponent implements OnInit {
     if (sanitizedAcceptableThreshold > 100) { sanitizedAcceptableThreshold = 100; }
 
     const tempVScore = Math.floor(
-      ((symmetryResult.vExactSymmetricalPixels * 100 / symmetryResult.visitedPixels) / sanitizedAcceptableThreshold) * 100
+      ((symmetryResult.tbExactSymmetricalPixels * 100 / symmetryResult.visitedPixels) / sanitizedAcceptableThreshold) * 100
     );
     const tempHScore = Math.floor(
-      ((symmetryResult.hExactSymmetricalPixels * 100 / symmetryResult.visitedPixels) / sanitizedAcceptableThreshold) * 100
+      ((symmetryResult.lrExactSymmetricalPixels * 100 / symmetryResult.visitedPixels) / sanitizedAcceptableThreshold) * 100
     );
 
-    if (tempVScore < 1) { this.fiSymmetryVScore = 1; }
-    else if (tempVScore > 100) { this.fiSymmetryVScore = 100; }
-    else { this.fiSymmetryVScore = tempVScore; }
+    if (tempVScore < 1) { this.fiSymmetryTBScore = 1; }
+    else if (tempVScore > 100) { this.fiSymmetryTBScore = 100; }
+    else { this.fiSymmetryTBScore = tempVScore; }
 
-    if (tempHScore < 1) { this.fiSymmetryHScore = 1; }
-    else if (tempHScore > 100) { this.fiSymmetryHScore = 100; }
-    else { this.fiSymmetryHScore = tempHScore; }
+    if (tempHScore < 1) { this.fiSymmetryLRScore = 1; }
+    else if (tempHScore > 100) { this.fiSymmetryLRScore = 100; }
+    else { this.fiSymmetryLRScore = tempHScore; }
 
     this.updateFinalScore();
   }
@@ -234,7 +234,7 @@ export class AnalysisResultComponent implements OnInit {
 
   updateFinalScore(): void {
     this.finalScore = Math.floor(
-      (this.fiSymmetryHScore + this.fiSymmetryVScore + this.fiTextSizeScore + this.fiPicturesScore) / 4
+      (this.fiSymmetryLRScore + this.fiSymmetryTBScore + this.fiTextSizeScore + this.fiPicturesScore) / 4
     );
   }
 }

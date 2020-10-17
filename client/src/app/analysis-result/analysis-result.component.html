@@ -42,7 +42,7 @@
                   </button>
                   <button type="button" class="list-group-item d-flex justify-content-between align-items-center" [ngClass]="{'active': currentPage === 'Symmetry'}" (click)="currentPage = 'Symmetry'">
                     Symmetry
-                    <span class="badge badge-primary badge-pill">{{ (fiSymmetryHScore + fiSymmetryVScore) / 2 }}</span>
+                    <span class="badge badge-primary badge-pill">{{ (fiSymmetryLRScore + fiSymmetryTBScore) / 2 }}</span>
                   </button>
 
                   <button type="button" class="list-group-item list-group-item-action list-header" disabled>
@@ -113,20 +113,20 @@
                   <table class="table">
                     <tbody>
                       <tr>
-                        <th scope="row" style="width: 120px;">Horizontal Symmetry</th>
-                        <td style="width: 120px;">{{ fiSymmetryHScore }}</td>
+                        <th scope="row" style="width: 120px;">Left-Right Symmetry</th>
+                        <td style="width: 120px;">{{ fiSymmetryLRScore }}</td>
                         <td>
                           <div class="progress">
-                            <div class="progress-bar" role="progressbar" [ngStyle]="{width: fiSymmetryHScore + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar" role="progressbar" [ngStyle]="{width: fiSymmetryLRScore + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                           </div>
                         </td>
                       </tr>
                       <tr>
-                        <th scope="row">Vertical Symmetry</th>
-                        <td>{{ fiSymmetryVScore }}</td>
+                        <th scope="row">Top-Bottom Symmetry</th>
+                        <td>{{ fiSymmetryTBScore }}</td>
                         <td>
                           <div class="progress">
-                            <div class="progress-bar" role="progressbar" [ngStyle]="{width: fiSymmetryVScore + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar" role="progressbar" [ngStyle]="{width: fiSymmetryTBScore + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                           </div>
                         </td>
                       </tr>
@@ -159,8 +159,8 @@
                   <img [src]="analysisResult.screenshot" alt="" width="100%">
                   <hr>
                   <div class="h3">Score</div>
-                  <p><b>Horizontal Symmetry Score:</b> {{ fiSymmetryHScore }}%</p>
-                  <p><b>Vertical Symmetry Score:</b> {{ fiSymmetryVScore }}%</p>
+                  <p><b>Left-Right Symmetry Score:</b> {{ fiSymmetryLRScore }}%</p>
+                  <p><b>Top-Bottom Symmetry Score:</b> {{ fiSymmetryTBScore }}%</p>
                   <ngx-charts-gauge
                     [view]="[500, 300]"
                     [scheme]="{
@@ -168,7 +168,7 @@
                     }"
                     [min]="0"
                     [max]="100"
-                    [results]="[{name: 'Horizontal', value: fiSymmetryHScore}, {name: 'Vertical', value: fiSymmetryVScore}]"
+                    [results]="[{name: 'Left-Right', value: fiSymmetryLRScore}, {name: 'Top-Bottom', value: fiSymmetryTBScore}]"
                     [legend]="true"
                     [legendPosition]="'bottom'"
                     >
@@ -189,12 +189,12 @@
                         <td>{{ analysisResult.symmetryResult.visitedPixels }}</td>
                       </tr>
                       <tr>
-                        <th scope="row">Horizontal Symmetrical Pixels</th>
-                        <td>{{ analysisResult.symmetryResult.hExactSymmetricalPixels }}</td>
+                        <th scope="row">Left-Right Symmetrical Pixels</th>
+                        <td>{{ analysisResult.symmetryResult.lrExactSymmetricalPixels }}</td>
                       </tr>
                       <tr>
-                        <th scope="row">Vertical Symmetrical Pixels</th>
-                        <td>{{ analysisResult.symmetryResult.vExactSymmetricalPixels }}</td>
+                        <th scope="row">Top-Bottom Symmetrical Pixels</th>
+                        <td>{{ analysisResult.symmetryResult.tbExactSymmetricalPixels }}</td>
                       </tr>
                     </tbody>
                   </table>

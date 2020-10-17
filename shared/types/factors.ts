@@ -13,14 +13,14 @@ export interface SymmetryResult {
     visitedPixels: number,
 
     /**
-     * Exact vertical symmetry pixels count
+     * Exact top-bottom symmetry pixels count
      */
-    vExactSymmetricalPixels: number,
+    tbExactSymmetricalPixels: number,
 
     /**
-     * Exact horizontal symmetry pixels count
+     * Exact left-right symmetry pixels count
      */
-    hExactSymmetricalPixels: number
+    lrExactSymmetricalPixels: number
 }
 
 // factor id: pictures

@@ -37,8 +37,8 @@ export class AnalysisResultComponent implements OnInit {
   fiTextSizeBarData: {name: string, value: number}[] = [];
   fiTextSizeScore: number = 0;
 
-  fiColorHarmonyVibrantItems: {name: string, r: number, g: number, b: number}[] = [];
-  fiColorHarmonyVibrantScore: number = 0;
+  fiDominantColorsVibrantItems: {name: string, r: number, g: number, b: number}[] = [];
+  fiDominantColorsVibrantScore: number = 0;
 
   fiElementCountBarData: {name: string, value: number}[] = [];
 
@@ -117,17 +117,17 @@ export class AnalysisResultComponent implements OnInit {
       minimumSize: this.analysisResult.analysisConfig.textSize.minimumSize
     });
 
-    // Factor Item: Color Harmony
-    this.fiColorHarmonyVibrantItems = Object
-      .keys(this.analysisResult.colorHarmonyResult.vibrant)
+    // Factor Item: Dominant Colors
+    this.fiDominantColorsVibrantItems = Object
+      .keys(this.analysisResult.dominantColorsResult.vibrant)
       .map((key) => ({
         name: key,
-        r: Math.floor(this.analysisResult.colorHarmonyResult.vibrant[key].rgb[0]),
-        g: Math.floor(this.analysisResult.colorHarmonyResult.vibrant[key].rgb[1]),
-        b: Math.floor(this.analysisResult.colorHarmonyResult.vibrant[key].rgb[2])
+        r: Math.floor(this.analysisResult.dominantColorsResult.vibrant[key].rgb[0]),
+        g: Math.floor(this.analysisResult.dominantColorsResult.vibrant[key].rgb[1]),
+        b: Math.floor(this.analysisResult.dominantColorsResult.vibrant[key].rgb[2])
       }));
 
-    this.fiColorHarmonyUpdateScore();
+    this.fiDominantColorsUpdateScore();
 
     // Factor Item: Element Count
     this.fiElementCountBarData = Object
@@ -235,22 +235,22 @@ export class AnalysisResultComponent implements OnInit {
     this.updateFinalScore();
   }
 
-  // Factor Item: Color Harmony
-  fiColorHarmonyVibrantMaxAreaPercentageChange(el: MatSliderChange) {
-    this.analysisResult.analysisConfig.colorHarmony.vibrantMaxAreaPercentage = el.value;
+  // Factor Item: Dominant Colors
+  fiDominantColorsVibrantMaxAreaPercentageChange(el: MatSliderChange) {
+    this.analysisResult.analysisConfig.dominantColors.vibrantMaxAreaPercentage = el.value;
 
-    this.fiColorHarmonyUpdateScore();
+    this.fiDominantColorsUpdateScore();
   }
 
-  fiColorHarmonyUpdateScore() {
-    const totalPixels = this.analysisResult.colorHarmonyResult.totalPixels;
+  fiDominantColorsUpdateScore() {
+    const totalPixels = this.analysisResult.dominantColorsResult.totalPixels;
 
     /** 0 - 100 */
-    let vibrantMaxAreaPercentage = this.analysisResult.analysisConfig.colorHarmony.vibrantMaxAreaPercentage;
+    let vibrantMaxAreaPercentage = this.analysisResult.analysisConfig.dominantColors.vibrantMaxAreaPercentage;
     if (vibrantMaxAreaPercentage === 0) { vibrantMaxAreaPercentage = 1; }
 
     /** 0 - totalPixels */
-    const vibrantPixelCount = this.analysisResult.colorHarmonyResult.vibrantPixelCount;
+    const vibrantPixelCount = this.analysisResult.dominantColorsResult.vibrantPixelCount;
 
     /** 0 - 100 */
     const vibrantCountPercentage = vibrantPixelCount * 100 / totalPixels;
@@ -268,14 +268,14 @@ export class AnalysisResultComponent implements OnInit {
     if (vibrantScore > 100) { vibrantScore = 100; }
     else if (vibrantScore < 0) { vibrantScore = 0; }
 
-    this.fiColorHarmonyVibrantScore = Math.floor(vibrantScore);
+    this.fiDominantColorsVibrantScore = Math.floor(vibrantScore);
 
     this.updateFinalScore();
   }
 
   updateFinalScore(): void {
     this.finalScore = Math.floor(
-      (this.fiSymmetryLRScore + this.fiSymmetryTBScore + this.fiTextSizeScore + this.fiPicturesScore + this.fiColorHarmonyVibrantScore) / 5
+      (this.fiSymmetryLRScore + this.fiSymmetryTBScore + this.fiTextSizeScore + this.fiPicturesScore + this.fiDominantColorsVibrantScore) / 5
     );
   }
 }

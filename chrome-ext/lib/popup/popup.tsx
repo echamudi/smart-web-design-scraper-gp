@@ -1,8 +1,8 @@
 import React, { SyntheticEvent } from 'react';
 import ReactDOM from 'react-dom';
 import { AppState, AnalysisConfig, AnalysisResult } from 'Shared/types/types';
-import { ColorHarmonyResult, SymmetryResult } from 'Shared/types/factors';
-import { colorHarmony } from '../evaluator/extension-side/color-harmony';
+import { DominantColorsResult, SymmetryResult } from 'Shared/types/factors';
+import { dominantColors } from '../evaluator/extension-side/color-harmony';
 import { ApolloClient, InMemoryCache, NormalizedCacheObject, gql } from 'Shared/node_modules/@apollo/client/core';
 import { login } from 'Shared/apollo-client/auth'
 import { symmetry } from '../evaluator/extension-side/symmetry';
@@ -134,7 +134,7 @@ class Analyzer extends React.Component {
       symmetry: {
         acceptablePercentage: 80
       },
-      colorHarmony: {
+      dominantColors: {
         vibrantMaxAreaPercentage: 2
       }
     },
@@ -167,15 +167,15 @@ class Analyzer extends React.Component {
     });
 
     // Calculate all values
-    let [analysisResult, colorHarmonyResult, symmetryResult] = await Promise.allSettled([
+    let [analysisResult, dominantColorsResult, symmetryResult] = await Promise.allSettled([
       new Promise<Partial<AnalysisResult>>((resolve, reject) => {
         chrome.tabs.sendMessage(tabId, { message: "analyze", config: this.state.config }, (response: Partial<AnalysisResult>) => {
           resolve(response);
         });
       }),
-      new Promise<ColorHarmonyResult>((resolve, reject) => {
+      new Promise<DominantColorsResult>((resolve, reject) => {
         chrome.tabs.captureVisibleTab({}, async (image) => {
-          const result = await colorHarmony(image);
+          const result = await dominantColors(image);
           resolve(result);
         });
       }),
@@ -194,7 +194,7 @@ class Analyzer extends React.Component {
     const finalAnalysisResult: Partial<AnalysisResult> = {
       ...analysisResult.value,
       html: '', // remove html for now
-      colorHarmonyResult: colorHarmonyResult.status === 'fulfilled' ? colorHarmonyResult.value : undefined,
+      dominantColorsResult: dominantColorsResult.status === 'fulfilled' ? dominantColorsResult.value : undefined,
       symmetryResult: symmetryResult.status === 'fulfilled' ? symmetryResult.value : undefined,
       screenshot: image
     };
@@ -363,26 +363,26 @@ class Analyzer extends React.Component {
                   </>
                 }
                 {
-                  this.state.result.colorHarmonyResult?.vibrant &&
+                  this.state.result.dominantColorsResult?.vibrant &&
                   <div>
-                    <h5 className="card-title">Vibrant / Color Harmony</h5>
-                    <p>Vibrant: {this.state.result.colorHarmonyResult?.vibrant.Vibrant?.hex}
-                      <span style={{ display: 'inline-block', height: 30, width: 75, backgroundColor: this.state.result.colorHarmonyResult?.vibrant.Vibrant?.hex }}></span>
+                    <h5 className="card-title">Vibrant / Dominant Colors</h5>
+                    <p>Vibrant: {this.state.result.dominantColorsResult?.vibrant.Vibrant?.hex}
+                      <span style={{ display: 'inline-block', height: 30, width: 75, backgroundColor: this.state.result.dominantColorsResult?.vibrant.Vibrant?.hex }}></span>
                     </p>
-                    <p>Muted: {this.state.result.colorHarmonyResult?.vibrant.Muted?.hex}
-                      <span style={{ display: 'inline-block', height: 30, width: 75, backgroundColor: this.state.result.colorHarmonyResult?.vibrant.Muted?.hex }}></span>
+                    <p>Muted: {this.state.result.dominantColorsResult?.vibrant.Muted?.hex}
+                      <span style={{ display: 'inline-block', height: 30, width: 75, backgroundColor: this.state.result.dominantColorsResult?.vibrant.Muted?.hex }}></span>
                     </p>
-                    <p>LightVibrant: {this.state.result.colorHarmonyResult?.vibrant.LightVibrant?.hex}
-                      <span style={{ display: 'inline-block', height: 30, width: 75, backgroundColor: this.state.result.colorHarmonyResult?.vibrant.LightVibrant?.hex }}></span>
+                    <p>LightVibrant: {this.state.result.dominantColorsResult?.vibrant.LightVibrant?.hex}
+                      <span style={{ display: 'inline-block', height: 30, width: 75, backgroundColor: this.state.result.dominantColorsResult?.vibrant.LightVibrant?.hex }}></span>
                     </p>
-                    <p>LightMuted: {this.state.result.colorHarmonyResult?.vibrant.LightMuted?.hex}
-                      <span style={{ display: 'inline-block', height: 30, width: 75, backgroundColor: this.state.result.colorHarmonyResult?.vibrant.LightMuted?.hex }}></span>
+                    <p>LightMuted: {this.state.result.dominantColorsResult?.vibrant.LightMuted?.hex}
+                      <span style={{ display: 'inline-block', height: 30, width: 75, backgroundColor: this.state.result.dominantColorsResult?.vibrant.LightMuted?.hex }}></span>
                     </p>
-                    <p>DarkVibrant: {this.state.result.colorHarmonyResult?.vibrant.DarkVibrant?.hex}
-                      <span style={{ display: 'inline-block', height: 30, width: 75, backgroundColor: this.state.result.colorHarmonyResult?.vibrant.DarkVibrant?.hex }}></span>
+                    <p>DarkVibrant: {this.state.result.dominantColorsResult?.vibrant.DarkVibrant?.hex}
+                      <span style={{ display: 'inline-block', height: 30, width: 75, backgroundColor: this.state.result.dominantColorsResult?.vibrant.DarkVibrant?.hex }}></span>
                     </p>
-                    <p>DarkMuted: {this.state.result.colorHarmonyResult?.vibrant.DarkMuted?.hex}
-                      <span style={{ display: 'inline-block', height: 30, width: 75, backgroundColor: this.state.result.colorHarmonyResult?.vibrant.DarkMuted?.hex }}></span>
+                    <p>DarkMuted: {this.state.result.dominantColorsResult?.vibrant.DarkMuted?.hex}
+                      <span style={{ display: 'inline-block', height: 30, width: 75, backgroundColor: this.state.result.dominantColorsResult?.vibrant.DarkMuted?.hex }}></span>
                     </p>
                   </div>
                 }

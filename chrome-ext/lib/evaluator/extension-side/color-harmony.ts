@@ -1,5 +1,5 @@
 import Vibrant from "node-vibrant";
-import { ColorHarmonyResult, ColorHarmonyPallete } from 'Shared/types/factors';
+import { DominantColorsResult, DominantColorsPallete } from 'Shared/types/factors';
 
 function equalWithTolerance(a: number, b: number, tolerance: number): boolean {
     let val = a - b;
@@ -12,16 +12,16 @@ function equalWithTolerance(a: number, b: number, tolerance: number): boolean {
  * 
  * @param image base64 image uri
  */
-export async function colorHarmony(imageURI: string): Promise<ColorHarmonyResult> {
-    const palette: ColorHarmonyPallete = await new Promise<ColorHarmonyPallete>((resolve, reject) => {
+export async function dominantColors(imageURI: string): Promise<DominantColorsResult> {
+    const palette: DominantColorsPallete = await new Promise<DominantColorsPallete>((resolve, reject) => {
         Vibrant.from(imageURI).getPalette((err, palette) => {
-            resolve(palette as ColorHarmonyPallete)
+            resolve(palette as DominantColorsPallete)
         });
     });
 
     return new Promise((resolve, reject) => {
         const canvas = document.createElement('canvas');
-        canvas.id = "colorHarmonyCanvas";
+        canvas.id = "dominantColorsCanvas";
     
         const ctx = canvas.getContext('2d');
     

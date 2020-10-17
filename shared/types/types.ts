@@ -1,12 +1,12 @@
-import { TextSizeConfig, TextSizeResult, BrowserInfoResult, SymmetryResult, ColorHarmonyConfig, PicturesConfig, SymmetryConfig } from "./factors";
+import { TextSizeConfig, TextSizeResult, BrowserInfoResult, SymmetryResult, DominantColorsConfig, PicturesConfig, SymmetryConfig } from "./factors";
 import { TextFontTypeResult } from "./factors";
 import { PicturesResult } from "./factors";
-import { ColorHarmonyResult } from "./factors";
+import { DominantColorsResult } from "./factors";
 import { ElementCountResult } from "./factors";
 
 export interface AnalysisConfig {
     textSize: TextSizeConfig,
-    colorHarmony: ColorHarmonyConfig,
+    dominantColors: DominantColorsConfig,
     pictures: PicturesConfig,
     symmetry: SymmetryConfig
 }
@@ -19,7 +19,7 @@ export interface AnalysisResult {
     textSizeResult: TextSizeResult;
     textFontTypeResult: TextFontTypeResult;
     picturesResult: PicturesResult;
-    colorHarmonyResult: ColorHarmonyResult;
+    dominantColorsResult: DominantColorsResult;
     elementCountResult: ElementCountResult;
     browserInfoResult: BrowserInfoResult;
     symmetryResult: SymmetryResult;

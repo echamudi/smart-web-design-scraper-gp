@@ -67,9 +67,9 @@
                   <button type="button" class="list-group-item list-group-item-action list-header" disabled>
                     Color Usage
                   </button>
-                  <button type="button" class="list-group-item d-flex justify-content-between align-items-center" [ngClass]="{'active': currentPage === 'Color Harmony'}" (click)="currentPage = 'Color Harmony'">
-                    Vibrant Colors
-                    <span class="badge badge-primary badge-pill">{{ fiColorHarmonyVibrantScore }}</span>
+                  <button type="button" class="list-group-item d-flex justify-content-between align-items-center" [ngClass]="{'active': currentPage === 'Dominant Colors'}" (click)="currentPage = 'Dominant Colors'">
+                    Dominant Colors
+                    <span class="badge badge-primary badge-pill">{{ fiDominantColorsVibrantScore }}</span>
                   </button>
 
                   <button type="button" class="list-group-item list-group-item-action list-header" disabled>
@@ -150,11 +150,11 @@
                         </td>
                       </tr>
                       <tr>
-                        <th scope="row">Vibrant Color Area</th>
-                        <td>{{ fiColorHarmonyVibrantScore }}</td>
+                        <th scope="row">Dominant Colors Area</th>
+                        <td>{{ fiDominantColorsVibrantScore }}</td>
                         <td>
                           <div class="progress">
-                            <div class="progress-bar" role="progressbar" [ngStyle]="{width: fiColorHarmonyVibrantScore + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar" role="progressbar" [ngStyle]="{width: fiDominantColorsVibrantScore + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                           </div>
                         </td>
                       </tr>
@@ -258,13 +258,13 @@
                 </div>
 
                 <!-- COLOR HARMONY -->
-                <div *ngIf="currentPage == 'Color Harmony'">
-                  <h2>Vibrant Colors</h2>
+                <div *ngIf="currentPage == 'Dominant Colors'">
+                  <h2>Dominant Colors</h2>
                   <img [src]="analysisResult.screenshot" alt="" width="100%">
                   <hr>
                   <h3>Colors</h3>
                   <div class="d-flex justify-content-center">
-                    <div class="ml-3 mr-3 d-flex flex-column align-items-center" *ngFor="let vibrantItem of this.fiColorHarmonyVibrantItems">
+                    <div class="ml-3 mr-3 d-flex flex-column align-items-center" *ngFor="let vibrantItem of this.fiDominantColorsVibrantItems">
                       <div class="text-bold">{{vibrantItem.name}}</div>
                       <div style="width: 50px; height: 50px;" [ngStyle]="{'background-color': 'rgb(' + vibrantItem.r + ', ' + vibrantItem.g + ', ' + vibrantItem.b + ')'}">
                       </div>
@@ -273,7 +273,7 @@
                   </div>
                   <hr>
                   <h3>Score</h3>
-                  <p><b>Vibrant Score:</b> {{ fiColorHarmonyVibrantScore }}%</p>
+                  <p><b>Vibrant Score:</b> {{ fiDominantColorsVibrantScore }}%</p>
                   <ngx-charts-gauge
                     [view]="[500, 300]"
                     [scheme]="{
@@ -281,30 +281,30 @@
                     }"
                     [min]="0"
                     [max]="100"
-                    [results]="[{name: 'Score', value: fiColorHarmonyVibrantScore }]"
+                    [results]="[{name: 'Score', value: fiDominantColorsVibrantScore }]"
                   >
                   </ngx-charts-gauge>
                   <div class="clearfix"></div>
                   <h3>Config</h3>
-                  <p><b>Maximum Vibrant Area Percentage:</b> {{ analysisResult.analysisConfig.colorHarmony.vibrantMaxAreaPercentage }}%</p>
+                  <p><b>Maximum Vibrant Area Percentage:</b> {{ analysisResult.analysisConfig.dominantColors.vibrantMaxAreaPercentage }}%</p>
                   <mat-slider style="width: 500px" min="0" max="100" step="1" thumbLabel
-                  [value]="analysisResult.analysisConfig.colorHarmony.vibrantMaxAreaPercentage"
-                  (change)="fiColorHarmonyVibrantMaxAreaPercentageChange($event)"></mat-slider>
+                  [value]="analysisResult.analysisConfig.dominantColors.vibrantMaxAreaPercentage"
+                  (change)="fiDominantColorsVibrantMaxAreaPercentageChange($event)"></mat-slider>
                   <hr>
                   <h3>Data</h3>
                   <table class="table">
                     <tbody>
                       <tr>
                         <th scope="row">Total Pixels</th>
-                        <td>{{ analysisResult.colorHarmonyResult.totalPixels }}</td>
+                        <td>{{ analysisResult.dominantColorsResult.totalPixels }}</td>
                       </tr>
                       <tr>
                         <th scope="row">Vibrant Pixel Count</th>
-                        <td>{{ analysisResult.colorHarmonyResult.vibrantPixelCount }}</td>
+                        <td>{{ analysisResult.dominantColorsResult.vibrantPixelCount }}</td>
                       </tr>
                       <tr>
                         <th scope="row">Vibrant Pixel Ratio</th>
-                        <td>{{ analysisResult.colorHarmonyResult.vibrantPixelCount * 100 / analysisResult.colorHarmonyResult.totalPixels }}%</td>
+                        <td>{{ analysisResult.dominantColorsResult.vibrantPixelCount * 100 / analysisResult.dominantColorsResult.totalPixels }}%</td>
                       </tr>
                     </tbody>
                   </table>

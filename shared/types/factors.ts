@@ -112,20 +112,20 @@ export interface TextSizeResult {
 
 // factor id: color-harmony
 
-export interface ColorHarmonyConfig {
+export interface DominantColorsConfig {
     /**
      * In percentage (0-100)
      */
     vibrantMaxAreaPercentage: number;
 }
 
-export interface ColorHarmonyResult {
+export interface DominantColorsResult {
     vibrant: Palette | undefined;
     totalPixels: number;
     vibrantPixelCount: number;
 }
 
-export type ColorHarmonyPallete = Palette;
+export type DominantColorsPallete = Palette;
 
 // factor id: element-count
 

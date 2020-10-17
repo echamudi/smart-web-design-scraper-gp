@@ -116,11 +116,13 @@ export interface ColorHarmonyConfig {
     /**
      * In percentage (0-100)
      */
-    vibranMaxAreaPercentage: number;
+    vibrantMaxAreaPercentage: number;
 }
 
 export interface ColorHarmonyResult {
     vibrant: Palette | undefined;
+    totalPixels: number;
+    vibrantPixelCount: number;
 }
 
 export type ColorHarmonyPallete = Palette;

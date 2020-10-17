@@ -135,7 +135,7 @@ class Analyzer extends React.Component {
         acceptablePercentage: 80
       },
       colorHarmony: {
-        vibranMaxAreaPercentage: 5
+        vibrantMaxAreaPercentage: 2
       }
     },
     result: {},

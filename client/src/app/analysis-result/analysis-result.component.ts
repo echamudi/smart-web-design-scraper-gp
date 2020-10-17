@@ -38,6 +38,7 @@ export class AnalysisResultComponent implements OnInit {
   fiTextSizeScore: number = 0;
 
   fiColorHarmonyVibrantItems: {name: string, r: number, g: number, b: number}[] = [];
+  fiColorHarmonyVibrantScore: number = 0;
 
   fiElementCountBarData: {name: string, value: number}[] = [];
 
@@ -121,10 +122,12 @@ export class AnalysisResultComponent implements OnInit {
       .keys(this.analysisResult.colorHarmonyResult.vibrant)
       .map((key) => ({
         name: key,
-        r: this.analysisResult.colorHarmonyResult.vibrant[key].rgb[0],
-        g: this.analysisResult.colorHarmonyResult.vibrant[key].rgb[1],
-        b: this.analysisResult.colorHarmonyResult.vibrant[key].rgb[2]
+        r: Math.floor(this.analysisResult.colorHarmonyResult.vibrant[key].rgb[0]),
+        g: Math.floor(this.analysisResult.colorHarmonyResult.vibrant[key].rgb[1]),
+        b: Math.floor(this.analysisResult.colorHarmonyResult.vibrant[key].rgb[2])
       }));
+
+    this.fiColorHarmonyUpdateScore();
 
     // Factor Item: Element Count
     this.fiElementCountBarData = Object
@@ -232,9 +235,47 @@ export class AnalysisResultComponent implements OnInit {
     this.updateFinalScore();
   }
 
+  // Factor Item: Color Harmony
+  fiColorHarmonyVibrantMaxAreaPercentageChange(el: MatSliderChange) {
+    this.analysisResult.analysisConfig.colorHarmony.vibrantMaxAreaPercentage = el.value;
+
+    this.fiColorHarmonyUpdateScore();
+  }
+
+  fiColorHarmonyUpdateScore() {
+    const totalPixels = this.analysisResult.colorHarmonyResult.totalPixels;
+
+    /** 0 - 100 */
+    let vibrantMaxAreaPercentage = this.analysisResult.analysisConfig.colorHarmony.vibrantMaxAreaPercentage;
+    if (vibrantMaxAreaPercentage === 0) { vibrantMaxAreaPercentage = 1; }
+
+    /** 0 - totalPixels */
+    const vibrantPixelCount = this.analysisResult.colorHarmonyResult.vibrantPixelCount;
+
+    /** 0 - 100 */
+    const vibrantCountPercentage = vibrantPixelCount * 100 / totalPixels;
+
+    /**
+     * 0-100
+     */
+    let vibrantScore: number;
+
+    const zeroScoreLimit = 2 * vibrantMaxAreaPercentage;
+    const excessVibrantPercentage = vibrantCountPercentage - vibrantMaxAreaPercentage;
+
+    vibrantScore = ((zeroScoreLimit - excessVibrantPercentage) / zeroScoreLimit) * 100;
+
+    if (vibrantScore > 100) { vibrantScore = 100; }
+    else if (vibrantScore < 0) { vibrantScore = 0; }
+
+    this.fiColorHarmonyVibrantScore = Math.floor(vibrantScore);
+
+    this.updateFinalScore();
+  }
+
   updateFinalScore(): void {
     this.finalScore = Math.floor(
-      (this.fiSymmetryLRScore + this.fiSymmetryTBScore + this.fiTextSizeScore + this.fiPicturesScore) / 4
+      (this.fiSymmetryLRScore + this.fiSymmetryTBScore + this.fiTextSizeScore + this.fiPicturesScore + this.fiColorHarmonyVibrantScore) / 5
     );
   }
 }

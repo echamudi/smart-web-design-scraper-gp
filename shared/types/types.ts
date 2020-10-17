@@ -1,11 +1,14 @@
-import { TextSizeConfig, TextSizeResult, BrowserInfoResult, SymmetryResult } from "./factors";
+import { TextSizeConfig, TextSizeResult, BrowserInfoResult, SymmetryResult, ColorHarmonyConfig, PicturesConfig, SymmetryConfig } from "./factors";
 import { TextFontTypeResult } from "./factors";
 import { PicturesResult } from "./factors";
 import { ColorHarmonyResult } from "./factors";
 import { ElementCountResult } from "./factors";
 
 export interface AnalysisConfig {
-    textSize: TextSizeConfig
+    textSize: TextSizeConfig,
+    colorHarmony: ColorHarmonyConfig,
+    pictures: PicturesConfig,
+    symmetry: SymmetryConfig
 }
 
 export interface AnalysisResult {

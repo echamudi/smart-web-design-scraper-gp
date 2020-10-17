@@ -2,6 +2,13 @@ import { Palette } from "node-vibrant/lib/color";
 
 // factor id: symmetry
 
+export interface SymmetryConfig {
+    /**
+     * 0-100
+     */
+    acceptablePercentage: number;
+}
+
 export interface SymmetryResult {
     visitedPixels: number,
 
@@ -17,6 +24,13 @@ export interface SymmetryResult {
 }
 
 // factor id: pictures
+
+export interface PicturesConfig {
+    /**
+     * Minimum picture area (px^2)
+     */
+    acceptableThreshold: number;
+}
 
 export interface PicturesResult {
     /**
@@ -97,6 +111,13 @@ export interface TextSizeResult {
 }
 
 // factor id: color-harmony
+
+export interface ColorHarmonyConfig {
+    /**
+     * In percentage (0-100)
+     */
+    vibranMaxAreaPercentage: number;
+}
 
 export interface ColorHarmonyResult {
     vibrant: Palette | undefined;

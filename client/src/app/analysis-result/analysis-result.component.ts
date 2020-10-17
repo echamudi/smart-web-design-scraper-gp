@@ -31,7 +31,6 @@ export class AnalysisResultComponent implements OnInit {
   currentPage: string = 'Overview';
   analysisResult: Partial<AnalysisResult>;
 
-  fiSymmetryConfigAcceptableThreshold: number = 80; // TODO: Fix this hardcoded number
   fiSymmetryVScore: number = 0;
   fiSymmetryHScore: number = 0;
 
@@ -42,7 +41,6 @@ export class AnalysisResultComponent implements OnInit {
 
   fiElementCountBarData: {name: string, value: number}[] = [];
 
-  fiPicturesConfigAcceptableThreshold: number = 300000; // TODO: Fix this hardcoded number
   fiPicturesTotalArea: number = 0;
   fiPicturesScore: number = 0;
 
@@ -100,7 +98,7 @@ export class AnalysisResultComponent implements OnInit {
     // Factor Item: Symmetry
     this.fiSymmetryUpdateScore({
       symmetryResult: this.analysisResult.symmetryResult,
-      acceptableThreshold: this.fiSymmetryConfigAcceptableThreshold
+      acceptablePercentage: this.analysisResult.analysisConfig.symmetry.acceptablePercentage
     });
 
     // Factor Item: Text Size
@@ -152,21 +150,21 @@ export class AnalysisResultComponent implements OnInit {
 
   // Factor Item: Symmetry
   fiSymmetryAcceptableThresholdChange(el: MatSliderChange) {
-    this.fiSymmetryConfigAcceptableThreshold = el.value;
+    this.analysisResult.analysisConfig.symmetry.acceptablePercentage = el.value;
 
     this.fiSymmetryUpdateScore({
       symmetryResult: this.analysisResult.symmetryResult,
-      acceptableThreshold: this.fiSymmetryConfigAcceptableThreshold
+      acceptablePercentage: this.analysisResult.analysisConfig.symmetry.acceptablePercentage
     });
   }
 
-  fiSymmetryUpdateScore({symmetryResult, acceptableThreshold}:
+  fiSymmetryUpdateScore({symmetryResult, acceptablePercentage}:
     {
       symmetryResult: SymmetryResult,
-      acceptableThreshold: number
+      acceptablePercentage: number
     }): void {
 
-    let sanitizedAcceptableThreshold = acceptableThreshold;
+    let sanitizedAcceptableThreshold = acceptablePercentage;
 
     if (sanitizedAcceptableThreshold < 1) { sanitizedAcceptableThreshold = 1; }
     if (sanitizedAcceptableThreshold > 100) { sanitizedAcceptableThreshold = 100; }
@@ -218,13 +216,13 @@ export class AnalysisResultComponent implements OnInit {
 
   // Factor Item: Text Size
   fiPicturesAcceptableThresholdChange(el: MatSliderChange) {
-    this.fiPicturesConfigAcceptableThreshold = el.value;
+    this.analysisResult.analysisConfig.pictures.acceptableThreshold = el.value;
 
     this.fiPictureUpdateScore();
   }
 
   fiPictureUpdateScore() {
-    let score = (this.fiPicturesTotalArea / this.fiPicturesConfigAcceptableThreshold) * 100;
+    let score = (this.fiPicturesTotalArea / this.analysisResult.analysisConfig.pictures.acceptableThreshold) * 100;
 
     if (score > 100) score = 100;
     if (score < 1) score = 1;

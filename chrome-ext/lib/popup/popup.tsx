@@ -127,6 +127,15 @@ class Analyzer extends React.Component {
       textSize: {
         marking: false,
         minimumSize: 12
+      },
+      pictures: {
+        acceptableThreshold: 300000
+      },
+      symmetry: {
+        acceptablePercentage: 80
+      },
+      colorHarmony: {
+        vibranMaxAreaPercentage: 5
       }
     },
     result: {},

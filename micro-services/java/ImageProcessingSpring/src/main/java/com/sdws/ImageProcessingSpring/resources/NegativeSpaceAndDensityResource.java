@@ -18,7 +18,7 @@ import static com.sdws.ImageProcessingSpring.utils.ImageUtils.decodeImage;
 
 
 @RequestMapping("/negativendensity")
-public class DensityResource {
+public class NegativeSpaceAndDensityResource {
 
 
     @PostMapping("/test")

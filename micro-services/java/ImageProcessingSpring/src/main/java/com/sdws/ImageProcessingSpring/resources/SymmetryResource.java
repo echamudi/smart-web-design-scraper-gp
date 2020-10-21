@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -22,6 +23,7 @@ import java.util.Base64;
 
 @RestController
 @RequestMapping("/symmetry")
+@CrossOrigin(origins = "*") // Temporarily allowing all origins
 public class SymmetryResource {
 
 
@@ -34,9 +36,14 @@ public class SymmetryResource {
         return new SymmetryResult(horizontalSymmetryTest(buffimg),verticalSymmetryTest(buffimg)) ;
     }
 
+    public SymmetryResult checkSymmetry(String img) {
+        // decoding the image...
+        BufferedImage buffimg = ImageUtils.decodeImage(img);
+        return new SymmetryResult(horizontalSymmetryTest(buffimg),verticalSymmetryTest(buffimg)) ;
+    }
 
 //horizontalSymmetryTest
-    private static SymmetryVerticalResult verticalSymmetryTest(BufferedImage buffImg)  {
+    private  SymmetryVerticalResult verticalSymmetryTest(BufferedImage buffImg)  {
         int rows = buffImg.getWidth() ;
         int columns = buffImg.getHeight() ;
         int allVisited = 0 ;

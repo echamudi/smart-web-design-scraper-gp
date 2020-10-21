@@ -1,0 +1,35 @@
+import { TextSizeConfig, TextSizeResult, BrowserInfoResult, SymmetryResult } from "./factors";
+import { TextFontTypeResult } from "./factors";
+import { PicturesResult } from "./factors";
+import { ColorHarmonyResult } from "./factors";
+import { ElementCountResult } from "./factors";
+
+export interface AnalysisConfig {
+    textSize: TextSizeConfig
+}
+
+export interface AnalysisResult {
+    html: string;
+    analysisConfig: AnalysisConfig;
+
+    screenshot: string;
+    textSizeResult: TextSizeResult;
+    textFontTypeResult: TextFontTypeResult;
+    picturesResult: PicturesResult;
+    colorHarmonyResult: ColorHarmonyResult;
+    elementCountResult: ElementCountResult;
+    browserInfoResult: BrowserInfoResult;
+    symmetryResult: SymmetryResult;
+}
+
+export interface AppState {
+    analyzingStatus: string;
+    config: AnalysisConfig;
+    result: Partial<AnalysisResult>;
+    lastReceiptId?: string,
+
+    /**
+     * viewport snapshot
+     */
+    snapshot: string | null;
+}

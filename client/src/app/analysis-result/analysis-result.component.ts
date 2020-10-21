@@ -1,7 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
 import Vibrant from 'node-vibrant';
+import { TokenStorageService } from '../_services/token-storage.service';
+import { AuthService } from '../_services/auth.service';
+import { from as observableFrom } from 'rxjs';
+import { gql } from '@apollo/client/core';
+import { ActivatedRoute } from '@angular/router';
+import { AnalysisResult } from 'Shared/types/types';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { MatSliderChange } from '@angular/material/slider';
+import { TextSizeResult, TextSizeConfig, SymmetryResult } from 'Shared/types/factors';
 
 @Component({
   selector: 'app-analysis-result',
@@ -10,49 +17,192 @@ import Vibrant from 'node-vibrant';
 })
 export class AnalysisResultComponent implements OnInit {
 
-  constructor(private activatedRoute: ActivatedRoute, private http: HttpClient) { }
+  constructor(private activatedRoute: ActivatedRoute, private tokenStorage: TokenStorageService, private authService: AuthService) { }
 
-  url: string;
-  size: string;
-  imageFontSizeURL: string;
-  imageVanillaURL: string;
-  resultHtmlURL: string;
-  analysisDescription: string;
+  q: string;
+  analysisResultRaw: string;
+  // size: string;
+  // imageFontSizeURL: string;
+  // imageVanillaURL: string;
+  // resultHtmlURL: string;
+  // analysisDescription: string;
   showResult: boolean;
   showError: boolean;
-  vibrants: {name, hex}[];
-  currentPage: string;
+  currentPage: string = 'Home';
+  analysisResult: Partial<AnalysisResult>;
+
+  fiSymmetryConfigAcceptableThreshold: number = 80; // TODO: Fix this hardcoded number
+  fiSymmetryVScore: number = 0;
+  fiSymmetryHScore: number = 0;
+
+  fiTextSizeBarData: {name: string, value: number}[] = [];
+  fiTextSizeScore: number = 0;
+
+  fiColorHarmonyVibrantItems: {name: string, r: number, g: number, b: number}[] = [];
+
+  fiElementCountBarData: {name: string, value: number}[] = [];
+
+  finalScore: number = 0;
 
   ngOnInit(): void {
     this.showResult = false;
-    console.log(Vibrant);
+    this.showError = false;
 
     this.activatedRoute.queryParams.subscribe(params => {
-      this.url = params.url;
-      this.size = params.size;
-      this.currentPage = 'Font Size';
+      this.q = params.q;
+      const tok = this.tokenStorage.getToken();
+      console.log(this.q);
 
-      this.http.get('http://localhost:3302/api/analyze?url=' + encodeURI(this.url) + '&size=' + encodeURI(this.size))
-        .subscribe((data: any) => {
-          console.log(data);
-
-          this.imageFontSizeURL = 'http://localhost:3302/results/' + data.resultScreenshotURL + '-font-size.png';
-          this.imageVanillaURL = 'http://localhost:3302/results/' + data.resultScreenshotURL + '-vanilla.png';
-          this.resultHtmlURL = 'http://localhost:3302/results/' + data.resultHtmlURL;
-          this.analysisDescription = data.analysisDescription;
-
-          this.vibrants = [];
-
-          Vibrant.from(this.imageVanillaURL).getPalette((err, palette) => {
-            Object.keys(palette).forEach((key) => {
-              this.vibrants.push({name: key, hex: palette[key].hex});
-            });
-          });
+      observableFrom(
+        this.authService.client.query({
+          query: gql`query ($id: ID!) {
+            getAnalysis(id: $id) {
+              date,
+              data
+            }
+          }`,
+          variables: {
+            id: this.q
+          },
+          context: {
+            headers: {
+              'x-access-token': tok
+            }
+          }
+        })
+      ).subscribe(
+        data => {
+          if (data.errors) {
+            this.showError = true;
+            return;
+          }
 
           this.showResult = true;
-        }, (error: any) => {
+          this.analysisResult = JSON.parse(data.data.getAnalysis.data);
+          this.analysisResultRaw = JSON.stringify(this.analysisResult, null, 2);
+
+          console.log('analysisResult', this.analysisResult);
+          this.buildReport();
+        },
+        err => {
+          console.log('err', err);
           this.showError = true;
-        });
+        }
+      );
     });
+  }
+
+  buildReport() {
+    // Factor Item: Symmetry
+    this.fiSymmetryUpdateScore({
+      symmetryResult: this.analysisResult.symmetryResult,
+      acceptableThreshold: this.fiSymmetryConfigAcceptableThreshold
+    });
+
+    // Factor Item: Text Size
+    this.fiTextSizeBarData = Object
+      .keys(this.analysisResult.textSizeResult.textSizeMap)
+      .sort((a, b) => Number(a) - Number(b))
+      .map((key) => ({
+        name: key + 'px',
+        value: this.analysisResult.textSizeResult.textSizeMap[key]
+      }));
+
+    this.fiTextSizeUpdateScore({
+      allChars: this.analysisResult.textSizeResult.totalCharacters,
+      textSizeMap: this.analysisResult.textSizeResult.textSizeMap,
+      minimumSize: this.analysisResult.analysisConfig.textSize.minimumSize
+    });
+
+    // Factor Item: Color Harmony
+    this.fiColorHarmonyVibrantItems = Object
+      .keys(this.analysisResult.colorHarmonyResult.vibrant)
+      .map((key) => ({
+        name: key,
+        r: this.analysisResult.colorHarmonyResult.vibrant[key].rgb[0],
+        g: this.analysisResult.colorHarmonyResult.vibrant[key].rgb[1],
+        b: this.analysisResult.colorHarmonyResult.vibrant[key].rgb[2]
+      }));
+
+    // Factor Item: Element Count
+    this.fiElementCountBarData = Object
+    .keys(this.analysisResult.elementCountResult.list)
+    .sort((a, b) => a.localeCompare(b))
+    .map((key) => ({
+      name: key,
+      value: this.analysisResult.elementCountResult.list[key]
+    }));
+  }
+
+  // Factor Item: Symmetry
+  fiSymmetryAcceptableThresholdChange(el: MatSliderChange) {
+    this.fiSymmetryConfigAcceptableThreshold = el.value;
+
+    this.fiSymmetryUpdateScore({
+      symmetryResult: this.analysisResult.symmetryResult,
+      acceptableThreshold: this.fiSymmetryConfigAcceptableThreshold
+    });
+  }
+
+  fiSymmetryUpdateScore({symmetryResult, acceptableThreshold}:
+    {
+      symmetryResult: SymmetryResult,
+      acceptableThreshold: number
+    }): void {
+
+    let sanitizedAcceptableThreshold = acceptableThreshold;
+
+    if (sanitizedAcceptableThreshold < 1) { sanitizedAcceptableThreshold = 1; }
+    if (sanitizedAcceptableThreshold > 100) { sanitizedAcceptableThreshold = 100; }
+
+    const tempVScore = Math.floor(
+      ((symmetryResult.vExactSymmetricalPixels * 100 / symmetryResult.visitedPixels) / sanitizedAcceptableThreshold) * 100
+    );
+    const tempHScore = Math.floor(
+      ((symmetryResult.hExactSymmetricalPixels * 100 / symmetryResult.visitedPixels) / sanitizedAcceptableThreshold) * 100
+    );
+
+    if (tempVScore < 1) { this.fiSymmetryVScore = 1; }
+    else if (tempVScore > 100) { this.fiSymmetryVScore = 100; }
+    else { this.fiSymmetryVScore = tempVScore; }
+
+    if (tempHScore < 1) { this.fiSymmetryHScore = 1; }
+    else if (tempHScore > 100) { this.fiSymmetryHScore = 100; }
+    else { this.fiSymmetryHScore = tempHScore; }
+
+    this.updateFinalScore();
+  }
+
+  // Factor Item: Text Size
+  fiTextSizeMinimumSizeChange(el: MatSliderChange) {
+    this.analysisResult.analysisConfig.textSize.minimumSize = el.value;
+
+    this.fiTextSizeUpdateScore({
+      allChars: this.analysisResult.textSizeResult.totalCharacters,
+      textSizeMap: this.analysisResult.textSizeResult.textSizeMap,
+      minimumSize: this.analysisResult.analysisConfig.textSize.minimumSize
+    });
+  }
+
+  fiTextSizeUpdateScore({allChars, textSizeMap, minimumSize}: {
+    allChars: TextSizeResult['totalCharacters'],
+    textSizeMap: TextSizeResult['textSizeMap'],
+    minimumSize: TextSizeConfig['minimumSize']
+  }) {
+    const affectedChars: number = Object
+      .keys(textSizeMap)
+      .filter((size) => Number(size) < minimumSize)
+      .reduce((prev, curr) => prev += textSizeMap[curr], 0);
+    const nonAffectedChars: number = allChars - affectedChars;
+
+    this.fiTextSizeScore = Math.floor(nonAffectedChars * 100 / allChars);
+
+    this.updateFinalScore();
+  }
+
+  updateFinalScore(): void {
+    this.finalScore = Math.floor(
+      (this.fiSymmetryHScore + this.fiSymmetryVScore + this.fiTextSizeScore) / 3
+    );
   }
 }

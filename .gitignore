@@ -116,6 +116,10 @@ dist
 .yarn/build-state.yml
 .pnp.*
 
-## mongodb container volume
+## Other ignores
 
+# mongodb container volume
 /mongo/db
+
+# java compiled bin
+bin/

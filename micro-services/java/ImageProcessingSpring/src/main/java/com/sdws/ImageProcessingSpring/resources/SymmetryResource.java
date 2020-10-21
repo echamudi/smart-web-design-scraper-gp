@@ -36,9 +36,14 @@ public class SymmetryResource {
         return new SymmetryResult(horizontalSymmetryTest(buffimg),verticalSymmetryTest(buffimg)) ;
     }
 
+    public SymmetryResult checkSymmetry(String img) {
+        // decoding the image...
+        BufferedImage buffimg = ImageUtils.decodeImage(img);
+        return new SymmetryResult(horizontalSymmetryTest(buffimg),verticalSymmetryTest(buffimg)) ;
+    }
 
 //horizontalSymmetryTest
-    private static SymmetryVerticalResult verticalSymmetryTest(BufferedImage buffImg)  {
+    private  SymmetryVerticalResult verticalSymmetryTest(BufferedImage buffImg)  {
         int rows = buffImg.getWidth() ;
         int columns = buffImg.getHeight() ;
         int allVisited = 0 ;

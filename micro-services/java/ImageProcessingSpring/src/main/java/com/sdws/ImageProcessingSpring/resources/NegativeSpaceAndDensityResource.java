@@ -14,9 +14,6 @@ import static com.sdws.ImageProcessingSpring.utils.ColorsUtils.getRGBArr;
 import static com.sdws.ImageProcessingSpring.utils.ImageUtils.decodeImage;
 
 @RestController
-
-
-
 @RequestMapping("/negativendensity")
 public class NegativeSpaceAndDensityResource {
 
@@ -26,9 +23,12 @@ public class NegativeSpaceAndDensityResource {
         return checkDensity(decodeImage(img.getImg()));
     }
 
+    public NegativeSpaceAndDensityResult checkDensity(String img) {
+        return checkDensity(decodeImage(img));
+    }
 
 
-    public  NegativeSpaceAndDensityResult checkDensity(BufferedImage buffImg)  {
+    private  NegativeSpaceAndDensityResult checkDensity(BufferedImage buffImg)  {
         Map colorsCounts = new HashMap();
         // looping through the image...
 //        System.out.println(buffImg.getHeight()  + " * " + buffImg.getWidth()) ;

@@ -2,12 +2,14 @@ import { IResolverObject, IResolvers, IFieldResolver } from 'apollo-server';
 import jwt, { VerifyErrors } from 'jsonwebtoken';
 import config from '../configs/auth.config';
 import bcrypt from 'bcryptjs';
+import mongoose from 'mongoose';
 import { context, ContextInterface } from './context';
 
 import { db } from '../models';
 
 const User = db.user;
 const Role = db.role;
+const History = db.history;
 
 export const resolvers: IResolvers = {
     Query: {
@@ -54,6 +56,24 @@ export const resolvers: IResolvers = {
                 return {};
             } else {
                 return null;
+            }
+        },
+        getAnalysis: async (parent, args: {id: string}, context: ContextInterface, info) => {
+            const uid = context.user?.id;
+
+            if (typeof uid !== 'string') {
+                return new Error('user is not logged in');
+            }
+
+            const analysis = await History.findOne({ _id: args.id });
+
+            if (!analysis?.owner.equals(uid)) {
+                return new Error('user doesn\'t have previledge to see the document');
+            }
+
+            return {
+                date: analysis?.createdAt,
+                data: analysis?.data
             }
         }
     },
@@ -117,7 +137,27 @@ export const resolvers: IResolvers = {
                 username,
                 email
             }
-        }
+        },
+        saveAnalysis: async (parent, args: {data: string}, context: ContextInterface, info) => {
+            const uid = context.user?.id;
+
+            if (typeof uid !== 'string') {
+                return new Error('user is not logged in');
+            }
+
+            const analysis = new History({
+                owner: uid,
+                data: args.data
+            });
+
+            const savedAnalysis = await analysis.save();
+
+            if (!savedAnalysis) {
+                return new Error('Something is wrong while saving analysis');
+            }
+
+            return analysis.id;
+        },
     },
     User: {
         username: async (parent, args, context: ContextInterface, info) => {
@@ -138,5 +178,5 @@ export const resolvers: IResolvers = {
         isAdmin: async (parent, args, context: ContextInterface, info) => {
             return context.isAdmin;
         },
-    }
+    },
 };

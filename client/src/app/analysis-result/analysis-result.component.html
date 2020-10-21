@@ -3,22 +3,12 @@
     <div class="col mt-5">
       <div class="card">
         <div class="card-body">
-          <h1>Analysis Result</h1>
           <div class="row mb-3 mt-2">
             <div class="col d-flex align-items-center">
-              <div>
-                <div class="text-bold">URL :</div> {{ url }}
-              </div>
-            </div>
-            <div class="col d-flex align-items-center">
-              <div>
-                <div class="text-bold">Screen Size :</div> {{ size }}
-              </div>
+              <h1>Analysis Result</h1>
             </div>
             <div class="col d-flex justify-content-end">
-              <!-- <a class="btn btn-primary" href="{{resultHtmlURL}}" target="_blank" *ngIf="showResult">
-                Open HTML result
-              </a> -->
+              Final Score: {{ finalScore }}
             </div>
           </div>
           <hr>
@@ -35,52 +25,276 @@
             <div class="row">
               <div class="col-3">
                 <div class="list-group">
-                  <button type="button" class="list-group-item list-group-item-action list-header"
-                    disabled>Font</button>
-                  <button type="button" class="list-group-item list-group-item-action" [ngClass]="{'active': currentPage === 'Font Size'}" (click)="currentPage = 'Font Size'">
-                    Font Size
+                  <button type="button" class="list-group-item list-group-item-action" [ngClass]="{'active': currentPage === 'Overview'}" (click)="currentPage = 'Overview'">
+                    Overview
                   </button>
-                  <button type="button" class="list-group-item list-group-item-action">
-                    Text Contrast Ratio
+
+                  <button type="button" class="list-group-item list-group-item-action list-header" disabled>
+                    Distribution of Components
                   </button>
-                  <button type="button" class="list-group-item list-group-item-action list-header"
-                    disabled>Color</button>
-                  <button type="button" class="list-group-item list-group-item-action" [ngClass]="{'active': currentPage === 'Dominant Colors'}" (click)="currentPage = 'Dominant Colors'">Dominant Colors</button>
+                  <button type="button" class="list-group-item d-flex justify-content-between align-items-center" [ngClass]="{'active': currentPage === 'Symmetry'}" (click)="currentPage = 'Symmetry'">
+                    Symmetry
+                    <span class="badge badge-primary badge-pill">{{ (fiSymmetryHScore + fiSymmetryVScore) / 2 }}</span>
+                  </button>
+
+                  <button type="button" class="list-group-item list-group-item-action list-header" disabled>
+                    Typography
+                  </button>
+                  <button type="button" class="list-group-item d-flex justify-content-between align-items-center" [ngClass]="{'active': currentPage === 'Text Size'}" (click)="currentPage = 'Text Size'">
+                    Text Size
+                    <span class="badge badge-primary badge-pill">{{ fiTextSizeScore }}</span>
+                  </button>
+                  <button type="button" class="list-group-item d-flex justify-content-between align-items-center" [ngClass]="{'active': currentPage === 'Type of Font'}" (click)="currentPage = 'Type of Font'">
+                    Type of Font
+                  </button>
+
+                  <button type="button" class="list-group-item list-group-item-action list-header" disabled>
+                    Color Usage
+                  </button>
+                  <button type="button" class="list-group-item list-group-item-action" [ngClass]="{'active': currentPage === 'Color Harmony'}" (click)="currentPage = 'Color Harmony'">
+                    Color Harmony
+                  </button>
+
+                  <button type="button" class="list-group-item list-group-item-action list-header" disabled>
+                    Other Data
+                  </button>
+                  <button type="button" class="list-group-item list-group-item-action" [ngClass]="{'active': currentPage === 'Element Count'}" (click)="currentPage = 'Element Count'">
+                    Element Count
+                  </button>
+
+                  <button type="button" class="list-group-item list-group-item-action list-header" disabled>
+                    Debug
+                  </button>
+                  <button type="button" class="list-group-item list-group-item-action" [ngClass]="{'active': currentPage === 'Raw JSON'}" (click)="currentPage = 'Raw JSON'">
+                    Raw JSON
+                  </button>
                 </div>
               </div>
               <div class="col-9">
-                <!-- Font Size -->
-                <div *ngIf="currentPage == 'Font Size'">
-                  <h2>Font Size</h2>
-                  <p>
-                    {{ analysisDescription }}
-                  </p>
-                  <div class="sw-resultPage-screenshotContainer">
-                    <img class="sw-resultPage-screenshot" [src]="imageFontSizeURL" />
-                  </div>
+
+                <!-- OVERVIEW -->
+                <div *ngIf="currentPage == 'Overview'">
+                  <div class="h3">URL</div>
+                    <a [href]="analysisResult.browserInfoResult.url">{{ analysisResult.browserInfoResult.url }}</a>
+                  <hr>
+                  <div class="h3">Viewport Snapshot</div>
+                  <table class="table table-bordered">
+                    <tr>
+                      <td></td>
+                      <td style="text-align: center;"><b>Viewport Width:</b> {{analysisResult.browserInfoResult.viewportWidth}}pt</td>
+                    </tr>
+                    <tr>
+                      <td style="vertical-align: middle;">
+                        <span style="writing-mode: vertical-rl;">
+                          <b>Viewport Height:</b> {{analysisResult.browserInfoResult.viewportHeight}}pt
+                        </span>
+                      </td>
+                      <td><img [src]="analysisResult.screenshot" alt="" width="100%"></td>
+                    </tr>
+                  </table>
+                  <hr>
+                  <div class="h3">Score Summary</div>
+                  <table class="table">
+                    <tbody>
+                      <tr>
+                        <th scope="row" style="width: 120px;">Horizontal Symmetry</th>
+                        <td style="width: 120px;">{{ fiSymmetryHScore }}</td>
+                        <td>
+                          <div class="progress">
+                            <div class="progress-bar" role="progressbar" [ngStyle]="{width: fiSymmetryHScore + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Vertical Symmetry</th>
+                        <td>{{ fiSymmetryVScore }}</td>
+                        <td>
+                          <div class="progress">
+                            <div class="progress-bar" role="progressbar" [ngStyle]="{width: fiSymmetryVScore + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Text Size</th>
+                        <td>{{ fiTextSizeScore }}</td>
+                        <td>
+                          <div class="progress">
+                            <div class="progress-bar" role="progressbar" [ngStyle]="{width: fiTextSizeScore + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
-                <!-- Dominant Colors -->
-                <div *ngIf="currentPage == 'Dominant Colors'">
-                  <h2>Dominant Colors</h2>
+
+                <!-- SYMMETRY -->
+                <div *ngIf="currentPage == 'Symmetry'">
+                  <div class="h2">Symmetry</div>
+                  <hr>
+                  <img [src]="analysisResult.screenshot" alt="" width="100%">
+                  <hr>
+                  <div class="h3">Score</div>
+                  <p><b>Horizontal Symmetry Score:</b> {{ fiSymmetryHScore }}%</p>
+                  <p><b>Vertical Symmetry Score:</b> {{ fiSymmetryVScore }}%</p>
+                  <ngx-charts-gauge
+                    [view]="[500, 300]"
+                    [scheme]="{
+                      domain: ['#5AA454', '#563d7c']
+                    }"
+                    [min]="0"
+                    [max]="100"
+                    [results]="[{name: 'Horizontal', value: fiSymmetryHScore}, {name: 'Vertical', value: fiSymmetryVScore}]"
+                    [legend]="true"
+                    [legendPosition]="'bottom'"
+                    >
+                  </ngx-charts-gauge>
+                  <div class="clearfix"></div>
+                  <hr>
+                  <h3>Config</h3>
+                  <p><b>Acceptable Threshold:</b> {{ fiSymmetryConfigAcceptableThreshold }}%</p>
+                  <mat-slider style="width: 500px" min="0" max="100" step="5" thumbLabel
+                  [value]="fiSymmetryConfigAcceptableThreshold"
+                  (change)="fiSymmetryAcceptableThresholdChange($event)"></mat-slider>
+                  <hr>
+                  <div class="h3">Analysis</div>
+                  <table class="table">
+                    <tbody>
+                      <tr>
+                        <th scope="row">Total Pixels</th>
+                        <td>{{ analysisResult.symmetryResult.visitedPixels }}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Horizontal Symmetrical Pixels</th>
+                        <td>{{ analysisResult.symmetryResult.hExactSymmetricalPixels }}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Vertical Symmetrical Pixels</th>
+                        <td>{{ analysisResult.symmetryResult.vExactSymmetricalPixels }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <hr>
+                </div>
+
+                <!-- TEXT SIZE -->
+                <div *ngIf="currentPage == 'Text Size'">
+                  <div class="h2">Text Size</div>
+                  <hr>
+                  <img [src]="analysisResult.screenshot" alt="" width="100%">
+                  <hr>
+                  <h3>Score</h3>
+                  <p><b>Text Size Score:</b> {{ fiTextSizeScore }}%</p>
+                  <ngx-charts-gauge
+                    [view]="[500, 300]"
+                    [scheme]="{
+                      domain: ['#5AA454']
+                    }"
+                    [min]="0"
+                    [max]="100"
+                    [results]="[{name: 'Score', value: fiTextSizeScore}]"
+                  >
+                  </ngx-charts-gauge>
+                  <div class="clearfix"></div>
+                  <hr>
+
+                  <h3>Config</h3>
+                  <p><b>Minimum Text Size:</b> {{ this.analysisResult.analysisConfig.textSize.minimumSize }} px</p>
+                  <mat-slider style="width: 500px" min="0" max="30" step="1" thumbLabel
+                  [value]="this.analysisResult.analysisConfig.textSize.minimumSize"
+                  (change)="fiTextSizeMinimumSizeChange($event)"></mat-slider>
+                  <hr>
+
+                  <h3>Text Size Distribution</h3>
+                  <p>Character count based on text size</p>
+                  <ngx-charts-bar-vertical
+                    style="display: block;"
+                    [showDataLabel]="true"
+                    [results]="fiTextSizeBarData"
+                    [xAxis]="true"
+                    [yAxis]="true"
+                    [showXAxisLabel]="true"
+                    [showYAxisLabel]="true"
+                    [view]="[600, 300]"
+                    [xAxisLabel]="'Text Size'"
+                    [yAxisLabel]="'Total Characters'"
+                    >
+                  </ngx-charts-bar-vertical>
+                  <div class="clearfix"></div>
+                </div>
+
+                <!-- COLOR HARMONY -->
+                <div *ngIf="currentPage == 'Color Harmony'">
+                  <h2>Color Harmony</h2>
+                  <img [src]="analysisResult.screenshot" alt="" width="100%">
+                  <hr>
+                  <h3>Dominant Colors</h3>
                   <div class="d-flex justify-content-center">
-                    <div class="ml-3 mr-3 d-flex flex-column align-items-center" *ngFor="let vibrantItem of vibrants">
+                    <div class="ml-3 mr-3 d-flex flex-column align-items-center" *ngFor="let vibrantItem of this.fiColorHarmonyVibrantItems">
                       <div class="text-bold">{{vibrantItem.name}}</div>
-                      <div style="width: 50px; height: 50px;" [ngStyle]="{'background-color': vibrantItem.hex}">
+                      <div style="width: 50px; height: 50px;" [ngStyle]="{'background-color': 'rgb(' + vibrantItem.r + ', ' + vibrantItem.g + ', ' + vibrantItem.b + ')'}">
                       </div>
-                      <div>{{vibrantItem.hex}}</div>
+                      <div><b>RGB: </b>{{vibrantItem.r}}, {{vibrantItem.g}}, {{vibrantItem.b}}</div>
                     </div>
                   </div>
-                  <div class="sw-resultPage-screenshotContainer">
-                    <img class="sw-resultPage-screenshot" [src]="imageVanillaURL" />
-                  </div>
                 </div>
+
+                <!-- TYPE OF FONT -->
+                <div *ngIf="currentPage == 'Type of Font'">
+                  <h3>
+                    Used Fonts
+                  </h3>
+                  <p>
+                    {{ analysisResult.textFontTypeResult.usedFonts.join(', ') }}
+                  </p>
+                  <hr>
+
+                  <h3>
+                    All Font Stacks
+                  </h3>
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Stack</th>
+                      </tr>
+                    </thead>
+                    <tr *ngFor="let item of analysisResult.textFontTypeResult.stacks; let i = index">
+                      <td>{{ i }}</td>
+                      <td>{{ item }}</td>
+                    </tr>
+                  </table>
+                </div>
+
+                <!-- ELEMENT COUNT -->
+                <div *ngIf="currentPage == 'Element Count'">
+                  <h3>Element Tag Distribution</h3>
+                  <ngx-charts-bar-horizontal
+                  [view]="[500, fiElementCountBarData.length * 50]"
+                  [showDataLabel]="true"
+                  [results]="fiElementCountBarData"
+                  [xAxis]="true"
+                  [yAxis]="true"
+                  [showXAxisLabel]="true"
+                  [showYAxisLabel]="true"
+                  [xAxisLabel]="'count'"
+                  >
+                  </ngx-charts-bar-horizontal>
+                </div>
+
+                <!-- RAW JSON -->
+                <div *ngIf="currentPage == 'Raw JSON'">
+                  <pre>
+{{ analysisResultRaw }}
+                  </pre>
+                </div>
+
               </div>
             </div>
           </div>
           <!-- Error -->
-          <div *ngIf="showError">
+          <!-- <div *ngIf="showError">
             <div class="alert alert-danger">Cannot access the requested URL</div>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>

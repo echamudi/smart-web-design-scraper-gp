@@ -1,4 +1,4 @@
-package com.sdws.ImageProcessingSpring.models;
+package com.sdws.ImageProcessingSpring.models.symmetry;
 
 public class SymmetryResult {
 

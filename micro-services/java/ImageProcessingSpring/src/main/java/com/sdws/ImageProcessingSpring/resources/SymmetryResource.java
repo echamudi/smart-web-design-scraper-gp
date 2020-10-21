@@ -35,7 +35,7 @@ public class SymmetryResource {
     }
 
 
-
+//horizontalSymmetryTest
     private static SymmetryVerticalResult verticalSymmetryTest(BufferedImage buffImg)  {
         int rows = buffImg.getWidth() ;
         int columns = buffImg.getHeight() ;
@@ -70,7 +70,7 @@ public class SymmetryResource {
         return new SymmetryVerticalResult(percentage,allVisited , Symmetrical , nonSymmetrical ) ;
     }
 
-
+//verticalSymmetryTest
     private  SymmetryHorizontalResult horizontalSymmetryTest(BufferedImage img) {
         int rows = img.getWidth() ;
         int columns = img.getHeight() ;

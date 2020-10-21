@@ -23,18 +23,12 @@ public class DensityResource {
 
     @PostMapping("/test")
     public NegativeSpaceAndDensityResult checkDensity(@RequestBody DensityCallBody img) {
-
-            BufferedImage image = decodeImage(img.getImg());
-
-            NegativeSpaceAndDensityResult callBack = checkDensity(image);
-
-
-        return callBack;
+        return checkDensity(decodeImage(img.getImg()));
     }
 
 
 
-    public static NegativeSpaceAndDensityResult checkDensity(BufferedImage buffImg)  {
+    public  NegativeSpaceAndDensityResult checkDensity(BufferedImage buffImg)  {
         Map colorsCounts = new HashMap();
         // looping through the image...
         System.out.println(buffImg.getHeight()  + " * " + buffImg.getWidth()) ;
@@ -54,21 +48,20 @@ public class DensityResource {
             }
         }
         // getting the most common color...
-        int mostCommonColor = getMostCommonColor(colorsCounts) ;
-        System.out.println( " most common color : " + mostCommonColor);
-        int  mostCommonColorCount = (int)colorsCounts.get(mostCommonColor) ;
-        System.out.println("most common color count : " +mostCommonColorCount ) ;
+        int backgroundColor = getMostCommonColor(colorsCounts) ;
+        System.out.println( " most common color : " + backgroundColor);
+        int  backgroundPixels = (int)colorsCounts.get(backgroundColor) ;
+        System.out.println("most common color count : " +backgroundPixels ) ;
         //  getting percentage of the dominant color in the rest of the image ...
         int allPixels =  buffImg.getWidth() * buffImg.getHeight() ;
         System.out.println("all pixels ::> " + allPixels) ;
-        double percentageOfDominantColor = ((double)mostCommonColorCount / (double)allPixels) *100 ;
-        double percentageOfNegativeSpace = 100 -  percentageOfDominantColor  ;
-        System.out.println("percentage of Density ::>  "+percentageOfNegativeSpace);
-        System.out.println( "percentage of negative Space : " + percentageOfDominantColor) ;
+        double percentageOfNegativeSpace = ((double)backgroundPixels / (double)allPixels) *100 ;
+        double percentageOfDensity = 100 -  percentageOfNegativeSpace  ;
+        System.out.println("percentage of Density ::>  "+percentageOfDensity);
+        System.out.println( "percentage of negative Space : " + percentageOfNegativeSpace) ;
  //        construct the callback and return it...
 
-
-        return new NegativeSpaceAndDensityResult();
+        return new NegativeSpaceAndDensityResult(percentageOfNegativeSpace,percentageOfDensity,allPixels,backgroundColor,backgroundPixels);
 //        return String.valueOf(percentageOfDominantColor);
     }
 

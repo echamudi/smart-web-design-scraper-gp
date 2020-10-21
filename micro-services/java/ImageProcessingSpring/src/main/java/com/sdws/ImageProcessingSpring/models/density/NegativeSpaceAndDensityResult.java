@@ -5,7 +5,7 @@ public class NegativeSpaceAndDensityResult {
     private double negativeSpacePercentage  ;
     private double densityPercentage ;
     private int allPixels ;
-    private int mostCommonColor ;
+    private int backgroundColor;
     private int backgroundPixels ;
 
 
@@ -14,11 +14,15 @@ public class NegativeSpaceAndDensityResult {
     }
 
 
-    public NegativeSpaceAndDensityResult(double negativeSpacePercentage, double densityPercentage, int allPixels, int mostCommonColor, int backgroundPixels) {
+    public NegativeSpaceAndDensityResult(double negativeSpacePercentage,
+                                         double densityPercentage,
+                                         int allPixels,
+                                         int backgroundColor,
+                                         int backgroundPixels) {
         this.negativeSpacePercentage = negativeSpacePercentage;
         this.densityPercentage = densityPercentage;
         this.allPixels = allPixels;
-        this.mostCommonColor = mostCommonColor;
+        this.backgroundColor = backgroundColor;
         this.backgroundPixels = backgroundPixels;
     }
 
@@ -46,12 +50,12 @@ public class NegativeSpaceAndDensityResult {
         this.allPixels = allPixels;
     }
 
-    public int getMostCommonColor() {
-        return mostCommonColor;
+    public int getBackgroundColor() {
+        return backgroundColor;
     }
 
-    public void setMostCommonColor(int mostCommonColor) {
-        this.mostCommonColor = mostCommonColor;
+    public void setBackgroundColor(int backgroundColor) {
+        this.backgroundColor = backgroundColor;
     }
 
     public int getBackgroundPixels() {

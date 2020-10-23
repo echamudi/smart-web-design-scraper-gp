@@ -57,13 +57,4 @@ public class NegativeSpaceAndDensityResource {
 
 
 
-
-
-
-
-
-
-
-
-
 }

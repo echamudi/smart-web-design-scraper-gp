@@ -36,7 +36,6 @@ public class BalanceTestResource {
 
 
     private BalanceResult balanceTest(BufferedImage buffImage) {
-
        // preparing the image before using detection tools...
        int backgroundColor = ColorsUtils.getMostCommonColor(ImageUtils.getColorCounts(buffImage));
        BufferedImage imageWithWhiteBackground = ImageUtils.setAllBackgroundToWhite(buffImage , backgroundColor);
@@ -44,16 +43,19 @@ public class BalanceTestResource {
         // convert to Mat ...
         Mat source = ImageUtils.img2Mat(imageWithWhiteBackground);
 //        // a place to hold the greyed out version of the image...
-//        Mat greyedOutImage = new Mat(source.rows(),source.cols(),source.type());
+        Mat greyedOutImage = new Mat(source.rows(),source.cols(),source.type());
 //        // greying out the image and storing it...
-//        Imgproc.cvtColor(source,greyedOutImage,Imgproc.COLOR_RGB2GRAY);
+        Imgproc.cvtColor(source,greyedOutImage,Imgproc.COLOR_RGB2GRAY);
 //        // equalizing the histogram of the image ... (improving the contrast of the image)
 ////        Imgproc.equalizeHist(greyedOutImage,greyedOutImage);
 //        // blurring the image ...
 ////        Imgproc.GaussianBlur(greyedOutImage, greyedOutImage, new Size(5, 5), 0, 0, Core.BORDER_DEFAULT);
 //
-////        Imgproc.Canny(greyedOutImage,);
-
+//        Imgproc.Canny(greyedOutImage,);
+        Mat edge  = new Mat() ;
+        Imgproc.Canny(greyedOutImage ,edge, 50 ,100);
+        Mat contours = new Mat() ;
+//        Imgproc.findContours(edge , contours , );
 
 
 

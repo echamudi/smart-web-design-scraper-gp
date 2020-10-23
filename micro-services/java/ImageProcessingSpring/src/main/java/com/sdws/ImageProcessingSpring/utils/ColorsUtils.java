@@ -1,6 +1,8 @@
 package com.sdws.ImageProcessingSpring.utils;
 
 import java.awt.*;
+import java.util.*;
+import java.util.List;
 
 public class ColorsUtils {
 
@@ -30,6 +32,29 @@ public class ColorsUtils {
                 return false;
         return true;
     }
+
+    public static int getMostCommonColor(Map map) {
+        List list = new LinkedList<>(map.entrySet());
+        // sorting the map in reverse order ...
+        Collections.sort(list, new Comparator<>() {
+            @Override
+            public int compare(Object o1, Object o2) {
+                return ((Comparable) ((Map.Entry) (o1)).getValue())
+                        .compareTo(((Map.Entry) (o2)).getValue());
+            }
+        });
+        // return the last item in the map (which is the most used element);
+//        System.out.println("list size ::: " + list.size()) ;
+        Map.Entry me = (Map.Entry )list.get(list.size()-1);
+//        int[] rgb = ColorsUtils.getRGBArr((Integer) me.getKey());
+        // return pixel...
+//        System.out.println("most comomn color key ::> " + (int)me.getKey()) ;
+        return (int)me.getKey() ;
+    }
+
+
+
+
 
 
 

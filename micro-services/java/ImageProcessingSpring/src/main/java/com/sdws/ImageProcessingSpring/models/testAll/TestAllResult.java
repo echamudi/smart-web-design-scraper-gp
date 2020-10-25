@@ -1,19 +1,27 @@
 package com.sdws.ImageProcessingSpring.models.testAll;
 
-import com.sdws.ImageProcessingSpring.models.density.NegativeSpaceAndDensityResult;
+import com.sdws.ImageProcessingSpring.models.density.DensityResult;
+import com.sdws.ImageProcessingSpring.models.negativespace.NegativeSpaceResult;
 import com.sdws.ImageProcessingSpring.models.symmetry.SymmetryResult;
 
 public class TestAllResult {
     private SymmetryResult symmetryResult ;
-    private NegativeSpaceAndDensityResult negativeSpaceAndDensityResult ;
+    private DensityResult densityResult;
+    private NegativeSpaceResult negativeSpaceResult;
 
     public TestAllResult() {
     }
 
-    public TestAllResult(SymmetryResult symmetryResult, NegativeSpaceAndDensityResult negativeSpaceAndDensityResult) {
+    public TestAllResult(SymmetryResult symmetryResult, DensityResult densityResult , NegativeSpaceResult negativeSpaceResult) {
         this.symmetryResult = symmetryResult;
-        this.negativeSpaceAndDensityResult = negativeSpaceAndDensityResult;
+        this.densityResult = densityResult;
+        this.negativeSpaceResult = negativeSpaceResult ;
     }
+
+
+
+
+
 
     public SymmetryResult getSymmetryResult() {
         return symmetryResult;
@@ -23,11 +31,11 @@ public class TestAllResult {
         this.symmetryResult = symmetryResult;
     }
 
-    public NegativeSpaceAndDensityResult getNegativeSpaceAndDensityResult() {
-        return negativeSpaceAndDensityResult;
+    public DensityResult getNegativeSpaceAndDensityResult() {
+        return densityResult;
     }
 
-    public void setNegativeSpaceAndDensityResult(NegativeSpaceAndDensityResult negativeSpaceAndDensityResult) {
-        this.negativeSpaceAndDensityResult = negativeSpaceAndDensityResult;
+    public void setNegativeSpaceAndDensityResult(DensityResult densityResult) {
+        this.densityResult = densityResult;
     }
 }

@@ -1,7 +1,7 @@
 package com.sdws.ImageProcessingSpring.resources;
 
 import com.sdws.ImageProcessingSpring.models.density.DensityCallBody;
-import com.sdws.ImageProcessingSpring.models.density.NegativeSpaceAndDensityResult;
+import com.sdws.ImageProcessingSpring.models.density.DensityResult;
 import com.sdws.ImageProcessingSpring.utils.ColorsUtils;
 import com.sdws.ImageProcessingSpring.utils.ImageUtils;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,25 +12,24 @@ import org.springframework.web.bind.annotation.RestController;
 import java.awt.image.BufferedImage;
 import java.util.*;
 
-import static com.sdws.ImageProcessingSpring.utils.ColorsUtils.getRGBArr;
 import static com.sdws.ImageProcessingSpring.utils.ImageUtils.decodeImage;
 
 @RestController
-@RequestMapping("/negativendensity")
-public class NegativeSpaceAndDensityResource {
+@RequestMapping("/density")
+public class DensityResource {
 
 
     @PostMapping("/test")
-    public NegativeSpaceAndDensityResult checkDensity(@RequestBody DensityCallBody img) {
+    public DensityResult checkDensity(@RequestBody DensityCallBody img) {
         return checkDensity(decodeImage(img.getImg()));
     }
 
-    public NegativeSpaceAndDensityResult checkDensity(String img) {
+    public DensityResult checkDensity(String img) {
         return checkDensity(decodeImage(img));
     }
 
 
-    private  NegativeSpaceAndDensityResult checkDensity(BufferedImage buffImg)  {
+    private DensityResult checkDensity(BufferedImage buffImg)  {
         Map colorsCounts = ImageUtils.getColorCounts(buffImg);
         // getting the most common color...
         int backgroundColor = ColorsUtils.getMostCommonColor(colorsCounts) ;
@@ -48,7 +47,7 @@ public class NegativeSpaceAndDensityResource {
 
 
  //        construct the callback and return it...
-        return new NegativeSpaceAndDensityResult(percentageOfNegativeSpace,percentageOfDensity,allPixels,backgroundColor,backgroundPixels);
+        return new DensityResult(percentageOfDensity,allPixels,backgroundColor,backgroundPixels);
 //        return String.valueOf(percentageOfDominantColor);
     }
 

@@ -28,7 +28,7 @@ public class NegativeSpaceResource {
 
     public NegativeSpaceResult checkNegativeSpace( String img) {
         System.out.println("negative space : ");
-        return new NegativeSpaceResult(checkNegativeSpace(ImageUtils.decodeImage(img))) ;
+        return checkNegativeSpace(ImageUtils.decodeImage(img));
     }
 
     private NegativeSpaceResult checkNegativeSpace(BufferedImage buffImg)  {

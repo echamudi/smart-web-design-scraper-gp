@@ -18,11 +18,6 @@ public class TestAllResult {
         this.negativeSpaceResult = negativeSpaceResult ;
     }
 
-
-
-
-
-
     public SymmetryResult getSymmetryResult() {
         return symmetryResult;
     }
@@ -31,11 +26,19 @@ public class TestAllResult {
         this.symmetryResult = symmetryResult;
     }
 
-    public DensityResult getNegativeSpaceAndDensityResult() {
+    public DensityResult getDensityResult() {
         return densityResult;
     }
 
-    public void setNegativeSpaceAndDensityResult(DensityResult densityResult) {
+    public void setDensityResult(DensityResult densityResult) {
         this.densityResult = densityResult;
+    }
+
+    public NegativeSpaceResult getNegativeSpaceResult() {
+        return negativeSpaceResult;
+    }
+
+    public void setNegativeSpaceResult(NegativeSpaceResult negativeSpaceResult) {
+        this.negativeSpaceResult = negativeSpaceResult;
     }
 }

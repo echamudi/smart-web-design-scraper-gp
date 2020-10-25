@@ -1,7 +1,6 @@
 import { ApolloServer, gql } from "apollo-server-express";
 import express from "express";
 import mongoose from "mongoose";
-
 import { resolvers } from "./graphql/resolvers";
 import { typeDefs } from "./graphql/typeDefs";
 import { context } from "./graphql/context"
@@ -21,7 +20,9 @@ const startServer = async () => {
     context
   });
 
-  server.applyMiddleware({ app });
+  server.applyMiddleware({ app, bodyParserConfig: {
+    limit: '100mb', 
+  } });
 
   // Prepare database
 
@@ -42,7 +43,7 @@ const startServer = async () => {
 
   // Start server
 
-
+  app.use(express.json({limit: '50mb'}));
   app.listen({ port: 3001 }, () =>
     console.log(`🚀 Server ready at http://localhost:3001${server.graphqlPath}`)
   );

@@ -32,10 +32,10 @@
  * @param   {boolean} verbose whether to output an array of all elements with their style properties
  * @returns {array}   array of unique properties, or if verbose is true, array of all elements with their properties
  */
-export function styleInPage(css: string, verbose: Boolean) {
+export function styleInPage(win: Window, css: string, verbose: Boolean) {
     // polyfill getComputedStyle
     if (typeof getComputedStyle == "undefined") {
-        (window.getComputedStyle) = function (elem: any) {
+        (win.getComputedStyle) = function (elem: any) {
             return elem.currentStyle;
         }
     }

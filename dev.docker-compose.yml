@@ -1,4 +1,5 @@
-# Just like docker-compose, except it's mongo only
+# Development docker-compose
+
 version: "3.8"
 services:
   mongo:
@@ -10,3 +11,10 @@ services:
       - ./mongo/db:/data/db
     environment: 
       MONGO_INITDB_DATABASE: swdsdb
+  spring:
+    container_name: spring
+    build:
+      context: ./micro-services/java/ImageProcessingSpring
+      dockerfile: Dockerfile
+    ports:
+      - "3003:8080"

@@ -45,6 +45,8 @@ export class AnalysisResultComponent implements OnInit {
   fiPicturesTotalArea: number = 0;
   fiPicturesScore: number = 0;
 
+  fiDensityScore: number = 0;
+
   finalScore: number = 0;
 
   ngOnInit(): void {
@@ -149,6 +151,9 @@ export class AnalysisResultComponent implements OnInit {
     }, 0);
 
     this.fiPictureUpdateScore();
+
+    // Factor Item: Density;
+    this.fiDensityUpdateScore();
   }
 
   // Factor Item: Symmetry
@@ -235,6 +240,33 @@ export class AnalysisResultComponent implements OnInit {
     this.updateFinalScore();
   }
 
+  // Factor Item: Density
+  fiDensityAcceptableThresholdChange(el: MatSliderChange) {
+    this.analysisResult.analysisConfig.density.acceptableThreshold = el.value;
+
+    this.fiDensityUpdateScore();
+  }
+
+  fiDensityUpdateScore() {
+    const densityPercentage = this.analysisResult.densityResult.percentage;
+    const antiDensityPercentage = 100 - densityPercentage;
+
+    let sanitizedAcceptableThreshold = this.analysisResult.analysisConfig.density.acceptableThreshold;
+
+    if (sanitizedAcceptableThreshold < 1) { sanitizedAcceptableThreshold = 1; }
+    if (sanitizedAcceptableThreshold > 100) { sanitizedAcceptableThreshold = 100; }
+
+    const score = Math.floor(
+      (antiDensityPercentage / sanitizedAcceptableThreshold) * 100
+    );
+
+    if (score < 1) { this.fiDensityScore = 1; }
+    else if (score > 100) { this.fiDensityScore = 100; }
+    else { this.fiDensityScore = score; }
+
+    this.updateFinalScore();
+  }
+
   // Factor Item: Dominant Colors
   fiDominantColorsVibrantMaxAreaPercentageChange(el: MatSliderChange) {
     this.analysisResult.analysisConfig.dominantColors.vibrantMaxAreaPercentage = el.value;
@@ -274,8 +306,20 @@ export class AnalysisResultComponent implements OnInit {
   }
 
   updateFinalScore(): void {
-    this.finalScore = Math.floor(
-      (this.fiSymmetryLRScore + this.fiSymmetryTBScore + this.fiTextSizeScore + this.fiPicturesScore + this.fiDominantColorsVibrantScore) / 5
+    const score = Math.floor(
+      (
+        this.fiSymmetryLRScore +
+        this.fiSymmetryTBScore +
+        this.fiTextSizeScore +
+        this.fiPicturesScore +
+        this.fiDominantColorsVibrantScore +
+        this.fiDensityScore
+      )
+      / 6
     );
+
+    if (score < 1) { this.finalScore = 1; }
+    else if (score > 100) { this.finalScore = 100; }
+    else { this.finalScore = score; }
   }
 }

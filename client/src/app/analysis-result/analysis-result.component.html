@@ -39,6 +39,9 @@
                         <button type="button" class="list-group-item d-flex justify-content-between align-items-center" [ngClass]="{'active': currentPage === 'Symmetry'}" (click)="currentPage = 'Symmetry'">
                           Symmetry
                         </button>
+                        <button type="button" class="list-group-item d-flex justify-content-between align-items-center" [ngClass]="{'active': currentPage === 'Density'}" (click)="currentPage = 'Density'">
+                          Density
+                        </button>
 
                         <button type="button" class="list-group-item list-group-item-action list-header" disabled>
                           Graphics
@@ -341,6 +344,30 @@
                             </tr>
                           </tbody>
                         </table>
+                      </div>
+
+                      <!-- DENSITY -->
+                      <div *ngIf="currentPage == 'Density'">
+                        <div class="h2">Density</div>
+                        <hr>
+                        <h3>Score</h3>
+                        <p><b>Pictures Score:</b> {{ fiDensityScore }}</p>
+                        <ngx-charts-gauge
+                          [view]="[500, 300]"
+                          [scheme]="{
+                            domain: ['#5AA454']
+                          }"
+                          [min]="0"
+                          [max]="100"
+                          [results]="[{name: 'Score', value: fiDensityScore}]">
+                        </ngx-charts-gauge>
+                        <div class="clearfix"></div>
+                        <hr>
+                        <h3>Config</h3>
+                        <p><b>Acceptable Density Threshold:</b> {{ analysisResult.analysisConfig.density.acceptableThreshold }}%</p>
+                        <mat-slider style="width: 500px" min="0" max="100" step="1" thumbLabel
+                        [value]="analysisResult.analysisConfig.density.acceptableThreshold"
+                        (change)="fiDensityAcceptableThresholdChange($event)"></mat-slider>
                       </div>
                     </div>
                   </div>

@@ -10,10 +10,18 @@ sourceCompatibility = '11'
 
 repositories {
 	mavenCentral()
+//	jcenter()
+	flatDir {
+		dirs 'lib'
+	}
 }
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation name:'opencv-4.4.0-1.5.4'
+//	implementation name:'javacpp-1.5.4.jar'
+//	implementation name:'openblas-0.3.10-1.5.4.jar'
+//	implementation 'com.quickbirdstudios:opencv:4.4.0'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}

@@ -146,3 +146,9 @@ export interface BrowserInfoResult {
     viewportWidth: number;
     viewportHeight: number;
 }
+
+// factor id: color-count
+
+export interface ColorCountResult {
+    rank: Array<{color: string, pixelCount: number}>,
+}

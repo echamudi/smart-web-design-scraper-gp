@@ -7,6 +7,7 @@ import { ApolloClient, InMemoryCache, NormalizedCacheObject, gql } from 'Shared/
 import { login } from 'Shared/apollo-client/auth'
 import { symmetry } from '../evaluator/extension-side/symmetry';
 import { colorCount } from '../evaluator/extension-side/color-count';
+import { density } from '../evaluator/extension-side/density';
 
 const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
   uri: 'http://localhost:3001/graphql',
@@ -185,8 +186,11 @@ class Analyzer extends React.Component {
       })
     });
 
+    console.log('ipsTestAll', ipsTestAll);
+
     // Calculate all sync values
     const symmetryResult = symmetry(ipsTestAll.symmetryResult);
+    const densityResult = density(ipsTestAll.densityResult);
 
     // Calculate all async values
     let [analysisResult, dominantColorsResult, colorCountResult] = await Promise.allSettled([
@@ -216,7 +220,8 @@ class Analyzer extends React.Component {
     const finalAnalysisResult: Partial<AnalysisResult> = {
       ...analysisResult.value,
       html: '', // remove html for now
-      symmetryResult: symmetryResult,
+      symmetryResult,
+      densityResult,
       dominantColorsResult: dominantColorsResult.status === 'fulfilled' ? dominantColorsResult.value : undefined,
       colorCountResult: colorCountResult.status === 'fulfilled' ? colorCountResult.value : undefined,
       screenshot: image

@@ -4,6 +4,7 @@ import { textFontType } from '../evaluator/content-side/text-font-type';
 import { pictures } from '../evaluator/content-side/pictures';
 import { elementCount } from '../evaluator/content-side/element-count';
 import { browserInfo } from '../evaluator/content-side/browser-info';
+import { negativeSpace } from '../evaluator/content-side/negative-space';
 
 if ((window as any).SWDS === undefined) {
     (window as any).SWDS = {};
@@ -31,6 +32,8 @@ if ((window as any).SWDS === undefined) {
 
             const browserInfoResult = browserInfo(window);
 
+            const negativeSpaceResult = negativeSpace(window, document, browserInfoResult);
+
             // Result
 
             const analysisResult: Partial<AnalysisResult> = {
@@ -40,7 +43,8 @@ if ((window as any).SWDS === undefined) {
                 analysisConfig: config,
                 picturesResult,
                 elementCountResult,
-                browserInfoResult
+                browserInfoResult,
+                negativeSpaceResult
             };
 
             // Result

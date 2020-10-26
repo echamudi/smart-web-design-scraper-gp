@@ -37,8 +37,8 @@ export async function colorCount(imageURI: string): Promise<ColorCountResult> {
 
     rank.sort((a, b) => a.pixelCount > b.pixelCount ? -1 : 1);
 
-    // Get 10 most used colors
-    rank.splice(10, Infinity);
+    // Get 20 most used colors
+    rank.splice(20, Infinity);
 
     return { rank };
 }

@@ -1,4 +1,4 @@
-import { TextSizeConfig, TextSizeResult, BrowserInfoResult, SymmetryResult, DominantColorsConfig, PicturesConfig, SymmetryConfig, ColorCountResult, DensityResult, DensityConfig } from "./factors";
+import { TextSizeConfig, TextSizeResult, BrowserInfoResult, SymmetryResult, DominantColorsConfig, PicturesConfig, SymmetryConfig, ColorCountResult, DensityResult, DensityConfig, NegativeSpaceResult } from "./factors";
 import { TextFontTypeResult } from "./factors";
 import { PicturesResult } from "./factors";
 import { DominantColorsResult } from "./factors";
@@ -26,6 +26,7 @@ export interface AnalysisResult {
     symmetryResult: SymmetryResult;
     colorCountResult: ColorCountResult;
     densityResult: DensityResult;
+    negativeSpaceResult: NegativeSpaceResult;
 }
 
 export interface AppState {

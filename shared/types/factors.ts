@@ -172,3 +172,11 @@ export interface DensityResult {
     visitedPixels: number;
     bgPixels: number;
 }
+
+// factor id: negative space
+export interface NegativeSpaceResult {
+    scrollWidth: number;
+    scrollHeight: number;
+    textElementCount: number;
+    components: {x: number, y: number; w: number; h: number}[];
+}

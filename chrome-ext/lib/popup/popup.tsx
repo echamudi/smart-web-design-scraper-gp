@@ -1,11 +1,12 @@
 import React, { SyntheticEvent } from 'react';
 import ReactDOM from 'react-dom';
 import { AppState, AnalysisConfig, AnalysisResult } from 'Shared/types/types';
-import { DominantColorsResult, SymmetryResult } from 'Shared/types/factors';
+import { DominantColorsResult, SymmetryResult, ColorCountResult } from 'Shared/types/factors';
 import { dominantColors } from '../evaluator/extension-side/dominant-colors';
 import { ApolloClient, InMemoryCache, NormalizedCacheObject, gql } from 'Shared/node_modules/@apollo/client/core';
 import { login } from 'Shared/apollo-client/auth'
 import { symmetry } from '../evaluator/extension-side/symmetry';
+import { colorCount } from '../evaluator/extension-side/color-count';
 
 const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
   uri: 'http://localhost:3001/graphql',
@@ -167,7 +168,7 @@ class Analyzer extends React.Component {
     });
 
     // Calculate all values
-    let [analysisResult, dominantColorsResult, symmetryResult] = await Promise.allSettled([
+    let [analysisResult, dominantColorsResult, symmetryResult, colorCountResult] = await Promise.allSettled([
       new Promise<Partial<AnalysisResult>>((resolve, reject) => {
         chrome.tabs.sendMessage(tabId, { message: "analyze", config: this.state.config }, (response: Partial<AnalysisResult>) => {
           resolve(response);
@@ -182,7 +183,11 @@ class Analyzer extends React.Component {
       new Promise<SymmetryResult>(async (resolve, reject) => {
         const result = await symmetry(image);
         resolve(result);
-      })
+      }),
+      new Promise<ColorCountResult>(async (resolve, reject) => {
+        const result = await colorCount(image);
+        resolve(result);
+      }),
     ]);
 
     if (analysisResult.status === 'rejected') {
@@ -196,6 +201,7 @@ class Analyzer extends React.Component {
       html: '', // remove html for now
       dominantColorsResult: dominantColorsResult.status === 'fulfilled' ? dominantColorsResult.value : undefined,
       symmetryResult: symmetryResult.status === 'fulfilled' ? symmetryResult.value : undefined,
+      colorCountResult: colorCountResult.status === 'fulfilled' ? colorCountResult.value : undefined,
       screenshot: image
     };
 

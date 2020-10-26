@@ -138,6 +138,9 @@ class Analyzer extends React.Component {
       },
       dominantColors: {
         vibrantMaxAreaPercentage: 2
+      },
+      density: {
+        acceptableThreshold: 80
       }
     },
     result: {},

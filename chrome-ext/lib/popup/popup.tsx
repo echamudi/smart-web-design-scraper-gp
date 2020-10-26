@@ -1,6 +1,6 @@
 import React, { SyntheticEvent } from 'react';
 import ReactDOM from 'react-dom';
-import { AppState, AnalysisConfig, AnalysisResult } from 'Shared/types/types';
+import { AppState, AnalysisConfig, AnalysisResult, ImageProcessingSpringTestAll } from 'Shared/types/types';
 import { DominantColorsResult, SymmetryResult, ColorCountResult } from 'Shared/types/factors';
 import { dominantColors } from '../evaluator/extension-side/dominant-colors';
 import { ApolloClient, InMemoryCache, NormalizedCacheObject, gql } from 'Shared/node_modules/@apollo/client/core';
@@ -167,8 +167,29 @@ class Analyzer extends React.Component {
       });
     });
 
-    // Calculate all values
-    let [analysisResult, dominantColorsResult, symmetryResult, colorCountResult] = await Promise.allSettled([
+    // Fetch Java ImageProcessingSpring TestAll
+
+    const ipsTestAll = await new Promise<ImageProcessingSpringTestAll>((resolve, reject) => {
+      fetch("http://localhost:3003/test/all", {
+          method: "POST",
+          body: JSON.stringify({img: image}),
+          headers: {
+              'Content-Type': 'application/json'
+          },
+      }).then((res) => {
+          res.json().then((obj) => {
+              resolve(obj);
+          })
+      }).catch(err => {
+          reject(err);
+      })
+    });
+
+    // Calculate all sync values
+    const symmetryResult = symmetry(ipsTestAll.symmetryResult);
+
+    // Calculate all async values
+    let [analysisResult, dominantColorsResult, colorCountResult] = await Promise.allSettled([
       new Promise<Partial<AnalysisResult>>((resolve, reject) => {
         chrome.tabs.sendMessage(tabId, { message: "analyze", config: this.state.config }, (response: Partial<AnalysisResult>) => {
           resolve(response);
@@ -179,10 +200,6 @@ class Analyzer extends React.Component {
           const result = await dominantColors(image);
           resolve(result);
         });
-      }),
-      new Promise<SymmetryResult>(async (resolve, reject) => {
-        const result = await symmetry(image);
-        resolve(result);
       }),
       new Promise<ColorCountResult>(async (resolve, reject) => {
         const result = await colorCount(image);
@@ -199,8 +216,8 @@ class Analyzer extends React.Component {
     const finalAnalysisResult: Partial<AnalysisResult> = {
       ...analysisResult.value,
       html: '', // remove html for now
+      symmetryResult: symmetryResult,
       dominantColorsResult: dominantColorsResult.status === 'fulfilled' ? dominantColorsResult.value : undefined,
-      symmetryResult: symmetryResult.status === 'fulfilled' ? symmetryResult.value : undefined,
       colorCountResult: colorCountResult.status === 'fulfilled' ? colorCountResult.value : undefined,
       screenshot: image
     };

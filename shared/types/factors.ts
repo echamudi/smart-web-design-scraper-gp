@@ -154,6 +154,13 @@ export interface ColorCountResult {
 }
 
 // factor id: density
+export interface DensityConfig {
+    /**
+     * In percentage (0-100)
+     */
+    acceptableThreshold: number;
+}
+
 export interface DensityResult {
     /** 
      * (all pixels other than most used divided by all pixels) * 100

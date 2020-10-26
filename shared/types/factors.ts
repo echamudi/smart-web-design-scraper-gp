@@ -152,3 +152,11 @@ export interface BrowserInfoResult {
 export interface ColorCountResult {
     rank: Array<{color: string, pixelCount: number}>,
 }
+
+// factor id: density
+export interface DensityResult {
+    /** 
+     * (all pixels other than most used divided by all pixels) * 100
+     **/
+    percentage: number;
+}

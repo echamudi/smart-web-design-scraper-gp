@@ -7,6 +7,8 @@ import { DensityResult } from 'Shared/types/factors';
  */
 export function density(ipsDensityResult: ImageProcessingSpringTestAll['densityResult']): DensityResult {
     const percentage: number = ipsDensityResult?.densityPercentage ?? -1;
+    const visitedPixels: number = ipsDensityResult?.allPixels ?? -1;
+    const bgPixels: number = ipsDensityResult?.backgroundPixels ?? -1;
 
-    return { percentage };
+    return { percentage, visitedPixels, bgPixels };
 }

@@ -166,4 +166,7 @@ export interface DensityResult {
      * (all pixels other than most used divided by all pixels) * 100
      **/
     percentage: number;
+
+    visitedPixels: number;
+    bgPixels: number;
 }

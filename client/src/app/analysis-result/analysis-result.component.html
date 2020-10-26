@@ -202,7 +202,7 @@
                         <div class="clearfix"></div>
                       </div>
 
-                      <!-- COLOR HARMONY -->
+                      <!-- DOMINANT COLORS -->
                       <div *ngIf="currentPage == 'Dominant Colors'">
                         <h2>Dominant Colors</h2>
                         <img [src]="analysisResult.screenshot" alt="" width="100%">
@@ -308,6 +308,7 @@
                       <!-- USE OF PICTURES -->
                       <div *ngIf="currentPage == 'Use of Pictures'">
                         <div class="h2">Use of Pictures</div>
+                        <img [src]="analysisResult.screenshot" alt="" width="100%">
                         <hr>
                         <h3>Score</h3>
                         <p><b>Pictures Score:</b> {{ fiPicturesScore }}</p>
@@ -349,6 +350,7 @@
                       <!-- DENSITY -->
                       <div *ngIf="currentPage == 'Density'">
                         <div class="h2">Density</div>
+                        <img [src]="analysisResult.screenshot" alt="" width="100%">
                         <hr>
                         <h3>Score</h3>
                         <p><b>Pictures Score:</b> {{ fiDensityScore }}</p>
@@ -368,6 +370,30 @@
                         <mat-slider style="width: 500px" min="0" max="100" step="1" thumbLabel
                         [value]="analysisResult.analysisConfig.density.acceptableThreshold"
                         (change)="fiDensityAcceptableThresholdChange($event)"></mat-slider>
+                        <h3>Analysis</h3>
+                        <table class="table">
+                          <tbody>
+                            <tr>
+                              <th scope="row">Total Pixels</th>
+                              <td>{{ analysisResult.densityResult.visitedPixels }}</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Most used color in the snapshot</th>
+                              <td>
+                                <div style="width: 50px; height: 50px;" [ngStyle]="{'background-color': '#' + analysisResult.colorCountResult.rank[0].color }"></div>
+                                  #{{ analysisResult.colorCountResult.rank[0].color }}
+                              </td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Total pixels of the most used color</th>
+                              <td>{{ analysisResult.colorCountResult.rank[0].pixelCount }}</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Percentage</th>
+                              <td>{{ analysisResult.densityResult.percentage }}</td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                     </div>
                   </div>

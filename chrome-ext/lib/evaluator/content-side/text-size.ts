@@ -30,7 +30,10 @@ export function textSize(doc: Document): TextSizeResult {
 
         totalCharacters += [...text].length;
 
-        if (text !== '') {
+        const bound = currentEl.getBoundingClientRect();
+        const invisible = bound.x === 0 && bound.y === 0 && bound.width === 0 && bound.height === 0;
+
+        if (text !== '' && !invisible) {
             const fontSize = parseInt(getComputedStyle(currentEl).fontSize, 10);
 
             if (textSizeMap[fontSize] === undefined) {

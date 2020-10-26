@@ -39,7 +39,7 @@ export async function dominantColors(imageURI: string): Promise<DominantColorsRe
             // console.log(canvas);
 
             const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-            const imagePixels = imageData.data
+            const imagePixels = imageData.data;
 
             const area = imageData.width * imageData.height;
 

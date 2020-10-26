@@ -37,3 +37,32 @@ export interface AppState {
      */
     snapshot: string | null;
 }
+
+export interface ImageProcessingSpringTestAll {
+    symmetryResult?: {
+        horizontalSymmetry?: {
+            percentage?: number,
+            allVisitedPixels?: number,
+            symmetricalPixels?: number,
+            nonSymmetricalPixels?: number
+        },
+        verticalSymmetry?: {
+            percentage?: number,
+            allVisitedPixels?: number,
+            symmetricalPixels?: number,
+            nonSymmetricalPixels?: number
+        }
+    },
+    densityResult?: {
+        densityPercentage?: number,
+        allPixels?: number,
+        backgroundColor?: number,
+        backgroundPixels?: number
+    },
+    negativeSpaceResult?: {
+        negativeSpacePercentage?: number,
+        allPixels?: number,
+        backgroundColor?: number,
+        backgroundPixels?: number
+    }
+}

@@ -17,7 +17,7 @@ export function textSize(doc: Document): TextSizeResult {
     // Mark letters with too small letters
     for (let i = 0, max = all.length; i < max; i += 1) {
         const currentEl = all[i] as HTMLElement;
-        currentEl.removeAttribute('data-swds-textSize');
+        // currentEl.removeAttribute('data-swds-textSize');
 
         let text = '';
         currentEl.childNodes.forEach((cn) => {

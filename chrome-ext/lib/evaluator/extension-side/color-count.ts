@@ -35,7 +35,7 @@ export async function colorCount(imageURI: string): Promise<ColorCountResult> {
         });
     });
 
-    rank.sort((a, b) => a.pixelCount > b.pixelCount ? -1 : 1)
+    rank.sort((a, b) => a.pixelCount > b.pixelCount ? -1 : 1);
 
     rank.splice(10, Infinity);
 

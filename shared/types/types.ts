@@ -1,4 +1,4 @@
-import { TextSizeConfig, TextSizeResult, BrowserInfoResult, SymmetryResult, DominantColorsConfig, PicturesConfig, SymmetryConfig } from "./factors";
+import { TextSizeConfig, TextSizeResult, BrowserInfoResult, SymmetryResult, DominantColorsConfig, PicturesConfig, SymmetryConfig, ColorCountResult } from "./factors";
 import { TextFontTypeResult } from "./factors";
 import { PicturesResult } from "./factors";
 import { DominantColorsResult } from "./factors";
@@ -23,6 +23,7 @@ export interface AnalysisResult {
     elementCountResult: ElementCountResult;
     browserInfoResult: BrowserInfoResult;
     symmetryResult: SymmetryResult;
+    colorCountResult: ColorCountResult;
 }
 
 export interface AppState {

@@ -59,6 +59,9 @@ export class AnalysisResultComponent implements OnInit {
   videoComponentCanvas: HTMLCanvasElement;
   @ViewChild('videosCanvas', {static: false}) videosCanvas: ElementRef;
 
+  pictureComponentCanvas: HTMLCanvasElement;
+  @ViewChild('picturesCanvas', {static: false}) picturesCanvas: ElementRef;
+
   ngOnInit(): void {
     this.showResult = false;
     this.showError = false;
@@ -151,14 +154,25 @@ export class AnalysisResultComponent implements OnInit {
     }));
 
     // Factor Item: Pictures
-    this.fiPicturesTotalArea = this.analysisResult.picturesResult.data.reduce((prev, curr) => {
-      if (curr.visible) {
-        prev += curr.area;
-        return prev;
-      } else {
-        return prev;
-      }
-    }, 0);
+    this.pictureComponentCanvas = document.createElement('canvas');
+    this.pictureComponentCanvas.width = this.analysisResult.browserInfoResult.scrollWidth;
+    this.pictureComponentCanvas.height = this.analysisResult.browserInfoResult.scrollHeight;
+
+    const pccCtx = this.pictureComponentCanvas.getContext('2d');
+    this.analysisResult.picturesResult.data.forEach((picture) => {
+      // if (picture.visible) {
+        pccCtx.fillStyle = '#75b3ba';
+        pccCtx.fillRect(picture.x, picture.y, picture.width, picture.height);
+      // }
+    });
+    const pccImageData = pccCtx.getImageData(0, 0, this.pictureComponentCanvas.width, this.pictureComponentCanvas.height);
+    const pccImagePixels = pccImageData.data;
+
+    for (let i = 0; i < pccImagePixels.length; i += 4) {
+        if (pccImagePixels[i + 3] === 255) {
+          this.fiPicturesTotalArea += 1;
+        }
+    }
 
     this.fiPictureUpdateScore();
 
@@ -279,7 +293,11 @@ export class AnalysisResultComponent implements OnInit {
   }
 
   fiPictureUpdateScore() {
-    let score = (this.fiPicturesTotalArea / this.analysisResult.analysisConfig.pictures.acceptableThreshold) * 100;
+    const pageArea = this.analysisResult.browserInfoResult.scrollHeight * this.analysisResult.browserInfoResult.scrollWidth;
+    let score = (
+      (this.fiPicturesTotalArea * 100 / pageArea)
+      / this.analysisResult.analysisConfig.pictures.acceptableThreshold
+    ) * 100;
 
     if (score > 100) score = 100;
     if (score < 1) score = 1;
@@ -401,5 +419,19 @@ export class AnalysisResultComponent implements OnInit {
 
     const destCtx = videosCanvas.getContext('2d');
     destCtx.drawImage(this.videoComponentCanvas, 0, 0);
+  }
+
+  // Factor Item: Pictures
+
+  fiPicturesDrawCanvas() {
+    const picturesCanvas = this.picturesCanvas?.nativeElement as HTMLCanvasElement;
+
+    if (!picturesCanvas) { return; }
+
+    picturesCanvas.width = this.analysisResult.browserInfoResult.scrollWidth;
+    picturesCanvas.height = this.analysisResult.browserInfoResult.scrollHeight;
+
+    const destCtx = picturesCanvas.getContext('2d');
+    destCtx.drawImage(this.pictureComponentCanvas, 0, 0);
   }
 }

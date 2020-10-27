@@ -335,8 +335,8 @@
                         <div class="clearfix"></div>
                         <hr>
                         <h3>Config</h3>
-                        <p><b>Minimum Acceptable Pictures Area:</b> {{ analysisResult.analysisConfig.pictures.acceptableThreshold }} px²</p>
-                        <mat-slider style="width: 500px" min="0" max="500000" step="10000" thumbLabel
+                        <p><b>Minimum Acceptable Pictures Area Percentage:</b> {{ analysisResult.analysisConfig.pictures.acceptableThreshold }}%</p>
+                        <mat-slider style="width: 500px" min="0" max="100" step="1" thumbLabel
                         [value]="analysisResult.analysisConfig.pictures.acceptableThreshold"
                         (change)="fiPicturesAcceptableThresholdChange($event)"></mat-slider>
                         <h3>Analysis</h3>
@@ -347,15 +347,22 @@
                               <td>{{ analysisResult.picturesResult.allCount }}</td>
                             </tr>
                             <tr>
-                              <th scope="row">Total Visible Images</th>
-                              <td>{{ analysisResult.picturesResult.visibleCount }}</td>
+                              <th scope="row">Total Image Area</th>
+                              <td>{{ fiPicturesTotalArea }}px²</td>
                             </tr>
                             <tr>
-                              <th scope="row">Total Image Area</th>
-                              <td>{{ fiPicturesTotalArea }}</td>
+                              <th scope="row">Total Page Area</th>
+                              <td>{{ analysisResult.browserInfoResult.scrollHeight * analysisResult.browserInfoResult.scrollWidth }}px²</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Image Percentage</th>
+                              <td>{{ fiPicturesTotalArea * 100 / (analysisResult.browserInfoResult.scrollHeight * analysisResult.browserInfoResult.scrollWidth) }}%</td>
                             </tr>
                           </tbody>
                         </table>
+                        <h3>Visualization</h3>
+                        <button class="btn btn-primary" (click)="fiPicturesDrawCanvas()">Show Visualization</button>
+                        <canvas #picturesCanvas height="1" style="margin-top: 10px; width: 100%; padding: 5px; border: solid 3px black;"></canvas>
                       </div>
 
                       <!-- DENSITY -->

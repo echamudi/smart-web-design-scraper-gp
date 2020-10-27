@@ -245,11 +245,12 @@ class Analyzer extends React.Component {
 
     // Send result to server
     const sentReceipt = await client.mutate({
-      mutation: gql`mutation ($data: String!) {
-        saveAnalysis(data: $data)
+      mutation: gql`mutation ($data: String!, $url: String!) {
+        saveAnalysis(data: $data, url: $url)
       }`,
       variables: {
-        data: JSON.stringify(finalAnalysisResult)
+        data: JSON.stringify(finalAnalysisResult),
+        url: finalAnalysisResult.browserInfoResult?.url
       },
       context: {
           headers: {

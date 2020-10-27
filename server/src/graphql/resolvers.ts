@@ -138,7 +138,7 @@ export const resolvers: IResolvers = {
                 email
             }
         },
-        saveAnalysis: async (parent, args: {data: string}, context: ContextInterface, info) => {
+        saveAnalysis: async (parent, args: {data: string, url: string}, context: ContextInterface, info) => {
             const uid = context.user?.id;
 
             if (typeof uid !== 'string') {
@@ -147,7 +147,8 @@ export const resolvers: IResolvers = {
 
             const analysis = new History({
                 owner: uid,
-                data: args.data
+                data: args.data,
+                url: args.url
             });
 
             const savedAnalysis = await analysis.save();

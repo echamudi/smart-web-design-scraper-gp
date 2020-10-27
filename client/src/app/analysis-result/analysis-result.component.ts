@@ -53,7 +53,7 @@ export class AnalysisResultComponent implements OnInit {
   fiNegativeSpaceFilledPixels: number = 0;
   fiNegativeSpaceScore: number = 0;
 
-  hiddenCanvas: HTMLCanvasElement; // textComponentCanvas
+  textComponentCanvas: HTMLCanvasElement; // textComponentCanvas
   @ViewChild('negativeSpaceCanvas', {static: false}) negativeSpaceCanvas: ElementRef;
 
   videoComponentCanvas: HTMLCanvasElement;
@@ -166,16 +166,16 @@ export class AnalysisResultComponent implements OnInit {
     this.fiDensityUpdateScore();
 
     // Factor Item: Negative Space
-    this.hiddenCanvas = document.createElement('canvas');
-    this.hiddenCanvas.width = this.analysisResult.negativeSpaceResult.scrollWidth;
-    this.hiddenCanvas.height = this.analysisResult.negativeSpaceResult.scrollHeight;
+    this.textComponentCanvas = document.createElement('canvas');
+    this.textComponentCanvas.width = this.analysisResult.negativeSpaceResult.scrollWidth;
+    this.textComponentCanvas.height = this.analysisResult.negativeSpaceResult.scrollHeight;
 
-    const ctx = this.hiddenCanvas.getContext('2d');
+    const ctx = this.textComponentCanvas.getContext('2d');
 
     this.analysisResult.negativeSpaceResult.components.forEach((rect) => {
       ctx.fillRect(rect.x, rect.y, rect.w, rect.h);
     });
-    const imageData = ctx.getImageData(0, 0, this.hiddenCanvas.width, this.hiddenCanvas.height);
+    const imageData = ctx.getImageData(0, 0, this.textComponentCanvas.width, this.textComponentCanvas.height);
     const imagePixels = imageData.data;
 
     for (let i = 0; i < imagePixels.length; i += 4) {
@@ -384,7 +384,7 @@ export class AnalysisResultComponent implements OnInit {
     negativeSpaceCanvas.height = this.analysisResult.negativeSpaceResult.scrollHeight;
 
     const destCtx = negativeSpaceCanvas.getContext('2d');
-    destCtx.drawImage(this.hiddenCanvas, 0, 0);
+    destCtx.drawImage(this.textComponentCanvas, 0, 0);
   }
 
   // Factor Item: Videos

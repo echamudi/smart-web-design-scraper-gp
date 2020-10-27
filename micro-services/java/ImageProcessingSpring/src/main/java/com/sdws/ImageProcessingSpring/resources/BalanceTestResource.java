@@ -25,7 +25,8 @@ public class BalanceTestResource {
 
     @PostMapping("/test")
     public BalanceResult balanceTest(@RequestBody BalanceCallBody body){
-
+        System.loadLibrary("opencv_java440");
+        System.loadLibrary( Core.NATIVE_LIBRARY_NAME );
         System.out.println("balance route...");
         balanceTest( ImageUtils.decodeImage(body.getImg()));
         return new BalanceResult("is working...") ;
@@ -60,7 +61,7 @@ public class BalanceTestResource {
             Mat hierarchy = new Mat();
             Imgproc.findContours(greyedOutImage, contours, hierarchy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
 
-
+            System.out.println(hierarchy);
             // find Squares ... or rectangles...
             ArrayList<MatOfPoint> rectangles = new ArrayList<>();
             MatOfInt hull = new MatOfInt();

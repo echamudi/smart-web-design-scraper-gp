@@ -364,9 +364,10 @@ export class AnalysisResultComponent implements OnInit {
         this.fiTextSizeScore +
         this.fiPicturesScore +
         this.fiDominantColorsVibrantScore +
-        this.fiDensityScore
+        this.fiDensityScore +
+        this.fiNegativeSpaceScore
       )
-      / 6
+      / 7
     );
 
     if (score < 1) { this.finalScore = 1; }

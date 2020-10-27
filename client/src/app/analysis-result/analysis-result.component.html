@@ -32,6 +32,9 @@
                         <button type="button" class="list-group-item list-group-item-action" [ngClass]="{'active': currentPage === 'Overview'}" (click)="currentPage = 'Overview'">
                           Overview
                         </button>
+                        <button type="button" class="list-group-item list-group-item-action" [ngClass]="{'active': currentPage === 'Element Count'}" (click)="currentPage = 'Element Count'">
+                          Element Count
+                        </button>
 
                         <button type="button" class="list-group-item list-group-item-action list-header" disabled>
                           Distribution of Components
@@ -72,13 +75,6 @@
                         </button>
                         <button type="button" class="list-group-item d-flex justify-content-between align-items-center" [ngClass]="{'active': currentPage === 'Negative Space'}" (click)="currentPage = 'Negative Space'">
                           Negative Space
-                        </button>
-
-                        <button type="button" class="list-group-item list-group-item-action list-header" disabled>
-                          Other Data
-                        </button>
-                        <button type="button" class="list-group-item list-group-item-action" [ngClass]="{'active': currentPage === 'Element Count'}" (click)="currentPage = 'Element Count'">
-                          Element Count
                         </button>
 
                         <button type="button" class="list-group-item list-group-item-action list-header" disabled>

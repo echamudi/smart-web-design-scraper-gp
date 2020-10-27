@@ -39,12 +39,15 @@ export class PreviousAnalysisComponent implements OnInit {
       })
     ).subscribe(
       data => {
-        const rawAnalyses = data?.data?.getAnalyses ?? [];
+        const rawAnalyses: any[] = data?.data?.getAnalyses ?? [];
 
-        this.analyses = rawAnalyses.map((el) => ({
-          ...el,
-          date: (new Date(parseInt(el.date, 10))).toLocaleString()
-        }));
+        this.analyses = rawAnalyses
+          .slice()
+          .sort((a, b) => a.date > b.date ? -1 : 1)
+          .map((el) => ({
+            ...el,
+            date: (new Date(parseInt(el.date, 10))).toLocaleString()
+          }));
 
         console.log('Analyses', this.analyses);
       },

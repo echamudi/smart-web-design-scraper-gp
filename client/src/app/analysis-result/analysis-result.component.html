@@ -412,7 +412,7 @@
                         <img [src]="analysisResult.screenshot" alt="" width="100%">
                         <hr>
                         <h3>Score</h3>
-                        <p><b>Negative Space Score:</b> {{ fiNegativeSpaceScore }}</p>
+                        <p><b>Text Negative Space Score:</b> {{ fiNegativeSpaceScore }}</p>
                         <ngx-charts-gauge
                           [view]="[500, 300]"
                           [scheme]="{
@@ -436,11 +436,7 @@
                               <td>{{ fiNegativeSpaceFilledPixels }} px²</td>
                             </tr>
                             <tr>
-                              <th scope="row">Non-Text Area</th>
-                              <td>{{ fiNegativeSpaceEmptyPixels }} px²</td>
-                            </tr>
-                            <tr>
-                              <th scope="row">Filled Ratio</th>
+                              <th scope="row">Text Filled Area Percentage</th>
                               <td>{{ fiNegativeSpaceFilledPixels * 100 / (fiNegativeSpaceFilledPixels + fiNegativeSpaceEmptyPixels) }}%</td>
                             </tr>
                           </tbody>

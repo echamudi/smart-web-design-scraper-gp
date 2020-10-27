@@ -16,6 +16,7 @@ import static com.sdws.ImageProcessingSpring.utils.ImageUtils.decodeImage;
 
 @RestController
 @RequestMapping("/density")
+@CrossOrigin(origins = "*")
 public class DensityResource {
 
 
@@ -44,7 +45,6 @@ public class DensityResource {
         double percentageOfDensity = 100 -  percentageOfNegativeSpace  ;
 //        System.out.println("percentage of Density ::>  "+percentageOfDensity);
 //        System.out.println( "percentage of negative Space : " + percentageOfNegativeSpace) ;
-
 
  //        construct the callback and return it...
         return new DensityResult(percentageOfDensity,allPixels,backgroundColor,backgroundPixels);

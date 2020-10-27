@@ -17,6 +17,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/negative-space")
+@CrossOrigin(origins = "*")
 public class NegativeSpaceResource {
 
 

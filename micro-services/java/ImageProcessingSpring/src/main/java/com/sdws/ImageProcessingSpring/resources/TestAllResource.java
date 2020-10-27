@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/test")
+@CrossOrigin(origins = "*")
 public class TestAllResource {
 
     @PostMapping("/all")

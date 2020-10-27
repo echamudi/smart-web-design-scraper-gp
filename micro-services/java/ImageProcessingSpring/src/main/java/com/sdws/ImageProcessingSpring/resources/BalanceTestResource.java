@@ -20,6 +20,7 @@ import org.opencv.imgproc.Imgproc;
 
 @RestController
 @RequestMapping("/balance")
+@CrossOrigin(origins = "*")
 public class BalanceTestResource {
 
 
@@ -100,8 +101,6 @@ public class BalanceTestResource {
 //                    hulls.add() ;
                     }
                 }
-
-
             }
         }catch(Exception e) {
             e.printStackTrace();

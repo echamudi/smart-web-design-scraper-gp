@@ -266,8 +266,11 @@
                       <!-- TYPE OF FONT -->
                       <div *ngIf="currentPage == 'Type of Font'">
                         <h3>
-                          Used Fonts
+                          Type of Font
                         </h3>
+                        <hr>
+                        <img [src]="analysisResult.screenshot" alt="" width="100%">
+                        <hr>
                         <p>
                           {{ analysisResult.textFontTypeResult.usedFonts.join(', ') }}
                         </p>
@@ -410,6 +413,8 @@
                       <div *ngIf="currentPage === 'Negative Space'">
                         <div class="h2">Negative Space</div>
                         <hr>
+                        <img [src]="analysisResult.screenshot" alt="" width="100%">
+                        <hr>
                         <h3>Score</h3>
                         <p><b>Negative Space Score:</b> {{ fiNegativeSpaceScore }}</p>
                         <ngx-charts-gauge
@@ -447,7 +452,7 @@
                         <hr>
                         <h3>Visualization</h3>
                         <button class="btn btn-primary" (click)="fiNegativeSpaceDrawCanvas()">Show Visualization</button>
-                        <canvas #negativeSpaceCanvas height="1" style="width: 100%; padding: 5px"></canvas>
+                        <canvas #negativeSpaceCanvas height="1" style="width: 100%; padding: 5px; border: solid 3px black;"></canvas>
                       </div>
                     </div>
                   </div>

@@ -1,10 +1,12 @@
 package com.sdws.ImageProcessingSpring.resources;
 
 
-import com.sdws.ImageProcessingSpring.models.SymmetryHorizontalResult;
-import com.sdws.ImageProcessingSpring.models.SymmetryResult;
-import com.sdws.ImageProcessingSpring.models.SymmetryCallBody;
-import com.sdws.ImageProcessingSpring.models.SymmetryVerticalResult;
+import com.sdws.ImageProcessingSpring.models.symmetry.SymmetryHorizontalResult;
+import com.sdws.ImageProcessingSpring.models.symmetry.SymmetryResult;
+import com.sdws.ImageProcessingSpring.models.symmetry.SymmetryCallBody;
+import com.sdws.ImageProcessingSpring.models.symmetry.SymmetryVerticalResult;
+import com.sdws.ImageProcessingSpring.utils.ColorsUtils;
+import com.sdws.ImageProcessingSpring.utils.ImageUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,21 +30,20 @@ public class SymmetryResource {
     @PostMapping("/test")
     public SymmetryResult checkSymmetry(@RequestBody SymmetryCallBody img) {
         // decoding the image...
-        BufferedImage buffimg = decodeImage(img.getImg());
+        BufferedImage buffimg = ImageUtils.decodeImage(img.getImg());
 //            System.out.println("img : " + img) ;
 
         return new SymmetryResult(horizontalSymmetryTest(buffimg),verticalSymmetryTest(buffimg)) ;
     }
 
-    private static double howDiff(Color c1 , Color c2) {
-        double dis = Math.sqrt(Math.pow(c2.getRed()-c1.getRed(),2)+Math.pow(c2.getGreen()-c1.getGreen(),2)+ Math.pow(c2.getBlue()-c1.getBlue(),2));
-
-
-        return (dis / Math.sqrt(Math.pow(255,2)+Math.pow(255,2)+Math.pow(255,2))) * 100 ;
+    public SymmetryResult checkSymmetry(String img) {
+        // decoding the image...
+        BufferedImage buffimg = ImageUtils.decodeImage(img);
+        return new SymmetryResult(horizontalSymmetryTest(buffimg),verticalSymmetryTest(buffimg)) ;
     }
 
-
-    private static SymmetryVerticalResult verticalSymmetryTest(BufferedImage buffImg)  {
+//horizontalSymmetryTest
+    private  SymmetryVerticalResult verticalSymmetryTest(BufferedImage buffImg)  {
         int rows = buffImg.getWidth() ;
         int columns = buffImg.getHeight() ;
         int allVisited = 0 ;
@@ -59,7 +60,7 @@ public class SymmetryResource {
                 Color c1 = new Color(buffImg.getRGB(j,i)) ;
                 Color c2  = new Color(buffImg.getRGB(j,k)) ;
 
-                if (howDiff(c1,c2) >= 2) {
+                if (ColorsUtils.howDiff(c1,c2) >= 2) {
                     nonSymmetrical++ ;
                 } else {
                     Symmetrical++ ;
@@ -76,7 +77,7 @@ public class SymmetryResource {
         return new SymmetryVerticalResult(percentage,allVisited , Symmetrical , nonSymmetrical ) ;
     }
 
-
+//verticalSymmetryTest
     private  SymmetryHorizontalResult horizontalSymmetryTest(BufferedImage img) {
         int rows = img.getWidth() ;
         int columns = img.getHeight() ;
@@ -91,7 +92,7 @@ public class SymmetryResource {
 
                 Color c1 = new Color(img.getRGB(i,j)) ;
                 Color c2 = new Color(img.getRGB(k,j)) ;
-                if(howDiff(c1,c2) >= 2 ) {
+                if(ColorsUtils.howDiff(c1,c2) >= 2 ) {
                     HorizontalnonSymmetricalPixel++ ;
                 } else{
                     HorizontalsymmetricalPixel++ ;
@@ -111,6 +112,7 @@ public class SymmetryResource {
 
 
 
+/*
     private BufferedImage decodeImage(String img) {
         BufferedImage buffimg = null ;
         try {
@@ -126,6 +128,7 @@ public class SymmetryResource {
 
         return buffimg ;
     }
+*/
 
 
 }

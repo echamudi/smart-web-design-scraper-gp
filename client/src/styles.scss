@@ -235,3 +235,11 @@ app-home {
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.analysis-result-final-score text {
+  display: none;
+}
+
+.analysis-result-final-score svg {
+  float: none;
+}

@@ -217,6 +217,8 @@ export class AnalysisResultComponent implements OnInit {
         vccCtx.fillRect(vid.x, vid.y, vid.width, vid.height);
       }
     });
+
+    this.updateFinalScore();
   }
 
   // Factor Item: Symmetry

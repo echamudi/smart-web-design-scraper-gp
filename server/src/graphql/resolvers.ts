@@ -75,7 +75,28 @@ export const resolvers: IResolvers = {
                 date: analysis?.createdAt,
                 data: analysis?.data
             }
-        }
+        },
+        getAnalyses: async (parent, args, context: ContextInterface, info) => {
+            const uid = context.user?.id;
+
+            if (typeof uid !== 'string') {
+                return new Error('user is not logged in');
+            }
+
+            const analyses = await History.find({ owner: uid });
+
+            const res: {id: mongoose.Types.ObjectId, date: string | Date, url: string}[] = [];
+
+            analyses.forEach((analysis) => {
+                res.push({
+                    id: analysis._id,
+                    date: analysis.createdAt ?? '',
+                    url: analysis.url
+                });
+            });
+
+            return res;
+        },
     },
     Mutation: {
         signup: async (parent, args: {username: string, password: string, email: string}, context: ContextInterface, info) => {

@@ -199,6 +199,7 @@ export class AnalysisResultComponent implements OnInit {
     const vccCtx = this.videoComponentCanvas.getContext('2d');
     this.analysisResult.videosResult.data.forEach((vid) => {
       if (vid.visible) {
+        vccCtx.fillStyle = '#2eb82e';
         vccCtx.fillRect(vid.x, vid.y, vid.width, vid.height);
       }
     });

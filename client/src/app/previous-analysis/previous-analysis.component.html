@@ -6,10 +6,10 @@
           <h1>Previous Analysis</h1>
           <hr>
           <div
-            *ngFor="let siteurl of ['https://wikipedia.org', 'https://google.com', 'https://yahoo.com', 'https://wikipedia.org', 'https://google.com', 'https://yahoo.com']">
+            *ngFor="let analysis of analyses">
             <div class="row mt-3 mb-3">
               <div class="col">
-                <div class="card">
+                <div class="card" [routerLink]="'/analysis-result'" [queryParams]="{q: analysis.id}">
                   <div class="card-body">
                     <div class="row d-flex align-items-center">
                       <div class="col" style="max-width: 200px;">
@@ -19,15 +19,15 @@
                         <table>
                           <tr>
                             <td class="font-weight-bold" style="width: 150px;">URL</td>
-                            <td>{{siteurl}}</td>
+                            <td>{{ analysis.url }}</td>
                           </tr>
                           <tr>
                             <td class="font-weight-bold">Score</td>
-                            <td>95</td>
+                            <td>-</td>
                           </tr>
                           <tr>
                             <td class="font-weight-bold">Date of Analysis</td>
-                            <td>10:58 - 12 April 2020</td>
+                            <td>{{ analysis.date }}</td>
                           </tr>
                         </table>
                       </div>

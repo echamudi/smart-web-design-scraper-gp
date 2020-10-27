@@ -96,12 +96,12 @@
                         <table class="table table-bordered">
                           <tr>
                             <td></td>
-                            <td style="text-align: center;"><b>Viewport Width:</b> {{analysisResult.browserInfoResult.viewportWidth}}pt</td>
+                            <td style="text-align: center;"><b>Viewport Width:</b> {{analysisResult.browserInfoResult.viewportWidth}}px</td>
                           </tr>
                           <tr>
                             <td style="vertical-align: middle;">
                               <span style="writing-mode: vertical-rl;">
-                                <b>Viewport Height:</b> {{analysisResult.browserInfoResult.viewportHeight}}pt
+                                <b>Viewport Height:</b> {{analysisResult.browserInfoResult.viewportHeight}}px
                               </span>
                             </td>
                             <td><img [src]="analysisResult.screenshot" alt="" width="100%"></td>
@@ -332,7 +332,7 @@
                         <div class="clearfix"></div>
                         <hr>
                         <h3>Config</h3>
-                        <p><b>Minimum Acceptable Pictures Area:</b> {{ analysisResult.analysisConfig.pictures.acceptableThreshold }} pt^2</p>
+                        <p><b>Minimum Acceptable Pictures Area:</b> {{ analysisResult.analysisConfig.pictures.acceptableThreshold }} px²</p>
                         <mat-slider style="width: 500px" min="0" max="500000" step="10000" thumbLabel
                         [value]="analysisResult.analysisConfig.pictures.acceptableThreshold"
                         (change)="fiPicturesAcceptableThresholdChange($event)"></mat-slider>
@@ -429,15 +429,15 @@
                           <tbody>
                             <tr>
                               <th scope="row">Total Area</th>
-                              <td>{{ fiNegativeSpaceFilledPixels + fiNegativeSpaceEmptyPixels }} point squares</td>
+                              <td>{{ fiNegativeSpaceFilledPixels + fiNegativeSpaceEmptyPixels }} px²</td>
                             </tr>
                             <tr>
                               <th scope="row">Text Filled Area</th>
-                              <td>{{ fiNegativeSpaceFilledPixels }} point squares</td>
+                              <td>{{ fiNegativeSpaceFilledPixels }} px²</td>
                             </tr>
                             <tr>
                               <th scope="row">Non-Text Area</th>
-                              <td>{{ fiNegativeSpaceEmptyPixels }} point squares</td>
+                              <td>{{ fiNegativeSpaceEmptyPixels }} px²</td>
                             </tr>
                             <tr>
                               <th scope="row">Filled Ratio</th>

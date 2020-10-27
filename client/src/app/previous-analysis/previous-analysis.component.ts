@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { gql } from '@apollo/client/core';
+import { from as observableFrom } from 'rxjs';
+import { TokenStorageService } from '../_services/token-storage.service';
+import { AuthService } from '../_services/auth.service';
 
 @Component({
   selector: 'app-previous-analysis',
@@ -7,9 +11,36 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PreviousAnalysisComponent implements OnInit {
 
-  constructor() { }
+  constructor(private tokenStorage: TokenStorageService, private authService: AuthService) { }
 
   ngOnInit(): void {
+    const tok = this.tokenStorage.getToken();
+
+    observableFrom(
+      this.authService.client.query({
+        query: gql`query {
+          getAnalyses {
+            id,
+            date,
+            url
+          }
+        }`,
+        variables: {
+        },
+        context: {
+          headers: {
+            'x-access-token': tok
+          }
+        }
+      })
+    ).subscribe(
+      data => {
+        console.log(data);
+      },
+      err => {
+        console.log('err', err);
+      }
+    );
   }
 
 }

@@ -131,7 +131,7 @@ class Analyzer extends React.Component {
         minimumSize: 12
       },
       pictures: {
-        acceptableThreshold: 300000
+        acceptableThreshold: 10
       },
       symmetry: {
         acceptablePercentage: 80

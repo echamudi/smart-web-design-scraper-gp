@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import Vibrant from 'node-vibrant';
 import { TokenStorageService } from '../_services/token-storage.service';
 import { AuthService } from '../_services/auth.service';
@@ -48,6 +48,13 @@ export class AnalysisResultComponent implements OnInit {
   fiDensityScore: number = 0;
 
   finalScore: number = 0;
+
+  fiNegativeSpaceEmptyPixels: number = 0;
+  fiNegativeSpaceFilledPixels: number = 0;
+  fiNegativeSpaceScore: number = 0;
+
+  hiddenCanvas: HTMLCanvasElement;
+  @ViewChild('negativeSpaceCanvas', {static: false}) negativeSpaceCanvas: ElementRef;
 
   ngOnInit(): void {
     this.showResult = false;
@@ -154,6 +161,32 @@ export class AnalysisResultComponent implements OnInit {
 
     // Factor Item: Density;
     this.fiDensityUpdateScore();
+
+    // Factor Item: Negative Space
+    this.hiddenCanvas = document.createElement('canvas');
+    this.hiddenCanvas.width = this.analysisResult.negativeSpaceResult.scrollWidth;
+    this.hiddenCanvas.height = this.analysisResult.negativeSpaceResult.scrollHeight;
+
+    const ctx = this.hiddenCanvas.getContext('2d');
+
+    this.analysisResult.negativeSpaceResult.components.forEach((rect) => {
+      ctx.fillRect(rect.x, rect.y, rect.w, rect.h);
+    });
+    const imageData = ctx.getImageData(0, 0, this.hiddenCanvas.width, this.hiddenCanvas.height);
+    const imagePixels = imageData.data;
+
+    for (let i = 0; i < imagePixels.length; i += 4) {
+        if (imagePixels[i + 3] === 255) {
+          this.fiNegativeSpaceFilledPixels += 1;
+        } else {
+          this.fiNegativeSpaceEmptyPixels += 1;
+        }
+    }
+
+    this.fiNegativeSpaceScore = 100 - Math.floor(
+      (this.fiNegativeSpaceFilledPixels / (this.fiNegativeSpaceFilledPixels + this.fiNegativeSpaceEmptyPixels))
+      * 100
+    );
   }
 
   // Factor Item: Symmetry
@@ -321,5 +354,15 @@ export class AnalysisResultComponent implements OnInit {
     if (score < 1) { this.finalScore = 1; }
     else if (score > 100) { this.finalScore = 100; }
     else { this.finalScore = score; }
+  }
+
+  fiNegativeSpaceDrawCanvas() {
+    const negativeSpaceCanvas = this.negativeSpaceCanvas.nativeElement as HTMLCanvasElement;
+
+    negativeSpaceCanvas.width = this.analysisResult.negativeSpaceResult.scrollWidth;
+    negativeSpaceCanvas.height = this.analysisResult.negativeSpaceResult.scrollHeight;
+
+    const destCtx = negativeSpaceCanvas.getContext('2d');
+    destCtx.drawImage(this.hiddenCanvas, 0, 0);
   }
 }

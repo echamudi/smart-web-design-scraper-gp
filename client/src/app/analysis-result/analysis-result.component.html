@@ -68,6 +68,13 @@
                         </button>
 
                         <button type="button" class="list-group-item list-group-item-action list-header" disabled>
+                          Structure
+                        </button>
+                        <button type="button" class="list-group-item d-flex justify-content-between align-items-center" [ngClass]="{'active': currentPage === 'Negative Space'}" (click)="currentPage = 'Negative Space'">
+                          Negative Space
+                        </button>
+
+                        <button type="button" class="list-group-item list-group-item-action list-header" disabled>
                           Other Data
                         </button>
                         <button type="button" class="list-group-item list-group-item-action" [ngClass]="{'active': currentPage === 'Element Count'}" (click)="currentPage = 'Element Count'">
@@ -397,6 +404,50 @@
                             </tr>
                           </tbody>
                         </table>
+                      </div>
+
+                      <!-- NEGATIVE SPACE -->
+                      <div *ngIf="currentPage === 'Negative Space'">
+                        <div class="h2">Negative Space</div>
+                        <hr>
+                        <h3>Score</h3>
+                        <p><b>Density Score:</b> {{ fiNegativeSpaceScore }}</p>
+                        <ngx-charts-gauge
+                          [view]="[500, 300]"
+                          [scheme]="{
+                            domain: ['#5AA454']
+                          }"
+                          [min]="0"
+                          [max]="100"
+                          [results]="[{name: 'Score', value: fiNegativeSpaceScore}]">
+                        </ngx-charts-gauge>
+                        <div class="clearfix"></div>
+                        <hr>
+                        <h3>Analysis</h3>
+                        <table class="table">
+                          <tbody>
+                            <tr>
+                              <th scope="row">Total Area</th>
+                              <td>{{ fiNegativeSpaceFilledPixels + fiNegativeSpaceEmptyPixels }} point squares</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Text Filled Area</th>
+                              <td>{{ fiNegativeSpaceFilledPixels }} point squares</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Non-Text Area</th>
+                              <td>{{ fiNegativeSpaceEmptyPixels }} point squares</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Filled Ratio</th>
+                              <td>{{ fiNegativeSpaceFilledPixels * 100 / (fiNegativeSpaceFilledPixels + fiNegativeSpaceEmptyPixels) }}%</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        <hr>
+                        <h3>Visualization</h3>
+                        <button class="btn btn-primary" (click)="fiNegativeSpaceDrawCanvas()">Show Visualization</button>
+                        <canvas #negativeSpaceCanvas height="1" style="width: 100%; padding: 5px"></canvas>
                       </div>
                     </div>
                   </div>

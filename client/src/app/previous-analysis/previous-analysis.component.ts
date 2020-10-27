@@ -4,6 +4,8 @@ import { from as observableFrom } from 'rxjs';
 import { TokenStorageService } from '../_services/token-storage.service';
 import { AuthService } from '../_services/auth.service';
 
+type AnalysisLite = {id: string, date: string, url: string};
+
 @Component({
   selector: 'app-previous-analysis',
   templateUrl: './previous-analysis.component.html',
@@ -12,6 +14,8 @@ import { AuthService } from '../_services/auth.service';
 export class PreviousAnalysisComponent implements OnInit {
 
   constructor(private tokenStorage: TokenStorageService, private authService: AuthService) { }
+
+  analyses: AnalysisLite[] = [];
 
   ngOnInit(): void {
     const tok = this.tokenStorage.getToken();
@@ -35,10 +39,17 @@ export class PreviousAnalysisComponent implements OnInit {
       })
     ).subscribe(
       data => {
-        console.log(data);
+        const rawAnalyses = data?.data?.getAnalyses ?? [];
+
+        this.analyses = rawAnalyses.map((el) => ({
+          ...el,
+          date: (new Date(parseInt(el.date, 10))).toLocaleString()
+        }));
+
+        console.log('Analyses', this.analyses);
       },
       err => {
-        console.log('err', err);
+        console.log('Err', err);
       }
     );
   }

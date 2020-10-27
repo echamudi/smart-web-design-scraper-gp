@@ -85,12 +85,12 @@ export const resolvers: IResolvers = {
 
             const analyses = await History.find({ owner: uid });
 
-            const res: {id: mongoose.Types.ObjectId, date: string | Date, url: string}[] = [];
+            const res: {id: mongoose.Types.ObjectId, date: number, url: string}[] = [];
 
             analyses.forEach((analysis) => {
                 res.push({
                     id: analysis._id,
-                    date: analysis.createdAt ?? '',
+                    date: analysis.createdAt?.getTime() ?? 0,
                     url: analysis.url
                 });
             });

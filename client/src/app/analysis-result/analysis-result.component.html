@@ -319,7 +319,7 @@
                         <img [src]="analysisResult.screenshot" alt="" width="100%">
                         <hr>
                         <h3>Score</h3>
-                        <p><b>Pictures Score:</b> {{ fiPicturesScore }}</p>
+                        <p><b>Use of Pictures Score:</b> {{ fiPicturesScore }}</p>
                         <ngx-charts-gauge
                           [view]="[500, 300]"
                           [scheme]="{
@@ -467,7 +467,24 @@
     <!-- Summary Sidebar -->
     <div class="col" style="height: calc(100vh - 50px); overflow: scroll; background: #fff; border-left: solid 1px #e1e3e8; padding-top: 20px;">
       <div class="h3">Final Score</div>
-      <div style="font-size: 50px;">{{ finalScore }}</div>
+      <div class="d-flex justify-content-center align-items-center">
+        <div style="font-size: 80px; position: absolute;">{{ finalScore }}</div>
+        <ngx-charts-pie-grid
+          class="analysis-result-final-score"
+          style="transform: translate(0px, 10px);"
+          [view]="[300, 300]"
+          [scheme]="{
+            domain: ['#007bff']
+          }"
+          [results]="[{
+            'name': 'Score',
+            'value': finalScore
+          }]"
+          [label]="'score'"
+          [designatedTotal]="100"
+          [tooltipDisabled]="true">
+        </ngx-charts-pie-grid>
+      </div>
       <div class="h3">Score Breakdown</div>
       <table class="table">
         <tbody>

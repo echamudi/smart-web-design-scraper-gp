@@ -55,6 +55,30 @@ export type PictureData = {
     visible: boolean,
 };
 
+// factor id: videos
+
+export interface VideosResult {
+    /**
+     * Number of pictures in the page (visible + invisible)
+     */
+    allCount: number;
+    /**
+     * Number of pictures in the page (visible)
+     */
+    visibleCount: number;
+    data: VideoData[];
+}
+
+export type VideoData = {
+    tagName: string,
+    width: number,
+    height: number,
+    area: number, // width x height
+    x: number,
+    y: number,
+    visible: boolean,
+};
+
 // factor id: text-font-type
 
 export interface TextFontTypeResult {

@@ -5,6 +5,7 @@ import { pictures } from '../evaluator/content-side/pictures';
 import { elementCount } from '../evaluator/content-side/element-count';
 import { browserInfo } from '../evaluator/content-side/browser-info';
 import { negativeSpace } from '../evaluator/content-side/negative-space';
+import { videos } from '../evaluator/content-side/videos';
 
 if ((window as any).SWDS === undefined) {
     (window as any).SWDS = {};
@@ -28,6 +29,8 @@ if ((window as any).SWDS === undefined) {
 
             const picturesResult = pictures(document);
 
+            const videosResult = videos(document);
+
             const elementCountResult = elementCount(document);
 
             const browserInfoResult = browserInfo(window);
@@ -44,7 +47,8 @@ if ((window as any).SWDS === undefined) {
                 picturesResult,
                 elementCountResult,
                 browserInfoResult,
-                negativeSpaceResult
+                negativeSpaceResult,
+                videosResult
             };
 
             // Result

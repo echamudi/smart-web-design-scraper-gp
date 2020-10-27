@@ -53,8 +53,11 @@ export class AnalysisResultComponent implements OnInit {
   fiNegativeSpaceFilledPixels: number = 0;
   fiNegativeSpaceScore: number = 0;
 
-  hiddenCanvas: HTMLCanvasElement;
+  hiddenCanvas: HTMLCanvasElement; // textComponentCanvas
   @ViewChild('negativeSpaceCanvas', {static: false}) negativeSpaceCanvas: ElementRef;
+
+  videoComponentCanvas: HTMLCanvasElement;
+  @ViewChild('videosCanvas', {static: false}) videosCanvas: ElementRef;
 
   ngOnInit(): void {
     this.showResult = false;
@@ -187,6 +190,18 @@ export class AnalysisResultComponent implements OnInit {
       (this.fiNegativeSpaceFilledPixels / (this.fiNegativeSpaceFilledPixels + this.fiNegativeSpaceEmptyPixels))
       * 100
     );
+
+    // Factor Item: Videos
+    this.videoComponentCanvas = document.createElement('canvas');
+    this.videoComponentCanvas.width = this.analysisResult.browserInfoResult.scrollWidth;
+    this.videoComponentCanvas.height = this.analysisResult.browserInfoResult.scrollHeight;
+
+    const vccCtx = this.videoComponentCanvas.getContext('2d');
+    this.analysisResult.videosResult.data.forEach((vid) => {
+      if (vid.visible) {
+        vccCtx.fillRect(vid.x, vid.y, vid.width, vid.height);
+      }
+    });
   }
 
   // Factor Item: Symmetry
@@ -338,6 +353,8 @@ export class AnalysisResultComponent implements OnInit {
     this.updateFinalScore();
   }
 
+  // Final Score
+
   updateFinalScore(): void {
     const score = Math.floor(
       (
@@ -356,13 +373,31 @@ export class AnalysisResultComponent implements OnInit {
     else { this.finalScore = score; }
   }
 
+  // Factor Item: Negative Space
+
   fiNegativeSpaceDrawCanvas() {
-    const negativeSpaceCanvas = this.negativeSpaceCanvas.nativeElement as HTMLCanvasElement;
+    const negativeSpaceCanvas = this.negativeSpaceCanvas?.nativeElement as HTMLCanvasElement;
+
+    if (!negativeSpaceCanvas) { return; }
 
     negativeSpaceCanvas.width = this.analysisResult.negativeSpaceResult.scrollWidth;
     negativeSpaceCanvas.height = this.analysisResult.negativeSpaceResult.scrollHeight;
 
     const destCtx = negativeSpaceCanvas.getContext('2d');
     destCtx.drawImage(this.hiddenCanvas, 0, 0);
+  }
+
+  // Factor Item: Videos
+
+  fiVideosDrawCanvas() {
+    const videosCanvas = this.videosCanvas?.nativeElement as HTMLCanvasElement;
+
+    if (!videosCanvas) { return; }
+
+    videosCanvas.width = this.analysisResult.browserInfoResult.scrollWidth;
+    videosCanvas.height = this.analysisResult.browserInfoResult.scrollHeight;
+
+    const destCtx = videosCanvas.getContext('2d');
+    destCtx.drawImage(this.videoComponentCanvas, 0, 0);
   }
 }

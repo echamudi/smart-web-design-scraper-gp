@@ -52,6 +52,9 @@
                         <button type="button" class="list-group-item d-flex justify-content-between align-items-center" [ngClass]="{'active': currentPage === 'Use of Pictures'}" (click)="currentPage = 'Use of Pictures'">
                           Use of Pictures
                         </button>
+                        <button type="button" class="list-group-item d-flex justify-content-between align-items-center" [ngClass]="{'active': currentPage === 'Use of Videos'}" (click)="currentPage = 'Use of Videos'">
+                          Use of Videos
+                        </button>
 
                         <button type="button" class="list-group-item list-group-item-action list-header" disabled>
                           Typography
@@ -446,6 +449,28 @@
                         <button class="btn btn-primary" (click)="fiNegativeSpaceDrawCanvas()">Show Visualization</button>
                         <canvas #negativeSpaceCanvas height="1" style="margin-top: 10px; width: 100%; padding: 5px; border: solid 3px black;"></canvas>
                       </div>
+
+                      <!-- VIDEOS -->
+                      <div *ngIf="currentPage === 'Use of Videos'">
+                        <div class="h2">Use of Videos</div>
+                        <hr>
+                        <img [src]="analysisResult.screenshot" alt="" width="100%">
+                        <hr>
+                        <h3>Analysis</h3>
+                        <table class="table">
+                          <tbody>
+                            <tr>
+                              <th scope="row">Total Videos</th>
+                              <td>{{ this.analysisResult.videosResult.visibleCount }}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        <hr>
+                        <h3>Visualization</h3>
+                        <button class="btn btn-primary" (click)="fiVideosDrawCanvas()">Show Visualization</button>
+                        <canvas #videosCanvas height="1" style="margin-top: 10px; width: 100%; padding: 5px; border: solid 3px black;"></canvas>
+                      </div>
+
                     </div>
                   </div>
                 </div>

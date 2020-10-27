@@ -1,53 +1,36 @@
 import { SymmetryResult } from 'Shared/types/factors';
+import { ImageProcessingSpringTestAll } from 'Shared/types/types';
 
 /**
  * 
  * @param image base64 image uri
  */
-export async function symmetry(imageURI: string): Promise<SymmetryResult> {
-    const data = {
-        img: imageURI
-    };
+export function symmetry(ipsSymmetryResult: ImageProcessingSpringTestAll['symmetryResult']): SymmetryResult {
+    const visitedPixelsRaw: any = ipsSymmetryResult?.horizontalSymmetry?.allVisitedPixels;
+    const tbExactSymmetricalPixelsRaw: any = ipsSymmetryResult?.verticalSymmetry?.symmetricalPixels;
+    const lrExactSymmetricalPixelsRaw: any = ipsSymmetryResult?.horizontalSymmetry?.symmetricalPixels;
 
-    return new Promise((resolve, reject) => {
-        fetch("http://localhost:3003/symmetry/test", {
-            method: "POST",
-            body: JSON.stringify(data),
-            headers: {
-                'Content-Type': 'application/json'
-            },
-        }).then(res => {
-            res.json().then((res) => {
-                const visitedPixelsRaw: any = res?.horizontalSymmetry?.allVisitedPixels;
-                const vExactSymmetricalPixelsRaw: any = res?.verticalSymmetry?.symmetricalPixels;
-                const hExactSymmetricalPixelsRaw: any = res?.horizontalSymmetry?.symmetricalPixels;
+    let visitedPixels: number;
+    let tbExactSymmetricalPixels: number;
+    let lrExactSymmetricalPixels: number;
 
-                let visitedPixels: number;
-                let vExactSymmetricalPixels: number;
-                let hExactSymmetricalPixels: number;
+    if (typeof visitedPixelsRaw === 'number') {
+        visitedPixels = Math.floor(visitedPixelsRaw)
+    } else {
+        visitedPixels = -1;
+    }
 
-                if (typeof visitedPixelsRaw === 'number') {
-                    visitedPixels = Math.floor(visitedPixelsRaw)
-                } else {
-                    visitedPixels = -1;
-                }
+    if (typeof tbExactSymmetricalPixelsRaw === 'number') {
+        tbExactSymmetricalPixels = Math.floor(tbExactSymmetricalPixelsRaw)
+    } else {
+        tbExactSymmetricalPixels = -1;
+    }
 
-                if (typeof vExactSymmetricalPixelsRaw === 'number') {
-                    vExactSymmetricalPixels = Math.floor(vExactSymmetricalPixelsRaw)
-                } else {
-                    vExactSymmetricalPixels = -1;
-                }
+    if (typeof lrExactSymmetricalPixelsRaw === 'number') {
+        lrExactSymmetricalPixels = Math.floor(lrExactSymmetricalPixelsRaw)
+    } else {
+        lrExactSymmetricalPixels = -1;
+    }
 
-                if (typeof hExactSymmetricalPixelsRaw === 'number') {
-                    hExactSymmetricalPixels = Math.floor(hExactSymmetricalPixelsRaw)
-                } else {
-                    hExactSymmetricalPixels = -1;
-                }
-
-                resolve({ visitedPixels, vExactSymmetricalPixels, hExactSymmetricalPixels });
-            })
-        }).catch(err => {
-            resolve(err);
-        })
-    });
+    return { visitedPixels, tbExactSymmetricalPixels, lrExactSymmetricalPixels };
 }

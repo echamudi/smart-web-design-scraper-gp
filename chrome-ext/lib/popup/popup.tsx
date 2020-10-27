@@ -1,11 +1,13 @@
 import React, { SyntheticEvent } from 'react';
 import ReactDOM from 'react-dom';
-import { AppState, AnalysisConfig, AnalysisResult } from 'Shared/types/types';
-import { ColorHarmonyResult, SymmetryResult } from 'Shared/types/factors';
-import { colorHarmony } from '../evaluator/extension-side/color-harmony';
+import { AppState, AnalysisConfig, AnalysisResult, ImageProcessingSpringTestAll } from 'Shared/types/types';
+import { DominantColorsResult, SymmetryResult, ColorCountResult } from 'Shared/types/factors';
+import { dominantColors } from '../evaluator/extension-side/dominant-colors';
 import { ApolloClient, InMemoryCache, NormalizedCacheObject, gql } from 'Shared/node_modules/@apollo/client/core';
 import { login } from 'Shared/apollo-client/auth'
 import { symmetry } from '../evaluator/extension-side/symmetry';
+import { colorCount } from '../evaluator/extension-side/color-count';
+import { density } from '../evaluator/extension-side/density';
 
 const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
   uri: 'http://localhost:3001/graphql',
@@ -127,6 +129,18 @@ class Analyzer extends React.Component {
       textSize: {
         marking: false,
         minimumSize: 12
+      },
+      pictures: {
+        acceptableThreshold: 300000
+      },
+      symmetry: {
+        acceptablePercentage: 80
+      },
+      dominantColors: {
+        vibrantMaxAreaPercentage: 2
+      },
+      density: {
+        acceptableThreshold: 80
       }
     },
     result: {},
@@ -148,7 +162,7 @@ class Analyzer extends React.Component {
 
   async analyzeHandler() {
     const tabId = await init();
-    this.setState(() => ({ analyzingStatus: 'Please wait...', lastReceiptId: undefined }));
+    this.setState(() => ({ analyzingStatus: 'processing', lastReceiptId: undefined }));
 
     // Get screenshots
     const image: string = await new Promise<string>((resolve, reject) => {
@@ -157,23 +171,47 @@ class Analyzer extends React.Component {
       });
     });
 
-    // Calculate all values
-    let [analysisResult, colorHarmonyResult, symmetryResult] = await Promise.allSettled([
+    // Fetch Java ImageProcessingSpring TestAll
+
+    const ipsTestAll = await new Promise<ImageProcessingSpringTestAll>((resolve, reject) => {
+      fetch("http://localhost:3003/test/all", {
+          method: "POST",
+          body: JSON.stringify({img: image}),
+          headers: {
+              'Content-Type': 'application/json'
+          },
+      }).then((res) => {
+          res.json().then((obj) => {
+              resolve(obj);
+          })
+      }).catch(err => {
+          reject(err);
+      })
+    });
+
+    console.log('ipsTestAll', ipsTestAll);
+
+    // Calculate all sync values
+    const symmetryResult = symmetry(ipsTestAll.symmetryResult);
+    const densityResult = density(ipsTestAll.densityResult);
+
+    // Calculate all async values
+    let [analysisResult, dominantColorsResult, colorCountResult] = await Promise.allSettled([
       new Promise<Partial<AnalysisResult>>((resolve, reject) => {
         chrome.tabs.sendMessage(tabId, { message: "analyze", config: this.state.config }, (response: Partial<AnalysisResult>) => {
           resolve(response);
         });
       }),
-      new Promise<ColorHarmonyResult>((resolve, reject) => {
+      new Promise<DominantColorsResult>((resolve, reject) => {
         chrome.tabs.captureVisibleTab({}, async (image) => {
-          const result = await colorHarmony(image);
+          const result = await dominantColors(image);
           resolve(result);
         });
       }),
-      new Promise<SymmetryResult>(async (resolve, reject) => {
-        const result = await symmetry(image);
+      new Promise<ColorCountResult>(async (resolve, reject) => {
+        const result = await colorCount(image);
         resolve(result);
-      })
+      }),
     ]);
 
     if (analysisResult.status === 'rejected') {
@@ -185,8 +223,10 @@ class Analyzer extends React.Component {
     const finalAnalysisResult: Partial<AnalysisResult> = {
       ...analysisResult.value,
       html: '', // remove html for now
-      colorHarmonyResult: colorHarmonyResult.status === 'fulfilled' ? colorHarmonyResult.value : undefined,
-      symmetryResult: symmetryResult.status === 'fulfilled' ? symmetryResult.value : undefined,
+      symmetryResult,
+      densityResult,
+      dominantColorsResult: dominantColorsResult.status === 'fulfilled' ? dominantColorsResult.value : undefined,
+      colorCountResult: colorCountResult.status === 'fulfilled' ? colorCountResult.value : undefined,
       screenshot: image
     };
 
@@ -266,7 +306,7 @@ class Analyzer extends React.Component {
             Analyze
           </div>
           <div className="card-body">
-            <h5 className="card-title">Font Size</h5>
+            {/* <h5 className="card-title">Font Size</h5>
             <label>
               <input type="checkbox" checked={this.state.config.textSize.marking} onChange={this.marktextSizeToggle} /> Show small text marks
             </label>
@@ -276,7 +316,7 @@ class Analyzer extends React.Component {
             </div>
             <div>
               Minimum Font Size: {this.state.config.textSize.minimumSize ?? 16}
-            </div>
+            </div> */}
             <button type="button" className="btn btn-primary" onClick={this.analyzeHandler}>Analyze</button>
           </div>
         </div>
@@ -284,103 +324,15 @@ class Analyzer extends React.Component {
         <div className="card" style={{marginTop: '20px'}}>
           <div className="card-body">
             {
+              this.state.analyzingStatus === 'processing' &&
+              <div className="spinner-border text-primary" role="status">
+              </div>
+            }
+            {
               this.state.lastReceiptId &&
               <button type="button" className="btn btn-primary" onClick={this.openQuickReport}>Open Report</button>
             }
           </div>
-          {/*
-          <div className="card-body">
-            {
-              this.state.result &&
-              <>
-                <h3>Result</h3>
-                {
-                  this.state.snapshot &&
-                  <>
-                    <img src={this.state.snapshot} alt="" width="300px" />
-                    <hr/>
-                  </>
-                }
-                {
-                  this.state.result.textSizeResult &&
-                  <>
-                    <h5 className="card-title">Text Size</h5>
-                    <table>
-                      <tbody>
-                        <tr>
-                          <th>Total characters in page</th><td>{this.state.result.textSizeResult?.totalCharacters}</td>
-                        </tr>
-                        <tr>
-                          <th>Total small characters</th><td>{this.state.result.textSizeResult?.totalSmallCharacters}</td>
-                        </tr>
-                        <tr>
-                          <th>Score</th><td>{this.state.result.textSizeResult?.score}</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                    <div className="progress">
-                      <div className="progress-bar" role="progressbar" style={{width: this.state.result.textSizeResult?.score + '%'}}>{this.state.result.textSizeResult?.score}%</div>
-                    </div>
-                    <hr/>
-                  </>
-                }
-                {
-                  this.state.result.textFontTypeResult &&
-                  <>
-                    <h5 className="card-title">Text Font Type</h5>
-                    <ul>
-                      {this.state.result.textFontTypeResult?.usedFonts.map((stack, i) => (
-                        <li key={i}>{stack}</li>
-                      ))}
-                    </ul>
-                    <hr/>
-                  </>
-                }
-                {
-                  this.state.result.picturesResult &&
-                  <>
-                    <h5 className="card-title">Images</h5>
-                    <table>
-                      <tbody>
-                        <tr>
-                          <th>Total images</th><td>{this.state.result.picturesResult?.allCount}</td>
-                        </tr>
-                        <tr>
-                          <th>Total visible images</th><td>{this.state.result.picturesResult?.visibleCount}</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                    <hr/>
-                  </>
-                }
-                {
-                  this.state.result.colorHarmonyResult?.vibrant &&
-                  <div>
-                    <h5 className="card-title">Vibrant / Color Harmony</h5>
-                    <p>Vibrant: {this.state.result.colorHarmonyResult?.vibrant.Vibrant?.hex}
-                      <span style={{ display: 'inline-block', height: 30, width: 75, backgroundColor: this.state.result.colorHarmonyResult?.vibrant.Vibrant?.hex }}></span>
-                    </p>
-                    <p>Muted: {this.state.result.colorHarmonyResult?.vibrant.Muted?.hex}
-                      <span style={{ display: 'inline-block', height: 30, width: 75, backgroundColor: this.state.result.colorHarmonyResult?.vibrant.Muted?.hex }}></span>
-                    </p>
-                    <p>LightVibrant: {this.state.result.colorHarmonyResult?.vibrant.LightVibrant?.hex}
-                      <span style={{ display: 'inline-block', height: 30, width: 75, backgroundColor: this.state.result.colorHarmonyResult?.vibrant.LightVibrant?.hex }}></span>
-                    </p>
-                    <p>LightMuted: {this.state.result.colorHarmonyResult?.vibrant.LightMuted?.hex}
-                      <span style={{ display: 'inline-block', height: 30, width: 75, backgroundColor: this.state.result.colorHarmonyResult?.vibrant.LightMuted?.hex }}></span>
-                    </p>
-                    <p>DarkVibrant: {this.state.result.colorHarmonyResult?.vibrant.DarkVibrant?.hex}
-                      <span style={{ display: 'inline-block', height: 30, width: 75, backgroundColor: this.state.result.colorHarmonyResult?.vibrant.DarkVibrant?.hex }}></span>
-                    </p>
-                    <p>DarkMuted: {this.state.result.colorHarmonyResult?.vibrant.DarkMuted?.hex}
-                      <span style={{ display: 'inline-block', height: 30, width: 75, backgroundColor: this.state.result.colorHarmonyResult?.vibrant.DarkMuted?.hex }}></span>
-                    </p>
-                  </div>
-                }
-              </>
-            }
-          </div>
-          */}
           </div>
       </div>
     )

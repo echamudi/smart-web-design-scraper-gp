@@ -490,11 +490,11 @@
             </td>
           </tr>
           <tr>
-            <th scope="row">Text Size</th>
-            <td>{{ fiTextSizeScore }}</td>
+            <th scope="row">Density</th>
+            <td>{{ fiDensityScore }}</td>
             <td>
               <div class="progress">
-                <div class="progress-bar" role="progressbar" [ngStyle]="{width: fiTextSizeScore + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="progress-bar" role="progressbar" [ngStyle]="{width: fiDensityScore + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
             </td>
           </tr>
@@ -508,11 +508,29 @@
             </td>
           </tr>
           <tr>
+            <th scope="row">Text Size</th>
+            <td>{{ fiTextSizeScore }}</td>
+            <td>
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" [ngStyle]="{width: fiTextSizeScore + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </td>
+          </tr>
+          <tr>
             <th scope="row">Dominant Colors Area</th>
             <td>{{ fiDominantColorsVibrantScore }}</td>
             <td>
               <div class="progress">
                 <div class="progress-bar" role="progressbar" [ngStyle]="{width: fiDominantColorsVibrantScore + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Text Negative Space</th>
+            <td>{{ fiNegativeSpaceScore }}</td>
+            <td>
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" [ngStyle]="{width: fiNegativeSpaceScore + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
             </td>
           </tr>

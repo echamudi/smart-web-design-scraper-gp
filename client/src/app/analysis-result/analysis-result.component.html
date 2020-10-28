@@ -239,7 +239,7 @@
                         <div class="clearfix"></div>
                         <h3>Config</h3>
                         <p><b>Maximum Vibrant Area Percentage:</b> {{ analysisResult.analysisConfig.dominantColors.vibrantMaxAreaPercentage }}%</p>
-                        <mat-slider style="width: 500px" min="0" max="100" step="1" thumbLabel
+                        <mat-slider style="width: 100%" min="0" max="20" step="0.01" thumbLabel
                         [value]="analysisResult.analysisConfig.dominantColors.vibrantMaxAreaPercentage"
                         (change)="fiDominantColorsVibrantMaxAreaPercentageChange($event)"></mat-slider>
                         <hr>
@@ -286,7 +286,7 @@
                             </tr>
                           </thead>
                           <tr *ngFor="let item of analysisResult.textFontTypeResult.stacks; let i = index">
-                            <td>{{ i }}</td>
+                            <td>{{ i + 1 }}</td>
                             <td>{{ item }}</td>
                           </tr>
                         </table>

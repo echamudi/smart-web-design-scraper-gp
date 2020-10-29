@@ -7,8 +7,6 @@ import { TextSizeConfig, TextSizeResult } from 'Shared/types/factors';
 export function textSize(doc: Document): TextSizeResult {
     const elements: NodeListOf<Element> = doc.querySelectorAll('body *');
 
-    // let totalElements = 0;
-    // let totalSmallCharacters = 0;
     let totalCharacters = 0;
     const all = elements;
 
@@ -17,16 +15,12 @@ export function textSize(doc: Document): TextSizeResult {
     // Mark letters with too small letters
     for (let i = 0, max = all.length; i < max; i += 1) {
         const currentEl = all[i] as HTMLElement;
-        // currentEl.removeAttribute('data-swds-textSize');
 
         let text = '';
         currentEl.childNodes.forEach((cn) => {
             if (cn.nodeType === Node.TEXT_NODE) text += cn.textContent ?? '';
         })
         text = text.trim();
-
-        // console.log(text);
-        // console.log(getComputedStyle(currentEl).fontSize);
 
         totalCharacters += [...text].length;
 
@@ -41,11 +35,6 @@ export function textSize(doc: Document): TextSizeResult {
             } else {
                 textSizeMap[fontSize] += [...text].length;
             }
-
-
-            // currentEl.setAttribute('data-swds-textSize', '1');
-            // totalElements += 1;
-            // totalSmallCharacters += [...text].length;
         }
     }
 

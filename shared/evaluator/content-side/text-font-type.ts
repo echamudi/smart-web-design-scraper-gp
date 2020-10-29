@@ -1,4 +1,4 @@
-import { styleInPage } from "../../helpers/style-parser";
+import { styleInPage } from "Shared/utils/style-parser";
 import { TextFontTypeResult } from 'Shared/types/factors';
 
 

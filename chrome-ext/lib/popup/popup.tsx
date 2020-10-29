@@ -2,12 +2,12 @@ import React, { SyntheticEvent } from 'react';
 import ReactDOM from 'react-dom';
 import { AppState, AnalysisConfig, AnalysisResult, ImageProcessingSpringTestAll } from 'Shared/types/types';
 import { DominantColorsResult, SymmetryResult, ColorCountResult } from 'Shared/types/factors';
-import { dominantColors } from '../evaluator/extension-side/dominant-colors';
+import { dominantColors } from 'Shared/evaluator/extension-side/dominant-colors';
 import { ApolloClient, InMemoryCache, NormalizedCacheObject, gql } from 'Shared/node_modules/@apollo/client/core';
 import { login } from 'Shared/apollo-client/auth'
-import { symmetry } from '../evaluator/extension-side/symmetry';
-import { colorCount } from '../evaluator/extension-side/color-count';
-import { density } from '../evaluator/extension-side/density';
+import { symmetry } from 'Shared/evaluator/extension-side/symmetry';
+import { colorCount } from 'Shared/evaluator/extension-side/color-count';
+import { density } from 'Shared/evaluator/extension-side/density';
 
 const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
   uri: 'http://localhost:3001/graphql',

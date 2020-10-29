@@ -1,4 +1,4 @@
-import { styleElementFactory, getStyleElement } from "../../helpers/style-tools";
+import { styleElementFactory, getStyleElement } from "Shared/utils/style-tools";
 import { TextSizeConfig, TextSizeResult } from 'Shared/types/factors';
 
 /**

@@ -1,11 +1,11 @@
-import { textSize, textSizeStyler } from '../evaluator/content-side/text-size';
+import { textSize, textSizeStyler } from 'Shared/evaluator/content-side/text-size';
 import { AnalysisConfig, AnalysisResult } from 'Shared/types/types';
-import { textFontType } from '../evaluator/content-side/text-font-type';
-import { pictures } from '../evaluator/content-side/pictures';
-import { elementCount } from '../evaluator/content-side/element-count';
-import { browserInfo } from '../evaluator/content-side/browser-info';
-import { negativeSpace } from '../evaluator/content-side/negative-space';
-import { videos } from '../evaluator/content-side/videos';
+import { textFontType } from 'Shared/evaluator/content-side/text-font-type';
+import { pictures } from 'Shared/evaluator/content-side/pictures';
+import { elementCount } from 'Shared/evaluator/content-side/element-count';
+import { browserInfo } from 'Shared/evaluator/content-side/browser-info';
+import { negativeSpace } from 'Shared/evaluator/content-side/negative-space';
+import { videos } from 'Shared/evaluator/content-side/videos';
 
 if ((window as any).SWDS === undefined) {
     (window as any).SWDS = {};

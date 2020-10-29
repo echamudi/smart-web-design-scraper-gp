@@ -5,10 +5,7 @@ export function negativeSpace(win: Window, doc: Document, browserInfoResult: Bro
     const { scrollWidth, scrollHeight } = browserInfoResult;
 
     let textElementCount = 0;
-    let textElementArea = 0;
-    const pageScrollableArea = scrollWidth * scrollHeight;
 
-    const negativeArray: (0|1)[][] = Array<(0|1)[]>(scrollHeight).fill(Array<0|1>(scrollWidth).fill(0));
     const components: NegativeSpaceResult['components'] = [];
     
     for (let i = 0, max = elements.length; i < max; i += 1) {

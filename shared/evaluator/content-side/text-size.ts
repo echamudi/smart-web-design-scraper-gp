@@ -37,7 +37,7 @@ export function textSize(doc: Document): TextSizeResult {
 
     let totalCharacters = 0;
     Object.keys(textSizeMap).forEach((key) => {
-        totalCharacters += textSizeMap[key];
+        totalCharacters += textSizeMap[key as unknown as number];
     })
 
     return { totalCharacters, textSizeMap };

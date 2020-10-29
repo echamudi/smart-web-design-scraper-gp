@@ -7,7 +7,6 @@ import { TextSizeConfig, TextSizeResult } from 'Shared/types/factors';
 export function textSize(doc: Document): TextSizeResult {
     const elements: NodeListOf<Element> = doc.querySelectorAll('body *');
 
-    let totalCharacters = 0;
     const all = elements;
 
     const textSizeMap: Record<number, number> = {};
@@ -21,8 +20,6 @@ export function textSize(doc: Document): TextSizeResult {
             if (cn.nodeType === Node.TEXT_NODE) text += cn.textContent ?? '';
         })
         text = text.trim();
-
-        totalCharacters += [...text].length;
 
         const bound = currentEl.getBoundingClientRect();
         const invisible = bound.x === 0 && bound.y === 0 && bound.width === 0 && bound.height === 0;
@@ -38,7 +35,10 @@ export function textSize(doc: Document): TextSizeResult {
         }
     }
 
-    // const score = Math.floor((1 - (totalSmallCharacters / totalCharacters)) * 100);
+    let totalCharacters = 0;
+    Object.keys(textSizeMap).forEach((key) => {
+        totalCharacters += textSizeMap[key];
+    })
 
     return { totalCharacters, textSizeMap };
 }

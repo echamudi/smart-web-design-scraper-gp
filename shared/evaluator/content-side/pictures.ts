@@ -30,7 +30,7 @@ export function pictures(doc: Document): PicturesResult {
     const svgs: SVGSVGElement[] = Array.from(doc.getElementsByTagName('svg'));
     svgs.forEach(el => {
         const bound = el.getBoundingClientRect();
-        const invisible = bound.x === 0 && bound.y === 0 && bound.width === 0 && bound.height === 0;
+        const invisible = bound.width === 0 && bound.height === 0;
 
         picturesData.push({
             url: '',

@@ -18,7 +18,7 @@ export function negativeSpace(win: Window, doc: Document, browserInfoResult: Bro
         text = text.trim();
 
         const bound = currentEl.getBoundingClientRect();
-        const invisible = bound.x === 0 && bound.y === 0 && bound.width === 0 && bound.height === 0;
+        const invisible = bound.width === 0 && bound.height === 0;
 
         if (text !== '' && !invisible) {
             components.push({

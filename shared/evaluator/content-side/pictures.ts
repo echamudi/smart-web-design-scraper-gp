@@ -1,4 +1,5 @@
 import { PicturesResult, PictureData } from 'Shared/types/factors';
+import { isVisible } from 'Shared/utils/is-visible';
 
 export function pictures(doc: Document): PicturesResult {
     let picturesResult: PicturesResult = {
@@ -22,7 +23,7 @@ export function pictures(doc: Document): PicturesResult {
             area: el.clientWidth * el.clientHeight,
             x: bound.left,
             y: bound.top,
-            visible: el.offsetParent !== null
+            visible: isVisible(el)
         })
     });
 
@@ -30,7 +31,6 @@ export function pictures(doc: Document): PicturesResult {
     const svgs: SVGSVGElement[] = Array.from(doc.getElementsByTagName('svg'));
     svgs.forEach(el => {
         const bound = el.getBoundingClientRect();
-        const invisible = bound.width === 0 && bound.height === 0;
 
         picturesData.push({
             url: '',
@@ -40,7 +40,7 @@ export function pictures(doc: Document): PicturesResult {
             area: el.clientWidth * el.clientHeight,
             x: bound.left,
             y: bound.top,
-            visible: !invisible
+            visible: isVisible(el)
         })
     });
 
@@ -61,7 +61,7 @@ export function pictures(doc: Document): PicturesResult {
                 area: el.clientWidth * el.clientHeight,
                 x: bound.left,
                 y: bound.top,
-                visible: el.offsetParent !== null
+                visible: isVisible(el)
             })
         }
     })

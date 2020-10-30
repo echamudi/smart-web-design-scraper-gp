@@ -1,4 +1,5 @@
 import { BrowserInfoResult, NegativeSpaceResult } from "Shared/types/factors";
+import { isVisible } from 'Shared/utils/is-visible';
 
 export function negativeSpace(win: Window, doc: Document, browserInfoResult: BrowserInfoResult): NegativeSpaceResult {
     const elements: NodeListOf<Element> = doc.querySelectorAll('body *');
@@ -18,9 +19,8 @@ export function negativeSpace(win: Window, doc: Document, browserInfoResult: Bro
         text = text.trim();
 
         const bound = currentEl.getBoundingClientRect();
-        const invisible = bound.width === 0 && bound.height === 0;
 
-        if (text !== '' && !invisible) {
+        if (text !== '' && isVisible(currentEl)) {
             components.push({
                 x: Math.floor(bound.x + win.scrollX),
                 y: Math.floor(bound.y + win.scrollY),

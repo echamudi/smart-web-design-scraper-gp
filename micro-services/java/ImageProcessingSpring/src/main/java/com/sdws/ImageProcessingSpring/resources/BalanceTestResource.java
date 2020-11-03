@@ -41,7 +41,8 @@ public class BalanceTestResource {
             // convert to black and white ...
             Imgproc.cvtColor(source,destination , Imgproc.COLOR_RGB2GRAY);
             // convert the image to black and white does (8 bit)...
-            Imgproc.Canny(destination,destination,50,50);
+//            Imgproc.Canny(destination,destination,50,50);
+            Imgproc.Canny(destination,destination,50 ,255);
             // apply gaussian blur to smoothen lines of dots...
             Imgproc.GaussianBlur(destination,destination ,new Size(5,5),5);
 

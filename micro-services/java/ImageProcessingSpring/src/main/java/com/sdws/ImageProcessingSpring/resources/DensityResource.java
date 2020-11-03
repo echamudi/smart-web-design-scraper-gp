@@ -4,10 +4,7 @@ import com.sdws.ImageProcessingSpring.models.density.DensityCallBody;
 import com.sdws.ImageProcessingSpring.models.density.DensityResult;
 import com.sdws.ImageProcessingSpring.utils.ColorsUtils;
 import com.sdws.ImageProcessingSpring.utils.ImageUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.awt.image.BufferedImage;
 import java.util.*;
@@ -16,7 +13,7 @@ import static com.sdws.ImageProcessingSpring.utils.ImageUtils.decodeImage;
 
 @RestController
 @RequestMapping("/density")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*") // Temporarily allowing all origins
 public class DensityResource {
 
 

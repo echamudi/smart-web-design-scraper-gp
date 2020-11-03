@@ -4,15 +4,12 @@ package com.sdws.ImageProcessingSpring.resources;
 import com.sdws.ImageProcessingSpring.models.negativespace.NegativeSpaceResult;
 import com.sdws.ImageProcessingSpring.models.testAll.TestAllCallBody;
 import com.sdws.ImageProcessingSpring.models.testAll.TestAllResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
 @RequestMapping("/test")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*") // Temporarily allowing all origins
 public class TestAllResource {
 
     @PostMapping("/all")

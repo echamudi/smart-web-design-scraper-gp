@@ -1,18 +1,18 @@
 package com.sdws.ImageProcessingSpring.resources;
 
 
+import com.sdws.ImageProcessingSpring.ImageProcessingSpringApplication;
 import com.sdws.ImageProcessingSpring.models.balance.BalanceCallBody;
 import com.sdws.ImageProcessingSpring.models.balance.BalanceResult;
 import com.sdws.ImageProcessingSpring.utils.ColorsUtils;
 import com.sdws.ImageProcessingSpring.utils.ImageUtils;
+import jdk.jshell.ImportSnippet;
 import org.opencv.core.*;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.*;
+import org.opencv.imgcodecs.Imgcodecs;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.opencv.imgcodecs.*;
 import org.opencv.imgproc.Imgproc;
@@ -20,7 +20,7 @@ import org.opencv.imgproc.Imgproc;
 
 @RestController
 @RequestMapping("/balance")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*") // Temporarily allowing all origins
 public class BalanceTestResource {
 
 
@@ -36,76 +36,57 @@ public class BalanceTestResource {
 
     private BalanceResult balanceTest(BufferedImage buffImage) {
         try {
-            // preparing the image before using detection tools...
-            int backgroundColor = ColorsUtils.getMostCommonColor(ImageUtils.getColorCounts(buffImage));
-            BufferedImage imageWithWhiteBackground = ImageUtils.setAllBackgroundToWhite(buffImage, backgroundColor);
+            Mat source = ImageUtils.img2Mat(buffImage);
+            Mat destination = new Mat();
+            // convert to black and white ...
+            Imgproc.cvtColor(source,destination , Imgproc.COLOR_RGB2GRAY);
+            // convert the image to black and white does (8 bit)...
+            Imgproc.Canny(destination,destination,50,50);
+            // apply gaussian blur to smoothen lines of dots...
+            Imgproc.GaussianBlur(destination,destination ,new Size(5,5),5);
 
-            // convert to Mat ...
-            Mat source = ImageUtils.img2Mat(imageWithWhiteBackground);
-//        // a place to hold the greyed out version of the image...
-            Mat greyedOutImage = new Mat(source.rows(), source.cols(), source.type());
-//        // greying out the image and storing it...
-            Imgproc.cvtColor(source, greyedOutImage, Imgproc.COLOR_RGB2GRAY);
-//        // equalizing the histogram of the image ... (improving the contrast of the image)
-////        Imgproc.equalizeHist(greyedOutImage,greyedOutImage);
-//        // blurring the image ...
-            Imgproc.GaussianBlur(greyedOutImage, greyedOutImage, new Size(5, 5), 0, 0, Core.BORDER_DEFAULT);
-//
-//        Imgproc.Canny(greyedOutImage,);
-            Mat edges = new Mat();
-            // Canny detect edges...
-            Imgproc.Canny(greyedOutImage, edges, 100, 300);
-            // Expnad , connect edges...
-            Imgproc.dilate(greyedOutImage, greyedOutImage, new Mat(), new Point(-1, -1), 3, 1, new Scalar(1));
-            // find contours
-            ArrayList<MatOfPoint> contours = new ArrayList<>();
-            Mat hierarchy = new Mat();
-            Imgproc.findContours(greyedOutImage, contours, hierarchy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
+            // finding the contours...
+            List<MatOfPoint> contours = new ArrayList<>();
+            Imgproc.findContours(destination,contours,new Mat(),Imgproc.RETR_LIST,Imgproc.CHAIN_APPROX_SIMPLE);
+            System.out.println("contours size ==> " + contours.size()) ;
+            List<MatOfPoint> squares = new ArrayList<>();
+            int countRectangles = 0 ;
+            for(MatOfPoint contour : contours) {
+                // area of th contour...
+                double area = Imgproc.contourArea(contour);
+                System.out.println("area of the contour ==> " + area) ;
+                // convert to MatOfPoints2f  to get approximate polygon later from the contour...
+                MatOfPoint2f newMat = new MatOfPoint2f(contour.toArray());
 
-            System.out.println(hierarchy);
-            // find Squares ... or rectangles...
-            ArrayList<MatOfPoint> rectangles = new ArrayList<>();
-            MatOfInt hull = new MatOfInt();
-            for (MatOfPoint contour : contours) {
-                Imgproc.convexHull(contour, hull);
-                // array of points for each of the detected contours...
-                Point[] contourPoints = contour.toArray();
-                int[] indices = hull.toArray();
-                ArrayList<Point> newPoints = new ArrayList<>();
-                for (int index : indices) {
-                    newPoints.add(contourPoints[index]);
+                MatOfPoint2f approxCurve = new MatOfPoint2f();
+                int contourSize = (int)contour.total() ;
+
+                Imgproc.approxPolyDP(newMat,approxCurve,contourSize*0.05,true);
+
+                // check if the polygon has only 4 lines...
+                System.out.println("number of lines ==>"+approxCurve.total()) ;
+                if(approxCurve.total() == 4) {
+                    countRectangles++ ;
+
+
+
                 }
-                MatOfPoint2f contourHull = new MatOfPoint2f();
-                MatOfPoint2f approx = new MatOfPoint2f();
-                contourHull.fromList(newPoints);
 
-                // polygon fitting convex hull borders (less accurate fitting at this point).
-                Imgproc.approxPolyDP(contourHull, approx, Imgproc.arcLength(contourHull, true) * 0.02, true);
 
-                // A convex quadrilateral with an area greater than a certain threshold and a quadrilateral with angles close to right angles is selected...
-                MatOfPoint approxf1 = new MatOfPoint();
-                approx.convertTo(approxf1, CvType.CV_32S);
-                if (approx.rows() == 4 && Math.abs(Imgproc.contourArea(approx)) > 40000 && Imgproc.isContourConvex(approxf1)) {
-                    // contour is a rectangle...
-                    double maxCosine = 0;
 
-                    for (int j = 2; j < 5; j++) {
-                        double cosine = Math.abs(getAngle(approxf1.toArray()[j % 4], approxf1.toArray()[j - 2], approxf1.toArray()[j - 1]));
-                        maxCosine = Math.max(maxCosine, cosine);
-                    }
-                    // the angle should be about 72 degrees...
-                    if (maxCosine < 0.3) {
-                        MatOfPoint tmp = new MatOfPoint();
-                        contourHull.convertTo(tmp, CvType.CV_32S);
-                        rectangles.add(approxf1);
-//                    hulls.add() ;
-                    }
-                }
+
             }
+            System.out.println("rectangles detected ==> " +   countRectangles) ;
+
+
+
+
+
+
+
         }catch(Exception e) {
             e.printStackTrace();
         }
-
         return null ;
     }
 

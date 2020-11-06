@@ -17,6 +17,8 @@ import java.util.List;
 import org.opencv.imgcodecs.*;
 import org.opencv.imgproc.Imgproc;
 
+import static org.opencv.imgproc.Imgproc.RETR_EXTERNAL;
+
 
 @RestController
 @RequestMapping("/balance")
@@ -35,61 +37,117 @@ public class BalanceTestResource {
 
 
     private BalanceResult balanceTest(BufferedImage buffImage) {
-        try {
-            Mat source = ImageUtils.img2Mat(buffImage);
-            Mat destination = new Mat();
-            // convert to black and white ...
-            Imgproc.cvtColor(source,destination , Imgproc.COLOR_RGB2GRAY);
-            // convert the image to black and white does (8 bit)...
-//            Imgproc.Canny(destination,destination,50,50);
-            Imgproc.Canny(destination,destination,50 ,255);
-            // apply gaussian blur to smoothen lines of dots...
-            Imgproc.GaussianBlur(destination,destination ,new Size(5,5),5);
-
-            // finding the contours...
-            List<MatOfPoint> contours = new ArrayList<>();
-            Imgproc.findContours(destination,contours,new Mat(),Imgproc.RETR_LIST,Imgproc.CHAIN_APPROX_SIMPLE);
-            System.out.println("contours size ==> " + contours.size()) ;
-            List<MatOfPoint> squares = new ArrayList<>();
-            int countRectangles = 0 ;
-            for(MatOfPoint contour : contours) {
-                // area of th contour...
-                double area = Imgproc.contourArea(contour);
-                System.out.println("area of the contour ==> " + area) ;
-                // convert to MatOfPoints2f  to get approximate polygon later from the contour...
-                MatOfPoint2f newMat = new MatOfPoint2f(contour.toArray());
-
-                MatOfPoint2f approxCurve = new MatOfPoint2f();
-                int contourSize = (int)contour.total() ;
-
-                Imgproc.approxPolyDP(newMat,approxCurve,contourSize*0.05,true);
-
-                // check if the polygon has only 4 lines...
-                System.out.println("number of lines ==>"+approxCurve.total()) ;
-                if(approxCurve.total() == 4) {
-                    countRectangles++ ;
-
-
-
-                }
-
-
-
-
-            }
-            System.out.println("rectangles detected ==> " +   countRectangles) ;
-
-
-
-
-
-
-
-        }catch(Exception e) {
-            e.printStackTrace();
-        }
         return null ;
     }
+
+
+
+
+
+
+    private static void shapeDetection(Mat source) {
+        Mat grey = new Mat();
+        Imgproc.cvtColor(source,grey,Imgproc.COLOR_BGR2GRAY);
+//        Imgcodecs.imwrite("C:\\Users\\akumanotatsujin\\Pictures\\grey.png",grey);
+
+        Imgproc.GaussianBlur(grey,grey,new Size(3,3),2,3);
+//        Imgcodecs.imwrite("C:\\Users\\akumanotatsujin\\Pictures\\blur.png",grey);
+
+        // Canny edge detection ...
+        Imgproc.Canny(grey,grey,20,60,3,false);
+//        Imgcodecs.imwrite("C:\\Users\\akumanotatsujin\\Pictures\\canny.png",grey);
+
+        //Expand , connect edges ...
+        Imgproc.dilate(grey,grey,new Mat(),new Point(-1,-1),3 ,1 , new Scalar(1));
+//        Imgcodecs.imwrite("C:\\Users\\akumanotatsujin\\Pictures\\dilate.png",grey);
+
+
+        List<MatOfPoint> contours = new ArrayList<>();
+
+        Mat hierarchy = new Mat() ;
+
+
+        Imgproc.findContours(grey,contours,hierarchy, RETR_EXTERNAL,Imgproc.CHAIN_APPROX_SIMPLE);
+
+
+//        Imgcodecs.imwrite("C:\\Users\\akumanotatsujin\\Pictures\\hierarchy.png",hierarchy);
+        System.out.println("contours : " + contours.size()) ;
+
+
+
+        // find all squares...
+        List<MatOfPoint> squares = new ArrayList<>();
+        List<MatOfPoint> hulls  = new ArrayList<>();
+
+
+        // Find quadrilateral fit of contour to convex hull
+        MatOfInt hull = new MatOfInt();
+        MatOfPoint2f approx = new MatOfPoint2f();
+        approx.convertTo(approx,CvType.CV_32F);
+
+        // looping through contours ...
+
+        for(MatOfPoint contour : contours) {
+            // convex hull of border ...
+            Imgproc.convexHull(contour,hull);
+            // calculating new outline points with convex hull ...
+            Point[] contourPoints = contour.toArray();
+            int[] indices = hull.toArray();
+            List<Point> newPoints = new ArrayList<>();
+            for(int index : indices) {
+                newPoints.add(contourPoints[index]);
+            }
+            MatOfPoint2f contourHull = new MatOfPoint2f();
+            contourHull.fromList(newPoints);
+
+            // polygon fitting convex hull border (less accurate fitting at this point)
+            Imgproc.approxPolyDP(contourHull,approx,Imgproc.arcLength(contourHull,true)*0.02,true);
+
+            // a convex quadrilateral with an area greater than a certain threshold and with an angle close to right angle is selected ...
+            MatOfPoint approxf1 = new MatOfPoint();
+            approx.convertTo(approxf1,CvType.CV_32S);
+            // area check is skipped cause i'm also after small squares ...
+            if(approx.rows() == 4 && Imgproc.isContourConvex(approxf1)) {
+                System.out.println("contour(square) area ==> " + Math.abs(Imgproc.contourArea(approx)) ) ;
+                double maxCosine = 0 ;
+                for(int j = 2 ; j  < 5 ; j++) {
+                    double cosine = Math.abs(getAngle(approxf1.toArray()[j % 4], approxf1.toArray()[j - 2], approxf1.toArray()[j - 1]));
+                    maxCosine = Math.max(maxCosine, cosine);
+                }
+                //the angle is about 72 degrees
+                if(maxCosine <0.3) {
+                    MatOfPoint tmp = new MatOfPoint();
+                    contourHull.convertTo(tmp , CvType.CV_32S);
+                    squares.add(approxf1);
+                    hulls.add(tmp) ;
+                }
+
+            }
+        }
+
+        System.out.println("number of Accepted squares ==>" + squares.size()) ;
+        // test getting the exact points...
+        /*
+        Point[] points = squares.get(0).toArray() ;
+         for(int i =0 ; i<points.length ; i++) {
+          System.out.println("Point (" + points[i].x +"," + points[i].y +")" ) ;
+             }
+*/
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     private static double getAngle(Point pt1, Point pt2, Point pt0)

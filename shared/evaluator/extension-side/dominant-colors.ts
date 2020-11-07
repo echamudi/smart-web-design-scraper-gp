@@ -1,12 +1,12 @@
 import Vibrant from "node-vibrant";
-import { DominantColorsResult, DominantColorsPallete } from 'Shared/types/factors';
+import { DominantColorsExtractResult, DominantColorsPallete } from 'Shared/types/factors';
 import { equalWithTolerance } from "Shared/utils/color";
 
 /**
  * 
  * @param image base64 image uri
  */
-export async function dominantColors(imageURI: string): Promise<DominantColorsResult> {
+export async function dominantColors(imageURI: string): Promise<DominantColorsExtractResult> {
     const palette: DominantColorsPallete = await new Promise<DominantColorsPallete>((resolve, reject) => {
         Vibrant.from(imageURI).getPalette((err, palette) => {
             resolve(palette as DominantColorsPallete)

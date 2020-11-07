@@ -1,8 +1,8 @@
-import { PicturesResult, PictureData } from 'Shared/types/factors';
+import { PicturesExtractResult, PictureData } from 'Shared/types/factors';
 import { isVisible } from 'Shared/utils/is-visible';
 
-export function pictures(doc: Document): PicturesResult {
-    let picturesResult: PicturesResult = {
+export function pictures(doc: Document): PicturesExtractResult {
+    let picturesResult: PicturesExtractResult = {
         allCount: -1, // All images
         visibleCount: -1, // All visible image in the page
         data: [],

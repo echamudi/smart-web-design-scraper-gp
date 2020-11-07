@@ -1,10 +1,10 @@
 import { styleElementFactory, getStyleElement } from "Shared/utils/style-tools";
-import { TextSizeConfig, TextSizeResult } from 'Shared/types/factors';
+import { TextSizeConfig, TextSizeExtractResult } from 'Shared/types/factors';
 
 /**
  * @param doc elements to be evaluated, ideally all elements in the page
  */
-export function textSize(doc: Document): TextSizeResult {
+export function textSize(doc: Document): TextSizeExtractResult {
     const elements: NodeListOf<Element> = doc.querySelectorAll('body *');
 
     const all = elements;

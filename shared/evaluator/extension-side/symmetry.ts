@@ -1,11 +1,11 @@
-import { SymmetryResult } from 'Shared/types/factors';
+import { SymmetryExtractResult } from 'Shared/types/factors';
 import { ImageProcessingSpringTestAll } from 'Shared/types/types';
 
 /**
  * 
  * @param image base64 image uri
  */
-export function symmetry(ipsSymmetryResult: ImageProcessingSpringTestAll['symmetryResult']): SymmetryResult {
+export function symmetry(ipsSymmetryResult: ImageProcessingSpringTestAll['symmetryResult']): SymmetryExtractResult {
     const visitedPixelsRaw: any = ipsSymmetryResult?.horizontalSymmetry?.allVisitedPixels;
     const tbExactSymmetricalPixelsRaw: any = ipsSymmetryResult?.verticalSymmetry?.symmetricalPixels;
     const lrExactSymmetricalPixelsRaw: any = ipsSymmetryResult?.horizontalSymmetry?.symmetricalPixels;

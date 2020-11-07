@@ -1,8 +1,8 @@
-import { TextSizeConfig, TextSizeResult, BrowserInfoResult, SymmetryResult, DominantColorsConfig, PicturesConfig, SymmetryConfig, ColorCountResult, DensityResult, DensityConfig, NegativeSpaceResult, VideosResult } from "./factors";
-import { TextFontTypeResult } from "./factors";
-import { PicturesResult } from "./factors";
-import { DominantColorsResult } from "./factors";
-import { ElementCountResult } from "./factors";
+import { TextSizeConfig, TextSizeExtractResult, BrowserInfoExtractResult, SymmetryExtractResult, DominantColorsConfig, PicturesConfig, SymmetryConfig, ColorCountExtractResult, DensityExtractResult, DensityConfig, NegativeSpaceExtractResult, VideosExtractResult } from "./factors";
+import { TextFontTypeExtractResult } from "./factors";
+import { PicturesExtractResult } from "./factors";
+import { DominantColorsExtractResult } from "./factors";
+import { ElementCountExtractResult } from "./factors";
 
 export interface AnalysisConfig {
     textSize: TextSizeConfig,
@@ -17,17 +17,17 @@ export interface AnalysisResult {
     analysisConfig: AnalysisConfig;
 
     screenshot: string;
-    textSizeResult: TextSizeResult;
-    textFontTypeResult: TextFontTypeResult;
-    picturesResult: PicturesResult;
-    dominantColorsResult: DominantColorsResult;
-    elementCountResult: ElementCountResult;
-    browserInfoResult: BrowserInfoResult;
-    symmetryResult: SymmetryResult;
-    colorCountResult: ColorCountResult;
-    densityResult: DensityResult;
-    negativeSpaceResult: NegativeSpaceResult;
-    videosResult: VideosResult;
+    textSizeResult: TextSizeExtractResult;
+    textFontTypeResult: TextFontTypeExtractResult;
+    picturesResult: PicturesExtractResult;
+    dominantColorsResult: DominantColorsExtractResult;
+    elementCountResult: ElementCountExtractResult;
+    browserInfoResult: BrowserInfoExtractResult;
+    symmetryResult: SymmetryExtractResult;
+    colorCountResult: ColorCountExtractResult;
+    densityResult: DensityExtractResult;
+    negativeSpaceResult: NegativeSpaceExtractResult;
+    videosResult: VideosExtractResult;
 }
 
 export interface AppState {

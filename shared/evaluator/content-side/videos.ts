@@ -1,7 +1,7 @@
-import { VideosResult, VideoData } from 'Shared/types/factors';
+import { VideosExtractResult, VideoData } from 'Shared/types/factors';
 
-export function videos(doc: Document): VideosResult {
-    let videosResult: VideosResult = {
+export function videos(doc: Document): VideosExtractResult {
+    let videosResult: VideosExtractResult = {
         allCount: -1, // All images
         visibleCount: -1, // All visible image in the page
         data: [],

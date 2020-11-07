@@ -1,6 +1,6 @@
-import { BrowserInfoResult } from "Shared/types/factors";
+import { BrowserInfoExtractResult } from "Shared/types/factors";
 
-export function browserInfo(win: Window): BrowserInfoResult {
+export function browserInfo(win: Window): BrowserInfoExtractResult {
     const userAgent = win.navigator.userAgent;
     const body = win.document.body;
     const html = win.document.documentElement;

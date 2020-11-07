@@ -1,12 +1,12 @@
 import { equalWithTolerance, rgbToHex } from 'Shared/utils/color';
-import { ColorCountResult } from 'Shared/types/factors';
+import { ColorCountExtractResult } from 'Shared/types/factors';
 import { imageToCanvas } from 'Shared/utils/image-canvas';
 
 /**
  * 
  * @param image base64 image uri
  */
-export async function colorCount(imageURI: string): Promise<ColorCountResult> {
+export async function colorCount(imageURI: string): Promise<ColorCountExtractResult> {
     const canvas: HTMLCanvasElement = await imageToCanvas(imageURI);
     const ctx = canvas.getContext('2d');
     if (ctx === null) throw new Error('CTX is null');
@@ -26,7 +26,7 @@ export async function colorCount(imageURI: string): Promise<ColorCountResult> {
         }
     }
 
-    const rank: ColorCountResult['rank'] = [];
+    const rank: ColorCountExtractResult['rank'] = [];
 
     Object.keys(map).forEach((key) => {
         rank.push({

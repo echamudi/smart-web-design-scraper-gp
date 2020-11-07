@@ -1,6 +1,6 @@
-import { ElementCountResult } from 'Shared/types/factors';
+import { ElementCountExtractResult } from 'Shared/types/factors';
 
-export function elementCount(document: Document): ElementCountResult {
+export function elementCount(document: Document): ElementCountExtractResult {
     const all = document.body.getElementsByTagName('*');
     const allArr = Array.from(all);
 

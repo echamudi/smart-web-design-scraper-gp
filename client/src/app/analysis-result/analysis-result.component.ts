@@ -7,7 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AnalysisResult } from 'Shared/types/types';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { MatSliderChange } from '@angular/material/slider';
-import { TextSizeResult, TextSizeConfig, SymmetryResult } from 'Shared/types/factors';
+import { TextSizeExtractResult, TextSizeConfig, SymmetryExtractResult } from 'Shared/types/factors';
 
 @Component({
   selector: 'app-analysis-result',
@@ -232,7 +232,7 @@ export class AnalysisResultComponent implements OnInit {
 
   fiSymmetryUpdateScore({symmetryResult, acceptablePercentage}:
     {
-      symmetryResult: SymmetryResult,
+      symmetryResult: SymmetryExtractResult,
       acceptablePercentage: number
     }): void {
 
@@ -271,8 +271,8 @@ export class AnalysisResultComponent implements OnInit {
   }
 
   fiTextSizeUpdateScore({allChars, textSizeMap, minimumSize}: {
-    allChars: TextSizeResult['totalCharacters'],  // TODO: fix this
-    textSizeMap: TextSizeResult['textSizeMap'],
+    allChars: TextSizeExtractResult['totalCharacters'],  // TODO: fix this
+    textSizeMap: TextSizeExtractResult['textSizeMap'],
     minimumSize: TextSizeConfig['minimumSize']
   }) {
     const allCharsNew: number = Object

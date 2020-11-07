@@ -1,7 +1,7 @@
 import React, { SyntheticEvent } from 'react';
 import ReactDOM from 'react-dom';
 import { AppState, AnalysisConfig, AnalysisResult, ImageProcessingSpringTestAll } from 'Shared/types/types';
-import { DominantColorsResult, SymmetryResult, ColorCountResult } from 'Shared/types/factors';
+import { DominantColorsExtractResult, ColorCountExtractResult } from 'Shared/types/factors';
 import { dominantColors } from 'Shared/evaluator/extension-side/dominant-colors';
 import { ApolloClient, InMemoryCache, NormalizedCacheObject, gql } from 'Shared/node_modules/@apollo/client/core';
 import { login } from 'Shared/apollo-client/auth'
@@ -202,13 +202,13 @@ class Analyzer extends React.Component {
           resolve(response);
         });
       }),
-      new Promise<DominantColorsResult>((resolve, reject) => {
+      new Promise<DominantColorsExtractResult>((resolve, reject) => {
         chrome.tabs.captureVisibleTab({}, async (image) => {
           const result = await dominantColors(image);
           resolve(result);
         });
       }),
-      new Promise<ColorCountResult>(async (resolve, reject) => {
+      new Promise<ColorCountExtractResult>(async (resolve, reject) => {
         const result = await colorCount(image);
         resolve(result);
       }),

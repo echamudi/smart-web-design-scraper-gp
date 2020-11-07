@@ -1,8 +1,8 @@
 import { styleInPage } from "Shared/utils/style-parser";
-import { TextFontTypeResult } from 'Shared/types/factors';
+import { TextFontTypeExtractResult } from 'Shared/types/factors';
 
 
-export function textFontType(win: Window): TextFontTypeResult {
+export function textFontType(win: Window): TextFontTypeExtractResult {
     const stacks = styleInPage(win, 'fontFamily', false) as string[];
 
     let usedFonts: string[] = stacks.map((stack) => {

@@ -1,13 +1,13 @@
-import { BrowserInfoResult, NegativeSpaceResult } from "Shared/types/factors";
+import { BrowserInfoExtractResult, NegativeSpaceExtractResult } from "Shared/types/factors";
 import { isVisible } from 'Shared/utils/is-visible';
 
-export function negativeSpace(win: Window, doc: Document, browserInfoResult: BrowserInfoResult): NegativeSpaceResult {
+export function negativeSpace(win: Window, doc: Document, browserInfoResult: BrowserInfoExtractResult): NegativeSpaceExtractResult {
     const elements: NodeListOf<Element> = doc.querySelectorAll('body *');
     const { scrollWidth, scrollHeight } = browserInfoResult;
 
     let textElementCount = 0;
 
-    const components: NegativeSpaceResult['components'] = [];
+    const components: NegativeSpaceExtractResult['components'] = [];
     
     for (let i = 0, max = elements.length; i < max; i += 1) {
         const currentEl = elements[i] as HTMLElement;

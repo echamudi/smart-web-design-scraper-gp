@@ -9,7 +9,7 @@ export interface SymmetryConfig {
     acceptablePercentage: number;
 }
 
-export interface SymmetryResult {
+export interface SymmetryExtractResult {
     visitedPixels: number,
 
     /**
@@ -32,7 +32,7 @@ export interface PicturesConfig {
     acceptableThreshold: number;
 }
 
-export interface PicturesResult {
+export interface PicturesExtractResult {
     /**
      * Number of pictures in the page (visible + invisible)
      */
@@ -57,7 +57,7 @@ export type PictureData = {
 
 // factor id: videos
 
-export interface VideosResult {
+export interface VideosExtractResult {
     /**
      * Number of pictures in the page (visible + invisible)
      */
@@ -81,7 +81,7 @@ export type VideoData = {
 
 // factor id: text-font-type
 
-export interface TextFontTypeResult {
+export interface TextFontTypeExtractResult {
     /**
      * all font stacks
      */
@@ -107,7 +107,7 @@ export interface TextSizeConfig {
     minimumSize: number,
 }
 
-export interface TextSizeResult {
+export interface TextSizeExtractResult {
     /**
      * total elements with font size under threshold
      */
@@ -143,7 +143,7 @@ export interface DominantColorsConfig {
     vibrantMaxAreaPercentage: number;
 }
 
-export interface DominantColorsResult {
+export interface DominantColorsExtractResult {
     vibrant: Palette | undefined;
     totalPixels: number;
     vibrantPixelCount: number;
@@ -153,7 +153,7 @@ export type DominantColorsPallete = Palette;
 
 // factor id: element-count
 
-export interface ElementCountResult {
+export interface ElementCountExtractResult {
     count: number;
 
     /**
@@ -164,7 +164,7 @@ export interface ElementCountResult {
 
 // factor id: browser-info
 
-export interface BrowserInfoResult {
+export interface BrowserInfoExtractResult {
     url: string;
     userAgent: string;
     viewportWidth: number;
@@ -175,7 +175,7 @@ export interface BrowserInfoResult {
 
 // factor id: color-count
 
-export interface ColorCountResult {
+export interface ColorCountExtractResult {
     rank: Array<{color: string, pixelCount: number}>,
 }
 
@@ -187,7 +187,7 @@ export interface DensityConfig {
     acceptableThreshold: number;
 }
 
-export interface DensityResult {
+export interface DensityExtractResult {
     /** 
      * (all pixels other than most used divided by all pixels) * 100
      **/
@@ -198,7 +198,7 @@ export interface DensityResult {
 }
 
 // factor id: negative space
-export interface NegativeSpaceResult {
+export interface NegativeSpaceExtractResult {
     scrollWidth: number;
     scrollHeight: number;
     textElementCount: number;

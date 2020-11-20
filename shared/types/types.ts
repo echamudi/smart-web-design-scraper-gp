@@ -13,33 +13,33 @@ export interface AnalysisConfig {
 }
 
 export interface AnalysisResult {
-    html: string;
-    analysisConfig: AnalysisConfig;
+    html: string,
+    analysisConfig: AnalysisConfig,
 
-    screenshot: string;
-    textSizeResult: TextSizeExtractResult;
-    textFontTypeResult: TextFontTypeExtractResult;
-    picturesResult: PicturesExtractResult;
-    dominantColorsResult: DominantColorsExtractResult;
-    elementCountResult: ElementCountExtractResult;
-    browserInfoResult: BrowserInfoExtractResult;
-    symmetryResult: SymmetryExtractResult;
-    colorCountResult: ColorCountExtractResult;
-    densityResult: DensityExtractResult;
-    negativeSpaceResult: NegativeSpaceExtractResult;
-    videosResult: VideosExtractResult;
+    screenshot: string,
+    textSizeResult: TextSizeExtractResult,
+    textFontTypeResult: TextFontTypeExtractResult,
+    picturesResult: PicturesExtractResult,
+    dominantColorsResult: DominantColorsExtractResult,
+    elementCountResult: ElementCountExtractResult,
+    browserInfoResult: BrowserInfoExtractResult,
+    symmetryResult: SymmetryExtractResult,
+    colorCountResult: ColorCountExtractResult,
+    densityResult: DensityExtractResult,
+    negativeSpaceResult: NegativeSpaceExtractResult,
+    videosResult: VideosExtractResult,
 }
 
 export interface AppState {
-    analyzingStatus: string;
-    config: AnalysisConfig;
-    result: Partial<AnalysisResult>;
+    analyzingStatus: string,
+    config: AnalysisConfig,
+    result: Partial<AnalysisResult>,
     lastReceiptId?: string,
 
     /**
      * viewport snapshot
      */
-    snapshot: string | null;
+    snapshot: string | null,
 }
 
 export interface ImageProcessingSpringTestAll {

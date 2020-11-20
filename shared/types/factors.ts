@@ -208,9 +208,15 @@ export interface NegativeSpaceExtractResult {
 // factor id: text-detection
 export interface TextDetectionExtractResult {
     components: {x: number, y: number, w: number, h: number}[],
+    componentCount: number,
+    scrollWidth: number,
+    scrollHeight: number,
 }
 
 // factor id: image-detection
 export interface ImageDetectionExtractResult {
     components: {x: number, y: number, w: number, h: number}[],
+    componentCount: number,
+    scrollWidth: number,
+    scrollHeight: number,
 }

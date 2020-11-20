@@ -4,6 +4,8 @@ package com.sdws.ImageProcessingSpring.resources;
 import com.sdws.ImageProcessingSpring.ImageProcessingSpringApplication;
 import com.sdws.ImageProcessingSpring.models.balance.BalanceCallBody;
 import com.sdws.ImageProcessingSpring.models.balance.BalanceResult;
+import com.sdws.ImageProcessingSpring.models.shapdetection.Points;
+import com.sdws.ImageProcessingSpring.models.shapdetection.Square;
 import com.sdws.ImageProcessingSpring.utils.ColorsUtils;
 import com.sdws.ImageProcessingSpring.utils.ImageUtils;
 import jdk.jshell.ImportSnippet;
@@ -32,12 +34,73 @@ public class BalanceTestResource {
 //        System.loadLibrary( Core.NATIVE_LIBRARY_NAME );
         System.out.println("balance route...");
       //  balanceTest( ImageUtils.decodeImage(body.getImg()));
-        return new BalanceResult("is working...") ;
+//        return new BalanceResult("is working...") ;
+    return balanceTest(ImageUtils.decodeImage(body.getImg())) ;
     }
 
 
     private BalanceResult balanceTest(BufferedImage buffImage) {
-        return null ;
+        // test all of the points of the objects if they're on the right side or the left side of the image
+        // if x is more than the half of width then the point is on the right side...
+        // if x is less than the half of the width then the point is on the left side...
+        // if an object have two points at each side , it means that the object is in the middle of the image...
+
+        int width = buffImage.getWidth();
+        int height = buffImage.getHeight() ;
+
+        ArrayList<Square> objects = ImageUtils.shapeDetection(ImageUtils.img2Mat(buffImage));
+
+
+        int halfWidth = width / 2 ;
+        // loop through objects ...
+        int leftHandObjects = 0 ;
+        int middleObjects  = 0 ;
+        int rightHandObjects = 0 ;
+        int numberofObjects = objects.size() ;
+
+        for(int i = 0 ; i< objects.size() ; i++) {
+
+            // loop through points of each object...
+            ArrayList<Points> points = objects.get(i).getPoints() ;
+            int leftHandPoints = 0 ;
+            int rightHandPoints = 0 ;
+            for (int j = 0 ; j <points.size() ; j++) {
+                if (points.get(j).getX() > halfWidth) {
+                // point is on the right half of the image...
+                    rightHandPoints++;
+                } else if (points.get(j).getX() < halfWidth) {
+                // point is on the left half of the image...
+                    leftHandPoints++ ;
+
+                }else {
+                // point is exactly on the middle (not counted for now)...
+                System.out.println("point is exactly on the middle of the image...") ;
+                }
+            }
+            // the addition of the two variables leftHandPoints and rightHandPoints should be equal to the 4 points of the object...
+            // if the object has more than three or more points on one side then the object is considered to be on that side...
+            if (leftHandPoints >= 3) {
+                // the object is on the left side...
+                leftHandObjects++;
+            }else if (rightHandPoints >= 3 ) {
+                // the object is on the right side...
+                rightHandObjects++;
+            }else if(rightHandPoints == leftHandPoints) {
+                // object is in the middle...
+                middleObjects++;
+            }else {
+                // something is wrong...
+                System.out.println("leftHandPoints = " + leftHandPoints + " | " +"middle objects = "+ middleObjects+"|" + "rightHandPoints = " + rightHandPoints) ;
+            }
+
+        }
+
+
+        // scoring the image on objects on left and right sides of the image...
+        System.out.println() ;
+
+
+        return new BalanceResult() ;
     }
 
 

@@ -99,8 +99,10 @@ public class BalanceTestResource {
         // scoring the image on objects on left and right sides of the image...
         System.out.println() ;
 
+        // score balance ...
 
-        return new BalanceResult() ;
+        //
+        return new BalanceResult(leftHandObjects,rightHandObjects,middleObjects,0) ;
     }
 
 

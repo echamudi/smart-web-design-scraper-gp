@@ -12,8 +12,8 @@ export function negativeSpace(
     } = textDetectionExtractResult;
 
     return {
-        scrollWidth: browserInfoResult.scrollHeight,
-        scrollHeight: browserInfoResult.scrollWidth,
+        scrollWidth: browserInfoResult.scrollWidth,
+        scrollHeight: browserInfoResult.scrollHeight,
         textElementCount,
         components
     };

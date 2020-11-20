@@ -6,6 +6,7 @@ import { elementCount } from 'Shared/evaluator/content-side/element-count';
 import { browserInfo } from 'Shared/evaluator/content-side/browser-info';
 import { negativeSpace } from 'Shared/evaluator/content-side/negative-space';
 import { videos } from 'Shared/evaluator/content-side/videos';
+import { textDetectionExtract } from 'Shared/evaluator/content-side/text-detection';
 
 if ((window as any).SWDS === undefined) {
     (window as any).SWDS = {};
@@ -35,7 +36,9 @@ if ((window as any).SWDS === undefined) {
 
             const browserInfoResult = browserInfo(window);
 
-            const negativeSpaceResult = negativeSpace(window, document, browserInfoResult);
+            const textDetectionResult = textDetectionExtract(window, document, browserInfoResult);
+
+            const negativeSpaceResult = negativeSpace(browserInfoResult, textDetectionResult);
 
             // Result
 

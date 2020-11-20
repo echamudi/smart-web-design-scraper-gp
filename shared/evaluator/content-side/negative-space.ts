@@ -1,18 +1,19 @@
-import { BrowserInfoExtractResult, NegativeSpaceExtractResult } from "Shared/types/factors";
+import { BrowserInfoExtractResult, NegativeSpaceExtractResult, TextDetectionExtractResult } from "Shared/types/factors";
 import { isVisible } from 'Shared/utils/is-visible';
 import { textDetectionExtract } from "./text-detection";
 
-export function negativeSpace(win: Window, doc: Document, browserInfoResult: BrowserInfoExtractResult): NegativeSpaceExtractResult {
+export function negativeSpace(
+    browserInfoResult: BrowserInfoExtractResult,
+    textDetectionExtractResult: TextDetectionExtractResult): NegativeSpaceExtractResult {
+
     const {
-        scrollHeight,
-        scrollWidth,
         componentCount: textElementCount,
         components
-    } = textDetectionExtract(win, doc, browserInfoResult);
+    } = textDetectionExtractResult;
 
     return {
-        scrollWidth,
-        scrollHeight,
+        scrollWidth: browserInfoResult.scrollHeight,
+        scrollHeight: browserInfoResult.scrollWidth,
         textElementCount,
         components
     };

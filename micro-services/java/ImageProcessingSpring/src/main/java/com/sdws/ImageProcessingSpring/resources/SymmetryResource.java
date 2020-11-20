@@ -43,7 +43,7 @@ public class SymmetryResource {
     }
 
 //horizontalSymmetryTest
-    private  SymmetryVerticalResult verticalSymmetryTest(BufferedImage buffImg)  {
+    private  SymmetryHorizontalResult horizontalSymmetryTest(BufferedImage buffImg)  {
         int rows = buffImg.getWidth() ;
         int columns = buffImg.getHeight() ;
         int allVisited = 0 ;
@@ -74,11 +74,11 @@ public class SymmetryResource {
 //        ImageIO.write(buffImg,"PNG",new File("/home/tatsujin/test-tralala.png"));
         double percentage = ((double)Symmetrical/(double)allVisited) * 100 ;
 
-        return new SymmetryVerticalResult(percentage,allVisited , Symmetrical , nonSymmetrical ) ;
+        return new SymmetryHorizontalResult(percentage,allVisited , Symmetrical , nonSymmetrical ) ;
     }
 
 //verticalSymmetryTest
-    private  SymmetryHorizontalResult horizontalSymmetryTest(BufferedImage img) {
+    private  SymmetryVerticalResult verticalSymmetryTest(BufferedImage img) {
         int rows = img.getWidth() ;
         int columns = img.getHeight() ;
         int HorizontalnonSymmetricalPixel =  0 ;
@@ -99,15 +99,15 @@ public class SymmetryResource {
                 }
             }
         }
-/*
         System.out.println("width : " + rows + " height :" + columns ) ;
         System.out.println("all visited : " +allpixelsVisit) ;
         System.out.println( "m symmetric = " + HorizontalsymmetricalPixel);
         System.out.println( "m No symmetric = " + HorizontalnonSymmetricalPixel);
-*/
+
+
         double percentage = ((double)HorizontalsymmetricalPixel/(double)allpixelsVisit ) *100 ;
 
-        return new SymmetryHorizontalResult(percentage , allpixelsVisit,HorizontalsymmetricalPixel , HorizontalnonSymmetricalPixel);
+        return new SymmetryVerticalResult(percentage , allpixelsVisit,HorizontalsymmetricalPixel , HorizontalnonSymmetricalPixel);
     }
 
 

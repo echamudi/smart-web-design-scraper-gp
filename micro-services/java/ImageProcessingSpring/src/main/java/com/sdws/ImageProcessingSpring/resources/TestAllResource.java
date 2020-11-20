@@ -4,6 +4,7 @@ package com.sdws.ImageProcessingSpring.resources;
 import com.sdws.ImageProcessingSpring.models.negativespace.NegativeSpaceResult;
 import com.sdws.ImageProcessingSpring.models.testAll.TestAllCallBody;
 import com.sdws.ImageProcessingSpring.models.testAll.TestAllResult;
+import com.sdws.ImageProcessingSpring.utils.ImageUtils;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -27,7 +28,10 @@ public class TestAllResource {
         SymmetryResource symmetry = new SymmetryResource() ;
         DensityResource density = new DensityResource();
         NegativeSpaceResource negativeSpace = new NegativeSpaceResource();
-        return new TestAllResult(symmetry.checkSymmetry(bufImage),density.checkDensity(bufImage),negativeSpace.checkNegativeSpace(bufImage));
+        ShapeDetectionResource shapeDetection = new ShapeDetectionResource() ;
+
+
+        return new TestAllResult(symmetry.checkSymmetry(bufImage),density.checkDensity(bufImage),negativeSpace.checkNegativeSpace(bufImage),shapeDetection.shapeDetection(bufImage));
     }
 
 

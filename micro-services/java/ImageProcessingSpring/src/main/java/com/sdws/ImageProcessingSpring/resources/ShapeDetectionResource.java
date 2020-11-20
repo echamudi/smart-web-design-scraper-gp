@@ -36,7 +36,9 @@ public class ShapeDetectionResource {
 
 
 
-
+    public ArrayList<Square> shapeDetection(String image) {
+        return shapeDetection(ImageUtils.img2Mat(ImageUtils.decodeImage(image)));
+    }
 
     public ArrayList<Square> shapeDetection(Mat source) {
         Mat grey = new Mat();

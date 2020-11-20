@@ -28,8 +28,8 @@ public class BalanceTestResource {
 
     @PostMapping("/test")
     public BalanceResult balanceTest(@RequestBody BalanceCallBody body){
-        System.loadLibrary("opencv_java440");
-        System.loadLibrary( Core.NATIVE_LIBRARY_NAME );
+//        System.loadLibrary("opencv_java440");
+//        System.loadLibrary( Core.NATIVE_LIBRARY_NAME );
         System.out.println("balance route...");
       //  balanceTest( ImageUtils.decodeImage(body.getImg()));
         return new BalanceResult("is working...") ;

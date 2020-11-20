@@ -23,8 +23,8 @@ public class ShapeDetectionResource {
 
     @PostMapping("/detect")
     public ArrayList<Square> detectShapes(@RequestBody ShapeDetectionCallBody body){
-        System.loadLibrary("opencv_java440");
-        System.loadLibrary( Core.NATIVE_LIBRARY_NAME );
+//        System.loadLibrary("opencv_java440");
+//        System.loadLibrary( Core.NATIVE_LIBRARY_NAME );
 
         Mat imageMatrix  = ImageUtils.img2Mat(ImageUtils.decodeImage(body.getImg()));
 

@@ -202,5 +202,15 @@ export interface NegativeSpaceExtractResult {
     scrollWidth: number;
     scrollHeight: number;
     textElementCount: number;
-    components: {x: number, y: number; w: number; h: number}[];
+    components: {x: number, y: number, w: number; h: number}[];
+}
+
+// factor id: text-detection
+export interface TextDetectionExtractResult {
+    components: {x: number, y: number, w: number, h: number}[];
+}
+
+// factor id: image-detection
+export interface ImageDetectionExtractResult {
+    components: {x: number, y: number, w: number, h: number}[];
 }

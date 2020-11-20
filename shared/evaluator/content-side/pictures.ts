@@ -1,81 +1,23 @@
-import { PicturesExtractResult, PictureData } from 'Shared/types/factors';
-import { isVisible } from 'Shared/utils/is-visible';
+import { PicturesExtractResult, PictureData, ImageDetectionExtractResult } from 'Shared/types/factors';
 
-export function pictures(doc: Document): PicturesExtractResult {
-    let picturesResult: PicturesExtractResult = {
-        allCount: -1, // All images
-        visibleCount: -1, // All visible image in the page
-        data: [],
-    };
-
-    const picturesData: PictureData[] = [];
-
-    // get imgs
-    const imgs: HTMLImageElement[] = Array.from(doc.images);
-    imgs.forEach(el => {
-        const bound = el.getBoundingClientRect();
-
-        picturesData.push({
-            url: el.src,
-            tagName: el.tagName,
-            width: el.clientWidth,
-            height: el.clientHeight,
-            area: el.clientWidth * el.clientHeight,
-            x: bound.left,
-            y: bound.top,
-            visible: isVisible(el)
-        })
-    });
-
-    // get svgs
-    const svgs: SVGSVGElement[] = Array.from(doc.getElementsByTagName('svg'));
-    svgs.forEach(el => {
-        const bound = el.getBoundingClientRect();
-
-        picturesData.push({
-            url: '',
-            tagName: el.tagName,
-            width: el.clientWidth,
-            height: el.clientHeight,
-            area: el.clientWidth * el.clientHeight,
-            x: bound.left,
-            y: bound.top,
-            visible: isVisible(el)
-        })
-    });
-
-    // get all elements with image backgrounds
-    const elements = doc.body.getElementsByTagName("*");
-
-    Array.prototype.forEach.call(elements, function (el: HTMLElement ) {
-        var style = window.getComputedStyle( el );
-        if ( style.backgroundImage != "none" ) {
-            const bound = el.getBoundingClientRect();
-
-            // Ref: https://javascript.info/size-and-scroll#geometry
-            picturesData.push({
-                url: style.backgroundImage.slice( 4, -1 ).replace(/['"]/g, ""),
+export function pictures(doc: Document, imageDetectionExtractResult: ImageDetectionExtractResult): PicturesExtractResult {
+    const picturesResult: PicturesExtractResult = {
+        allCount: imageDetectionExtractResult.componentCount,
+        visibleCount: imageDetectionExtractResult.visibleComponentCount,
+        data: imageDetectionExtractResult.components.map((el) => {
+            const pictureData: PictureData = {
+                url: el.url,
                 tagName: el.tagName,
-                width: el.clientWidth,
-                height: el.clientHeight,
-                area: el.clientWidth * el.clientHeight,
-                x: bound.left,
-                y: bound.top,
-                visible: isVisible(el)
-            })
-        }
-    })
-
-    picturesResult = {
-        allCount: picturesData.length,
-        visibleCount: picturesData.reduce<number>((prev, curr) => {
-            if (curr.visible) {
-                return prev + 1;
-            } else {
-                return prev;
+                width: el.w,
+                height: el.h,
+                area: el.area,
+                x: el.x,
+                y: el.y,
+                visible: el.visible,
             }
-        }, 0),
-        data: picturesData
+
+            return pictureData;
+        })
     }
 
     return picturesResult;

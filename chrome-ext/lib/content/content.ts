@@ -7,6 +7,7 @@ import { browserInfo } from 'Shared/evaluator/content-side/browser-info';
 import { negativeSpace } from 'Shared/evaluator/content-side/negative-space';
 import { videos } from 'Shared/evaluator/content-side/videos';
 import { textDetectionExtract } from 'Shared/evaluator/content-side/text-detection';
+import { imageDetectionExtract } from 'Shared/evaluator/content-side/image-detection';
 
 if ((window as any).SWDS === undefined) {
     (window as any).SWDS = {};
@@ -28,13 +29,15 @@ if ((window as any).SWDS === undefined) {
 
             const textFontTypeResult = textFontType(window);
 
-            const picturesResult = pictures(document);
+            const browserInfoResult = browserInfo(window);
+
+            const imageDetectionResult = imageDetectionExtract(document, browserInfoResult);
+
+            const picturesResult = pictures(document, imageDetectionResult);
 
             const videosResult = videos(document);
 
             const elementCountResult = elementCount(document);
-
-            const browserInfoResult = browserInfo(window);
 
             const textDetectionResult = textDetectionExtract(window, document, browserInfoResult);
 

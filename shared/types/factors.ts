@@ -214,9 +214,29 @@ export interface TextDetectionExtractResult {
 }
 
 // factor id: image-detection
+export type ImageData = {
+    x: number,
+    y: number,
+    w: number,
+    h: number,
+
+    url: string,
+    tagName: string,
+    area: number, // width x height
+    visible: boolean,
+};
+
 export interface ImageDetectionExtractResult {
-    components: {x: number, y: number, w: number, h: number}[],
+    components: ImageData[],
+
+    /**
+     * Number of pictures in the page (visible + invisible)
+     */
     componentCount: number,
+    /**
+     * Number of pictures in the page (visible)
+     */
+    visibleComponentCount: number,
     scrollWidth: number,
     scrollHeight: number,
 }

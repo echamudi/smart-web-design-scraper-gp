@@ -5,7 +5,7 @@ export function textDetectionExtract(win: Window, doc: Document, browserInfoResu
     const elements: NodeListOf<Element> = doc.querySelectorAll('body *');
     const { scrollWidth, scrollHeight } = browserInfoResult;
 
-    let textElementCount = 0;
+    let componentCount = 0;
 
     const components: TextDetectionExtractResult['components'] = [];
     
@@ -28,14 +28,14 @@ export function textDetectionExtract(win: Window, doc: Document, browserInfoResu
                 h: Math.floor(bound.height)
             });
 
-            textElementCount += 1;
+            componentCount += 1;
         }
     }
 
     return {
         scrollWidth,
         scrollHeight,
-        componentCount: textElementCount,
+        componentCount,
         components
     };
 }

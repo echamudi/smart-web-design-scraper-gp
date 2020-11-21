@@ -1,4 +1,4 @@
-import { TextSizeConfig, TextSizeExtractResult, BrowserInfoExtractResult, SymmetryExtractResult, DominantColorsConfig, PicturesConfig, SymmetryConfig, ColorCountExtractResult, DensityExtractResult, DensityConfig, NegativeSpaceExtractResult, VideosExtractResult } from "./factors";
+import { TextSizeConfig, TextSizeExtractResult, BrowserInfoExtractResult, SymmetryExtractResult, DominantColorsConfig, PicturesConfig, SymmetryConfig, ColorCountExtractResult, DensityExtractResult, DensityConfig, NegativeSpaceExtractResult, VideosExtractResult, ImageDetectionExtractResult, TextDetectionExtractResult } from "./factors";
 import { TextFontTypeExtractResult } from "./factors";
 import { PicturesExtractResult } from "./factors";
 import { DominantColorsExtractResult } from "./factors";
@@ -28,6 +28,8 @@ export interface AnalysisResult {
     densityResult: DensityExtractResult,
     negativeSpaceResult: NegativeSpaceExtractResult,
     videosResult: VideosExtractResult,
+    imageDetectionResult: ImageDetectionExtractResult,
+    textDetectionResult: TextDetectionExtractResult
 }
 
 export interface AppState {

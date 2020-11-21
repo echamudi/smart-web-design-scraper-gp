@@ -54,7 +54,9 @@ if ((window as any).SWDS === undefined) {
                 elementCountResult,
                 browserInfoResult,
                 negativeSpaceResult,
-                videosResult
+                videosResult,
+                imageDetectionResult,
+                textDetectionResult
             };
 
             // Result

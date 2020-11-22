@@ -72,3 +72,5 @@ export interface ImageProcessingSpringTestAll {
         backgroundPixels?: number
     }
 }
+
+export interface PlotComponent { w: number, x: number, y: number, h: number };

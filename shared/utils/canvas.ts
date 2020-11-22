@@ -1,3 +1,10 @@
+import { PlotComponent } from 'Shared/types/types';
+
+export interface PlotterResult {
+    canvas: HTMLCanvasElement,
+    distribution: number[][]
+}
+
 /**
  * For plotting components on canvas
  * @param components 
@@ -5,12 +12,9 @@
  */
 export function plotter(
     canvas: HTMLCanvasElement,
-    components: Array<{ w: number, x: number, y: number, h: number }>,
+    components: PlotComponent[],
     config: { pageHeight: number, pageWidth: number, tileSize: number, })
-    : {
-        canvas: HTMLCanvasElement,
-        distribution: number[][]
-    } {
+    : PlotterResult {
 
     const { pageHeight, pageWidth, tileSize } = config;
 

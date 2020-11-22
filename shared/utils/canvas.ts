@@ -71,30 +71,30 @@ export function plotter(
         }
     }
 
-    for (let row = 0; row < totalRows; row++) {
-        for (let col = 0; col < totalColumns; col++) {
-            // Draw number
-            // ctx.font = "bold 20px Arial";
-            // ctx.fillStyle = "#8795ff";
-            // ctx.fillText(ratio + '', col * tileSize + 2, row * tileSize + 22);
+    // for (let row = 0; row < totalRows; row++) {
+    //     for (let col = 0; col < totalColumns; col++) {
+    //         // Draw number
+    //         // ctx.font = "bold 20px Arial";
+    //         // ctx.fillStyle = "#8795ff";
+    //         // ctx.fillText(ratio + '', col * tileSize + 2, row * tileSize + 22);
 
-            // Draw lines
-            ctx.strokeStyle = 'red';
-            for (let i = 0; i < pageWidth; i += tileSize) {
-                ctx.beginPath();
-                ctx.moveTo(i, 0);
-                ctx.lineTo(i, pageHeight);
-                ctx.stroke();
-            }
+    //         // Draw lines
+    //         ctx.strokeStyle = 'red';
+    //         for (let i = 0; i < pageWidth; i += tileSize) {
+    //             ctx.beginPath();
+    //             ctx.moveTo(i, 0);
+    //             ctx.lineTo(i, pageHeight);
+    //             ctx.stroke();
+    //         }
 
-            for (let i = 0; i < pageHeight; i += tileSize) {
-                ctx.beginPath();
-                ctx.moveTo(0, i);
-                ctx.lineTo(pageWidth, i);
-                ctx.stroke();
-            }
-        }
-    }
+    //         for (let i = 0; i < pageHeight; i += tileSize) {
+    //             ctx.beginPath();
+    //             ctx.moveTo(0, i);
+    //             ctx.lineTo(pageWidth, i);
+    //             ctx.stroke();
+    //         }
+    //     }
+    // }
 
 
     return {

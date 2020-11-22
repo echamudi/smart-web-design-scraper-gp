@@ -1,16 +1,14 @@
-import { Canvas } from 'canvas';
-
 /**
  * For plotting components on canvas
  * @param components 
  * @param config 
  */
-export function plotter<T extends Canvas | HTMLCanvasElement>(
-    canvas: T,
+export function plotter(
+    canvas: HTMLCanvasElement,
     components: Array<{ w: number, x: number, y: number, h: number }>,
     config: { pageHeight: number, pageWidth: number, tileSize: number, })
     : {
-        canvas: T,
+        canvas: HTMLCanvasElement,
         distribution: number[][]
     } {
 
@@ -22,7 +20,7 @@ export function plotter<T extends Canvas | HTMLCanvasElement>(
     canvas.width = pageWidth;
     canvas.height = pageHeight;
 
-    const ctx = canvas.getContext('2d') as CanvasRenderingContext2D | ReturnType<Canvas['getContext']>;
+    const ctx = canvas.getContext('2d');
 
     // Fill with white
     ctx.fillStyle = '#ffffff';

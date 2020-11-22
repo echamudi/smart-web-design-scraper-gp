@@ -1,7 +1,7 @@
 import { BrowserInfoExtractResult, ImageData, ImageDetectionExtractResult } from 'Shared/types/factors';
 import { isVisible } from 'Shared/utils/is-visible';
 
-export function imageDetectionExtract(doc: Document, browserInfoResult: BrowserInfoExtractResult): ImageDetectionExtractResult {
+export function imageDetection(doc: Document, browserInfoResult: BrowserInfoExtractResult): ImageDetectionExtractResult {
     const imagesData: ImageData[] = [];
 
     // get imgs

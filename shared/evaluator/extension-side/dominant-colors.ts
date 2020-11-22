@@ -1,6 +1,6 @@
 import Vibrant from "node-vibrant";
 import { DominantColorsExtractResult, DominantColorsPallete } from 'Shared/types/factors';
-import { equalWithTolerance } from "Shared/utils/color";
+import { equalWithTolerance } from 'Shared/utils/equality';
 
 /**
  * 

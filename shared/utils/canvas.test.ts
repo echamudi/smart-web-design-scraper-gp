@@ -52,3 +52,30 @@ test('plotter produces correct percentages', () => {
         [ 1, 1, 0, 0 ]
     ]);
 });
+
+test('plotter with shifting', () => {
+    const canvas1 = document.createElement('canvas');
+    const components = [
+        {x: 0, y: 0, w: 150, h: 25},
+        {x: 0, y: 125, w: 150, h: 25},
+        {x: 0, y: 0, w: 25, h: 150},
+        {x: 125, y: 0, w: 25, h: 150},
+    ];
+
+    const { distribution: d1 } = plotter(canvas1, components, {
+        pageWidth: 150,
+        pageHeight: 150,
+        tileSize: 100
+    });
+    
+    expect(d1).toStrictEqual([[ 0 ]]);
+
+    const canvas2 = document.createElement('canvas');
+    const { distribution: d2 } = plotter(canvas2, components, {
+        pageWidth: 150,
+        pageHeight: 150,
+        tileSize: 50
+    });
+
+    expect(d1).toStrictEqual([ [ 0.75, 0.5, 0.75 ], [ 0.5, 0, 0.5 ], [ 0.75, 0.5, 0.75 ] ]);
+});

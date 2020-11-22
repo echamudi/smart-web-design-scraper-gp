@@ -21,6 +21,10 @@ export function plotter(
     const totalColumns = Math.floor(pageWidth / tileSize);
     const totalRows = Math.floor(pageHeight / tileSize);
 
+    // Center shift if the width & height are not multiples of tileSize
+    const colShift = Math.floor((pageWidth - (totalColumns * tileSize))/2);
+    const rowShift = Math.floor((pageHeight - (totalRows * tileSize))/2);
+
     canvas.width = pageWidth;
     canvas.height = pageHeight;
 
@@ -45,7 +49,7 @@ export function plotter(
         for (let col = 0; col < totalColumns; col++) {
             // console.log(col * tileSize, row * tileSize, tileSize, tileSize);
 
-            const imageData = ctx.getImageData(col * tileSize, row * tileSize, tileSize, tileSize);
+            const imageData = ctx.getImageData(colShift + (col * tileSize), rowShift + (row * tileSize), tileSize, tileSize);
             const imagePixels = imageData.data;
 
             let filledPixels = 0;

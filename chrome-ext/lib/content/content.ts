@@ -39,7 +39,7 @@ if ((window as any).SWDS === undefined) {
 
             const elementCountResult = elementCount(document);
 
-            const textDetectionResult = textDetectionExtract(window, document, browserInfoResult);
+            const textDetectionResult = textDetectionExtract(window, browserInfoResult);
 
             const negativeSpaceResult = negativeSpace(browserInfoResult, textDetectionResult);
 

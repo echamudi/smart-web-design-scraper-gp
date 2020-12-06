@@ -77,5 +77,5 @@ test('plotter with shifting', () => {
         tileSize: 50
     });
 
-    expect(d1).toStrictEqual([ [ 0.75, 0.5, 0.75 ], [ 0.5, 0, 0.5 ], [ 0.75, 0.5, 0.75 ] ]);
+    expect(d2).toStrictEqual([ [ 0.75, 0.5, 0.75 ], [ 0.5, 0, 0.5 ], [ 0.75, 0.5, 0.75 ] ]);
 });

@@ -8,11 +8,11 @@ export function pictures(doc: Document, imageDetectionExtractResult: ImageDetect
             const pictureData: PictureData = {
                 url: el.url,
                 tagName: el.tagName,
-                width: el.w,
-                height: el.h,
+                width: el.position.w,
+                height: el.position.h,
                 area: el.area,
-                x: el.x,
-                y: el.y,
+                x: el.position.x,
+                y: el.position.y,
                 visible: el.visible,
             }
 

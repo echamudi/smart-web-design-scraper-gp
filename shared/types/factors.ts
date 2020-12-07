@@ -205,8 +205,27 @@ export interface NegativeSpaceExtractResult {
     components: {x: number, y: number, w: number, h: number}[],
 }
 
+export interface ComponentPosition {
+    x: number,
+    y: number,
+    w: number,
+    h: number
+}
+
 // factor id: text-detection
+
+export interface TextComponent {
+    position: ComponentPosition,
+
+    fontType: string,
+    textSize: string,
+    color: string,
+    backgroundColor: string,
+    fontWeight: string
+}
+
 export interface TextDetectionExtractResult {
+    // TODO: Use text component
     components: {x: number, y: number, w: number, h: number}[],
     componentCount: number,
     scrollWidth: number,
@@ -214,11 +233,8 @@ export interface TextDetectionExtractResult {
 }
 
 // factor id: image-detection
-export type ImageData = {
-    x: number,
-    y: number,
-    w: number,
-    h: number,
+export type ImageComponent = {
+    position: ComponentPosition,
 
     url: string,
     tagName: string,
@@ -227,7 +243,7 @@ export type ImageData = {
 };
 
 export interface ImageDetectionExtractResult {
-    components: ImageData[],
+    components: ImageComponent[],
 
     /**
      * Number of pictures in the page (visible + invisible)

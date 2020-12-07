@@ -1,8 +1,8 @@
-import { BrowserInfoExtractResult, ImageData, ImageDetectionExtractResult } from 'Shared/types/factors';
+import { BrowserInfoExtractResult, ImageComponent, ImageDetectionExtractResult } from 'Shared/types/factors';
 import { isVisible } from 'Shared/utils/is-visible';
 
 export function imageDetection(doc: Document, browserInfoResult: BrowserInfoExtractResult): ImageDetectionExtractResult {
-    const imagesData: ImageData[] = [];
+    const imagesData: ImageComponent[] = [];
 
     // get imgs
     const imgs: HTMLImageElement[] = Array.from(doc.images);
@@ -12,11 +12,13 @@ export function imageDetection(doc: Document, browserInfoResult: BrowserInfoExtr
         imagesData.push({
             url: el.src,
             tagName: el.tagName,
-            w: el.clientWidth,
-            h: el.clientHeight,
+            position: {
+                w: el.clientWidth,
+                h: el.clientHeight,
+                x: bound.left,
+                y: bound.top
+            },
             area: el.clientWidth * el.clientHeight,
-            x: bound.left,
-            y: bound.top,
             visible: isVisible(el)
         })
     });
@@ -29,11 +31,13 @@ export function imageDetection(doc: Document, browserInfoResult: BrowserInfoExtr
         imagesData.push({
             url: '',
             tagName: el.tagName,
-            w: el.clientWidth,
-            h: el.clientHeight,
+            position: {
+                w: el.clientWidth,
+                h: el.clientHeight,
+                x: bound.left,
+                y: bound.top,
+            },
             area: el.clientWidth * el.clientHeight,
-            x: bound.left,
-            y: bound.top,
             visible: isVisible(el)
         })
     });
@@ -50,11 +54,13 @@ export function imageDetection(doc: Document, browserInfoResult: BrowserInfoExtr
             imagesData.push({
                 url: style.backgroundImage.slice( 4, -1 ).replace(/['"]/g, ""),
                 tagName: el.tagName,
-                w: el.clientWidth,
-                h: el.clientHeight,
+                position: {
+                    w: el.clientWidth,
+                    h: el.clientHeight,
+                    x: bound.left,
+                    y: bound.top
+                },
                 area: el.clientWidth * el.clientHeight,
-                x: bound.left,
-                y: bound.top,
                 visible: isVisible(el)
             })
         }

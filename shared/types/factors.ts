@@ -221,13 +221,21 @@ export interface TextComponent {
     textSize: string,
     color: string,
     backgroundColor: string,
-    fontWeight: string
+    fontWeight: string,
+    visible: boolean
 }
 
 export interface TextDetectionExtractResult {
     // TODO: Use text component
-    components: {x: number, y: number, w: number, h: number}[],
+    components: TextComponent[],
+    /**
+     * Number of components in the page (visible + invisible)
+     */
     componentCount: number,
+    /**
+     * Number of components in the page (visible only)
+     */
+    visibleComponentCount: number,
     scrollWidth: number,
     scrollHeight: number,
 }
@@ -244,13 +252,12 @@ export type ImageComponent = {
 
 export interface ImageDetectionExtractResult {
     components: ImageComponent[],
-
     /**
-     * Number of pictures in the page (visible + invisible)
+     * Number of components in the page (visible + invisible)
      */
     componentCount: number,
     /**
-     * Number of pictures in the page (visible)
+     * Number of components in the page (visible only)
      */
     visibleComponentCount: number,
     scrollWidth: number,

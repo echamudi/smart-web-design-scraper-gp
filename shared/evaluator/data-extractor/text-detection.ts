@@ -8,9 +8,10 @@ export function textDetection(win: Window, browserInfoResult: BrowserInfoExtract
     const { scrollWidth, scrollHeight } = browserInfoResult;
 
     let componentCount = 0;
+    let visibleComponentCount = 0;
 
     const components: TextDetectionExtractResult['components'] = [];
-    
+
     for (let i = 0, max = elements.length; i < max; i += 1) {
         const currentEl = elements[i] as HTMLElement;
 
@@ -22,12 +23,25 @@ export function textDetection(win: Window, browserInfoResult: BrowserInfoExtract
 
         const bound = currentEl.getBoundingClientRect();
 
-        if (text !== '' && isVisible(currentEl)) {
+        if (text !== '') {
+            componentCount += 1;
+
+            const visible = isVisible(currentEl);
+            if (visible) visibleComponentCount += 1;
+
             components.push({
-                x: Math.floor(bound.x + win.scrollX),
-                y: Math.floor(bound.y + win.scrollY),
-                w: Math.floor(bound.width),
-                h: Math.floor(bound.height)
+                position: {
+                    x: Math.floor(bound.x + win.scrollX),
+                    y: Math.floor(bound.y + win.scrollY),
+                    w: Math.floor(bound.width),
+                    h: Math.floor(bound.height)
+                },
+                fontType: '',
+                textSize: '',
+                color: '',
+                backgroundColor: '',
+                fontWeight: '',
+                visible
             });
 
             componentCount += 1;
@@ -38,6 +52,7 @@ export function textDetection(win: Window, browserInfoResult: BrowserInfoExtract
         scrollWidth,
         scrollHeight,
         componentCount,
+        visibleComponentCount,
         components
     };
 }

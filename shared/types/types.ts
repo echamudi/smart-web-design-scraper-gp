@@ -1,8 +1,9 @@
-import { TextSizeConfig, TextSizeExtractResult, BrowserInfoExtractResult, SymmetryExtractResult, DominantColorsConfig, PicturesConfig, SymmetryConfig, ColorCountExtractResult, DensityExtractResult, DensityConfig, NegativeSpaceExtractResult, VideosExtractResult, ImageDetectionExtractResult, TextDetectionExtractResult } from "./factors";
+import { TextSizeConfig, TextSizeExtractResult, SymmetryExtractResult, DominantColorsConfig, PicturesConfig, SymmetryConfig, ColorCountExtractResult, DensityExtractResult, DensityConfig, NegativeSpaceExtractResult, VideosExtractResult } from "./factors";
 import { TextFontTypeExtractResult } from "./factors";
 import { PicturesExtractResult } from "./factors";
 import { DominantColorsExtractResult } from "./factors";
 import { ElementCountExtractResult } from "./factors";
+import { ImageDetectionExtractResult, TextDetectionExtractResult, BrowserInfoExtractResult } from './data-extractor';
 
 export interface AnalysisConfig {
     textSize: TextSizeConfig,
@@ -74,3 +75,12 @@ export interface ImageProcessingSpringTestAll {
 }
 
 export interface PlotComponent { w: number, x: number, y: number, h: number };
+
+// Helpers
+
+export interface ComponentPosition {
+    x: number,
+    y: number,
+    w: number,
+    h: number
+}

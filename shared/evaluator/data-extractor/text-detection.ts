@@ -1,17 +1,15 @@
-import { BrowserInfoExtractResult, TextDetectionExtractResult } from "Shared/types/factors";
+import { BrowserInfoExtractResult, TextDetectionExtractResult, TextComponent } from "Shared/types/data-extractor";
 import { isVisible } from 'Shared/utils/is-visible';
 
 export function textDetection(win: Window, browserInfoResult: BrowserInfoExtractResult): TextDetectionExtractResult {
     const doc = win.document;
 
-    const elements: NodeListOf<Element> = doc.querySelectorAll('body *');
     const { scrollWidth, scrollHeight } = browserInfoResult;
 
-    let componentCount = 0;
-    let visibleComponentCount = 0;
+    const components: TextComponent[] = [];
 
-    const components: TextDetectionExtractResult['components'] = [];
-
+    // Get elements
+    const elements: NodeListOf<Element> = doc.querySelectorAll('body *');
     for (let i = 0, max = elements.length; i < max; i += 1) {
         const currentEl = elements[i] as HTMLElement;
 
@@ -24,11 +22,6 @@ export function textDetection(win: Window, browserInfoResult: BrowserInfoExtract
         const bound = currentEl.getBoundingClientRect();
 
         if (text !== '') {
-            componentCount += 1;
-
-            const visible = isVisible(currentEl);
-            if (visible) visibleComponentCount += 1;
-
             components.push({
                 position: {
                     x: Math.floor(bound.x + win.scrollX),
@@ -41,18 +34,22 @@ export function textDetection(win: Window, browserInfoResult: BrowserInfoExtract
                 color: '',
                 backgroundColor: '',
                 fontWeight: '',
-                visible
+                visible: isVisible(currentEl)
             });
-
-            componentCount += 1;
         }
     }
 
     return {
+        components,
+        componentCount: components.length,
+        visibleComponentCount: components.reduce<number>((prev, curr) => {
+            if (curr.visible) {
+                return prev + 1;
+            } else {
+                return prev;
+            }
+        }, 0),
         scrollWidth,
-        scrollHeight,
-        componentCount,
-        visibleComponentCount,
-        components
+        scrollHeight
     };
 }

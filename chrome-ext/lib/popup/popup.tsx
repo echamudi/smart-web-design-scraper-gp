@@ -244,24 +244,24 @@ class Analyzer extends React.Component {
     console.log('finalAnalysisResult', finalAnalysisResult);
 
     // Send result to server
-    const sentReceipt = await client.mutate({
-      mutation: gql`mutation ($data: String!, $url: String!) {
-        saveAnalysis(data: $data, url: $url)
-      }`,
-      variables: {
-        data: JSON.stringify(finalAnalysisResult),
-        url: finalAnalysisResult.browserInfoResult?.url
-      },
-      context: {
-          headers: {
-            'x-access-token': token
-          }
-      }
-    });
+    // const sentReceipt = await client.mutate({
+    //   mutation: gql`mutation ($data: String!, $url: String!) {
+    //     saveAnalysis(data: $data, url: $url)
+    //   }`,
+    //   variables: {
+    //     data: JSON.stringify(finalAnalysisResult),
+    //     url: finalAnalysisResult.browserInfoResult?.url
+    //   },
+    //   context: {
+    //       headers: {
+    //         'x-access-token': token
+    //       }
+    //   }
+    // });
 
-    console.log('sentReceipt', sentReceipt);
+    // console.log('sentReceipt', sentReceipt);
 
-    this.setState(() => ({ analyzingStatus: 'Done!', result: finalAnalysisResult, snapshot: image, lastReceiptId: sentReceipt.data?.saveAnalysis }));
+    // this.setState(() => ({ analyzingStatus: 'Done!', result: finalAnalysisResult, snapshot: image, lastReceiptId: sentReceipt.data?.saveAnalysis }));
   };
 
   marktextSizeToggle(e: React.ChangeEvent<HTMLInputElement>) {

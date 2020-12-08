@@ -1,22 +1,26 @@
-import { BrowserInfoExtractResult, ImageComponent, ImageDetectionExtractResult } from 'Shared/types/factors';
+import { BrowserInfoExtractResult, ImageComponent, ImageDetectionExtractResult } from 'Shared/types/data-extractor';
 import { isVisible } from 'Shared/utils/is-visible';
 
-export function imageDetection(doc: Document, browserInfoResult: BrowserInfoExtractResult): ImageDetectionExtractResult {
-    const imagesData: ImageComponent[] = [];
+export function imageDetection(win: Window, browserInfoResult: BrowserInfoExtractResult): ImageDetectionExtractResult {
+    const doc = win.document;
+
+    const { scrollWidth, scrollHeight } = browserInfoResult;
+
+    const components: ImageComponent[] = [];
 
     // get imgs
     const imgs: HTMLImageElement[] = Array.from(doc.images);
     imgs.forEach(el => {
         const bound = el.getBoundingClientRect();
 
-        imagesData.push({
+        components.push({
             url: el.src,
             tagName: el.tagName,
             position: {
-                w: el.clientWidth,
-                h: el.clientHeight,
-                x: bound.left,
-                y: bound.top
+                x: Math.floor(bound.x + win.scrollX),
+                y: Math.floor(bound.y + win.scrollY),
+                w: Math.floor(bound.width),
+                h: Math.floor(bound.height)
             },
             area: el.clientWidth * el.clientHeight,
             visible: isVisible(el)
@@ -28,15 +32,15 @@ export function imageDetection(doc: Document, browserInfoResult: BrowserInfoExtr
     svgs.forEach(el => {
         const bound = el.getBoundingClientRect();
 
-        imagesData.push({
+        components.push({
             url: '',
             tagName: el.tagName,
             position: {
-                w: el.clientWidth,
-                h: el.clientHeight,
-                x: bound.left,
-                y: bound.top,
-            },
+                x: Math.floor(bound.x + win.scrollX),
+                y: Math.floor(bound.y + win.scrollY),
+                w: Math.floor(bound.width),
+                h: Math.floor(bound.height)
+        },
             area: el.clientWidth * el.clientHeight,
             visible: isVisible(el)
         })
@@ -51,14 +55,14 @@ export function imageDetection(doc: Document, browserInfoResult: BrowserInfoExtr
             const bound = el.getBoundingClientRect();
 
             // Ref: https://javascript.info/size-and-scroll#geometry
-            imagesData.push({
+            components.push({
                 url: style.backgroundImage.slice( 4, -1 ).replace(/['"]/g, ""),
                 tagName: el.tagName,
                 position: {
-                    w: el.clientWidth,
-                    h: el.clientHeight,
-                    x: bound.left,
-                    y: bound.top
+                    x: Math.floor(bound.x + win.scrollX),
+                    y: Math.floor(bound.y + win.scrollY),
+                    w: Math.floor(bound.width),
+                    h: Math.floor(bound.height)
                 },
                 area: el.clientWidth * el.clientHeight,
                 visible: isVisible(el)
@@ -67,16 +71,16 @@ export function imageDetection(doc: Document, browserInfoResult: BrowserInfoExtr
     })
 
     return {
-        componentCount: imagesData.length,
-        visibleComponentCount: imagesData.reduce<number>((prev, curr) => {
+        components,
+        componentCount: components.length,
+        visibleComponentCount: components.reduce<number>((prev, curr) => {
             if (curr.visible) {
                 return prev + 1;
             } else {
                 return prev;
             }
         }, 0),
-        components: imagesData,
-        scrollWidth: browserInfoResult.scrollWidth,
-        scrollHeight: browserInfoResult.scrollHeight
+        scrollWidth,
+        scrollHeight
     };
 }

@@ -96,9 +96,10 @@ export function plotter(
     //     }
     // }
 
-
     return {
         canvas,
         distribution
     };
 }
+
+// TODO: Create grid draw utils

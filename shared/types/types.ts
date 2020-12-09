@@ -74,9 +74,8 @@ export interface ImageProcessingSpringTestAll {
     }
 }
 
-export interface PlotComponent { w: number, x: number, y: number, h: number };
-
 // Helpers
+export interface PlotComponent { w: number, x: number, y: number, h: number };
 
 export interface ComponentPosition {
     x: number,

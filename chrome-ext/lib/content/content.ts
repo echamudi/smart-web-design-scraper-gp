@@ -7,10 +7,10 @@ import { AnalysisConfig, AnalysisResult } from 'Shared/types/types';
 // import { negativeSpace } from 'Shared/evaluator/content-side/negative-space';
 // import { videos } from 'Shared/evaluator/content-side/videos';
 
-import { browserInfo } from 'Shared/evaluator/data-extractor/browser-info';
-import { textDetection } from 'Shared/evaluator/data-extractor/text-detection';
-import { imageDetection } from 'Shared/evaluator/data-extractor/image-detection';
-import { videoDetection } from 'Shared/evaluator/data-extractor/video-detection';
+import { browserInfo } from 'Shared/evaluator/feature-extractor/browser-info';
+import { textDetection } from 'Shared/evaluator/feature-extractor/text-detection';
+import { imageDetection } from 'Shared/evaluator/feature-extractor/image-detection';
+import { videoDetection } from 'Shared/evaluator/feature-extractor/video-detection';
 
 if ((window as any).SWDS === undefined) {
     (window as any).SWDS = {};

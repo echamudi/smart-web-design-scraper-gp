@@ -13,6 +13,29 @@ export interface BrowserInfoExtractResult {
     scrollWidth: number,
 }
 
+// element-detection
+
+export interface ElementComponent {
+    position: ComponentPosition,
+
+    area: number, // width x height
+    visible: boolean,
+};
+
+export interface ElementDetectionExtractResult {
+    components: ElementComponent[],
+    /**
+     * Number of components in the page (visible + invisible)
+     */
+    componentCount: number,
+    /**
+     * Number of components in the page (visible only)
+     */
+    visibleComponentCount: number,
+    scrollWidth: number,
+    scrollHeight: number,
+}
+
 // text-detection
 
 export interface TextComponent {
@@ -42,14 +65,14 @@ export interface TextDetectionExtractResult {
 
 // image-detection
 
-export type ImageComponent = {
+export interface ImageComponent {
     position: ComponentPosition,
 
     url: string,
     tagName: string,
     area: number, // width x height
     visible: boolean,
-};
+}
 
 export interface ImageDetectionExtractResult {
     components: ImageComponent[],
@@ -67,14 +90,14 @@ export interface ImageDetectionExtractResult {
 
 // video-detection
 
-export type VideoComponent = {
+export interface VideoComponent {
     position: ComponentPosition,
 
     url: string,
     tagName: string,
     area: number, // width x height
     visible: boolean,
-};
+}
 
 export interface VideoDetectionExtractResult {
     components: VideoComponent[],
@@ -90,16 +113,16 @@ export interface VideoDetectionExtractResult {
     scrollHeight: number,
 }
 
-// link-detection
+// anchor-detection
 
-export type AnchorComponent = {
+export interface AnchorComponent {
     position: ComponentPosition,
 
     href: string | null,
     text: string,
     area: number, // width x height
     visible: boolean,
-};
+}
 
 export interface AnchorDetectionExtractResult {
     components: AnchorComponent[],

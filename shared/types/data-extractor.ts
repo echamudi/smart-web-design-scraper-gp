@@ -89,3 +89,28 @@ export interface VideoDetectionExtractResult {
     scrollWidth: number,
     scrollHeight: number,
 }
+
+// link-detection
+
+export type AnchorComponent = {
+    position: ComponentPosition,
+
+    href: string | null,
+    text: string,
+    area: number, // width x height
+    visible: boolean,
+};
+
+export interface AnchorDetectionExtractResult {
+    components: AnchorComponent[],
+    /**
+     * Number of components in the page (visible + invisible)
+     */
+    componentCount: number,
+    /**
+     * Number of components in the page (visible only)
+     */
+    visibleComponentCount: number,
+    scrollWidth: number,
+    scrollHeight: number,
+}

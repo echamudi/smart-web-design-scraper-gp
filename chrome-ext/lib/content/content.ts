@@ -11,6 +11,7 @@ import { browserInfo } from 'Shared/evaluator/feature-extractor/browser-info';
 import { textDetection } from 'Shared/evaluator/feature-extractor/text-detection';
 import { imageDetection } from 'Shared/evaluator/feature-extractor/image-detection';
 import { videoDetection } from 'Shared/evaluator/feature-extractor/video-detection';
+import { anchorDetection } from 'Shared/evaluator/feature-extractor/anchor-detection';
 
 if ((window as any).SWDS === undefined) {
     (window as any).SWDS = {};
@@ -27,12 +28,14 @@ if ((window as any).SWDS === undefined) {
             const textDetectionResult = textDetection(window, browserInfoResult);
             const imageDetectionResult = imageDetection(window, browserInfoResult);
             const videoDetectionResult = videoDetection(window, browserInfoResult);
+            const anchorDetectionResult = anchorDetection(window, browserInfoResult);
 
             console.log({
                 browserInfoResult,
                 textDetectionResult,
                 imageDetectionResult,
-                videoDetectionResult
+                videoDetectionResult,
+                anchorDetectionResult
             });
 
             // Analyze Contents

@@ -1,7 +1,10 @@
 import { ElementDetectionExtractResult, ElementComponent, BrowserInfoExtractResult } from "Shared/types/data-extractor";
 import { isVisible } from 'Shared/utils/is-visible';
 
-export function anchorDetection(win: Window, browserInfoResult: BrowserInfoExtractResult, elementTag: string): ElementDetectionExtractResult {
+/**
+ * Generic Element Detection
+ */
+export function elementDetection(win: Window, browserInfoResult: BrowserInfoExtractResult, elementTag: string): ElementDetectionExtractResult {
     const doc = win.document;
 
     const { scrollWidth, scrollHeight } = browserInfoResult;

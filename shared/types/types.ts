@@ -3,7 +3,7 @@ import { TextFontTypeExtractResult } from "./factors";
 import { PicturesExtractResult } from "./factors";
 import { DominantColorsExtractResult } from "./factors";
 import { ElementCountExtractResult } from "./factors";
-import { ImageDetectionExtractResult, TextDetectionExtractResult, BrowserInfoExtractResult } from './data-extractor';
+import { ImageDetectionExtractResult, TextDetectionExtractResult, BrowserInfoExtractResult } from './feature-extractor';
 
 export interface AnalysisConfig {
     textSize: TextSizeConfig,

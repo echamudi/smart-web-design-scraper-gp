@@ -18,4 +18,16 @@ test('density score produces correct score', () => {
         data: { maxDensity: undefined, minDensity: undefined, average: undefined },
         score: undefined
     });
+
+    const density4 = densityScoreCalculate([[1,1],[1,1]]);
+    expect(density4).toStrictEqual({
+        data: { maxDensity: 1, minDensity: 1, average: 1 },
+        score: 0
+    });
+
+    const density5 = densityScoreCalculate([[0,0],[0,0]]);
+    expect(density5).toStrictEqual({
+        data: { maxDensity: 0, minDensity: 0, average: 0 },
+        score: 1
+    });
 });

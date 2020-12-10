@@ -56,7 +56,8 @@ export interface TextComponent {
     color: string,
     backgroundColor: string,
     fontWeight: string,
-    visible: boolean
+    visible: boolean,
+    totalCharacters: number
 }
 
 export interface TextDetectionExtractResult {

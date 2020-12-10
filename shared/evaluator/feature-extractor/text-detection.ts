@@ -36,7 +36,8 @@ export function textDetectionExtract(win: Window, browserInfoResult: BrowserInfo
                 color: win.getComputedStyle(currentEl).color,
                 backgroundColor: getBackgroundColor(win, midX, midY),
                 fontWeight: win.getComputedStyle(currentEl).fontWeight,
-                visible: isVisible(currentEl)
+                visible: isVisible(currentEl),
+                totalCharacters: [...text].length
             });
         }
     }

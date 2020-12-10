@@ -13,6 +13,8 @@ import { imageElementsExtract } from 'Shared/evaluator/feature-extractor/image-e
 import { videoElementsExtract } from 'Shared/evaluator/feature-extractor/video-elements';
 import { anchorElementsExtract } from 'Shared/evaluator/feature-extractor/anchor-elements';
 
+import { finalScoreCalculate } from 'Shared/evaluator/score-calculator/final';
+
 if ((window as any).SWDS === undefined) {
     (window as any).SWDS = {};
     const SWDS = (window as any).SWDS;
@@ -30,6 +32,14 @@ if ((window as any).SWDS === undefined) {
             const videoElementsResult = videoElementsExtract(window, browserInfoResult);
             const anchorElementsResult = anchorElementsExtract(window, browserInfoResult);
 
+            const finalScoreCalculateResult = finalScoreCalculate(document, {
+                browserInfo: browserInfoResult,
+                textElements: textElementsResult,
+                imageElements: imageElementsResult,
+                videoElements: videoElementsResult,
+                anchorElements: anchorElementsResult
+            });
+
             console.log({
                 browserInfoResult,
                 textElementsResult,
@@ -37,6 +47,7 @@ if ((window as any).SWDS === undefined) {
                 videoElementsResult,
                 anchorElementsResult
             });
+            console.log(finalScoreCalculateResult);
 
             // Analyze Contents
             // const html = document.documentElement.outerHTML;

@@ -1,4 +1,4 @@
-interface DensityScoreCalculateResult {
+interface BlockDensityScoreCalculateResult {
     data: {
         maxDensity: number | undefined,
         minDensity: number | undefined,
@@ -10,7 +10,7 @@ interface DensityScoreCalculateResult {
 /**
  * Density Score
  */
-export function densityScoreCalculate(distribution: number[][]): DensityScoreCalculateResult {
+export function blockDensityScoreCalculate(distribution: number[][]): BlockDensityScoreCalculateResult {
 
     let totalBlocks = 0;
     let maxDensity = -Infinity;

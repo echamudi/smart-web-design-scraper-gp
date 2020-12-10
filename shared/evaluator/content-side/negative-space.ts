@@ -1,6 +1,6 @@
-import { BrowserInfoExtractResult, NegativeSpaceExtractResult, TextDetectionExtractResult } from "Shared/types/factors";
-import { isVisible } from 'Shared/utils/is-visible';
-import { textDetection } from "../data-extractor/text-detection";
+// import { BrowserInfoExtractResult, NegativeSpaceExtractResult, TextDetectionExtractResult } from "Shared/types/factors";
+// import { isVisible } from 'Shared/utils/is-visible';
+// import { textDetection } from "../data-extractor/text-detection";
 
 // export function negativeSpace(
 //     browserInfoResult: BrowserInfoExtractResult,

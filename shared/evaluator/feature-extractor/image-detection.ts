@@ -1,7 +1,7 @@
 import { BrowserInfoExtractResult, ImageComponent, ImageDetectionExtractResult } from 'Shared/types/feature-extractor';
 import { isVisible } from 'Shared/utils/is-visible';
 
-export function imageDetection(win: Window, browserInfoResult: BrowserInfoExtractResult): ImageDetectionExtractResult {
+export function imageDetectionExtract(win: Window, browserInfoResult: BrowserInfoExtractResult): ImageDetectionExtractResult {
     const doc = win.document;
 
     const { scrollWidth, scrollHeight } = browserInfoResult;

@@ -1,6 +1,6 @@
 import { BrowserInfoExtractResult } from "Shared/types/feature-extractor";
 
-export function browserInfo(win: Window): BrowserInfoExtractResult {
+export function browserInfoExtract(win: Window): BrowserInfoExtractResult {
     const userAgent = win.navigator.userAgent;
     const body = win.document.body;
     const html = win.document.documentElement;

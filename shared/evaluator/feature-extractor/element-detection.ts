@@ -4,7 +4,7 @@ import { isVisible } from 'Shared/utils/is-visible';
 /**
  * Generic Element Detection
  */
-export function elementDetection(win: Window, browserInfoResult: BrowserInfoExtractResult, elementTag: string): ElementDetectionExtractResult {
+export function elementDetectionExtract(win: Window, browserInfoResult: BrowserInfoExtractResult, elementTag: string): ElementDetectionExtractResult {
     const doc = win.document;
 
     const { scrollWidth, scrollHeight } = browserInfoResult;

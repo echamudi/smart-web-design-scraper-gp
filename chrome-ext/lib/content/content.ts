@@ -7,11 +7,11 @@ import { AnalysisConfig, AnalysisResult } from 'Shared/types/types';
 // import { negativeSpace } from 'Shared/evaluator/content-side/negative-space';
 // import { videos } from 'Shared/evaluator/content-side/videos';
 
-import { browserInfo } from 'Shared/evaluator/feature-extractor/browser-info';
-import { textDetection } from 'Shared/evaluator/feature-extractor/text-detection';
-import { imageDetection } from 'Shared/evaluator/feature-extractor/image-detection';
-import { videoDetection } from 'Shared/evaluator/feature-extractor/video-detection';
-import { anchorDetection } from 'Shared/evaluator/feature-extractor/anchor-detection';
+import { browserInfoExtract } from 'Shared/evaluator/feature-extractor/browser-info';
+import { textDetectionExtract } from 'Shared/evaluator/feature-extractor/text-detection';
+import { imageDetectionExtract } from 'Shared/evaluator/feature-extractor/image-detection';
+import { videoDetectionExtract } from 'Shared/evaluator/feature-extractor/video-detection';
+import { anchorDetectionExtract } from 'Shared/evaluator/feature-extractor/anchor-detection';
 
 if ((window as any).SWDS === undefined) {
     (window as any).SWDS = {};
@@ -24,11 +24,11 @@ if ((window as any).SWDS === undefined) {
         const config = request.config as AnalysisConfig;
 
         if (message == "analyze") {
-            const browserInfoResult = browserInfo(window);
-            const textDetectionResult = textDetection(window, browserInfoResult);
-            const imageDetectionResult = imageDetection(window, browserInfoResult);
-            const videoDetectionResult = videoDetection(window, browserInfoResult);
-            const anchorDetectionResult = anchorDetection(window, browserInfoResult);
+            const browserInfoResult = browserInfoExtract(window);
+            const textDetectionResult = textDetectionExtract(window, browserInfoResult);
+            const imageDetectionResult = imageDetectionExtract(window, browserInfoResult);
+            const videoDetectionResult = videoDetectionExtract(window, browserInfoResult);
+            const anchorDetectionResult = anchorDetectionExtract(window, browserInfoResult);
 
             console.log({
                 browserInfoResult,

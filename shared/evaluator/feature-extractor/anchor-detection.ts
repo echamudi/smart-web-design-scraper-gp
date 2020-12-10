@@ -1,7 +1,7 @@
 import { BrowserInfoExtractResult, AnchorDetectionExtractResult, AnchorComponent } from "Shared/types/feature-extractor";
 import { isVisible } from 'Shared/utils/is-visible';
 
-export function anchorDetection(win: Window, browserInfoResult: BrowserInfoExtractResult): AnchorDetectionExtractResult {
+export function anchorDetectionExtract(win: Window, browserInfoResult: BrowserInfoExtractResult): AnchorDetectionExtractResult {
     const doc = win.document;
 
     const { scrollWidth, scrollHeight } = browserInfoResult;

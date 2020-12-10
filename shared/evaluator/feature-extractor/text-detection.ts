@@ -1,7 +1,7 @@
 import { BrowserInfoExtractResult, TextDetectionExtractResult, TextComponent } from "Shared/types/feature-extractor";
 import { isVisible } from 'Shared/utils/is-visible';
 
-export function textDetection(win: Window, browserInfoResult: BrowserInfoExtractResult): TextDetectionExtractResult {
+export function textDetectionExtract(win: Window, browserInfoResult: BrowserInfoExtractResult): TextDetectionExtractResult {
     const doc = win.document;
 
     const { scrollWidth, scrollHeight } = browserInfoResult;

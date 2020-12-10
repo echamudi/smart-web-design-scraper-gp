@@ -1,7 +1,7 @@
 import { VideoDetectionExtractResult, VideoComponent, BrowserInfoExtractResult } from 'Shared/types/feature-extractor';
 import { isVisible } from 'Shared/utils/is-visible';
 
-export function videoDetection(win: Window, browserInfoResult: BrowserInfoExtractResult): VideoDetectionExtractResult {
+export function videoDetectionExtract(win: Window, browserInfoResult: BrowserInfoExtractResult): VideoDetectionExtractResult {
     const doc = win.document;
 
     const components: VideoComponent[] = [];

@@ -1,4 +1,4 @@
-import { BrowserInfoExtractResult } from "Shared/types/data-extractor";
+import { BrowserInfoExtractResult } from "types/feature-extractor";
 
 export function browserInfo(win: Window): BrowserInfoExtractResult {
     const userAgent = win.navigator.userAgent;

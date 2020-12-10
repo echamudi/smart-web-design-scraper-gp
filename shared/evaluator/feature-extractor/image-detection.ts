@@ -1,4 +1,4 @@
-import { BrowserInfoExtractResult, ImageComponent, ImageDetectionExtractResult } from 'Shared/types/data-extractor';
+import { BrowserInfoExtractResult, ImageComponent, ImageDetectionExtractResult } from 'types/feature-extractor';
 import { isVisible } from 'Shared/utils/is-visible';
 
 export function imageDetection(win: Window, browserInfoResult: BrowserInfoExtractResult): ImageDetectionExtractResult {

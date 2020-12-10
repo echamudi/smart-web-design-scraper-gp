@@ -1,4 +1,4 @@
-import { BrowserInfoExtractResult, AnchorDetectionExtractResult, AnchorComponent } from "Shared/types/data-extractor";
+import { BrowserInfoExtractResult, AnchorDetectionExtractResult, AnchorComponent } from "types/feature-extractor";
 import { isVisible } from 'Shared/utils/is-visible';
 
 export function anchorDetection(win: Window, browserInfoResult: BrowserInfoExtractResult): AnchorDetectionExtractResult {

@@ -1,5 +1,6 @@
 import { BrowserInfoExtractResult, AnchorDetectionExtractResult, AnchorComponent } from "Shared/types/feature-extractor";
 import { isVisible } from 'Shared/utils/is-visible';
+import { getAbsolutePosition } from "Shared/utils/get-absolute-position";
 
 export function anchorDetectionExtract(win: Window, browserInfoResult: BrowserInfoExtractResult): AnchorDetectionExtractResult {
     const doc = win.document;
@@ -22,12 +23,7 @@ export function anchorDetectionExtract(win: Window, browserInfoResult: BrowserIn
         const bound = currentEl.getBoundingClientRect();
 
         components.push({
-            position: {
-                x: Math.floor(bound.x + win.scrollX),
-                y: Math.floor(bound.y + win.scrollY),
-                w: Math.floor(bound.width),
-                h: Math.floor(bound.height)
-            },
+            position: getAbsolutePosition(win, bound),
             href: currentEl.getAttribute('href'),
             text,
             area: currentEl.clientWidth * currentEl.clientHeight,

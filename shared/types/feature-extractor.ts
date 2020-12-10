@@ -1,6 +1,16 @@
-// DATA EXTRACTOR
+// Feature EXTRACTOR
 
 import { ComponentPosition } from "./types";
+
+// All Results
+
+export interface FeatureExtractorResult {
+    browserInfo: BrowserInfoExtractResult,
+    textDetection: TextDetectionExtractResult,
+    imageDetection: ImageDetectionExtractResult,
+    videoDetection: VideoDetectionExtractResult,
+    anchorDetection: AnchorDetectionExtractResult
+}
 
 // browser-info
 

@@ -1,4 +1,4 @@
-import { PlotComponent } from 'Shared/types/types';
+import { ComponentPosition } from 'Shared/types/types';
 
 export interface PlotterResult {
     canvas: HTMLCanvasElement,
@@ -12,7 +12,7 @@ export interface PlotterResult {
  */
 export function plotter(
     canvas: HTMLCanvasElement,
-    components: PlotComponent[],
+    components: ComponentPosition[],
     config: { pageHeight: number, pageWidth: number, tileSize: number, })
     : PlotterResult {
 

@@ -1,4 +1,4 @@
-import { VideoDetectionExtractResult, VideoComponent, BrowserInfoExtractResult } from 'types/feature-extractor';
+import { VideoDetectionExtractResult, VideoComponent, BrowserInfoExtractResult } from 'Shared/types/feature-extractor';
 import { isVisible } from 'Shared/utils/is-visible';
 
 export function videoDetection(win: Window, browserInfoResult: BrowserInfoExtractResult): VideoDetectionExtractResult {

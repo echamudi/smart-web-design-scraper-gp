@@ -1,4 +1,4 @@
-import { ElementDetectionExtractResult, ElementComponent, BrowserInfoExtractResult } from "types/feature-extractor";
+import { ElementDetectionExtractResult, ElementComponent, BrowserInfoExtractResult } from "Shared/types/feature-extractor";
 import { isVisible } from 'Shared/utils/is-visible';
 
 /**

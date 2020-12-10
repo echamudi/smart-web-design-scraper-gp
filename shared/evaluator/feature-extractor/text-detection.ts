@@ -1,4 +1,4 @@
-import { BrowserInfoExtractResult, TextDetectionExtractResult, TextComponent } from "types/feature-extractor";
+import { BrowserInfoExtractResult, TextDetectionExtractResult, TextComponent } from "Shared/types/feature-extractor";
 import { isVisible } from 'Shared/utils/is-visible';
 
 export function textDetection(win: Window, browserInfoResult: BrowserInfoExtractResult): TextDetectionExtractResult {

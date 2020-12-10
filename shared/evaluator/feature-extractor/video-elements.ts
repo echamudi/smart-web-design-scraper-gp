@@ -1,5 +1,6 @@
 import { VideoElementsExtractResult, VideoElement, BrowserInfoExtractResult } from 'Shared/types/feature-extractor';
 import { isVisible } from 'Shared/utils/is-visible';
+import { getAbsolutePosition } from 'Shared/utils/get-absolute-position';
 
 export function videoElementsExtract(win: Window, browserInfoResult: BrowserInfoExtractResult): VideoElementsExtractResult {
     const doc = win.document;
@@ -15,12 +16,7 @@ export function videoElementsExtract(win: Window, browserInfoResult: BrowserInfo
         const bound = el.getBoundingClientRect();
 
         elements.push({
-            position: {
-                x: Math.floor(bound.x + win.scrollX),
-                y: Math.floor(bound.y + win.scrollY),
-                w: Math.floor(bound.width),
-                h: Math.floor(bound.height)
-            },
+            position: getAbsolutePosition(win, bound),
             tagName: el.tagName,
             area: el.clientWidth * el.clientHeight,
             visible: isVisible(el),

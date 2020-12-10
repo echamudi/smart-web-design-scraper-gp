@@ -1,5 +1,6 @@
 import { BrowserInfoExtractResult, ImageElement, ImageElementsExtractResult } from 'Shared/types/feature-extractor';
 import { isVisible } from 'Shared/utils/is-visible';
+import { getAbsolutePosition } from 'Shared/utils/get-absolute-position';
 
 export function imageElementsExtract(win: Window, browserInfoResult: BrowserInfoExtractResult): ImageElementsExtractResult {
     const doc = win.document;
@@ -16,12 +17,7 @@ export function imageElementsExtract(win: Window, browserInfoResult: BrowserInfo
         imageElements.push({
             url: el.src,
             tagName: el.tagName,
-            position: {
-                x: Math.floor(bound.x + win.scrollX),
-                y: Math.floor(bound.y + win.scrollY),
-                w: Math.floor(bound.width),
-                h: Math.floor(bound.height)
-            },
+            position: getAbsolutePosition(win, bound),
             area: el.clientWidth * el.clientHeight,
             visible: isVisible(el)
         })
@@ -35,12 +31,7 @@ export function imageElementsExtract(win: Window, browserInfoResult: BrowserInfo
         imageElements.push({
             url: '',
             tagName: el.tagName,
-            position: {
-                x: Math.floor(bound.x + win.scrollX),
-                y: Math.floor(bound.y + win.scrollY),
-                w: Math.floor(bound.width),
-                h: Math.floor(bound.height)
-        },
+            position: getAbsolutePosition(win, bound),
             area: el.clientWidth * el.clientHeight,
             visible: isVisible(el)
         })
@@ -58,12 +49,7 @@ export function imageElementsExtract(win: Window, browserInfoResult: BrowserInfo
             imageElements.push({
                 url: style.backgroundImage.slice( 4, -1 ).replace(/['"]/g, ""),
                 tagName: el.tagName,
-                position: {
-                    x: Math.floor(bound.x + win.scrollX),
-                    y: Math.floor(bound.y + win.scrollY),
-                    w: Math.floor(bound.width),
-                    h: Math.floor(bound.height)
-                },
+                position: getAbsolutePosition(win, bound),
                 area: el.clientWidth * el.clientHeight,
                 visible: isVisible(el)
             })

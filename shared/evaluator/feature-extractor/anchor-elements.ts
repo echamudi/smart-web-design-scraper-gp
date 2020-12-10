@@ -10,9 +10,9 @@ export function anchorElementsExtract(win: Window, browserInfoResult: BrowserInf
     const anchorElements: AnchorElement[] = [];
 
     // Get elements
-    const htmlElements: NodeListOf<Element> = doc.querySelectorAll('body a');
-    for (let i = 0; i < htmlElements.length; i += 1) {
-        const currentEl = htmlElements[i] as HTMLElement;
+    const htmlAnchorElements: NodeListOf<Element> = doc.querySelectorAll('body a');
+    for (let i = 0; i < htmlAnchorElements.length; i += 1) {
+        const currentEl = htmlAnchorElements[i] as HTMLElement;
 
         let text = '';
         currentEl.childNodes.forEach((cn) => {

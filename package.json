@@ -35,7 +35,8 @@
   },
   "jest": {
     "testMatch": [
-      "<rootDir>/shared/**/*.test.ts"
+      "<rootDir>/shared/utils/**/*.test.ts",
+      "<rootDir>/shared/evaluator/**/*.test.ts"
     ]
   }
 }

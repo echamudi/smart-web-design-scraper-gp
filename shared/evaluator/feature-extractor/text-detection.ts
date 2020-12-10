@@ -1,5 +1,6 @@
 import { BrowserInfoExtractResult, TextDetectionExtractResult, TextComponent } from "Shared/types/feature-extractor";
 import { isVisible } from 'Shared/utils/is-visible';
+import { getBackgroundColor } from "Shared/utils/get-background-color";
 
 export function textDetectionExtract(win: Window, browserInfoResult: BrowserInfoExtractResult): TextDetectionExtractResult {
     const doc = win.document;
@@ -19,21 +20,22 @@ export function textDetectionExtract(win: Window, browserInfoResult: BrowserInfo
         })
         text = text.trim();
 
-        const bound = currentEl.getBoundingClientRect();
-
         if (text !== '') {
+            const bound = currentEl.getBoundingClientRect();
+            const x = Math.floor(bound.x + win.scrollX);
+            const y = Math.floor(bound.y + win.scrollY);
+            const w = Math.floor(bound.width);
+            const h = Math.floor(bound.height);
+            const midX = Math.floor(x + (w / 2));
+            const midY = Math.floor(y + (h / 2));
+
             components.push({
-                position: {
-                    x: Math.floor(bound.x + win.scrollX),
-                    y: Math.floor(bound.y + win.scrollY),
-                    w: Math.floor(bound.width),
-                    h: Math.floor(bound.height)
-                },
-                fontType: '',
-                textSize: '',
-                color: '',
-                backgroundColor: '',
-                fontWeight: '',
+                position: { x, y, w, h },
+                fontType: win.getComputedStyle(currentEl).fontFamily,
+                fontSize: win.getComputedStyle(currentEl).fontSize,
+                color: win.getComputedStyle(currentEl).color,
+                backgroundColor: getBackgroundColor(win, midX, midY),
+                fontWeight: win.getComputedStyle(currentEl).fontWeight,
                 visible: isVisible(currentEl)
             });
         }

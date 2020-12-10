@@ -52,7 +52,7 @@ export interface TextComponent {
     position: ComponentPosition,
 
     fontType: string,
-    textSize: string,
+    fontSize: string,
     color: string,
     backgroundColor: string,
     fontWeight: string,

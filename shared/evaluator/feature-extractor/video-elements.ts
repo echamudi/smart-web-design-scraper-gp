@@ -1,10 +1,10 @@
-import { VideoDetectionExtractResult, VideoComponent, BrowserInfoExtractResult } from 'Shared/types/feature-extractor';
+import { VideoElementsExtractResult, VideoElement, BrowserInfoExtractResult } from 'Shared/types/feature-extractor';
 import { isVisible } from 'Shared/utils/is-visible';
 
-export function videoDetectionExtract(win: Window, browserInfoResult: BrowserInfoExtractResult): VideoDetectionExtractResult {
+export function videoElementsExtract(win: Window, browserInfoResult: BrowserInfoExtractResult): VideoElementsExtractResult {
     const doc = win.document;
 
-    const components: VideoComponent[] = [];
+    const elements: VideoElement[] = [];
 
     const { scrollWidth, scrollHeight } = browserInfoResult;
 
@@ -14,7 +14,7 @@ export function videoDetectionExtract(win: Window, browserInfoResult: BrowserInf
     videos.forEach(el => {
         const bound = el.getBoundingClientRect();
 
-        components.push({
+        elements.push({
             position: {
                 x: Math.floor(bound.x + win.scrollX),
                 y: Math.floor(bound.y + win.scrollY),
@@ -29,9 +29,9 @@ export function videoDetectionExtract(win: Window, browserInfoResult: BrowserInf
     });
 
     return {
-        components,
-        componentCount: components.length,
-        visibleComponentCount: components.reduce<number>((prev, curr) => {
+        elements,
+        elementCount: elements.length,
+        visibleElementCount: elements.reduce<number>((prev, curr) => {
             if (curr.visible) {
                 return prev + 1;
             } else {

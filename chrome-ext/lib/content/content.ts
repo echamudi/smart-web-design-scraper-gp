@@ -8,10 +8,10 @@ import { AnalysisConfig, AnalysisResult } from 'Shared/types/types';
 // import { videos } from 'Shared/evaluator/content-side/videos';
 
 import { browserInfoExtract } from 'Shared/evaluator/feature-extractor/browser-info';
-import { textDetectionExtract } from 'Shared/evaluator/feature-extractor/text-detection';
-import { imageDetectionExtract } from 'Shared/evaluator/feature-extractor/image-detection';
-import { videoDetectionExtract } from 'Shared/evaluator/feature-extractor/video-detection';
-import { anchorDetectionExtract } from 'Shared/evaluator/feature-extractor/anchor-detection';
+import { textElementsExtract } from 'Shared/evaluator/feature-extractor/text-elements';
+import { imageElementsExtract } from 'Shared/evaluator/feature-extractor/image-elements';
+import { videoElementsExtract } from 'Shared/evaluator/feature-extractor/video-elements';
+import { anchorElementsExtract } from 'Shared/evaluator/feature-extractor/anchor-elements';
 
 if ((window as any).SWDS === undefined) {
     (window as any).SWDS = {};
@@ -25,17 +25,17 @@ if ((window as any).SWDS === undefined) {
 
         if (message == "analyze") {
             const browserInfoResult = browserInfoExtract(window);
-            const textDetectionResult = textDetectionExtract(window, browserInfoResult);
-            const imageDetectionResult = imageDetectionExtract(window, browserInfoResult);
-            const videoDetectionResult = videoDetectionExtract(window, browserInfoResult);
-            const anchorDetectionResult = anchorDetectionExtract(window, browserInfoResult);
+            const textElementsResult = textElementsExtract(window, browserInfoResult);
+            const imageElementsResult = imageElementsExtract(window, browserInfoResult);
+            const videoElementsResult = videoElementsExtract(window, browserInfoResult);
+            const anchorElementsResult = anchorElementsExtract(window, browserInfoResult);
 
             console.log({
                 browserInfoResult,
-                textDetectionResult,
-                imageDetectionResult,
-                videoDetectionResult,
-                anchorDetectionResult
+                textElementsResult,
+                imageElementsResult,
+                videoElementsResult,
+                anchorElementsResult
             });
 
             // Analyze Contents
@@ -47,17 +47,17 @@ if ((window as any).SWDS === undefined) {
             // const textFontTypeResult = textFontType(window);
 
 
-            // const imageDetectionResult = imageDetection(document, browserInfoResult);
+            // const imageElementsResult = imageElements(document, browserInfoResult);
 
-            // const picturesResult = pictures(document, imageDetectionResult);
+            // const picturesResult = pictures(document, imageElementsResult);
 
             // const videosResult = videos(document);
 
             // const elementCountResult = elementCount(document);
 
-            // const textDetectionResult = textDetection(window, browserInfoResult);
+            // const textElementsResult = textElements(window, browserInfoResult);
 
-            // const negativeSpaceResult = negativeSpace(browserInfoResult, textDetectionResult);
+            // const negativeSpaceResult = negativeSpace(browserInfoResult, textElementsResult);
 
             // Result
 
@@ -71,8 +71,8 @@ if ((window as any).SWDS === undefined) {
             //     browserInfoResult,
             //     // negativeSpaceResult,
             //     videosResult,
-            //     imageDetectionResult,
-            //     textDetectionResult
+            //     imageElementsResult,
+            //     textElementsResult
             // };
 
             // // Result

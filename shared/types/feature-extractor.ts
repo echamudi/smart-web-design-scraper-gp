@@ -1,15 +1,15 @@
 // Feature EXTRACTOR
 
-import { ComponentPosition } from "./types";
+import { ElementPosition } from "./types";
 
 // All Results
 
 export interface FeatureExtractorResult {
     browserInfo: BrowserInfoExtractResult,
-    textDetection: TextDetectionExtractResult,
-    imageDetection: ImageDetectionExtractResult,
-    videoDetection: VideoDetectionExtractResult,
-    anchorDetection: AnchorDetectionExtractResult
+    textElements: TextElementsExtractResult,
+    imageElements: ImageElementsExtractResult,
+    videoElements: VideoElementsExtractResult,
+    anchorElements: AnchorElementsExtractResult
 }
 
 // browser-info
@@ -25,31 +25,31 @@ export interface BrowserInfoExtractResult {
 
 // element-detection
 
-export interface ElementComponent {
-    position: ComponentPosition,
+export interface GenericElement {
+    position: ElementPosition,
 
     area: number, // width x height
     visible: boolean,
 };
 
-export interface ElementDetectionExtractResult {
-    components: ElementComponent[],
+export interface GenericElementsExtractResult {
+    elements: GenericElement[],
     /**
-     * Number of components in the page (visible + invisible)
+     * Number of elements in the page (visible + invisible)
      */
-    componentCount: number,
+    elementCount: number,
     /**
-     * Number of components in the page (visible only)
+     * Number of elements in the page (visible only)
      */
-    visibleComponentCount: number,
+    visibleElementCount: number,
     scrollWidth: number,
     scrollHeight: number,
 }
 
 // text-detection
 
-export interface TextComponent {
-    position: ComponentPosition,
+export interface TextElement {
+    position: ElementPosition,
 
     fontType: string,
     fontSize: string,
@@ -60,24 +60,24 @@ export interface TextComponent {
     totalCharacters: number
 }
 
-export interface TextDetectionExtractResult {
-    components: TextComponent[],
+export interface TextElementsExtractResult {
+    elements: TextElement[],
     /**
-     * Number of components in the page (visible + invisible)
+     * Number of elements in the page (visible + invisible)
      */
-    componentCount: number,
+    elementCount: number,
     /**
-     * Number of components in the page (visible only)
+     * Number of elements in the page (visible only)
      */
-    visibleComponentCount: number,
+    visibleElementCount: number,
     scrollWidth: number,
     scrollHeight: number,
 }
 
 // image-detection
 
-export interface ImageComponent {
-    position: ComponentPosition,
+export interface ImageElement {
+    position: ElementPosition,
 
     url: string,
     tagName: string,
@@ -85,24 +85,24 @@ export interface ImageComponent {
     visible: boolean,
 }
 
-export interface ImageDetectionExtractResult {
-    components: ImageComponent[],
+export interface ImageElementsExtractResult {
+    elements: ImageElement[],
     /**
-     * Number of components in the page (visible + invisible)
+     * Number of elements in the page (visible + invisible)
      */
-    componentCount: number,
+    elementCount: number,
     /**
-     * Number of components in the page (visible only)
+     * Number of elements in the page (visible only)
      */
-    visibleComponentCount: number,
+    visibleElementCount: number,
     scrollWidth: number,
     scrollHeight: number,
 }
 
 // video-detection
 
-export interface VideoComponent {
-    position: ComponentPosition,
+export interface VideoElement {
+    position: ElementPosition,
 
     url: string,
     tagName: string,
@@ -110,24 +110,24 @@ export interface VideoComponent {
     visible: boolean,
 }
 
-export interface VideoDetectionExtractResult {
-    components: VideoComponent[],
+export interface VideoElementsExtractResult {
+    elements: VideoElement[],
     /**
-     * Number of components in the page (visible + invisible)
+     * Number of elements in the page (visible + invisible)
      */
-    componentCount: number,
+    elementCount: number,
     /**
-     * Number of components in the page (visible only)
+     * Number of elements in the page (visible only)
      */
-    visibleComponentCount: number,
+    visibleElementCount: number,
     scrollWidth: number,
     scrollHeight: number,
 }
 
 // anchor-detection
 
-export interface AnchorComponent {
-    position: ComponentPosition,
+export interface AnchorElement {
+    position: ElementPosition,
 
     href: string | null,
     text: string,
@@ -135,16 +135,16 @@ export interface AnchorComponent {
     visible: boolean,
 }
 
-export interface AnchorDetectionExtractResult {
-    components: AnchorComponent[],
+export interface AnchorElementsExtractResult {
+    elements: AnchorElement[],
     /**
-     * Number of components in the page (visible + invisible)
+     * Number of elements in the page (visible + invisible)
      */
-    componentCount: number,
+    elementCount: number,
     /**
-     * Number of components in the page (visible only)
+     * Number of elements in the page (visible only)
      */
-    visibleComponentCount: number,
+    visibleElementCount: number,
     scrollWidth: number,
     scrollHeight: number,
 }

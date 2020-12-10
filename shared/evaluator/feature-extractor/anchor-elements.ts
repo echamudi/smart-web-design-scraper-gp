@@ -1,18 +1,18 @@
-import { BrowserInfoExtractResult, AnchorDetectionExtractResult, AnchorComponent } from "Shared/types/feature-extractor";
+import { BrowserInfoExtractResult, AnchorElementsExtractResult, AnchorElement } from "Shared/types/feature-extractor";
 import { isVisible } from 'Shared/utils/is-visible';
 import { getAbsolutePosition } from "Shared/utils/get-absolute-position";
 
-export function anchorDetectionExtract(win: Window, browserInfoResult: BrowserInfoExtractResult): AnchorDetectionExtractResult {
+export function anchorElementsExtract(win: Window, browserInfoResult: BrowserInfoExtractResult): AnchorElementsExtractResult {
     const doc = win.document;
 
     const { scrollWidth, scrollHeight } = browserInfoResult;
 
-    const components: AnchorComponent[] = [];
+    const anchorElements: AnchorElement[] = [];
 
     // Get elements
-    const elements: NodeListOf<Element> = doc.querySelectorAll('body a');
-    for (let i = 0; i < elements.length; i += 1) {
-        const currentEl = elements[i] as HTMLElement;
+    const htmlElements: NodeListOf<Element> = doc.querySelectorAll('body a');
+    for (let i = 0; i < htmlElements.length; i += 1) {
+        const currentEl = htmlElements[i] as HTMLElement;
 
         let text = '';
         currentEl.childNodes.forEach((cn) => {
@@ -22,7 +22,7 @@ export function anchorDetectionExtract(win: Window, browserInfoResult: BrowserIn
 
         const bound = currentEl.getBoundingClientRect();
 
-        components.push({
+        anchorElements.push({
             position: getAbsolutePosition(win, bound),
             href: currentEl.getAttribute('href'),
             text,
@@ -32,9 +32,9 @@ export function anchorDetectionExtract(win: Window, browserInfoResult: BrowserIn
     }
 
     return {
-        components,
-        componentCount: components.length,
-        visibleComponentCount: components.reduce<number>((prev, curr) => {
+        elements: anchorElements,
+        elementCount: anchorElements.length,
+        visibleElementCount: anchorElements.reduce<number>((prev, curr) => {
             if (curr.visible) {
                 return prev + 1;
             } else {

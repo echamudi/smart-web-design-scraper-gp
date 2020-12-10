@@ -1,6 +1,6 @@
-import { ComponentPosition } from "Shared/types/types";
+import { ElementPosition } from "Shared/types/types";
 
-export function getAbsolutePosition(win: Window, bound: DOMRect): ComponentPosition {
+export function getAbsolutePosition(win: Window, bound: DOMRect): ElementPosition {
     return {
         x: Math.floor(bound.x + win.scrollX),
         y: Math.floor(bound.y + win.scrollY),

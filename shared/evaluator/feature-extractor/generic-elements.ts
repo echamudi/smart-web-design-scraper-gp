@@ -1,24 +1,24 @@
-import { ElementDetectionExtractResult, ElementComponent, BrowserInfoExtractResult } from "Shared/types/feature-extractor";
+import { GenericElementsExtractResult, GenericElement, BrowserInfoExtractResult } from "Shared/types/feature-extractor";
 import { isVisible } from 'Shared/utils/is-visible';
 
 /**
  * Generic Element Detection
  */
-export function elementDetectionExtract(win: Window, browserInfoResult: BrowserInfoExtractResult, elementTag: string): ElementDetectionExtractResult {
+export function genericElementsExtract(win: Window, browserInfoResult: BrowserInfoExtractResult, elementTag: string): GenericElementsExtractResult {
     const doc = win.document;
 
     const { scrollWidth, scrollHeight } = browserInfoResult;
 
-    const components: ElementComponent[] = [];
+    const genericElements: GenericElement[] = [];
 
-    // Get elements
-    const elements: NodeListOf<HTMLElement> = doc.querySelectorAll(`body ${elementTag}`);
-    for (let i = 0; i < elements.length; i += 1) {
-        const currentEl = elements[i];
+    // Get html elements
+    const htmlElements: NodeListOf<HTMLElement> = doc.querySelectorAll(`body ${elementTag}`);
+    for (let i = 0; i < htmlElements.length; i += 1) {
+        const currentEl = htmlElements[i];
 
         const bound = currentEl.getBoundingClientRect();
 
-        components.push({
+        genericElements.push({
             position: {
                 x: Math.floor(bound.x + win.scrollX),
                 y: Math.floor(bound.y + win.scrollY),
@@ -31,9 +31,9 @@ export function elementDetectionExtract(win: Window, browserInfoResult: BrowserI
     }
 
     return {
-        components,
-        componentCount: components.length,
-        visibleComponentCount: components.reduce<number>((prev, curr) => {
+        elements: genericElements,
+        elementCount: genericElements.length,
+        visibleElementCount: genericElements.reduce<number>((prev, curr) => {
             if (curr.visible) {
                 return prev + 1;
             } else {

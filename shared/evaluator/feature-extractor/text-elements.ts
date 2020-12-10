@@ -1,18 +1,18 @@
-import { BrowserInfoExtractResult, TextDetectionExtractResult, TextComponent } from "Shared/types/feature-extractor";
+import { BrowserInfoExtractResult, TextElementsExtractResult, TextElement } from "Shared/types/feature-extractor";
 import { isVisible } from 'Shared/utils/is-visible';
 import { getBackgroundColor } from "Shared/utils/get-background-color";
 
-export function textDetectionExtract(win: Window, browserInfoResult: BrowserInfoExtractResult): TextDetectionExtractResult {
+export function textElementsExtract(win: Window, browserInfoResult: BrowserInfoExtractResult): TextElementsExtractResult {
     const doc = win.document;
 
     const { scrollWidth, scrollHeight } = browserInfoResult;
 
-    const components: TextComponent[] = [];
+    const textElements: TextElement[] = [];
 
     // Get elements
-    const elements: NodeListOf<Element> = doc.querySelectorAll('body *');
-    for (let i = 0, max = elements.length; i < max; i += 1) {
-        const currentEl = elements[i] as HTMLElement;
+    const htmlElements: NodeListOf<Element> = doc.querySelectorAll('body *');
+    for (let i = 0, max = htmlElements.length; i < max; i += 1) {
+        const currentEl = htmlElements[i] as HTMLElement;
 
         let text = '';
         currentEl.childNodes.forEach((cn) => {
@@ -29,7 +29,7 @@ export function textDetectionExtract(win: Window, browserInfoResult: BrowserInfo
             const midX = Math.floor(x + (w / 2));
             const midY = Math.floor(y + (h / 2));
 
-            components.push({
+            textElements.push({
                 position: { x, y, w, h },
                 fontType: win.getComputedStyle(currentEl).fontFamily,
                 fontSize: win.getComputedStyle(currentEl).fontSize,
@@ -43,9 +43,9 @@ export function textDetectionExtract(win: Window, browserInfoResult: BrowserInfo
     }
 
     return {
-        components,
-        componentCount: components.length,
-        visibleComponentCount: components.reduce<number>((prev, curr) => {
+        elements: textElements,
+        elementCount: textElements.length,
+        visibleElementCount: textElements.reduce<number>((prev, curr) => {
             if (curr.visible) {
                 return prev + 1;
             } else {

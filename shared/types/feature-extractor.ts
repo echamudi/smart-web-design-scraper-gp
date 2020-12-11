@@ -54,10 +54,11 @@ export interface TextElement {
     fontType: string,
     fontSize: string,
     color: string,
-    backgroundColor: string,
+    backgroundColor: string | undefined,
     fontWeight: string,
     visible: boolean,
-    totalCharacters: number
+    totalCharacters: number,
+    text: string
 }
 
 export interface TextElementsExtractResult {

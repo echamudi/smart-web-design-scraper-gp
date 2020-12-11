@@ -3,11 +3,14 @@ import rgba from 'color-rgba';
 /**
  * Get the background color of xy coordinate in a website
  */
-export function getBackgroundColor(win: Window, x: number, y: number): string {
+export function getBackgroundColor(win: Window, x: number, y: number): string | undefined {
     const doc = win.document;
 
     const pointElements = doc.elementsFromPoint(x, y);
-    let finalPointBgColor = 'rgba(0, 0, 0, 0)';
+    let finalPointBgColor = '#FFFFFF';
+
+    // If the item is out of viewport, make it undefined
+    if (pointElements.length === 0) return undefined;
 
     // Loop through element stack
     for (let i = 0; i < pointElements.length; i++) {

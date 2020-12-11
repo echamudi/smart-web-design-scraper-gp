@@ -1,5 +1,5 @@
 // import { textSize, textSizeStyler } from 'Shared/evaluator/content-side/text-size';
-import { AnalysisConfig, AnalysisResult } from 'Shared/types/types';
+import { AnalysisConfig } from 'Shared/types/types';
 // import { textFontType } from 'Shared/evaluator/content-side/text-font-type';
 // import { pictures } from 'Shared/evaluator/content-side/pictures';
 // import { elementCount } from 'Shared/evaluator/data-extractor/element-count';
@@ -15,6 +15,8 @@ import { anchorElementsExtract } from 'Shared/evaluator/feature-extractor/anchor
 
 import { finalScoreCalculate } from 'Shared/evaluator/score-calculator/final';
 
+import { FeatureExtractorResult } from 'Shared/types/feature-extractor';
+
 if ((window as any).SWDS === undefined) {
     (window as any).SWDS = {};
     const SWDS = (window as any).SWDS;
@@ -26,27 +28,23 @@ if ((window as any).SWDS === undefined) {
         const config = request.config as AnalysisConfig;
 
         if (message == "analyze") {
-            const browserInfoResult = browserInfoExtract(window);
-            const textElementsResult = textElementsExtract(window, browserInfoResult);
-            const imageElementsResult = imageElementsExtract(window, browserInfoResult);
-            const videoElementsResult = videoElementsExtract(window, browserInfoResult);
-            const anchorElementsResult = anchorElementsExtract(window, browserInfoResult);
+            const browserInfo = browserInfoExtract(window);
+            const textElements = textElementsExtract(window, browserInfo);
+            const imageElements = imageElementsExtract(window, browserInfo);
+            const videoElements = videoElementsExtract(window, browserInfo);
+            const anchorElements = anchorElementsExtract(window, browserInfo);
 
-            const finalScoreCalculateResult = finalScoreCalculate(document, {
-                browserInfo: browserInfoResult,
-                textElements: textElementsResult,
-                imageElements: imageElementsResult,
-                videoElements: videoElementsResult,
-                anchorElements: anchorElementsResult
-            });
+            const featureExtractorResult: FeatureExtractorResult = {
+                browserInfo,
+                textElements,
+                imageElements,
+                videoElements,
+                anchorElements
+            };
 
-            console.log({
-                browserInfoResult,
-                textElementsResult,
-                imageElementsResult,
-                videoElementsResult,
-                anchorElementsResult
-            });
+            const finalScoreCalculateResult = finalScoreCalculate(document, featureExtractorResult);
+
+            console.log(featureExtractorResult);
             console.log(finalScoreCalculateResult);
 
             // Analyze Contents

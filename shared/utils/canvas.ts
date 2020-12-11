@@ -5,6 +5,33 @@ export interface PlotterResult {
     distribution: number[][]
 }
 
+export interface PlotterConfig {
+    /**
+     * Set height of the canvas
+     */
+    pageHeight: number,
+    /**
+     * Set width of the canvas
+     */
+    pageWidth: number,
+    tileSize: number,
+    /**
+     * Default: #000000
+     */
+    blockColor?: string,
+    /**
+     * Hex for adding bg
+     * Default: false
+     */
+    backgroundColor?: string | false
+    /**
+     * Skip resizing the canvas.
+     * Set true if the provided canvas already has the correct size
+     * Default: false
+     */
+    skipResizingCanvas?: boolean
+}
+
 /**
  * For plotting components on canvas
  * @param components 
@@ -13,10 +40,15 @@ export interface PlotterResult {
 export function plotter(
     canvas: HTMLCanvasElement,
     components: ElementPosition[],
-    config: { pageHeight: number, pageWidth: number, tileSize: number, })
+    config: PlotterConfig)
     : PlotterResult {
 
-    const { pageHeight, pageWidth, tileSize } = config;
+    const pageHeight = config.pageHeight;
+    const pageWidth = config.pageWidth;
+    const tileSize = config.tileSize;
+    const blockColor = config.blockColor ?? '#000000';
+    const backgroundColor = config.blockColor ?? false;
+    const skipResizingCanvas: boolean = config.skipResizingCanvas ?? false;
 
     const totalColumns = Math.floor(pageWidth / tileSize);
     const totalRows = Math.floor(pageHeight / tileSize);
@@ -25,19 +57,23 @@ export function plotter(
     const colShift = Math.floor((pageWidth - (totalColumns * tileSize))/2);
     const rowShift = Math.floor((pageHeight - (totalRows * tileSize))/2);
 
-    canvas.width = pageWidth;
-    canvas.height = pageHeight;
+    if (skipResizingCanvas === false) {
+        canvas.width = pageWidth;
+        canvas.height = pageHeight;
+    }
 
     const ctx = canvas.getContext('2d');
 
     if (ctx === null) throw new Error('Fail to getContext ctx');
 
-    // Fill with white
-    ctx.fillStyle = '#ffffff';
-    ctx.fillRect(0, 0, pageWidth, pageHeight);
+    // Fill bg
+    if (typeof config.backgroundColor === 'string') {
+        ctx.fillStyle = config.backgroundColor;
+        ctx.fillRect(0, 0, pageWidth, pageHeight);
+    }
 
     // Add blocks
-    ctx.fillStyle = '#000000';
+    ctx.fillStyle = config.blockColor ?? '#000000';
     components.forEach((rect) => {
         ctx.fillRect(rect.x, rect.y, rect.w, rect.h);
     });
@@ -57,12 +93,15 @@ export function plotter(
             let filledPixels = 0;
 
             for (let i = 0; i < imagePixels.length; i += 4) {
-                const R = imagePixels[i];
-                const G = imagePixels[i + 1];
-                const B = imagePixels[i + 2];
+                // const R = imagePixels[i];
+                // const G = imagePixels[i + 1];
+                // const B = imagePixels[i + 2];
                 const A = imagePixels[i + 3];
 
-                if (R === 0 && G === 0 && B === 0 && A === 255) {
+                if (
+                    // R === 0 && G === 0 && B === 0 && 
+                    A === 255
+                ) {
                     filledPixels += 1;
                 }
             }

@@ -26,8 +26,11 @@ export function finalScoreCalculate(doc: Document, features: FeatureExtractorRes
     });
     const { distribution: imageElementDistribution }  = plotter(imagePlotCanvas, imageElements, plotterConfig);
 
-    // document.body.appendChild(textPlotCanvas);
-    // document.body.appendChild(imagePlotCanvas);
+    const displayCanvas: HTMLCanvasElement = doc.createElement('canvas');
+    plotter(displayCanvas, textElements, { ...plotterConfig, backgroundColor: '#FFFFFF', blockColor: '#19b5fe' });
+    plotter(displayCanvas, imageElements, { ...plotterConfig, blockColor: '#f2784b', skipResizingCanvas: true });
+
+    // document.body.appendChild(displayCanvas);
 
     return {
         textDensity: blockDensityScoreCalculate(textElementDistribution),

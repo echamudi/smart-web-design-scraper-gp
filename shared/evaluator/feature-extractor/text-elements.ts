@@ -37,7 +37,8 @@ export function textElementsExtract(win: Window, browserInfoResult: BrowserInfoE
                 backgroundColor: getBackgroundColor(win, midX, midY),
                 fontWeight: win.getComputedStyle(currentEl).fontWeight,
                 visible: isVisible(currentEl),
-                totalCharacters: [...text].length
+                totalCharacters: [...text].length,
+                text
             });
         }
     }

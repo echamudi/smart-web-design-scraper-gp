@@ -1,4 +1,4 @@
-import { ComponentPosition } from 'Shared/types/types';
+import { ElementPosition } from 'Shared/types/types';
 
 export interface PlotterResult {
     canvas: HTMLCanvasElement,
@@ -12,7 +12,7 @@ export interface PlotterResult {
  */
 export function plotter(
     canvas: HTMLCanvasElement,
-    components: ComponentPosition[],
+    components: ElementPosition[],
     config: { pageHeight: number, pageWidth: number, tileSize: number, })
     : PlotterResult {
 
@@ -29,6 +29,8 @@ export function plotter(
     canvas.height = pageHeight;
 
     const ctx = canvas.getContext('2d');
+
+    if (ctx === null) throw new Error('Fail to getContext ctx');
 
     // Fill with white
     ctx.fillStyle = '#ffffff';

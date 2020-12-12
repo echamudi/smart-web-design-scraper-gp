@@ -181,23 +181,16 @@ export type VibrantColorsPallete = Palette;
 
 // alignment-points
 
+export type AlignmentPointWeights = {
+    /**
+     * Alignment point on an axis and total area of elements that have that alignment point.
+     */
+    [point in number]: number
+}
+
 export interface AlignmentPointsExtractResult {
-    xAlignmentPoints: {
-        /**
-         * Alignment point on the x-axis (horizontal) and total area of elements that have that
-         * alignment point.
-         */
-        [point in number]: number
-    },
-
-    yAlignmentPoints: {
-        /**
-         * Alignment point on the y-axis (vertical) and total area of elements that have that
-         * alignment point.
-         */
-        [point in number]: number
-    },
-
+    xAlignmentPoints: AlignmentPointWeights,
+    yAlignmentPoints: AlignmentPointWeights,
     totalAlignmentPoints: number,
     totalXAlignmentPoints: number,
     totalYAlignmentPoints: number

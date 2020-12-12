@@ -9,31 +9,36 @@ export function imageElementsExtract(win: Window, browserInfoResult: BrowserInfo
 
     const imageElements: ImageElement[] = [];
 
+    function posUtil(el: HTMLElement | SVGSVGElement) {
+        const bound = el.getBoundingClientRect();
+        const position = getAbsolutePosition(win, bound);
+        let aspectRatio: number | undefined = position.w / position.h;
+        if (Object.is(aspectRatio, NaN)) aspectRatio = undefined;
+
+        return {
+            tagName: el.tagName,
+            position,
+            area: position.w * position.h,
+            aspectRatio,
+            visible: isVisible(el)
+        };
+    }
+
     // get imgs
     const imgs: HTMLImageElement[] = Array.from(doc.images);
     imgs.forEach(el => {
-        const bound = el.getBoundingClientRect();
-
         imageElements.push({
             url: el.src,
-            tagName: el.tagName,
-            position: getAbsolutePosition(win, bound),
-            area: el.clientWidth * el.clientHeight,
-            visible: isVisible(el)
+            ...posUtil(el)
         })
     });
 
     // get svgs
     const svgs: SVGSVGElement[] = Array.from(doc.getElementsByTagName('svg'));
     svgs.forEach(el => {
-        const bound = el.getBoundingClientRect();
-
         imageElements.push({
             url: '',
-            tagName: el.tagName,
-            position: getAbsolutePosition(win, bound),
-            area: el.clientWidth * el.clientHeight,
-            visible: isVisible(el)
+            ...posUtil(el)
         })
     });
 
@@ -43,15 +48,9 @@ export function imageElementsExtract(win: Window, browserInfoResult: BrowserInfo
     Array.prototype.forEach.call(htmlElements, function (el: HTMLElement ) {
         var style = window.getComputedStyle( el );
         if ( style.backgroundImage != "none" ) {
-            const bound = el.getBoundingClientRect();
-
-            // Ref: https://javascript.info/size-and-scroll#geometry
             imageElements.push({
                 url: style.backgroundImage.slice( 4, -1 ).replace(/['"]/g, ""),
-                tagName: el.tagName,
-                position: getAbsolutePosition(win, bound),
-                area: el.clientWidth * el.clientHeight,
-                visible: isVisible(el)
+                ...posUtil(el)
             })
         }
     })

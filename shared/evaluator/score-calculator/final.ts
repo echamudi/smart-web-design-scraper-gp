@@ -64,34 +64,37 @@ export class FinalScore {
     }
 
     public calculateCohesionImageDom(config?: ConsistencyScoreCalculateConfig) {
+        const usedConfig: ConsistencyScoreCalculateConfig = config ?? {
+            failThreshold: 25,
+            tranformer: ((val) => Math.round(val * 10) / 10)
+        };
         const aspectRatios: number[] = [];
         this.imageElements.forEach((el) => {
             if (el.visible && typeof el.aspectRatio === 'number')
                 aspectRatios.push(el.aspectRatio);
         });
 
-        this.cohesionImageDom = consistencyScoreCalculate(aspectRatios);
+        this.cohesionImageDom = consistencyScoreCalculate(aspectRatios, usedConfig);
     }
 
     public calculateComplexityTextDom(config?: BlockDensityScoreCalculateConfig) {
-        this.complexityTextDom = blockDensityScoreCalculate(this.textElementDistribution, config);
+        const usedConfig: BlockDensityScoreCalculateConfig = config ?? {
+            failPercentage: 0.75
+        };
+        this.complexityTextDom = blockDensityScoreCalculate(this.textElementDistribution, usedConfig);
     }
 
     public calculateDensityMajorDomScore(config?: BlockDensityScoreCalculateConfig) {
-        this.densityMajorDom = blockDensityScoreCalculate(this.majorElementDistribution, config);
+        const usedConfig: BlockDensityScoreCalculateConfig = config ?? {};
+        this.densityMajorDom = blockDensityScoreCalculate(this.majorElementDistribution, usedConfig);
     }
 
     /**
      * Calculate all scores using the default config
      */
     public calculateAllScores() {
-        this.calculateCohesionImageDom({
-            failThreshold: 25,
-            tranformer: ((val) => Math.round(val * 10) / 10)
-        });
-        this.calculateComplexityTextDom({
-            failPercentage: 0.75
-        });
+        this.calculateCohesionImageDom();
+        this.calculateComplexityTextDom();
         this.calculateDensityMajorDomScore();
     }
 

@@ -65,7 +65,7 @@ test('for image dom consistency', () => {
     expect(
         consistencyScoreCalculate([1, 2, 3, 4, 5, 6, 7, 8, 9], {
             failThreshold: 25,
-            tranformer: (val) => Math.round(val * 10) / 10
+            transformer: (val) => Math.round(val * 10) / 10
         })
     ).toStrictEqual(
         {
@@ -88,7 +88,7 @@ test('for image dom consistency', () => {
     expect(
         consistencyScoreCalculate([1.64, 1.64, 1.63, 1.62, 2.12, 2.13], {
             failThreshold: 25,
-            tranformer: (val) => Math.round(val * 10) / 10
+            transformer: (val) => Math.round(val * 10) / 10
         })
     ).toStrictEqual(
         {
@@ -105,7 +105,7 @@ test('for image dom consistency', () => {
     expect(
         consistencyScoreCalculate([5,5,5,5,5,5,5,5,5], {
             failThreshold: 25,
-            tranformer: (val) => Math.round(val * 10) / 10
+            transformer: (val) => Math.round(val * 10) / 10
         })
     ).toStrictEqual(
         {

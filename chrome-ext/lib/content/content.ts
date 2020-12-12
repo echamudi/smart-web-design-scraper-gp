@@ -27,7 +27,7 @@ if ((window as any).SWDS === undefined) {
         const message = request.message as string;
         const config = request.config as AnalysisConfig;
 
-        if (message == "analyze") {
+        if (message == "extract-features") {
             const browserInfo = browserInfoExtract(window);
             const textElements = textElementsExtract(window, browserInfo);
             const imageElements = imageElementsExtract(window, browserInfo);
@@ -42,10 +42,7 @@ if ((window as any).SWDS === undefined) {
                 anchorElements
             };
 
-            const finalScoreCalculateResult = finalScoreCalculate(document, featureExtractorResult);
-
-            console.log(featureExtractorResult);
-            console.log(finalScoreCalculateResult);
+            console.log('featureExtractorResult', featureExtractorResult);
 
             // Analyze Contents
             // const html = document.documentElement.outerHTML;
@@ -86,7 +83,7 @@ if ((window as any).SWDS === undefined) {
 
             // // Result
             // console.log(analysisResult);
-            sendResponse({});
+            sendResponse(featureExtractorResult);
 
             return;
         };

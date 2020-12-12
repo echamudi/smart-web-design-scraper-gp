@@ -90,6 +90,11 @@ export interface ImageElement {
     url: string,
     tagName: string,
     area: number, // width x height
+
+    /**
+     * Aspect ratio is undefined if DIV/0
+     */
+    aspectRatio: number | undefined,
     visible: boolean,
 }
 

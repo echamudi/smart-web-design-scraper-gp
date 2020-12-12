@@ -1,6 +1,6 @@
 import { clamp } from 'Shared/utils/clamp';
 
-interface BlockDensityScoreCalculateResult {
+export interface BlockDensityScoreCalculateResult {
     data: {
         maxDensity: number | undefined,
         minDensity: number | undefined,
@@ -15,7 +15,7 @@ interface BlockDensityScoreCalculateResult {
     score: number | undefined
 }
 
-interface BlockDensityScoreCalculateConfig {
+export interface BlockDensityScoreCalculateConfig {
     /**
      * Minimum percentage of a signle grid for getting full score on each grid [0,1].
      * The value must be lower than failPercentage.

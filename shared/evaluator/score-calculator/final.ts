@@ -1,7 +1,7 @@
 import { Phase2FeatureExtractorResult } from 'Shared/types/feature-extractor';
 import { plotter, PlotterConfig } from 'Shared/utils/canvas';
 import { ElementPosition } from 'Shared/types/types';
-import { blockDensityScoreCalculate } from './block-density';
+import { blockDensityScoreCalculate, BlockDensityScoreCalculateResult, BlockDensityScoreCalculateConfig } from './block-density';
 
 /**
  * Final Score Calculator
@@ -13,6 +13,10 @@ export class FinalScore {
     // Element distributions
     private textElementDistribution: number[][];
     private imageElementDistribution: number[][];
+    private majorElementDistribution: number[][];
+
+    // Scores (Based on unique id in the Web Design Usability Components table)
+    private densityMajorDom: BlockDensityScoreCalculateResult | undefined;
 
     constructor(doc: Document, features: Phase2FeatureExtractorResult) {
         const tileSize = Math.floor(features.browserInfo.viewportWidth / 4);
@@ -34,15 +38,34 @@ export class FinalScore {
         });
         this.imageElementDistribution = plotter(imagePlotCanvas, imageElements, this.plotterConfig).distribution;
 
+        const majorPlotCanvas: HTMLCanvasElement = doc.createElement('canvas');
+        const majorElements: ElementPosition[] = [...textElements, ...imageElements];
+        features.videoElements.elements.forEach((el) => {
+            if (el.visible) majorElements.push(el.position);
+        });
+        this.majorElementDistribution = plotter(majorPlotCanvas, majorElements, this.plotterConfig).distribution;
+
         // const displayCanvas: HTMLCanvasElement = doc.createElement('canvas');
         // plotter(displayCanvas, textElements, { ...this.plotterConfig, backgroundColor: '#FFFFFF', blockColor: '#19b5fe' });
         // plotter(displayCanvas, imageElements, { ...this.plotterConfig, blockColor: '#f2784b', skipResizingCanvas: true });
+
+        this.calculateAllScores();
     }
 
-    public getScore() {
+    public calculateDensityMajorDomScore(config?: BlockDensityScoreCalculateConfig) {
+        this.densityMajorDom = blockDensityScoreCalculate(this.textElementDistribution, config);
+    }
+
+    /**
+     * Calculate all scores using the default config
+     */
+    public calculateAllScores() {
+        this.calculateDensityMajorDomScore();
+    }
+
+    public getAllScores() {
         return {
-            textDensity: blockDensityScoreCalculate(this.textElementDistribution),
-            imageDensity: blockDensityScoreCalculate(this.imageElementDistribution)
+            densityMajorDom: this.densityMajorDom
         }
     }
 }

@@ -232,9 +232,8 @@ class Analyzer extends React.Component {
 
     const finalScore = new FinalScore(document, phase2FeatureExtractorResult);
 
-    console.log('vibrantColorsExtractResult', vibrantColorsExtractResult);
-    console.log('featureExtractorResult', phase2FeatureExtractorResult);
-    console.log('finalScore', finalScore.getScore());
+    console.log('phase2FeatureExtractorResult', phase2FeatureExtractorResult);
+    console.log('finalScore', finalScore.getAllScores());
 
     // let [analysisResult, dominantColorsResult, colorCountResult] = await Promise.allSettled([
     //   new Promise<Partial<AnalysisResult>>((resolve, reject) => {

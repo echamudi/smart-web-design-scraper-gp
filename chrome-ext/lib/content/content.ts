@@ -15,7 +15,7 @@ import { anchorElementsExtract } from 'Shared/evaluator/feature-extractor/anchor
 
 import { finalScoreCalculate } from 'Shared/evaluator/score-calculator/final';
 
-import { FeatureExtractorResult } from 'Shared/types/feature-extractor';
+import { Phase1FeatureExtractorResult } from 'Shared/types/feature-extractor';
 
 if ((window as any).SWDS === undefined) {
     (window as any).SWDS = {};
@@ -34,7 +34,7 @@ if ((window as any).SWDS === undefined) {
             const videoElements = videoElementsExtract(window, browserInfo);
             const anchorElements = anchorElementsExtract(window, browserInfo);
 
-            const featureExtractorResult: FeatureExtractorResult = {
+            const phase1FeatureExtractorResult: Phase1FeatureExtractorResult = {
                 browserInfo,
                 textElements,
                 imageElements,
@@ -42,7 +42,9 @@ if ((window as any).SWDS === undefined) {
                 anchorElements
             };
 
-            console.log('featureExtractorResult', featureExtractorResult);
+            console.log('phase1FeatureExtractorResult', phase1FeatureExtractorResult);
+            sendResponse(phase1FeatureExtractorResult);
+            return;
 
             // Analyze Contents
             // const html = document.documentElement.outerHTML;
@@ -83,9 +85,6 @@ if ((window as any).SWDS === undefined) {
 
             // // Result
             // console.log(analysisResult);
-            sendResponse(featureExtractorResult);
-
-            return;
         };
     });
 }

@@ -1,4 +1,4 @@
-import { FeatureExtractorResult } from 'Shared/types/feature-extractor';
+import { Phase2FeatureExtractorResult } from 'Shared/types/feature-extractor';
 import { plotter } from 'Shared/utils/canvas';
 import { ElementPosition } from 'Shared/types/types';
 import { blockDensityScoreCalculate } from './block-density';
@@ -6,7 +6,7 @@ import { blockDensityScoreCalculate } from './block-density';
 /**
  * Final Score Calculator
  */
-export function finalScoreCalculate(doc: Document, features: FeatureExtractorResult) {
+export function finalScoreCalculate(doc: Document, features: Phase2FeatureExtractorResult) {
     const tileSize = Math.floor(features.browserInfo.viewportWidth / 4);
     const pageHeight = features.browserInfo.scrollHeight;
     const pageWidth = features.browserInfo.scrollWidth;

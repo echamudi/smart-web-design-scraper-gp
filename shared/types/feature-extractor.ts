@@ -5,12 +5,18 @@ import { Palette } from "node-vibrant/lib/color";
 
 // All Results
 
-export interface FeatureExtractorResult {
+// Phase 1 happens only in the content-side
+export interface Phase1FeatureExtractorResult {
     browserInfo: BrowserInfoExtractResult,
     textElements: TextElementsExtractResult,
     imageElements: ImageElementsExtractResult,
     videoElements: VideoElementsExtractResult,
     anchorElements: AnchorElementsExtractResult
+}
+
+// Phase 2 is the phase 1 result + results from the extension side
+export interface Phase2FeatureExtractorResult extends Phase1FeatureExtractorResult {
+    vibrantColors: VibrantColorsExtractResult
 }
 
 // browser-info

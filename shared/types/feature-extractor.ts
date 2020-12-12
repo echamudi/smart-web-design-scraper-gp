@@ -1,6 +1,7 @@
 // Feature EXTRACTOR
 
 import { ElementPosition } from "./types";
+import { Palette } from "node-vibrant/lib/color";
 
 // All Results
 
@@ -149,3 +150,18 @@ export interface AnchorElementsExtractResult {
     scrollWidth: number,
     scrollHeight: number,
 }
+
+// vibrant-colors
+
+export interface VibrantColorsExtractResult {
+    vibrantPalette: Palette | undefined,
+    pixelCountVibrant: number,
+    pixelCountMuted: number,
+    pixelCountDarkVibrant: number,
+    pixelCountDarkMuted: number,
+    pixelCountLightVibrant: number,
+    pixelCountLightMuted: number,
+    totalPixels: number
+}
+
+export type VibrantColorsPallete = Palette;

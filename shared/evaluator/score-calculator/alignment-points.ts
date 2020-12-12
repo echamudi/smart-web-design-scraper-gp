@@ -12,19 +12,19 @@ export interface AlignmentPointsScoreCalculateResult {
 export interface AlignmentPointsScoreCalculateConfig {
     /**
      * Minimum area covered by elements on an alignment point to be considered as significant.
-     * Default: 10000 (100x100)
+     * Default: 1024 (32x32)
      */
     minimumArea?: number;
     /**
      * The number of alignment points that considered as still ok and will get 1 score.
      * Must be lower than failThreshold.
-     * Default: 10
+     * Default: 8
      */
     passThreshold?: number;
     /**
      * The number of alignment points that considered as too much and will get 0 score.
      * Must be higher than passThreshold.
-     * Default: 40
+     * Default: 64
      */
     failThreshold?: number;
     /**
@@ -40,8 +40,8 @@ export function alignmentPointsScoreCalculate(
 
     // Load configurations
     const minimumArea = config?.minimumArea ?? 10000;
-    const passThreshold = config?.failThreshold ?? 10;
-    const failThreshold = config?.failThreshold ?? 40;
+    const passThreshold = config?.failThreshold ?? 8;
+    const failThreshold = config?.failThreshold ?? 64;
     const transformer = config?.transformer ?? ((val: number) => val);
 
     const totalInitialAP =  Object.keys(alignmentPointWeights).length;

@@ -33,7 +33,10 @@ if ((window as any).SWDS === undefined) {
             const videoElements = videoElementsExtract(window, browserInfo);
             const anchorElements = anchorElementsExtract(window, browserInfo);
             const majorElements = majorElementsExtract(textElements, imageElements);
-            const alignmentPoints = alignmentPointsExtract(majorElements.elements.map((el) => el.position));
+            const alignmentPoints = alignmentPointsExtract(
+                majorElements.elements.map((el) => el.position),
+                browserInfo
+            );
 
             const phase1FeatureExtractorResult: Phase1FeatureExtractorResult = {
                 browserInfo,

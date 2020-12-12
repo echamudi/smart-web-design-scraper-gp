@@ -3,11 +3,14 @@ import { plotter, PlotterConfig } from 'Shared/utils/canvas';
 import { ElementPosition } from 'Shared/types/types';
 import { blockDensityScoreCalculate, BlockDensityScoreCalculateResult, BlockDensityScoreCalculateConfig } from './block-density';
 import { consistencyScoreCalculate, ConsistencyScoreCalculateResult, ConsistencyScoreCalculateConfig } from './consistency';
+import { AlignmentPointsScoreCalculateResult, AlignmentPointsScoreCalculateConfig, alignmentPointsScoreCalculate } from './alignment-points';
 
 /**
  * Final Score Calculator
  */
 export class FinalScore {
+    private phase2Features: Phase2FeatureExtractorResult;
+
     // common plotter config for element distributions
     private plotterConfig: PlotterConfig;
 
@@ -26,8 +29,14 @@ export class FinalScore {
     private cohesionImageDom: ConsistencyScoreCalculateResult | undefined;
     private economyImageDom: ConsistencyScoreCalculateResult | undefined;
     private economyTextDom: ConsistencyScoreCalculateResult | undefined;
+    private simplicityHorizontal: AlignmentPointsScoreCalculateResult | undefined;
+    private simplicityVertical: AlignmentPointsScoreCalculateResult | undefined;
 
     constructor(doc: Document, features: Phase2FeatureExtractorResult) {
+        // Save features to the object
+        this.phase2Features = features;
+
+        // Construct config for plotter
         const tileSize = Math.floor(features.browserInfo.viewportWidth / 6);
         const pageHeight = features.browserInfo.scrollHeight;
         const pageWidth = features.browserInfo.scrollWidth;
@@ -126,6 +135,26 @@ export class FinalScore {
         this.economyTextDom = consistencyScoreCalculate(areas, usedConfig);
     }
 
+    public calculateSimplicityHorizontal(config?: AlignmentPointsScoreCalculateConfig) {
+        const usedConfig: AlignmentPointsScoreCalculateConfig = config ?? {
+            transformer: (val) => Math.floor(val / 10)
+        };
+        this.simplicityHorizontal = alignmentPointsScoreCalculate(
+            this.phase2Features.alignmentPoints.xAlignmentPoints,
+            usedConfig
+        );
+    }
+
+    public calculateSimplicityVertical(config?: AlignmentPointsScoreCalculateConfig) {
+        const usedConfig: AlignmentPointsScoreCalculateConfig = config ?? {
+            transformer: (val) => Math.floor(val / 10)
+        };
+        this.simplicityVertical = alignmentPointsScoreCalculate(
+            this.phase2Features.alignmentPoints.yAlignmentPoints,
+            usedConfig
+        );
+    }
+
     /**
      * Calculate all scores using the default config
      */
@@ -135,6 +164,8 @@ export class FinalScore {
         this.calculateCohesionImageDom();
         this.calculateEconomyImageDom();
         this.calculateEconomyTextDom();
+        this.calculateSimplicityHorizontal();
+        this.calculateSimplicityVertical();
     }
 
     public getAllScores() {
@@ -144,6 +175,8 @@ export class FinalScore {
             cohesionImageDom: this.cohesionImageDom,
             economyImageDom: this.economyImageDom,
             economyTextDom: this.economyTextDom,
+            simplicityHorizontal: this.simplicityHorizontal,
+            simplicityVertical: this.simplicityVertical
         }
     }
 }

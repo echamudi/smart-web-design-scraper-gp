@@ -1,11 +1,20 @@
 import { ElementPosition } from "Shared/types/types";
-import { AlignmentPointsExtractResult } from "Shared/types/feature-extractor";
+import { AlignmentPointsExtractResult, BrowserInfoExtractResult } from "Shared/types/feature-extractor";
 
-export function alignmentPointsExtract(elementPositions: ElementPosition[]): AlignmentPointsExtractResult {
+export function alignmentPointsExtract(elementPositions: ElementPosition[], browserInfo: BrowserInfoExtractResult): AlignmentPointsExtractResult {
     const mapX: Record<number, number> = {};
     const mapY: Record<number, number> = {};
 
+    const { viewportHeight: vh, viewportWidth: vw, pageXOffset, pageYOffset } = browserInfo;
+
     elementPositions.forEach((elPos) => {
+
+        // Skip if elPos is outside the viewport
+        if (elPos.x > (pageXOffset + vw)) return;
+        if (elPos.y > (pageYOffset + vh)) return;
+        if (elPos.x + elPos.w < pageXOffset) return;
+        if (elPos.y + elPos.h < pageYOffset) return;
+
         const area = elPos.w * elPos.h;
 
         // Left Border

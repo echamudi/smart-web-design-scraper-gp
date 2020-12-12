@@ -31,7 +31,7 @@ export interface BlockDensityScoreCalculateConfig {
 }
 
 /**
- * Density Score
+ * Calculate score based on block density distribution
  */
 export function blockDensityScoreCalculate(
     distribution: number[][],

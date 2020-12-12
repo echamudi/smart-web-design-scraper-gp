@@ -74,6 +74,18 @@ export class FinalScore {
         this.calculateAllScores();
     }
 
+    public calculateComplexityTextDom(config?: BlockDensityScoreCalculateConfig) {
+        const usedConfig: BlockDensityScoreCalculateConfig = config ?? {
+            failPercentage: 0.75
+        };
+        this.complexityTextDom = blockDensityScoreCalculate(this.textElementDistribution, usedConfig);
+    }
+
+    public calculateDensityMajorDom(config?: BlockDensityScoreCalculateConfig) {
+        const usedConfig: BlockDensityScoreCalculateConfig = config ?? {};
+        this.densityMajorDom = blockDensityScoreCalculate(this.majorElementDistribution, usedConfig);
+    }
+
     public calculateCohesionImageDom(config?: ConsistencyScoreCalculateConfig) {
         const usedConfig: ConsistencyScoreCalculateConfig = config ?? {
             failThreshold: 25,
@@ -86,18 +98,6 @@ export class FinalScore {
         });
 
         this.cohesionImageDom = consistencyScoreCalculate(aspectRatios, usedConfig);
-    }
-
-    public calculateComplexityTextDom(config?: BlockDensityScoreCalculateConfig) {
-        const usedConfig: BlockDensityScoreCalculateConfig = config ?? {
-            failPercentage: 0.75
-        };
-        this.complexityTextDom = blockDensityScoreCalculate(this.textElementDistribution, usedConfig);
-    }
-
-    public calculateDensityMajorDom(config?: BlockDensityScoreCalculateConfig) {
-        const usedConfig: BlockDensityScoreCalculateConfig = config ?? {};
-        this.densityMajorDom = blockDensityScoreCalculate(this.majorElementDistribution, usedConfig);
     }
 
     public calculateEconomyImageDom(config?: ConsistencyScoreCalculateConfig) {
@@ -130,18 +130,18 @@ export class FinalScore {
      * Calculate all scores using the default config
      */
     public calculateAllScores() {
-        this.calculateCohesionImageDom();
         this.calculateComplexityTextDom();
         this.calculateDensityMajorDom();
+        this.calculateCohesionImageDom();
         this.calculateEconomyImageDom();
         this.calculateEconomyTextDom();
     }
 
     public getAllScores() {
         return {
-            cohesionImageDom: this.cohesionImageDom,
             complexityTextDom: this.complexityTextDom,
             densityMajorDom: this.densityMajorDom,
+            cohesionImageDom: this.cohesionImageDom,
             economyImageDom: this.economyImageDom,
             economyTextDom: this.economyTextDom,
         }

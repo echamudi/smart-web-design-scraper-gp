@@ -35,6 +35,7 @@ export function textElementsExtract(win: Window, browserInfoResult: BrowserInfoE
                 fontSize: win.getComputedStyle(currentEl).fontSize,
                 color: win.getComputedStyle(currentEl).color,
                 backgroundColor: getBackgroundColor(win, midX, midY),
+                area: w * h,
                 fontWeight: win.getComputedStyle(currentEl).fontWeight,
                 visible: isVisible(currentEl),
                 totalCharacters: [...text].length,

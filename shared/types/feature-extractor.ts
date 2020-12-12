@@ -65,7 +65,8 @@ export interface TextElement {
     fontWeight: string,
     visible: boolean,
     totalCharacters: number,
-    text: string
+    text: string,
+    area: number
 }
 
 export interface TextElementsExtractResult {

@@ -1,39 +1,48 @@
 import { Phase2FeatureExtractorResult } from 'Shared/types/feature-extractor';
-import { plotter } from 'Shared/utils/canvas';
+import { plotter, PlotterConfig } from 'Shared/utils/canvas';
 import { ElementPosition } from 'Shared/types/types';
 import { blockDensityScoreCalculate } from './block-density';
 
 /**
  * Final Score Calculator
  */
-export function finalScoreCalculate(doc: Document, features: Phase2FeatureExtractorResult) {
-    const tileSize = Math.floor(features.browserInfo.viewportWidth / 4);
-    const pageHeight = features.browserInfo.scrollHeight;
-    const pageWidth = features.browserInfo.scrollWidth;
-    const plotterConfig = { pageHeight, pageWidth, tileSize };
+export class FinalScore {
+    // common plotter config for element distributions
+    private plotterConfig: PlotterConfig;
 
-    const textPlotCanvas: HTMLCanvasElement = doc.createElement('canvas');
-    const textElements: ElementPosition[] = [];
-    features.textElements.elements.forEach((el) => {
-        if (el.visible) textElements.push(el.position);
-    });
-    const { distribution: textElementDistribution } = plotter(textPlotCanvas, textElements, plotterConfig);
+    // Element distributions
+    private textElementDistribution: number[][];
+    private imageElementDistribution: number[][];
 
-    const imagePlotCanvas: HTMLCanvasElement = doc.createElement('canvas');
-    const imageElements: ElementPosition[] = [];
-    features.imageElements.elements.forEach((el) => {
-        if (el.visible) imageElements.push(el.position);
-    });
-    const { distribution: imageElementDistribution }  = plotter(imagePlotCanvas, imageElements, plotterConfig);
+    constructor(doc: Document, features: Phase2FeatureExtractorResult) {
+        const tileSize = Math.floor(features.browserInfo.viewportWidth / 4);
+        const pageHeight = features.browserInfo.scrollHeight;
+        const pageWidth = features.browserInfo.scrollWidth;
+        this.plotterConfig = { pageHeight, pageWidth, tileSize };
 
-    const displayCanvas: HTMLCanvasElement = doc.createElement('canvas');
-    plotter(displayCanvas, textElements, { ...plotterConfig, backgroundColor: '#FFFFFF', blockColor: '#19b5fe' });
-    plotter(displayCanvas, imageElements, { ...plotterConfig, blockColor: '#f2784b', skipResizingCanvas: true });
+        const textPlotCanvas: HTMLCanvasElement = doc.createElement('canvas');
+        const textElements: ElementPosition[] = [];
+        features.textElements.elements.forEach((el) => {
+            if (el.visible) textElements.push(el.position);
+        });
+        this.textElementDistribution = plotter(textPlotCanvas, textElements, this.plotterConfig).distribution;
 
-    // document.body.appendChild(displayCanvas);
+        const imagePlotCanvas: HTMLCanvasElement = doc.createElement('canvas');
+        const imageElements: ElementPosition[] = [];
+        features.imageElements.elements.forEach((el) => {
+            if (el.visible) imageElements.push(el.position);
+        });
+        this.imageElementDistribution = plotter(imagePlotCanvas, imageElements, this.plotterConfig).distribution;
 
-    return {
-        textDensity: blockDensityScoreCalculate(textElementDistribution),
-        imageDensity: blockDensityScoreCalculate(imageElementDistribution)
+        // const displayCanvas: HTMLCanvasElement = doc.createElement('canvas');
+        // plotter(displayCanvas, textElements, { ...this.plotterConfig, backgroundColor: '#FFFFFF', blockColor: '#19b5fe' });
+        // plotter(displayCanvas, imageElements, { ...this.plotterConfig, blockColor: '#f2784b', skipResizingCanvas: true });
+    }
+
+    public getScore() {
+        return {
+            textDensity: blockDensityScoreCalculate(this.textElementDistribution),
+            imageDensity: blockDensityScoreCalculate(this.imageElementDistribution)
+        }
     }
 }

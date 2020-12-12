@@ -9,7 +9,7 @@ import { symmetry } from 'Shared/evaluator/extension-side/symmetry';
 import { colorCount } from 'Shared/evaluator/extension-side/color-count';
 import { density } from 'Shared/evaluator/extension-side/density';
 import { Phase1FeatureExtractorResult, Phase2FeatureExtractorResult } from 'Shared/types/feature-extractor';
-import { finalScoreCalculate } from 'Shared/evaluator/score-calculator/final';
+import { FinalScore } from 'Shared/evaluator/score-calculator/final';
 import { vibrantColorsExtract } from 'Shared/evaluator/feature-extractor/vibrant-colors';
 
 const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
@@ -229,11 +229,12 @@ class Analyzer extends React.Component {
       ...phase1FeatureExtractorResult,
       vibrantColors: vibrantColorsExtractResult
     }
-    const finalScoreCalculateResult = finalScoreCalculate(document, phase2FeatureExtractorResult);
+
+    const finalScore = new FinalScore(document, phase2FeatureExtractorResult);
 
     console.log('vibrantColorsExtractResult', vibrantColorsExtractResult);
     console.log('featureExtractorResult', phase2FeatureExtractorResult);
-    console.log('finalScoreCalculateResult', finalScoreCalculateResult);
+    console.log('finalScore', finalScore.getScore());
 
     // let [analysisResult, dominantColorsResult, colorCountResult] = await Promise.allSettled([
     //   new Promise<Partial<AnalysisResult>>((resolve, reject) => {

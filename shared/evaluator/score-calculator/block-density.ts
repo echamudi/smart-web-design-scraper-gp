@@ -104,7 +104,7 @@ export function blockDensityScoreCalculate(
             maxDensityClamped,
             minDensityClamped,
             averageClamped
-    },
+        },
         score
     };
 }

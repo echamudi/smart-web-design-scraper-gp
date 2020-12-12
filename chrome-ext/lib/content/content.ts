@@ -12,9 +12,6 @@ import { textElementsExtract } from 'Shared/evaluator/feature-extractor/text-ele
 import { imageElementsExtract } from 'Shared/evaluator/feature-extractor/image-elements';
 import { videoElementsExtract } from 'Shared/evaluator/feature-extractor/video-elements';
 import { anchorElementsExtract } from 'Shared/evaluator/feature-extractor/anchor-elements';
-
-import { finalScoreCalculate } from 'Shared/evaluator/score-calculator/final';
-
 import { Phase1FeatureExtractorResult } from 'Shared/types/feature-extractor';
 
 if ((window as any).SWDS === undefined) {

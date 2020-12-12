@@ -7,7 +7,7 @@
  */
 
 /** */
-export function isVisible(element: HTMLElement | SVGElement): boolean {
+export function isVisible(element: HTMLElement | SVGSVGElement): boolean {
     if (!isVisibleByStyles(element)) return false;
     // if (isBehindOtherElement(element)) return false;
 
@@ -17,12 +17,12 @@ export function isVisible(element: HTMLElement | SVGElement): boolean {
     return true;
 }
 
-export function isVisibleByStyles(element: HTMLElement | SVGElement): boolean {
+export function isVisibleByStyles(element: HTMLElement | SVGSVGElement): boolean {
     const styles = window.getComputedStyle(element);
     return styles.visibility !== 'hidden' && styles.display !== 'none' && styles.opacity !== '0';
 }
 
-export function isBehindOtherElement(element: HTMLElement | SVGElement): boolean {
+export function isBehindOtherElement(element: HTMLElement | SVGSVGElement): boolean {
     const boundingRect = element.getBoundingClientRect();
 
     // adjust coordinates to get more accurate results

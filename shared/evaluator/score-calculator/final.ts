@@ -16,10 +16,11 @@ export class FinalScore {
     private majorElementDistribution: number[][];
 
     // Scores (Based on unique id in the Web Design Usability Components table)
+    private complexityTextDom: BlockDensityScoreCalculateResult | undefined;
     private densityMajorDom: BlockDensityScoreCalculateResult | undefined;
 
     constructor(doc: Document, features: Phase2FeatureExtractorResult) {
-        const tileSize = Math.floor(features.browserInfo.viewportWidth / 4);
+        const tileSize = Math.floor(features.browserInfo.viewportWidth / 6);
         const pageHeight = features.browserInfo.scrollHeight;
         const pageWidth = features.browserInfo.scrollWidth;
         this.plotterConfig = { pageHeight, pageWidth, tileSize };
@@ -52,19 +53,27 @@ export class FinalScore {
         this.calculateAllScores();
     }
 
+    public calculateComplexityTextDom(config?: BlockDensityScoreCalculateConfig) {
+        this.complexityTextDom = blockDensityScoreCalculate(this.textElementDistribution, config);
+    }
+
     public calculateDensityMajorDomScore(config?: BlockDensityScoreCalculateConfig) {
-        this.densityMajorDom = blockDensityScoreCalculate(this.textElementDistribution, config);
+        this.densityMajorDom = blockDensityScoreCalculate(this.majorElementDistribution, config);
     }
 
     /**
      * Calculate all scores using the default config
      */
     public calculateAllScores() {
+        this.calculateComplexityTextDom({
+            failPercentage: 0.75
+        });
         this.calculateDensityMajorDomScore();
     }
 
     public getAllScores() {
         return {
+            complexityTextDom: this.complexityTextDom,
             densityMajorDom: this.densityMajorDom
         }
     }

@@ -11,7 +11,8 @@ export interface Phase1FeatureExtractorResult {
     textElements: TextElementsExtractResult,
     imageElements: ImageElementsExtractResult,
     videoElements: VideoElementsExtractResult,
-    anchorElements: AnchorElementsExtractResult
+    anchorElements: AnchorElementsExtractResult,
+    alignmentPoints: AlignmentPointsExtractResult
 }
 
 // Phase 2 is the phase 1 result + results from the extension side
@@ -177,3 +178,25 @@ export interface VibrantColorsExtractResult {
 }
 
 export type VibrantColorsPallete = Palette;
+
+// alignment-points
+
+export interface AlignmentPointsExtractResult {
+    xAlignmentPoints: {
+        /**
+         * Alignment point on the x-axis (horizontal) and its weight
+         */
+        [point in number]: number
+    },
+
+    yAlignmentPoints: {
+        /**
+         * Alignment point on the y-axis (vertical) and its weight
+         */
+        [point in number]: number
+    },
+
+    totalAlignmentPoints: number,
+    totalXAlignmentPoints: number,
+    totalYAlignmentPoints: number
+}

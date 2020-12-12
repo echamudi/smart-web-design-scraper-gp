@@ -1,5 +1,5 @@
 // import { textSize, textSizeStyler } from 'Shared/evaluator/content-side/text-size';
-import { AnalysisConfig } from 'Shared/types/types';
+import { AnalysisConfig, ElementPosition } from 'Shared/types/types';
 // import { textFontType } from 'Shared/evaluator/content-side/text-font-type';
 // import { pictures } from 'Shared/evaluator/content-side/pictures';
 // import { elementCount } from 'Shared/evaluator/data-extractor/element-count';
@@ -7,6 +7,8 @@ import { AnalysisConfig } from 'Shared/types/types';
 // import { negativeSpace } from 'Shared/evaluator/content-side/negative-space';
 // import { videos } from 'Shared/evaluator/content-side/videos';
 
+import { alignmentPointsExtract } from 'Shared/evaluator/feature-extractor/alignment-points';
+import { majorElementsExtract } from 'Shared/evaluator/feature-extractor/major-elements';
 import { browserInfoExtract } from 'Shared/evaluator/feature-extractor/browser-info';
 import { textElementsExtract } from 'Shared/evaluator/feature-extractor/text-elements';
 import { imageElementsExtract } from 'Shared/evaluator/feature-extractor/image-elements';
@@ -30,13 +32,16 @@ if ((window as any).SWDS === undefined) {
             const imageElements = imageElementsExtract(window, browserInfo);
             const videoElements = videoElementsExtract(window, browserInfo);
             const anchorElements = anchorElementsExtract(window, browserInfo);
+            const majorElements = majorElementsExtract(textElements, imageElements);
+            const alignmentPoints = alignmentPointsExtract(majorElements.elements.map((el) => el.position));
 
             const phase1FeatureExtractorResult: Phase1FeatureExtractorResult = {
                 browserInfo,
                 textElements,
                 imageElements,
                 videoElements,
-                anchorElements
+                anchorElements,
+                alignmentPoints
             };
 
             console.log('phase1FeatureExtractorResult', phase1FeatureExtractorResult);

@@ -1,4 +1,4 @@
-import { Phase2FeatureExtractorResult, ImageElement } from 'Shared/types/feature-extractor';
+import { Phase2FeatureExtractorResult, ImageElement, TextElement } from 'Shared/types/feature-extractor';
 import { plotter, PlotterConfig } from 'Shared/utils/canvas';
 import { ElementPosition } from 'Shared/types/types';
 import { blockDensityScoreCalculate, BlockDensityScoreCalculateResult, BlockDensityScoreCalculateConfig } from './block-density';
@@ -13,6 +13,7 @@ export class FinalScore {
 
     // Visible detected DOM elements
     private imageElements: ImageElement[];
+    private textElements: TextElement[];
 
     // Element distributions
     private textElementDistribution: number[][];
@@ -23,6 +24,8 @@ export class FinalScore {
     private complexityTextDom: BlockDensityScoreCalculateResult | undefined;
     private densityMajorDom: BlockDensityScoreCalculateResult | undefined;
     private cohesionImageDom: ConsistencyScoreCalculateResult | undefined;
+    private economyImageDom: ConsistencyScoreCalculateResult | undefined;
+    private economyTextDom: ConsistencyScoreCalculateResult | undefined;
 
     constructor(doc: Document, features: Phase2FeatureExtractorResult) {
         const tileSize = Math.floor(features.browserInfo.viewportWidth / 6);
@@ -30,13 +33,20 @@ export class FinalScore {
         const pageWidth = features.browserInfo.scrollWidth;
         this.plotterConfig = { pageHeight, pageWidth, tileSize };
 
+        // Text Elements
         const textPlotCanvas: HTMLCanvasElement = doc.createElement('canvas');
+        const textElements: TextElement[] = [];
         const textElementPositions: ElementPosition[] = [];
         features.textElements.elements.forEach((el) => {
-            if (el.visible) textElementPositions.push(el.position);
+            if (el.visible) {
+                textElements.push(el);
+                textElementPositions.push(el.position);
+            };
         });
         this.textElementDistribution = plotter(textPlotCanvas, textElementPositions, this.plotterConfig).distribution;
+        this.textElements = textElements;
 
+        // Image Elements
         const imagePlotCanvas: HTMLCanvasElement = doc.createElement('canvas');
         const imageElements: ImageElement[] = [];
         const imageElementPositions: ElementPosition[] = [];
@@ -49,6 +59,7 @@ export class FinalScore {
         this.imageElementDistribution = plotter(imagePlotCanvas, imageElementPositions, this.plotterConfig).distribution;
         this.imageElements = imageElements;
 
+        // Major Elements
         const majorPlotCanvas: HTMLCanvasElement = doc.createElement('canvas');
         const majorElements: ElementPosition[] = [...textElementPositions, ...imageElementPositions];
         features.videoElements.elements.forEach((el) => {
@@ -84,9 +95,35 @@ export class FinalScore {
         this.complexityTextDom = blockDensityScoreCalculate(this.textElementDistribution, usedConfig);
     }
 
-    public calculateDensityMajorDomScore(config?: BlockDensityScoreCalculateConfig) {
+    public calculateDensityMajorDom(config?: BlockDensityScoreCalculateConfig) {
         const usedConfig: BlockDensityScoreCalculateConfig = config ?? {};
         this.densityMajorDom = blockDensityScoreCalculate(this.majorElementDistribution, usedConfig);
+    }
+
+    public calculateEconomyImageDom(config?: ConsistencyScoreCalculateConfig) {
+        const usedConfig: ConsistencyScoreCalculateConfig = config ?? {
+            failThreshold: 30,
+            tranformer: ((val) => Math.round(val / 10))
+        };
+        const areas: number[] = [];
+        this.imageElements.forEach((el) => {
+            if (el.visible && typeof el.area === 'number')
+            areas.push(el.area);
+        });
+        this.economyImageDom = consistencyScoreCalculate(areas, usedConfig);
+    }
+
+    public calculateEconomyTextDom(config?: ConsistencyScoreCalculateConfig) {
+        const usedConfig: ConsistencyScoreCalculateConfig = config ?? {
+            failThreshold: 30,
+            tranformer: ((val) => Math.round(val / 10))
+        };
+        const areas: number[] = [];
+        this.textElements.forEach((el) => {
+            if (el.visible && typeof el.area === 'number')
+            areas.push(el.area);
+        });
+        this.economyTextDom = consistencyScoreCalculate(areas, usedConfig);
     }
 
     /**
@@ -95,14 +132,18 @@ export class FinalScore {
     public calculateAllScores() {
         this.calculateCohesionImageDom();
         this.calculateComplexityTextDom();
-        this.calculateDensityMajorDomScore();
+        this.calculateDensityMajorDom();
+        this.calculateEconomyImageDom();
+        this.calculateEconomyTextDom();
     }
 
     public getAllScores() {
         return {
             cohesionImageDom: this.cohesionImageDom,
             complexityTextDom: this.complexityTextDom,
-            densityMajorDom: this.densityMajorDom
+            densityMajorDom: this.densityMajorDom,
+            economyImageDom: this.economyImageDom,
+            economyTextDom: this.economyTextDom,
         }
     }
 }

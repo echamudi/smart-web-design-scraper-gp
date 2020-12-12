@@ -103,7 +103,7 @@ export class FinalScore {
     public calculateEconomyImageDom(config?: ConsistencyScoreCalculateConfig) {
         const usedConfig: ConsistencyScoreCalculateConfig = config ?? {
             failThreshold: 30,
-            tranformer: ((val) => Math.round(val / 10))
+            tranformer: ((val) => Math.round(val / 10000))
         };
         const areas: number[] = [];
         this.imageElements.forEach((el) => {
@@ -116,7 +116,7 @@ export class FinalScore {
     public calculateEconomyTextDom(config?: ConsistencyScoreCalculateConfig) {
         const usedConfig: ConsistencyScoreCalculateConfig = config ?? {
             failThreshold: 30,
-            tranformer: ((val) => Math.round(val / 10))
+            tranformer: ((val) => Math.round(val / 10000))
         };
         const areas: number[] = [];
         this.textElements.forEach((el) => {

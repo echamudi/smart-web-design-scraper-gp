@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import com.sdws.ImageProcessingSpring.utils.ImageUtils;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -31,7 +33,10 @@ public class TestAllResource {
         SymmetryResource symmetry = new SymmetryResource() ;
         DensityResource density = new DensityResource();
         NegativeSpaceResource negativeSpace = new NegativeSpaceResource();
-        return new TestAllResult(symmetry.checkSymmetry(bufImage),density.checkDensity(bufImage),negativeSpace.checkNegativeSpace(bufImage));
+        ShapeDetectionResource shapeDetection = new ShapeDetectionResource() ;
+
+
+        return new TestAllResult(symmetry.checkSymmetry(bufImage),density.checkDensity(bufImage),negativeSpace.checkNegativeSpace(bufImage),shapeDetection.shapeDetection(bufImage));
     }
 
 

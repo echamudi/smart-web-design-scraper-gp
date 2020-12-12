@@ -6,10 +6,7 @@ import com.sdws.ImageProcessingSpring.models.negativespace.NegativeSpaceCallBody
 import com.sdws.ImageProcessingSpring.models.negativespace.NegativeSpaceResult;
 import com.sdws.ImageProcessingSpring.utils.ColorsUtils;
 import com.sdws.ImageProcessingSpring.utils.ImageUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.awt.image.BufferedImage;
 import java.util.Map;
@@ -17,6 +14,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/negative-space")
+@CrossOrigin(origins = "*") // Temporarily allowing all origins
 public class NegativeSpaceResource {
 
 

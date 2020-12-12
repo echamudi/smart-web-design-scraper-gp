@@ -29,6 +29,8 @@ export interface BrowserInfoExtractResult {
     viewportHeight: number,
     scrollHeight: number,
     scrollWidth: number,
+    pageYOffset: number,
+    pageXOffset: number
 }
 
 // element-detection

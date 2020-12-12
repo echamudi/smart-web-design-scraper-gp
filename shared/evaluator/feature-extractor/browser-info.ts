@@ -12,6 +12,8 @@ export function browserInfoExtract(win: Window): BrowserInfoExtractResult {
                            html.clientHeight, html.scrollHeight, html.offsetHeight );
     const scrollWidth = Math.max( body.scrollWidth, body.offsetWidth, 
                             html.clientWidth, html.scrollWidth, html.offsetWidth );
+    const pageYOffset = win.pageYOffset;
+    const pageXOffset = win.pageXOffset;
 
     return {
         url,
@@ -19,6 +21,8 @@ export function browserInfoExtract(win: Window): BrowserInfoExtractResult {
         viewportWidth: vw,
         viewportHeight: vh,
         scrollHeight,
-        scrollWidth
+        scrollWidth,
+        pageYOffset,
+        pageXOffset
     };
 }

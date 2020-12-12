@@ -30,7 +30,7 @@ export function cohesionScoreCalculate(members: number[]): CohesionScoreCalculat
     const uniqueMembers = [...new Set(roundedNumbers)];
     const totalUniqueMembers = uniqueMembers.length;
 
-    const scaledTotalUniqueMembers = scaleValue(totalUniqueMembers, [1, 10], [0, 1]);
+    const scaledTotalUniqueMembers = scaleValue(totalUniqueMembers, [1, 25], [0, 1]);
     const score = 1 - scaledTotalUniqueMembers;
 
     return {

@@ -23,12 +23,12 @@ export interface ConsistencyScoreCalculateConfig {
      * Array map transformer
      * Default: (val) => val
      */
-    tranformer?(val: number): number;
+    transformer?(val: number): number;
 }
 
 export function consistencyScoreCalculate(members: number[], config?: ConsistencyScoreCalculateConfig): ConsistencyScoreCalculateResult {
     const failThreshold = config?.failThreshold ?? 10;
-    const transformer = config?.tranformer ?? ((val: number) => val);
+    const transformer = config?.transformer ?? ((val: number) => val);
 
     if (members.length === 0) return {
         data: {

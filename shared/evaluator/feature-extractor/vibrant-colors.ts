@@ -46,7 +46,7 @@ export async function vibrantColorsExtract(imageURI: string): Promise<VibrantCol
                 palette.LightMuted?.getRgb() ?? [-1,-1,-1],
             ];
 
-            const pixelCount = [0,0,0,0,0,0];
+            const pixelCount: [number, number, number, number, number, number] = [0,0,0,0,0,0];
 
             for (let i = 0; i < imagePixels.length; i += 4) {
                 for (let v = 0; v < 5; v += 1) {
@@ -58,18 +58,17 @@ export async function vibrantColorsExtract(imageURI: string): Promise<VibrantCol
                     ) {
                         pixelCount[v] += 1;
                     };
-
                 }
             }
 
             resolve({
                 vibrantPalette: palette,
                 pixelCountVibrant: pixelCount[0],
-                pixelCountMuted: pixelCount[0],
-                pixelCountDarkVibrant: pixelCount[0],
-                pixelCountDarkMuted: pixelCount[0],
-                pixelCountLightVibrant: pixelCount[0],
-                pixelCountLightMuted: pixelCount[0],
+                pixelCountMuted: pixelCount[1],
+                pixelCountDarkVibrant: pixelCount[2],
+                pixelCountDarkMuted: pixelCount[3],
+                pixelCountLightVibrant: pixelCount[4],
+                pixelCountLightMuted: pixelCount[5],
                 totalPixels: area
             });
         };

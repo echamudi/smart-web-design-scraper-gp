@@ -2,7 +2,7 @@ import { Phase2FeatureExtractorResult, ImageElement } from 'Shared/types/feature
 import { plotter, PlotterConfig } from 'Shared/utils/canvas';
 import { ElementPosition } from 'Shared/types/types';
 import { blockDensityScoreCalculate, BlockDensityScoreCalculateResult, BlockDensityScoreCalculateConfig } from './block-density';
-import { cohesionScoreCalculate, CohesionScoreCalculateResult } from './cohesion';
+import { consistencyScoreCalculate, ConsistencyScoreCalculateResult, ConsistencyScoreCalculateConfig } from './consistency';
 
 /**
  * Final Score Calculator
@@ -22,7 +22,7 @@ export class FinalScore {
     // Scores (Based on unique id in the Web Design Usability Components table)
     private complexityTextDom: BlockDensityScoreCalculateResult | undefined;
     private densityMajorDom: BlockDensityScoreCalculateResult | undefined;
-    private cohesionImageDom: CohesionScoreCalculateResult | undefined;
+    private cohesionImageDom: ConsistencyScoreCalculateResult | undefined;
 
     constructor(doc: Document, features: Phase2FeatureExtractorResult) {
         const tileSize = Math.floor(features.browserInfo.viewportWidth / 6);
@@ -63,14 +63,14 @@ export class FinalScore {
         this.calculateAllScores();
     }
 
-    public calculateCohesionImageDom() {
+    public calculateCohesionImageDom(config?: ConsistencyScoreCalculateConfig) {
         const aspectRatios: number[] = [];
         this.imageElements.forEach((el) => {
             if (el.visible && typeof el.aspectRatio === 'number')
                 aspectRatios.push(el.aspectRatio);
         });
 
-        this.cohesionImageDom = cohesionScoreCalculate(aspectRatios);
+        this.cohesionImageDom = consistencyScoreCalculate(aspectRatios);
     }
 
     public calculateComplexityTextDom(config?: BlockDensityScoreCalculateConfig) {
@@ -85,7 +85,10 @@ export class FinalScore {
      * Calculate all scores using the default config
      */
     public calculateAllScores() {
-        this.calculateCohesionImageDom();
+        this.calculateCohesionImageDom({
+            failThreshold: 25,
+            tranformer: ((val) => Math.round(val * 10) / 10)
+        });
         this.calculateComplexityTextDom({
             failPercentage: 0.75
         });

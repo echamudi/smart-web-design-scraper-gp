@@ -38,20 +38,23 @@
                         <button type="button" class="list-group-item list-group-item-action list-header" disabled>
                           Detection Visualization
                         </button>
-                        <button type="button" class="list-group-item d-flex justify-content-between align-items-center">
+                        <button type="button" class="list-group-item d-flex justify-content-between align-items-center" [ngClass]="{'active': currentPage === 'Element Detection'}" (click)="currentPage = 'Element Detection'">
                           Element Detection
                         </button>
-                        <button type="button" class="list-group-item d-flex justify-content-between align-items-center">
+                        <button type="button" class="list-group-item d-flex justify-content-between align-items-center" [ngClass]="{'active': currentPage === 'Object Detection'}" (click)="currentPage = 'Object Detection'">
                           Object Detection
                         </button>
 
                         <button type="button" class="list-group-item list-group-item-action list-header" disabled>
                           Distribution of Components
                         </button>
-                        <button type="button" class="list-group-item d-flex justify-content-between align-items-center" [ngClass]="{'active': currentPage === 'Symmetry'}" (click)="currentPage = 'Symmetry'">
-                          Symmetry
+                        <button type="button" class="list-group-item d-flex justify-content-between align-items-center" [ngClass]="{'active': currentPage === 'Symmetry (Pixel LR)'}" (click)="currentPage = 'Symmetry (Pixel LR)'">
+                          Symmetry (Pixel LR)
                         </button>
-                        <button type="button" class="list-group-item d-flex justify-content-between align-items-center">
+                        <button type="button" class="list-group-item d-flex justify-content-between align-items-center" [ngClass]="{'active': currentPage === 'Symmetry (Pixel TB)'}" (click)="currentPage = 'Symmetry (Pixel TB)'">
+                          Symmetry (Pixel TB)
+                        </button>
+                        <button type="button" class="list-group-item d-flex justify-content-between align-items-center" [ngClass]="{'active': currentPage === 'Balance'}" (click)="currentPage = 'Balance'">
                           Balance
                         </button>
                         <button type="button" class="list-group-item d-flex justify-content-between align-items-center">
@@ -130,8 +133,9 @@
 
                       <!-- OVERVIEW -->
                       <div *ngIf="currentPage == 'Overview'">
-                        <div class="h3">URL</div>
-                          <a [href]="analysisResult.browserInfoResult.url">{{ analysisResult.browserInfoResult.url }}</a>
+                        <div class="h2">Overview</div>
+                        <hr>
+                        <p><b>URL : </b> <a [href]="analysisResult.browserInfoResult.url">{{ analysisResult.browserInfoResult.url }}</a></p>
                         <hr>
                         <div class="h3">Viewport Snapshot</div>
                         <table class="table table-bordered">
@@ -176,31 +180,82 @@
                         <hr>
                       </div>
 
-                      <!-- SYMMETRY -->
-                      <div *ngIf="currentPage == 'Symmetry'">
-                        <div class="h2">Symmetry</div>
+                      <!-- ELEMENT COUNT -->
+                      <div *ngIf="currentPage == 'Element Count'">
+                        <div class="h2">Element Tag Distribution</div>
                         <hr>
-                        <img [src]="analysisResult.screenshot" alt="" width="100%">
+                        <p>The following graph describes which DOM elements are mostly used in the web page.</p>
+                        <p><b>Detection Scope : </b> Entire Page Area</p>
+                        <ngx-charts-bar-horizontal
+                        [view]="[500, fiElementCountBarData.length * 50]"
+                        [showDataLabel]="true"
+                        [results]="fiElementCountBarData"
+                        [xAxis]="true"
+                        [yAxis]="true"
+                        [showXAxisLabel]="true"
+                        [showYAxisLabel]="true"
+                        [xAxisLabel]="'count'"
+                        >
+                        </ngx-charts-bar-horizontal>
+                      </div>
+
+                      <!-- ELEMENT DETECTION -->
+                      <div *ngIf="currentPage == 'Element Detection'">
+                        <div class="h2">DOM Element Detection</div>
+                        <hr>
+                        <p>The following figure visualizes the detected text elements and image elements by using the DOM inspection algorithm.</p>
+                        <p><b>Detection Scope : </b> Entire Page Area</p>
+                        <p><span style="display: inline-block; width: 20px; height: 20px; background: #19b5fe;"></span> Text DOM Elements</p>
+                        <p><span style="display: inline-block; width: 20px; height: 20px; background: #f2784b;"></span> Image DOM Elements</p>
+                        <canvas #domElementDetectionCanvas height="1" style="margin-top: 10px; width: 100%; padding: 5px; border: solid 3px black;"></canvas>
+                        <ng-container *ngIf="drawDomElementDetectionCanvas()"></ng-container>
+                      </div>
+
+                      <!-- OBJECT DETECTION -->
+                      <div *ngIf="currentPage == 'Object Detection'">
+                        <div class="h2">OpenCV Object Detection</div>
+                        <hr>
+                        <p>The following figure visualizes the elements using OpenCV.</p>
+                        <p><b>Detection Scope : </b> Visible Viewport Area</p>
+                        <canvas #objectDetectionCanvas height="1" style="margin-top: 10px; width: 100%; padding: 5px; border: solid 3px black;"></canvas>
+                        <ng-container *ngIf="drawObjectDetectionCanvas()"></ng-container>
+                      </div>
+
+                      <!-- SYMMETRY (PIXEL LR) -->
+                      <div *ngIf="currentPage == 'Symmetry (Pixel LR)'">
+                        <div class="h2">Pixel-based LR Symmetry</div>
+                        <hr>
+                        <p>LR Symmetry tells the symmetry of the page using a vertical line as the symmetry axis at the middle of the page.
+                          The method of symmetry checking is by comparing the pixels from both sides and check the similarity of the color.
+                        </p>
+                        <p><b>Detection Scope : </b> Visible Viewport Area</p>
+                        <div style="position: relative; margin: 20px 0;">
+                          <img [src]="analysisResult.screenshot" style="border: solid 2px black;" alt="" width="100%">
+                          <div style="height: 100%; width: 100%; position: absolute; top: 0; display: flex; align-items: center; justify-content: center;">
+                            <div style="width: 5px; height: 100%; background:#9a12b3;">
+                            </div>
+                          </div>
+                        </div>
+                        <p><span style="display: inline-block; width: 20px; height: 20px; background: #9a12b3;"></span> Vertical Symmetry Line</p>
                         <hr>
                         <div class="h3">Score</div>
                         <p><b>Left-Right Symmetry Score:</b> {{ fiSymmetryLRScore }}%</p>
-                        <p><b>Top-Bottom Symmetry Score:</b> {{ fiSymmetryTBScore }}%</p>
                         <ngx-charts-gauge
                           [view]="[500, 300]"
                           [scheme]="{
-                            domain: ['#5AA454', '#563d7c']
+                            domain: ['#563d7c']
                           }"
                           [min]="0"
                           [max]="100"
-                          [results]="[{name: 'Left-Right', value: fiSymmetryLRScore}, {name: 'Top-Bottom', value: fiSymmetryTBScore}]"
-                          [legend]="true"
+                          [results]="[{name: 'LR Symmetry', value: fiSymmetryLRScore}]"
+                          [legend]="false"
                           [legendPosition]="'bottom'"
                           >
                         </ngx-charts-gauge>
                         <div class="clearfix"></div>
                         <hr>
                         <h3>Config</h3>
-                        <p><b>Acceptable Threshold:</b> {{ analysisResult.analysisConfig.symmetry.acceptablePercentage }}%</p>
+                        <p><b>Acceptable Threshold (for all symmetry factors):</b> {{ analysisResult.analysisConfig.symmetry.acceptablePercentage }}%</p>
                         <mat-slider style="width: 500px" min="0" max="100" step="5" thumbLabel
                         [value]="analysisResult.analysisConfig.symmetry.acceptablePercentage"
                         (change)="fiSymmetryAcceptableThresholdChange($event)"></mat-slider>
@@ -215,6 +270,57 @@
                             <tr>
                               <th scope="row">Left-Right Symmetrical Pixels</th>
                               <td>{{ analysisResult.symmetryResult.lrExactSymmetricalPixels }}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        <hr>
+                      </div>
+
+                      <!-- SYMMETRY (PIXEL TB) -->
+                      <div *ngIf="currentPage == 'Symmetry (Pixel TB)'">
+                        <div class="h2">Pixel-based TB Symmetry</div>
+                        <hr>
+                        <p>TB Symmetry tells the symmetry of the page using a horizontal line as the symmetry axis at the middle of the page.
+                          The method of symmetry checking is by comparing the pixels from both sides and check the similarity of the color.
+                        </p>
+                        <p><b>Detection Scope : </b> Visible Viewport Area</p>
+                        <div style="position: relative; margin: 20px 0;">
+                          <img [src]="analysisResult.screenshot" style="border: solid 2px black;" alt="" width="100%">
+                          <div style="height: 100%; width: 100%; position: absolute; top: 0; display: flex; align-items: center; justify-content: center;">
+                            <div style="width: 100%; height: 5px; background:#9a12b3;">
+                            </div>
+                          </div>
+                        </div>
+                        <p><span style="display: inline-block; width: 20px; height: 20px; background: #9a12b3;"></span> Horizontal Symmetry Line</p>
+                        <hr>
+                        <div class="h3">Score</div>
+                        <p><b>Top-Bottom Symmetry Score:</b> {{ fiSymmetryTBScore }}%</p>
+                        <ngx-charts-gauge
+                          [view]="[500, 300]"
+                          [scheme]="{
+                            domain: ['#563d7c']
+                          }"
+                          [min]="0"
+                          [max]="100"
+                          [results]="[{name: 'TB Symmetry', value: fiSymmetryTBScore}]"
+                          [legend]="false"
+                          [legendPosition]="'bottom'"
+                          >
+                        </ngx-charts-gauge>
+                        <div class="clearfix"></div>
+                        <hr>
+                        <h3>Config</h3>
+                        <p><b>Acceptable Threshold (for all symmetry factors):</b> {{ analysisResult.analysisConfig.symmetry.acceptablePercentage }}%</p>
+                        <mat-slider style="width: 500px" min="0" max="100" step="5" thumbLabel
+                        [value]="analysisResult.analysisConfig.symmetry.acceptablePercentage"
+                        (change)="fiSymmetryAcceptableThresholdChange($event)"></mat-slider>
+                        <hr>
+                        <div class="h3">Analysis</div>
+                        <table class="table">
+                          <tbody>
+                            <tr>
+                              <th scope="row">Total Pixels</th>
+                              <td>{{ analysisResult.symmetryResult.visitedPixels }}</td>
                             </tr>
                             <tr>
                               <th scope="row">Top-Bottom Symmetrical Pixels</th>
@@ -353,22 +459,6 @@
                             <td>{{ item }}</td>
                           </tr>
                         </table>
-                      </div>
-
-                      <!-- ELEMENT COUNT -->
-                      <div *ngIf="currentPage == 'Element Count'">
-                        <h3>Element Tag Distribution</h3>
-                        <ngx-charts-bar-horizontal
-                        [view]="[500, fiElementCountBarData.length * 50]"
-                        [showDataLabel]="true"
-                        [results]="fiElementCountBarData"
-                        [xAxis]="true"
-                        [yAxis]="true"
-                        [showXAxisLabel]="true"
-                        [showYAxisLabel]="true"
-                        [xAxisLabel]="'count'"
-                        >
-                        </ngx-charts-bar-horizontal>
                       </div>
 
                       <!-- RAW JSON -->

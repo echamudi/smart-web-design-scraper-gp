@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, AfterViewChecked } from '@angular/core';
 import { TokenStorageService } from '../_services/token-storage.service';
 import { AuthService } from '../_services/auth.service';
 import { from as observableFrom } from 'rxjs';
@@ -9,7 +9,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { MatSliderChange } from '@angular/material/slider';
 import { TextSizeResult, TextSizeConfig, SymmetryResult } from 'Shared/types/factors-legacy';
 import { Phase2FeatureExtractorResult } from 'Shared/types/feature-extractor';
-import { FinalScoreGetAllScores } from 'Shared/evaluator/score-calculator/final';
+import { FinalScoreGetAllScores, FinalScore } from 'Shared/evaluator/score-calculator/final';
 
 @Component({
   selector: 'app-analysis-result',
@@ -63,8 +63,15 @@ export class AnalysisResultComponent implements OnInit {
   pictureComponentCanvas: HTMLCanvasElement;
   @ViewChild('picturesCanvas', {static: false}) picturesCanvas: ElementRef;
 
+  // Properties below this line are new props (Sprint 3)
+
   p2fer: Phase2FeatureExtractorResult;
-  finalScoreObjNew: FinalScoreGetAllScores;
+  finalScoreObj: FinalScore;
+
+  @ViewChild('domElementDetectionCanvas', {static: false}) domElementDetectionCanvas: ElementRef;
+  @ViewChild('objectDetectionCanvas', {static: false}) objectDetectionCanvas: ElementRef;
+
+  screenshot: HTMLImageElement;
 
   ngOnInit(): void {
     this.showResult = false;
@@ -107,14 +114,24 @@ export class AnalysisResultComponent implements OnInit {
             finalScore: FinalScoreGetAllScores,
           } = JSON.parse(data.data.getAnalysis.data);
 
+          // Save responses to object property
           this.analysisResult = responseObj.analysisResultLegacy;
           this.p2fer = responseObj.phase2FeatureExtractorResult;
-          this.finalScoreObjNew = responseObj.finalScore;
           this.analysisResultRaw = JSON.stringify(this.analysisResult, null, 2);
 
+          this.finalScoreObj = new FinalScore(document, this.p2fer);
+
           console.log('analysisResult (Legacy)', this.analysisResult);
-          console.log('phase2FeatureExtractorResult (Legacy)', this.p2fer);
-          console.log('finalScoreObjNew (Legacy)', this.finalScoreObjNew);
+          console.log('phase2FeatureExtractorResult (New)', this.p2fer);
+          console.log('finalScoreObj.getAllScores (New)', this.finalScoreObj.getAllScores());
+
+          // Save screenshot
+          this.screenshot = new Image();
+          this.screenshot.src = this.analysisResult.screenshot;
+          // this.screenshot.width = this.p2fer.browserInfo.viewportWidth;
+          // this.screenshot.height = this.p2fer.browserInfo.viewportHeight;
+
+          // Build initial report
           this.buildReport();
         },
         err => {
@@ -456,5 +473,55 @@ export class AnalysisResultComponent implements OnInit {
 
     const destCtx = picturesCanvas.getContext('2d');
     destCtx.drawImage(this.pictureComponentCanvas, 0, 0);
+  }
+
+  // Draw Element Detection Visualization
+  drawDomElementDetectionCanvas(): false {
+    const dedc = this.domElementDetectionCanvas?.nativeElement as HTMLCanvasElement;
+
+    if (!dedc) { return false; }
+    if (!this.finalScoreObj?.displayCanvas) { return false; }
+
+    dedc.width = this.p2fer.browserInfo.scrollWidth;
+    dedc.height = this.p2fer.browserInfo.scrollHeight;
+
+    const destCtx = dedc.getContext('2d');
+    destCtx.drawImage(this.finalScoreObj.displayCanvas, 0, 0);
+
+    return false;
+  }
+
+  // Draw Element Detection Visualization
+  drawObjectDetectionCanvas(): false {
+    const canvas = this.objectDetectionCanvas?.nativeElement as HTMLCanvasElement;
+
+    if (!canvas) { return false; }
+    if (!this.p2fer.javaResponse?.shapeDetectionResult) { return false; }
+
+    canvas.width = this.screenshot.width;
+    canvas.height = this.screenshot.height;
+
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(this.screenshot, 0, 0);
+
+    this.p2fer.javaResponse?.shapeDetectionResult.forEach((obj) => {
+      const a = obj?.points[0];
+      const b = obj?.points[1];
+      const c = obj?.points[2];
+      const d = obj?.points[3];
+
+      ctx.strokeStyle = '#FF0000';
+      ctx.lineWidth = 10;
+      ctx.beginPath();
+      if (a?.x && a?.y) { ctx.moveTo(a.x, a.y); }
+      if (b?.x && b?.y) { ctx.lineTo(b.x, b.y); }
+      if (c?.x && c?.y) { ctx.lineTo(c.x, c.y); }
+      if (d?.x && d?.y) { ctx.lineTo(d.x, d.y); }
+      if (a?.x && a?.y) { ctx.lineTo(a.x, a.y); }
+      ctx.stroke();
+      ctx.closePath();
+    });
+
+    return false;
   }
 }

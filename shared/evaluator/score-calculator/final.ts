@@ -11,31 +11,34 @@ import { density } from 'Shared/evaluator/extension-side/density';
  * Final Score Calculator
  */
 export class FinalScore {
-    private phase2Features: Phase2FeatureExtractorResult;
+    public phase2Features: Phase2FeatureExtractorResult;
 
     // common plotter config for element distributions
-    private plotterConfig: PlotterConfig;
+    public plotterConfig: PlotterConfig;
 
     // Visible detected DOM elements
-    private imageElements: ImageElement[];
-    private textElements: TextElement[];
+    public imageElements: ImageElement[];
+    public textElements: TextElement[];
 
     // Element distributions
-    private textElementDistribution: number[][];
-    private imageElementDistribution: number[][];
-    private majorElementDistribution: number[][];
+    public textElementDistribution: number[][];
+    public imageElementDistribution: number[][];
+    public majorElementDistribution: number[][];
 
     // Scores (Based on unique id in the Web Design Usability Components table)
-    private symmetryPixelLR: {score: number} | undefined;
-    private symmetryPixelTB: {score: number} | undefined;
-    private densityPixel:  {score: number} | undefined;
-    private complexityTextDom: BlockDensityScoreCalculateResult | undefined;
-    private densityMajorDom: BlockDensityScoreCalculateResult | undefined;
-    private cohesionImageDom: ConsistencyScoreCalculateResult | undefined;
-    private economyImageDom: ConsistencyScoreCalculateResult | undefined;
-    private economyTextDom: ConsistencyScoreCalculateResult | undefined;
-    private simplicityHorizontal: AlignmentPointsScoreCalculateResult | undefined;
-    private simplicityVertical: AlignmentPointsScoreCalculateResult | undefined;
+    public symmetryPixelLR: {score: number} | undefined;
+    public symmetryPixelTB: {score: number} | undefined;
+    public densityPixel:  {score: number} | undefined;
+    public complexityTextDom: BlockDensityScoreCalculateResult | undefined;
+    public densityMajorDom: BlockDensityScoreCalculateResult | undefined;
+    public cohesionImageDom: ConsistencyScoreCalculateResult | undefined;
+    public economyImageDom: ConsistencyScoreCalculateResult | undefined;
+    public economyTextDom: ConsistencyScoreCalculateResult | undefined;
+    public simplicityHorizontal: AlignmentPointsScoreCalculateResult | undefined;
+    public simplicityVertical: AlignmentPointsScoreCalculateResult | undefined;
+
+    // Display Canvas
+    public displayCanvas: HTMLCanvasElement | undefined;
 
     constructor(doc: Document, features: Phase2FeatureExtractorResult) {
         // Save features to the object
@@ -81,9 +84,13 @@ export class FinalScore {
         });
         this.majorElementDistribution = plotter(majorPlotCanvas, majorElements, this.plotterConfig).distribution;
 
-        // const displayCanvas: HTMLCanvasElement = doc.createElement('canvas');
-        // plotter(displayCanvas, textElementPositions, { ...this.plotterConfig, backgroundColor: '#FFFFFF', blockColor: '#19b5fe' });
-        // plotter(displayCanvas, imageElementPositions, { ...this.plotterConfig, blockColor: '#f2784b', skipResizingCanvas: true });
+        // Display canvas is just for visualization view (TEMP)
+
+        const displayCanvas: HTMLCanvasElement = doc.createElement('canvas');
+        plotter(displayCanvas, textElementPositions, { ...this.plotterConfig, backgroundColor: '#FFFFFF', blockColor: '#19b5fe' });
+        plotter(displayCanvas, imageElementPositions, { ...this.plotterConfig, blockColor: '#f2784b', skipResizingCanvas: true });
+
+        this.displayCanvas = displayCanvas;
 
         this.calculateAllScores();
     }

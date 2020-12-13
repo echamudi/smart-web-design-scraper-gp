@@ -91,8 +91,8 @@ export class FinalScore {
         // Display canvas is just for visualization view (TEMP)
 
         const displayCanvas: HTMLCanvasElement = doc.createElement('canvas');
-        plotter(displayCanvas, textElementPositions, { ...this.plotterConfig, backgroundColor: '#FFFFFF', blockColor: '#19b5fe' });
-        plotter(displayCanvas, imageElementPositions, { ...this.plotterConfig, blockColor: '#f2784b', skipResizingCanvas: true });
+        plotter(displayCanvas, imageElementPositions, { ...this.plotterConfig, backgroundColor: '#FFFFFF', blockColor: 'rgba(242, 120, 75, 0.7)' });
+        plotter(displayCanvas, textElementPositions, { ...this.plotterConfig, blockColor: 'rgba(25, 181, 254, 0.7)', skipResizingCanvas: true });
 
         this.displayCanvas = displayCanvas;
 

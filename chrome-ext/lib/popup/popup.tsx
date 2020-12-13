@@ -1,6 +1,6 @@
 import React, { SyntheticEvent } from 'react';
 import ReactDOM from 'react-dom';
-import { AppState, AnalysisConfig, AnalysisResult, ImageProcessingSpringTestAll } from 'Shared/types/types';
+import { AppState, AnalysisConfig, AnalysisResult } from 'Shared/types/types';
 import { DominantColorsExtractResult, ColorCountExtractResult } from 'Shared/types/factors';
 import { ApolloClient, InMemoryCache, NormalizedCacheObject, gql } from 'Shared/node_modules/@apollo/client/core';
 import { login } from 'Shared/apollo-client/auth'
@@ -10,6 +10,7 @@ import { density } from 'Shared/evaluator/extension-side/density';
 import { Phase1FeatureExtractorResult, Phase2FeatureExtractorResult } from 'Shared/types/feature-extractor';
 import { FinalScore } from 'Shared/evaluator/score-calculator/final';
 import { vibrantColorsExtract } from 'Shared/evaluator/feature-extractor/vibrant-colors';
+import { JavaResponse } from 'Shared/types/java';
 
 const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
   uri: 'http://localhost:3001/graphql',
@@ -173,41 +174,34 @@ class Analyzer extends React.Component {
       });
     });
 
-    // Fetch Java ImageProcessingSpring TestAll
-    const ipsTestAll = await new Promise<ImageProcessingSpringTestAll>((resolve, reject) => {
-      fetch("http://localhost:3003/test/all", {
-          method: "POST",
-          body: JSON.stringify({img: image}),
-          headers: {
-              'Content-Type': 'application/json'
-          },
-      }).then((res) => {
-          res.json().then((obj) => {
-              resolve(obj);
-          })
-      }).catch(err => {
-          reject(err);
-      })
-    });
-    console.log('ipsTestAll', ipsTestAll);
-
-    // Calculate all sync values
-    // const symmetryResult = symmetry(ipsTestAll.symmetryResult);
-    // const densityResult = density(ipsTestAll.densityResult);
-
     // Calculate all async values
     const [
       phase1FeatureExtractorSettledResult,
-      vibrantColorsExtractSettledResult
+      vibrantColorsExtractSettledResult,
+      ipsTestAll
     ] = await Promise.allSettled([
       new Promise<Phase1FeatureExtractorResult>((resolve, reject) => {
         chrome.tabs.sendMessage(tabId, { message: "extract-features", config: this.state.config }, (response: Phase1FeatureExtractorResult) => {
           resolve(response);
         });
       }),
-      vibrantColorsExtract(image)
+      vibrantColorsExtract(image),
+      new Promise<JavaResponse>((resolve, reject) => {
+        fetch("http://localhost:3003/test/all", {
+            method: "POST",
+            body: JSON.stringify({img: image}),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        }).then((res) => {
+            res.json().then((obj) => {
+                resolve(obj);
+            })
+        }).catch(err => {
+            reject(err);
+        })
+      })
     ]);
-
     if (phase1FeatureExtractorSettledResult.status === 'rejected') {
       console.log('failed to do extract-features');
       this.setState(() => ({ analyzingStatus: 'Done!' }));
@@ -220,14 +214,25 @@ class Analyzer extends React.Component {
       return;
     }
 
+    if (ipsTestAll.status === 'rejected') {
+      console.log('failed to do Java Image Processing');
+      this.setState(() => ({ analyzingStatus: 'Done!' }));
+      return;
+    }
+
     const phase1FeatureExtractorResult = phase1FeatureExtractorSettledResult.value;
     const vibrantColorsExtractResult = vibrantColorsExtractSettledResult.value;
-
+    const javaResponse = ipsTestAll.value;
 
     const phase2FeatureExtractorResult: Phase2FeatureExtractorResult = {
       ...phase1FeatureExtractorResult,
-      vibrantColors: vibrantColorsExtractResult
+      vibrantColors: vibrantColorsExtractResult,
+      javaResponse
     }
+
+    // Calculate all sync values
+    // const symmetryResult = symmetry(javaResponse.symmetryResult);
+    // const densityResult = density(javaResponse.densityResult);
 
     const finalScore = new FinalScore(document, phase2FeatureExtractorResult);
 

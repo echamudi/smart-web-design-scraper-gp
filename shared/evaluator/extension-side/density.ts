@@ -1,11 +1,11 @@
-import { ImageProcessingSpringTestAll } from 'Shared/types/types';
+import { JavaResponse } from 'Shared/types/java';
 import { DensityExtractResult } from 'Shared/types/factors';
 
 /**
  * 
  * @param image base64 image uri
  */
-export function density(ipsDensityExtractResult: ImageProcessingSpringTestAll['densityResult']): DensityExtractResult {
+export function density(ipsDensityExtractResult: JavaResponse['densityResult']): DensityExtractResult {
     const percentage: number = ipsDensityExtractResult?.densityPercentage ?? -1;
     const visitedPixels: number = ipsDensityExtractResult?.allPixels ?? -1;
     const bgPixels: number = ipsDensityExtractResult?.backgroundPixels ?? -1;

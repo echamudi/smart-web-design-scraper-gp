@@ -2,6 +2,7 @@
 
 import { ElementPosition } from "./types";
 import { Palette } from "node-vibrant/lib/color";
+import { JavaResponse } from "./java";
 
 // All Results
 
@@ -17,7 +18,8 @@ export interface Phase1FeatureExtractorResult {
 
 // Phase 2 is the phase 1 result + results from the extension side
 export interface Phase2FeatureExtractorResult extends Phase1FeatureExtractorResult {
-    vibrantColors: VibrantColorsExtractResult
+    vibrantColors: VibrantColorsExtractResult,
+    javaResponse?: JavaResponse
 }
 
 // browser-info

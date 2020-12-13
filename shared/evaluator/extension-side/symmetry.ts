@@ -1,14 +1,14 @@
 import { SymmetryExtractResult } from 'Shared/types/factors';
-import { ImageProcessingSpringTestAll } from 'Shared/types/types';
+import { JavaResponse } from 'Shared/types/java';
 
 /**
  * 
  * @param image base64 image uri
  */
-export function symmetry(ipsSymmetryResult: ImageProcessingSpringTestAll['symmetryResult']): SymmetryExtractResult {
+export function symmetry(ipsSymmetryResult: JavaResponse['symmetryResult']): SymmetryExtractResult {
     const visitedPixelsRaw: any = ipsSymmetryResult?.horizontalSymmetry?.allVisitedPixels;
-    const tbExactSymmetricalPixelsRaw: any = ipsSymmetryResult?.verticalSymmetry?.symmetricalPixels;
-    const lrExactSymmetricalPixelsRaw: any = ipsSymmetryResult?.horizontalSymmetry?.symmetricalPixels;
+    const tbExactSymmetricalPixelsRaw: any = ipsSymmetryResult?.horizontalSymmetry?.symmetricalPixels;
+    const lrExactSymmetricalPixelsRaw: any = ipsSymmetryResult?.verticalSymmetry?.symmetricalPixels;
 
     let visitedPixels: number;
     let tbExactSymmetricalPixels: number;

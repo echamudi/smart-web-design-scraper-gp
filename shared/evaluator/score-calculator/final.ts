@@ -4,6 +4,8 @@ import { ElementPosition } from 'Shared/types/types';
 import { blockDensityScoreCalculate, BlockDensityScoreCalculateResult, BlockDensityScoreCalculateConfig } from './block-density';
 import { consistencyScoreCalculate, ConsistencyScoreCalculateResult, ConsistencyScoreCalculateConfig } from './consistency';
 import { AlignmentPointsScoreCalculateResult, AlignmentPointsScoreCalculateConfig, alignmentPointsScoreCalculate } from './alignment-points';
+import { symmetry } from 'Shared/evaluator/extension-side/symmetry';
+import { density } from 'Shared/evaluator/extension-side/density';
 
 /**
  * Final Score Calculator
@@ -24,6 +26,9 @@ export class FinalScore {
     private majorElementDistribution: number[][];
 
     // Scores (Based on unique id in the Web Design Usability Components table)
+    private symmetryPixelLR: {score: number} | undefined;
+    private symmetryPixelTB: {score: number} | undefined;
+    private densityPixel:  {score: number} | undefined;
     private complexityTextDom: BlockDensityScoreCalculateResult | undefined;
     private densityMajorDom: BlockDensityScoreCalculateResult | undefined;
     private cohesionImageDom: ConsistencyScoreCalculateResult | undefined;
@@ -81,6 +86,21 @@ export class FinalScore {
         // plotter(displayCanvas, imageElementPositions, { ...this.plotterConfig, blockColor: '#f2784b', skipResizingCanvas: true });
 
         this.calculateAllScores();
+    }
+
+    public calculateSymmetryPixelLR() {
+        const symmetryExtract = symmetry(this.phase2Features.javaResponse?.symmetryResult);
+        this.symmetryPixelLR = { score: symmetryExtract.lrExactSymmetricalPixels / symmetryExtract.visitedPixels };
+    }
+
+    public calculateSymmetryPixelTB() {
+        const symmetryExtract = symmetry(this.phase2Features.javaResponse?.symmetryResult);
+        this.symmetryPixelTB = { score: symmetryExtract.tbExactSymmetricalPixels/ symmetryExtract.visitedPixels };
+    }
+
+    public calculateDensityPixel() {
+        const densityExtract = density(this.phase2Features.javaResponse?.densityResult);
+        this.densityPixel = { score: (1 - densityExtract.percentage / 100) };
     }
 
     public calculateComplexityTextDom(config?: BlockDensityScoreCalculateConfig) {
@@ -159,6 +179,9 @@ export class FinalScore {
      * Calculate all scores using the default config
      */
     public calculateAllScores() {
+        this.calculateSymmetryPixelLR();
+        this.calculateSymmetryPixelTB();
+        this.calculateDensityPixel();
         this.calculateComplexityTextDom();
         this.calculateDensityMajorDom();
         this.calculateCohesionImageDom();
@@ -170,6 +193,9 @@ export class FinalScore {
 
     public getAllScores() {
         return {
+            symmetryPixelLR: this.symmetryPixelLR,
+            symmetryPixelTB: this.symmetryPixelTB,
+            densityPixel: this.densityPixel,
             complexityTextDom: this.complexityTextDom,
             densityMajorDom: this.densityMajorDom,
             cohesionImageDom: this.cohesionImageDom,

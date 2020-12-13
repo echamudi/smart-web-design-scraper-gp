@@ -1,3 +1,5 @@
+// TEMP
+
 import { TextSizeConfig, TextSizeResult, BrowserInfoResult, SymmetryResult, DominantColorsConfig, PicturesConfig, SymmetryConfig, ColorCountResult, DensityResult, DensityConfig, NegativeSpaceResult, VideosResult } from "./factors-legacy";
 import { TextFontTypeResult } from "./factors-legacy";
 import { PicturesResult } from "./factors-legacy";

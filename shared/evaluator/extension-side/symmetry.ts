@@ -1,3 +1,5 @@
+// TEMP
+
 import { SymmetryExtractResult } from 'Shared/types/factors';
 import { JavaResponse } from 'Shared/types/java';
 

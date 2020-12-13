@@ -1,4 +1,4 @@
-// import { textSize, textSizeStyler } from 'Shared/evaluator/content-side/text-size';
+import { textSize } from 'Shared/evaluator/content-side/text-size';
 import { AnalysisConfig, ElementPosition } from 'Shared/types/types';
 // import { textFontType } from 'Shared/evaluator/content-side/text-font-type';
 // import { pictures } from 'Shared/evaluator/content-side/pictures';
@@ -37,6 +37,7 @@ if ((window as any).SWDS === undefined) {
                 majorElements.elements.map((el) => el.position),
                 browserInfo
             );
+            const textSizeTemp = textSize(document);
 
             const phase1FeatureExtractorResult: Phase1FeatureExtractorResult = {
                 browserInfo,
@@ -44,7 +45,8 @@ if ((window as any).SWDS === undefined) {
                 imageElements,
                 videoElements,
                 anchorElements,
-                alignmentPoints
+                alignmentPoints,
+                textSizeTemp
             };
 
             console.log('phase1FeatureExtractorResult', phase1FeatureExtractorResult);

@@ -3,6 +3,7 @@
 import { ElementPosition } from "./types";
 import { Palette } from "node-vibrant/lib/color";
 import { JavaResponse } from "./java";
+import { TextSizeExtractResult } from "./factors";
 
 // All Results
 
@@ -13,7 +14,8 @@ export interface Phase1FeatureExtractorResult {
     imageElements: ImageElementsExtractResult,
     videoElements: VideoElementsExtractResult,
     anchorElements: AnchorElementsExtractResult,
-    alignmentPoints: AlignmentPointsExtractResult
+    alignmentPoints: AlignmentPointsExtractResult,
+    textSizeTemp: TextSizeExtractResult
 }
 
 // Phase 2 is the phase 1 result + results from the extension side

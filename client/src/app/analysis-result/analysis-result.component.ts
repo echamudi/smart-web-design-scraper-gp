@@ -281,6 +281,10 @@ export class AnalysisResultComponent implements OnInit {
         value: cohesionAspectRatioRecord[key]
       });
     });
+    this.fiCohesionImageAspectRatioData = this.fiCohesionImageAspectRatioData.sort((a, b) => {
+      if (Number(a.name) < Number(b.name)) { return -1; }
+      else { return 1; }
+    });
     this.fiCohesionUpdateScore();
 
     // Update All

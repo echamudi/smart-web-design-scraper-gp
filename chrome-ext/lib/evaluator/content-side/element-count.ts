@@ -1,4 +1,4 @@
-import { ElementCountResult } from 'Shared/types/factors';
+import { ElementCountResult } from 'Shared/types/factors-legacy';
 
 export function elementCount(document: Document): ElementCountResult {
     const all = document.body.getElementsByTagName('*');

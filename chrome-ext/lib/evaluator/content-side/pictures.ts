@@ -1,4 +1,4 @@
-import { PicturesResult, PictureData } from 'Shared/types/factors';
+import { PicturesResult, PictureData } from 'Shared/types/factors-legacy';
 
 export function pictures(doc: Document): PicturesResult {
     let picturesResult: PicturesResult = {

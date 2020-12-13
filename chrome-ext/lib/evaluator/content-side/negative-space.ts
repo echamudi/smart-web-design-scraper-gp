@@ -1,4 +1,4 @@
-import { BrowserInfoResult, NegativeSpaceResult } from "Shared/types/factors";
+import { BrowserInfoResult, NegativeSpaceResult } from "Shared/types/factors-legacy";
 
 export function negativeSpace(win: Window, doc: Document, browserInfoResult: BrowserInfoResult): NegativeSpaceResult {
     const elements: NodeListOf<Element> = doc.querySelectorAll('body *');

@@ -1,11 +1,13 @@
-// export function styleElementFactory(dataLabel: string) {
-//     if (document.querySelector(`[data-swds-styleElem-${dataLabel}='1']`) !== null) return;
+// TEMP
 
-//     const elem = document.createElement('style');
-//     elem.setAttribute('data-swds-styleElem-' + dataLabel, '1');
-//     document.getElementsByTagName("head")[0].appendChild(elem);
-// }
+export function styleElementFactory(dataLabel: string) {
+    if (document.querySelector(`[data-swds-styleElem-${dataLabel}='1']`) !== null) return;
 
-// export function getStyleElement(dataLabel: string) {
-//     return document.querySelector(`[data-swds-styleElem-${dataLabel}='1']`);
-// }
+    const elem = document.createElement('style');
+    elem.setAttribute('data-swds-styleElem-' + dataLabel, '1');
+    document.getElementsByTagName("head")[0].appendChild(elem);
+}
+
+export function getStyleElement(dataLabel: string) {
+    return document.querySelector(`[data-swds-styleElem-${dataLabel}='1']`);
+}

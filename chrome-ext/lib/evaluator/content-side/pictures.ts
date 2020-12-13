@@ -50,6 +50,8 @@ export function pictures(doc: Document): PicturesResult {
     Array.prototype.forEach.call(elements, function (el: HTMLElement ) {
         var style = window.getComputedStyle( el );
         if ( style.backgroundImage != "none" ) {
+            const bound = el.getBoundingClientRect();
+
             // Ref: https://javascript.info/size-and-scroll#geometry
             picturesData.push({
                 url: style.backgroundImage.slice( 4, -1 ).replace(/['"]/g, ""),
@@ -57,8 +59,8 @@ export function pictures(doc: Document): PicturesResult {
                 width: el.clientWidth,
                 height: el.clientHeight,
                 area: el.clientWidth * el.clientHeight,
-                x: el.offsetLeft + el.clientLeft,
-                y: el.offsetTop + el.clientTop,
+                x: bound.left,
+                y: bound.top,
                 visible: el.offsetParent !== null
             })
         }

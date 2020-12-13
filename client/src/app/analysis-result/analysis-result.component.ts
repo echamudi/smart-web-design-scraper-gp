@@ -56,26 +56,28 @@ export class AnalysisResultComponent implements OnInit {
   fiNegativeSpaceScore: number = 0;
 
   textComponentCanvas: HTMLCanvasElement; // textComponentCanvas
-  @ViewChild('negativeSpaceCanvas', {static: false}) negativeSpaceCanvas: ElementRef;
+  @ViewChild('negativeSpaceCanvas', {static: false}) negativeSpaceCanvas: ElementRef<HTMLCanvasElement>;
 
   videoComponentCanvas: HTMLCanvasElement;
-  @ViewChild('videosCanvas', {static: false}) videosCanvas: ElementRef;
+  @ViewChild('videosCanvas', {static: false}) videosCanvas: ElementRef<HTMLCanvasElement>;
 
   pictureComponentCanvas: HTMLCanvasElement;
-  @ViewChild('picturesCanvas', {static: false}) picturesCanvas: ElementRef;
+  @ViewChild('picturesCanvas', {static: false}) picturesCanvas: ElementRef<HTMLCanvasElement>;
 
   // Properties below this line are new props (Sprint 3)
 
   p2fer: Phase2FeatureExtractorResult;
   finalScoreObj: FinalScore;
 
-  @ViewChild('domElementDetectionCanvas', {static: false}) domElementDetectionCanvas: ElementRef;
-  @ViewChild('objectDetectionCanvas', {static: false}) objectDetectionCanvas: ElementRef;
-  @ViewChild('complexityCanvas', {static: false}) complexityCanvas: ElementRef;
+  @ViewChild('domElementDetectionCanvas', {static: false}) domElementDetectionCanvas: ElementRef<HTMLCanvasElement>;
+  @ViewChild('objectDetectionCanvas', {static: false}) objectDetectionCanvas: ElementRef<HTMLCanvasElement>;
+  @ViewChild('complexityCanvas', {static: false}) complexityCanvas: ElementRef<HTMLCanvasElement>;
+  @ViewChild('densityMajorDomCanvas', {static: false}) densityMajorDomCanvas: ElementRef<HTMLCanvasElement>;
 
   screenshot: HTMLImageElement;
 
   fiComplexityScore: number = 0;
+  fiDensityMajorDomScore: number = 0;
 
   ngOnInit(): void {
     this.showResult = false;
@@ -257,6 +259,9 @@ export class AnalysisResultComponent implements OnInit {
     // Factor Item: Complexity
     this.fiComplexityUpdateScore();
 
+    // Factor Item: Density Major DOM
+    this.fiDensityMajorDomUpdateScore();
+
     // Update All
     this.updateFinalScore();
   }
@@ -426,6 +431,12 @@ export class AnalysisResultComponent implements OnInit {
     this.updateFinalScore();
   }
 
+  // Factor Item: Complexity
+  fiDensityMajorDomUpdateScore() {
+    this.fiDensityMajorDomScore = Math.floor(this.finalScoreObj.densityMajorDom.score * 100);
+    this.updateFinalScore();
+  }
+
   // Final Score
 
   updateFinalScore(): void {
@@ -557,6 +568,47 @@ export class AnalysisResultComponent implements OnInit {
     const ctx = canvas.getContext('2d');
 
     plotter(canvas, this.finalScoreObj.textElementPositions, { ...this.finalScoreObj.plotterConfig, backgroundColor: '#FFFFFF', blockColor: '#19b5fe' });
+
+    // Draw Grid
+    ctx.strokeStyle = 'red';
+    ctx.lineWidth = 5;
+
+    for (let i = 0; i < width; i += tileSize) {
+        ctx.beginPath();
+        ctx.moveTo(i, 0);
+        ctx.lineTo(i, height);
+        ctx.stroke();
+        ctx.closePath();
+    }
+
+    for (let i = 0; i < height; i += tileSize) {
+        ctx.beginPath();
+        ctx.moveTo(0, i);
+        ctx.lineTo(width, i);
+        ctx.stroke();
+    }
+
+    return false;
+  }
+
+  // Draw Element Detection Visualization
+  drawDensityMajorDomCanvas(): false {
+    console.log('drawDensityMajorDomCanvas 1');
+    const dedc = this.densityMajorDomCanvas?.nativeElement;
+
+    if (!dedc) { return false; }
+    if (!this.finalScoreObj?.displayCanvas) { return false; }
+    console.log('drawDensityMajorDomCanvas 2');
+
+    const width = this.p2fer.browserInfo.scrollWidth;
+    const height = this.p2fer.browserInfo.scrollHeight;
+    const tileSize = this.finalScoreObj.plotterConfig.tileSize;
+
+    dedc.width = width;
+    dedc.height = height;
+
+    const ctx = dedc.getContext('2d');
+    ctx.drawImage(this.finalScoreObj.displayCanvas, 0, 0);
 
     // Draw Grid
     ctx.strokeStyle = 'red';

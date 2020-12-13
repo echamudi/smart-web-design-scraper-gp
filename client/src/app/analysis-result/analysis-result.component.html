@@ -63,7 +63,7 @@
                         <button type="button" class="list-group-item d-flex justify-content-between align-items-center" [ngClass]="{'active': currentPage === 'Density'}" (click)="currentPage = 'Density'">
                           Density (Pixel)
                         </button>
-                        <button type="button" class="list-group-item d-flex justify-content-between align-items-center">
+                        <button type="button" class="list-group-item d-flex justify-content-between align-items-center" [ngClass]="{'active': currentPage === 'Density (DOM)'}" (click)="currentPage = 'Density (DOM)'">
                           Density (DOM)
                         </button>
 
@@ -381,6 +381,113 @@
                         </table>
                       </div>
 
+                      <!-- DENSITY -->
+                      <div *ngIf="currentPage == 'Density'">
+                        <div class="h2">Density (Pixel)</div>
+                        <hr>
+                        <p>In pixel-based density, the algorithm checks the most used color and compare the number with total pixels.
+                          Low density value will output higher score.
+                        </p>
+                        <p><b>Detection Scope : </b> Visible Viewport Area</p>
+                        <img [src]="analysisResult.screenshot" alt="" style="border: 1px solid;" width="100%">
+                        <hr>
+                        <h3>Score</h3>
+                        <p><b>Density Score:</b> {{ fiDensityScore }}</p>
+                        <ngx-charts-gauge
+                          [view]="[500, 300]"
+                          [scheme]="{
+                            domain: ['#5AA454']
+                          }"
+                          [min]="0"
+                          [max]="100"
+                          [results]="[{name: 'Score', value: fiDensityScore}]">
+                        </ngx-charts-gauge>
+                        <div class="clearfix"></div>
+                        <hr>
+                        <h3>Config</h3>
+                        <p><b>Acceptable Density Threshold:</b> {{ analysisResult.analysisConfig.density.acceptableThreshold }}%</p>
+                        <mat-slider style="width: 500px" min="0" max="100" step="1" thumbLabel
+                        [value]="analysisResult.analysisConfig.density.acceptableThreshold"
+                        (change)="fiDensityAcceptableThresholdChange($event)"></mat-slider>
+                        <h3>Analysis</h3>
+                        <table class="table">
+                          <tbody>
+                            <tr>
+                              <th scope="row">Total Pixels</th>
+                              <td>{{ analysisResult.densityResult.visitedPixels }}</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Most used color in the snapshot</th>
+                              <td>
+                                <div style="width: 50px; height: 50px; border: solid 1px;" [ngStyle]="{'background-color': '#' + analysisResult.colorCountResult.rank[0].color }"></div>
+                                  #{{ analysisResult.colorCountResult.rank[0].color }}
+                              </td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Total pixels of the most used color</th>
+                              <td>{{ analysisResult.colorCountResult.rank[0].pixelCount }}</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Pixel negative space percentage</th>
+                              <td>{{ 100 - analysisResult.densityResult.percentage }}%</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Density Percentage</th>
+                              <td>{{ analysisResult.densityResult.percentage }}%</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+
+                      <!-- DENSITY (DOM) -->
+                      <div *ngIf="currentPage == 'Density (DOM)'">
+                        <div class="h2">Text Complexity</div>
+                        <hr>
+                        <p>In DOM based desnity, we compared the major elements towards empty area.</p>
+                        <p><b>Detection Scope : </b> Entire Page</p>
+                        <canvas #densityMajorDomCanvas height="1" style="margin-top: 10px; width: 100%; border: solid 2px red;"></canvas>
+                        <ng-container *ngIf="drawDensityMajorDomCanvas()"></ng-container>
+                        <hr>
+
+                        <div class="h3">Score</div>
+                        <p><b>Density Score:</b> {{ fiDensityMajorDomScore }}%</p>
+                        <ngx-charts-gauge
+                          [view]="[500, 300]"
+                          [scheme]="{
+                            domain: ['#563d7c']
+                          }"
+                          [min]="0"
+                          [max]="100"
+                          [results]="[{name: 'Density', value: fiDensityMajorDomScore}]"
+                          [legend]="false"
+                          [legendPosition]="'bottom'"
+                          >
+                        </ngx-charts-gauge>
+                        <div class="clearfix"></div>
+                        <hr>
+
+                        <div class="h3">Analysis</div>
+                        <table class="table">
+                          <tbody>
+                            <tr>
+                              <th scope="row">Score [0,100]</th>
+                              <td>{{ fiDensityMajorDomScore }}</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Maximum Grid Density [0,1]</th>
+                              <td>{{ finalScoreObj.densityMajorDom.data.maxDensity }}</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Minimum Grid Density [0,1]</th>
+                              <td>{{ finalScoreObj.densityMajorDom.data.minDensity }}</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Average [0,1]</th>
+                              <td>{{ finalScoreObj.densityMajorDom.data.average }}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
 
                       <!-- TEXT SIZE -->
                       <div *ngIf="currentPage == 'Text Size'">
@@ -567,60 +674,6 @@
                         <h3>Visualization</h3>
                         <button class="btn btn-primary" (click)="fiPicturesDrawCanvas()">Show Visualization</button>
                         <canvas #picturesCanvas height="1" style="margin-top: 10px; width: 100%; padding: 5px; border: solid 3px black;"></canvas>
-                      </div>
-
-                      <!-- DENSITY -->
-                      <div *ngIf="currentPage == 'Density'">
-                        <div class="h2">Density</div>
-                        <hr>
-                        <img [src]="analysisResult.screenshot" alt="" width="100%">
-                        <hr>
-                        <h3>Score</h3>
-                        <p><b>Density Score:</b> {{ fiDensityScore }}</p>
-                        <ngx-charts-gauge
-                          [view]="[500, 300]"
-                          [scheme]="{
-                            domain: ['#5AA454']
-                          }"
-                          [min]="0"
-                          [max]="100"
-                          [results]="[{name: 'Score', value: fiDensityScore}]">
-                        </ngx-charts-gauge>
-                        <div class="clearfix"></div>
-                        <hr>
-                        <h3>Config</h3>
-                        <p><b>Acceptable Density Threshold:</b> {{ analysisResult.analysisConfig.density.acceptableThreshold }}%</p>
-                        <mat-slider style="width: 500px" min="0" max="100" step="1" thumbLabel
-                        [value]="analysisResult.analysisConfig.density.acceptableThreshold"
-                        (change)="fiDensityAcceptableThresholdChange($event)"></mat-slider>
-                        <h3>Analysis</h3>
-                        <table class="table">
-                          <tbody>
-                            <tr>
-                              <th scope="row">Total Pixels</th>
-                              <td>{{ analysisResult.densityResult.visitedPixels }}</td>
-                            </tr>
-                            <tr>
-                              <th scope="row">Most used color in the snapshot</th>
-                              <td>
-                                <div style="width: 50px; height: 50px;" [ngStyle]="{'background-color': '#' + analysisResult.colorCountResult.rank[0].color }"></div>
-                                  #{{ analysisResult.colorCountResult.rank[0].color }}
-                              </td>
-                            </tr>
-                            <tr>
-                              <th scope="row">Total pixels of the most used color</th>
-                              <td>{{ analysisResult.colorCountResult.rank[0].pixelCount }}</td>
-                            </tr>
-                            <tr>
-                              <th scope="row">Pixel negative space percentage</th>
-                              <td>{{ 100 - analysisResult.densityResult.percentage }}%</td>
-                            </tr>
-                            <tr>
-                              <th scope="row">Density Percentage</th>
-                              <td>{{ analysisResult.densityResult.percentage }}%</td>
-                            </tr>
-                          </tbody>
-                        </table>
                       </div>
 
                       <!-- NEGATIVE SPACE -->

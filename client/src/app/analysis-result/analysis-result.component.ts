@@ -4,10 +4,12 @@ import { AuthService } from '../_services/auth.service';
 import { from as observableFrom } from 'rxjs';
 import { gql } from '@apollo/client/core';
 import { ActivatedRoute } from '@angular/router';
-import { AnalysisResult } from 'Shared/types/types';
+import { AnalysisResult } from 'Shared/types/types-legacy';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { MatSliderChange } from '@angular/material/slider';
-import { TextSizeExtractResult, TextSizeConfig, SymmetryExtractResult } from 'Shared/types/factors';
+import { TextSizeResult, TextSizeConfig, SymmetryResult } from 'Shared/types/factors-legacy';
+import { Phase2FeatureExtractorResult } from 'Shared/types/feature-extractor';
+import { FinalScoreGetAllScores } from 'Shared/evaluator/score-calculator/final';
 
 @Component({
   selector: 'app-analysis-result',
@@ -95,10 +97,17 @@ export class AnalysisResultComponent implements OnInit {
           }
 
           this.showResult = true;
-          this.analysisResult = JSON.parse(data.data.getAnalysis.data);
+
+          const responseObj: {
+            analysisResultLegacy: Partial<AnalysisResult>,
+            phase2FeatureExtractorResult: Phase2FeatureExtractorResult,
+            finalScore: FinalScoreGetAllScores,
+          } = JSON.parse(data.data.getAnalysis.data);
+
+          this.analysisResult = responseObj.analysisResultLegacy;
           this.analysisResultRaw = JSON.stringify(this.analysisResult, null, 2);
 
-          console.log('analysisResult', this.analysisResult);
+          console.log('analysisResult (Legacy)', this.analysisResult);
           this.buildReport();
         },
         err => {
@@ -232,7 +241,7 @@ export class AnalysisResultComponent implements OnInit {
 
   fiSymmetryUpdateScore({symmetryResult, acceptablePercentage}:
     {
-      symmetryResult: SymmetryExtractResult,
+      symmetryResult: SymmetryResult,
       acceptablePercentage: number
     }): void {
 
@@ -271,8 +280,8 @@ export class AnalysisResultComponent implements OnInit {
   }
 
   fiTextSizeUpdateScore({allChars, textSizeMap, minimumSize}: {
-    allChars: TextSizeExtractResult['totalCharacters'],  // TODO: fix this
-    textSizeMap: TextSizeExtractResult['textSizeMap'],
+    allChars: TextSizeResult['totalCharacters'],  // TODO: fix this
+    textSizeMap: TextSizeResult['textSizeMap'],
     minimumSize: TextSizeConfig['minimumSize']
   }) {
     const allCharsNew: number = Object

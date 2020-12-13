@@ -51,9 +51,8 @@ if ((window as any).SWDS === undefined) {
             };
 
             console.log('phase1FeatureExtractorResult', phase1FeatureExtractorResult);
-                sendResponse(phase1FeatureExtractorResult);
 
-            const analysisResult = (() => {
+            const analysisResultLegacy = (() => {
                 // Analyze Contents
                 const html = document.documentElement.outerHTML;
 
@@ -75,7 +74,7 @@ if ((window as any).SWDS === undefined) {
                 // Result
 
                 const analysisResult: Partial<AnalysisResult> = {
-                    html,
+                    html: '',
                     textSizeResult,
                     textFontTypeResult,
                     analysisConfig: config,
@@ -88,6 +87,14 @@ if ((window as any).SWDS === undefined) {
 
                 return analysisResult;
             })();
+
+            console.log('analysisResult (Legacy)', analysisResultLegacy);
+            sendResponse({
+                    phase1FeatureExtractorResult,
+                    analysisResultLegacy
+                }
+            );
+
             // return;
 
             // Analyze Contents

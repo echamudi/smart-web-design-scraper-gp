@@ -1,7 +1,7 @@
 import React, { SyntheticEvent } from 'react';
 import ReactDOM from 'react-dom';
-import { AppState, AnalysisConfig, AnalysisResult } from 'Shared/types/types';
-import { DominantColorsExtractResult, ColorCountExtractResult } from 'Shared/types/factors';
+import { AppState, AnalysisConfig, AnalysisResult } from 'Shared/types/types-legacy';
+import { DominantColorsResult, ColorCountResult } from 'Shared/types/factors-legacy';
 import { ApolloClient, InMemoryCache, NormalizedCacheObject, gql } from 'Shared/node_modules/@apollo/client/core';
 import { login } from 'Shared/apollo-client/auth'
 import { symmetry } from 'Shared/evaluator/extension-side/symmetry';
@@ -11,6 +11,7 @@ import { Phase1FeatureExtractorResult, Phase2FeatureExtractorResult } from 'Shar
 import { FinalScore } from 'Shared/evaluator/score-calculator/final';
 import { vibrantColorsExtract } from 'Shared/evaluator/feature-extractor/vibrant-colors';
 import { JavaResponse } from 'Shared/types/java';
+import { dominantColors } from '../evaluator/extension-side/dominant-colors';
 
 const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
   uri: 'http://localhost:3001/graphql',
@@ -30,6 +31,11 @@ async function init(): Promise<number> {
       });
     });
   });
+}
+
+type ContentRes = {
+  phase1FeatureExtractorResult: Phase1FeatureExtractorResult,
+  analysisResultLegacy: AnalysisResult
 }
 
 // chrome.tabs.captureVisibleTab({}, function (image) {
@@ -176,12 +182,12 @@ class Analyzer extends React.Component {
 
     // Calculate all async values
     const [
-      phase1FeatureExtractorSettledResult,
+      contentRes,
       vibrantColorsExtractSettledResult,
-      ipsTestAll
+      javaCall
     ] = await Promise.allSettled([
-      new Promise<Phase1FeatureExtractorResult>((resolve, reject) => {
-        chrome.tabs.sendMessage(tabId, { message: "extract-features", config: this.state.config }, (response: Phase1FeatureExtractorResult) => {
+      new Promise<ContentRes>((resolve, reject) => {
+        chrome.tabs.sendMessage(tabId, { message: "extract-features", config: this.state.config }, (response: ContentRes) => {
           resolve(response);
         });
       }),
@@ -202,8 +208,9 @@ class Analyzer extends React.Component {
         })
       })
     ]);
-    if (phase1FeatureExtractorSettledResult.status === 'rejected') {
-      console.log('failed to do extract-features');
+
+    if (contentRes.status === 'rejected') {
+      console.log('failed to do content script');
       this.setState(() => ({ analyzingStatus: 'Done!' }));
       return;
     }
@@ -214,15 +221,16 @@ class Analyzer extends React.Component {
       return;
     }
 
-    if (ipsTestAll.status === 'rejected') {
+    if (javaCall.status === 'rejected') {
       console.log('failed to do Java Image Processing');
       this.setState(() => ({ analyzingStatus: 'Done!' }));
       return;
     }
 
-    const phase1FeatureExtractorResult = phase1FeatureExtractorSettledResult.value;
+    const analysisResultLegacy = contentRes.value.analysisResultLegacy;
+    const phase1FeatureExtractorResult = contentRes.value.phase1FeatureExtractorResult;
     const vibrantColorsExtractResult = vibrantColorsExtractSettledResult.value;
-    const javaResponse = ipsTestAll.value;
+    const javaResponse = javaCall.value;
 
     const phase2FeatureExtractorResult: Phase2FeatureExtractorResult = {
       ...phase1FeatureExtractorResult,
@@ -230,82 +238,109 @@ class Analyzer extends React.Component {
       javaResponse
     }
 
-    // Calculate all sync values
-    // const symmetryResult = symmetry(javaResponse.symmetryResult);
-    // const densityResult = density(javaResponse.densityResult);
-
     const finalScore = new FinalScore(document, phase2FeatureExtractorResult);
 
     console.log('phase2FeatureExtractorResult', phase2FeatureExtractorResult);
     console.log('finalScore', finalScore.getAllScores());
 
-    // let [analysisResult, dominantColorsResult, colorCountResult] = await Promise.allSettled([
-    //   new Promise<Partial<AnalysisResult>>((resolve, reject) => {
-    //     chrome.tabs.sendMessage(tabId, { message: "analyze", config: this.state.config }, (response: Partial<AnalysisResult>) => {
-    //       resolve(response);
-    //     });
-    //   }),
-    //   new Promise<DominantColorsExtractResult>((resolve, reject) => {
-    //     chrome.tabs.captureVisibleTab({}, async (image) => {
-    //       const result = await dominantColors(image);
-    //       resolve(result);
-    //     });
-    //   }),
-    //   new Promise<ColorCountExtractResult>(async (resolve, reject) => {
-    //     const result = await colorCount(image);
-    //     resolve(result);
-    //   }),
-    // ]);
+    // === START OF LEGACY CODES ===
 
-    // if (analysisResult.status === 'rejected') {
-    //   console.log('Can\'t get analysisResult');
-    //   return;
-    // }
+    const ipsTestAll = await new Promise<JavaResponse>((resolve, reject) => {
+      fetch("http://localhost:3003/test/all", {
+          method: "POST",
+          body: JSON.stringify({img: image}),
+          headers: {
+              'Content-Type': 'application/json'
+          },
+      }).then((res) => {
+          res.json().then((obj) => {
+              resolve(obj);
+          })
+      }).catch(err => {
+          reject(err);
+      })
+    });
+
+    console.log('ipsTestAll (legacy)', ipsTestAll);
+
+    // Calculate all sync values
+    const symmetryResult = symmetry(ipsTestAll.symmetryResult);
+    const densityResult = density(ipsTestAll.densityResult);
+
+    // Calculate all async values
+    let [dominantColorsResult, colorCountResult] = await Promise.allSettled([
+      new Promise<DominantColorsResult>((resolve, reject) => {
+        chrome.tabs.captureVisibleTab({}, async (image) => {
+          const result = await dominantColors(image);
+          resolve(result);
+        });
+      }),
+      new Promise<ColorCountResult>(async (resolve, reject) => {
+        const result = await colorCount(image);
+        resolve(result);
+      }),
+    ]);
 
     // Combine contentside result with extensionside result
-    // const finalAnalysisResult: Partial<AnalysisResult> = {
-    //   ...analysisResult.value,
-    //   html: '', // remove html for now
-    //   symmetryResult,
-    //   densityResult,
-    //   dominantColorsResult: dominantColorsResult.status === 'fulfilled' ? dominantColorsResult.value : undefined,
-    //   colorCountResult: colorCountResult.status === 'fulfilled' ? colorCountResult.value : undefined,
-    //   screenshot: image
-    // };
-
-    // if (this.state.snapshot) {
-    //   analysisResult.screnshot = this.state.snapshot;
-    // }
+    const finalAnalysisResult: Partial<AnalysisResult> = {
+      ...analysisResultLegacy,
+      html: '', // remove html for now
+      symmetryResult,
+      densityResult,
+      dominantColorsResult: dominantColorsResult.status === 'fulfilled' ? dominantColorsResult.value : undefined,
+      colorCountResult: colorCountResult.status === 'fulfilled' ? colorCountResult.value : undefined,
+      screenshot: image
+    };
 
     // Get token
-    // const token: string = await new Promise<string>((resolve, reject) => {
-    //   chrome.storage.local.get('token', (items) => {
-    //     resolve(items.token);
-    //   });
-    // });
+    const token: string = await new Promise<string>((resolve, reject) => {
+      chrome.storage.local.get('token', (items) => {
+        resolve(items.token);
+      });
+    });
 
-    // console.log('finalAnalysisResult', finalAnalysisResult);
+    console.log('finalAnalysisResult (legacy)', finalAnalysisResult);
+
+    // ({
+    //   // Legacy
+    //   analysisResultLegacy: finalAnalysisResult,
+
+    //   // New
+    //   phase2FeatureExtractorResult,
+    //   finalScore: finalScore.getAllScores(),
+    // })
+
 
     // Send result to server
-    // const sentReceipt = await client.mutate({
-    //   mutation: gql`mutation ($data: String!, $url: String!) {
-    //     saveAnalysis(data: $data, url: $url)
-    //   }`,
-    //   variables: {
-    //     data: JSON.stringify(finalAnalysisResult),
-    //     url: finalAnalysisResult.browserInfoResult?.url
-    //   },
-    //   context: {
-    //       headers: {
-    //         'x-access-token': token
-    //       }
-    //   }
-    // });
+    const sentReceipt = await client.mutate({
+      mutation: gql`mutation ($data: String!, $url: String!) {
+        saveAnalysis(data: $data, url: $url)
+      }`,
+      variables: {
+        data: JSON.stringify(
+          {
+            // Legacy
+            analysisResultLegacy: finalAnalysisResult,
+      
+            // New
+            phase2FeatureExtractorResult,
+            finalScore: finalScore.getAllScores(),
+          }
+        ),
+        url: finalAnalysisResult.browserInfoResult?.url
+      },
+      context: {
+          headers: {
+            'x-access-token': token
+          }
+      }
+    });
 
-    // console.log('sentReceipt', sentReceipt);
+    console.log('sentReceipt', sentReceipt);
 
-    this.setState(() => ({ analyzingStatus: 'Done!' }));
-    // this.setState(() => ({ analyzingStatus: 'Done!', result: finalAnalysisResult, snapshot: image, lastReceiptId: sentReceipt.data?.saveAnalysis }));
+    this.setState(() => ({ analyzingStatus: 'Done!', result: finalAnalysisResult, snapshot: image, lastReceiptId: sentReceipt.data?.saveAnalysis }));
+
+    // === END OF LEGACY CODES ===
   };
 
   marktextSizeToggle(e: React.ChangeEvent<HTMLInputElement>) {

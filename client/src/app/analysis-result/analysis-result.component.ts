@@ -73,6 +73,8 @@ export class AnalysisResultComponent implements OnInit {
   @ViewChild('objectDetectionCanvas', {static: false}) objectDetectionCanvas: ElementRef<HTMLCanvasElement>;
   @ViewChild('complexityCanvas', {static: false}) complexityCanvas: ElementRef<HTMLCanvasElement>;
   @ViewChild('densityMajorDomCanvas', {static: false}) densityMajorDomCanvas: ElementRef<HTMLCanvasElement>;
+  @ViewChild('simplicityHorizontalCanvas', {static: false}) simplicityHorizontalCanvas: ElementRef<HTMLCanvasElement>;
+  @ViewChild('simplicityVerticalCanvas', {static: false}) simplicityVerticalCanvas: ElementRef<HTMLCanvasElement>;
 
   screenshot: HTMLImageElement;
 
@@ -87,6 +89,9 @@ export class AnalysisResultComponent implements OnInit {
 
   fiEconomyTextData: {name: string, value: number}[] = [];
   fiEconomyTextScore: number = 0;
+
+  fiSimplicityHorizontalScore: number = 0;
+  fiSimplicityVerticalScore: number = 0;
 
   ngOnInit(): void {
     this.showResult = false;
@@ -289,6 +294,17 @@ export class AnalysisResultComponent implements OnInit {
     );
     this.fiEconomyTextUpdateScore();
 
+    // Factor Item: Economy Text
+    this.fiEconomyTextData = this.utilArrayToChartData(
+      this.finalScoreObj.economyTextDom.data.transformedMembers
+    );
+
+    // Factor Item: Simplicity Horizontal
+    this.fiSimplicityHorizontalUpdateScore();
+
+    // Factor Item: Simplicity Vertical
+    this.fiSimplicityVerticalUpdateScore();
+
     // Update All
     this.updateFinalScore();
   }
@@ -481,10 +497,22 @@ export class AnalysisResultComponent implements OnInit {
     this.fiEconomyTextScore = Math.floor(this.finalScoreObj.economyTextDom.score * 100);
     this.updateFinalScore();
   }
+  // Factor Item: Simplicity Horizontal
+  fiSimplicityHorizontalUpdateScore() {
+    this.fiSimplicityHorizontalScore = Math.floor(this.finalScoreObj.simplicityHorizontal.score * 100);
+    this.updateFinalScore();
+  }
+
+  // Factor Item: Simplicity Vertical
+  fiSimplicityVerticalUpdateScore() {
+    this.fiSimplicityVerticalScore = Math.floor(this.finalScoreObj.simplicityVertical.score * 100);
+    this.updateFinalScore();
+  }
 
   // Final Score
 
   updateFinalScore(): void {
+    // TODO: Update this and add weight
     const score = Math.floor(
       (
         this.fiSymmetryLRScore +
@@ -673,6 +701,92 @@ export class AnalysisResultComponent implements OnInit {
         ctx.lineTo(width, i);
         ctx.stroke();
     }
+
+    return false;
+  }
+
+  drawSimplicityHorizontalCanvas(): false {
+    const canvas = this.simplicityHorizontalCanvas?.nativeElement as HTMLCanvasElement;
+
+    if (!canvas) { return false; }
+
+    const browserInfo = this.p2fer.browserInfo;
+
+    const width = this.p2fer.browserInfo.scrollWidth;
+    const height = this.p2fer.browserInfo.scrollHeight;
+    const tileSize = this.finalScoreObj.plotterConfig.tileSize;
+
+    canvas.width = width;
+    canvas.height = height;
+
+    const ctx = canvas.getContext('2d');
+
+    ctx.drawImage(this.finalScoreObj.displayCanvas, 0, 0);
+    ctx.strokeStyle = 'blue';
+    ctx.lineWidth = 6;
+    ctx.beginPath();
+    ctx.moveTo(browserInfo.pageXOffset + 5, browserInfo.pageYOffset);
+    ctx.lineTo(browserInfo.pageXOffset + browserInfo.viewportWidth - 5, browserInfo.pageYOffset);
+    ctx.lineTo(browserInfo.pageXOffset + browserInfo.viewportWidth - 5, browserInfo.pageYOffset + browserInfo.viewportHeight);
+    ctx.lineTo(browserInfo.pageXOffset + 5, browserInfo.pageYOffset + browserInfo.viewportHeight);
+    ctx.closePath();
+    ctx.stroke();
+
+
+    Object.keys(this.p2fer.alignmentPoints.xAlignmentPoints).forEach((axis) => {
+      if (this.p2fer.alignmentPoints.xAlignmentPoints[axis] > 8192) {
+        ctx.strokeStyle = 'rgba(255,0,0,1)';
+        ctx.lineWidth = 4;
+        ctx.beginPath();
+        ctx.moveTo(Number(axis), browserInfo.pageYOffset);
+        ctx.lineTo(Number(axis), browserInfo.pageYOffset + browserInfo.viewportHeight);
+        ctx.stroke();
+        ctx.closePath();
+      }
+    });
+
+    return false;
+  }
+
+  drawSimplicityVerticalCanvas(): false {
+    const canvas = this.simplicityVerticalCanvas?.nativeElement as HTMLCanvasElement;
+
+    if (!canvas) { return false; }
+
+    const browserInfo = this.p2fer.browserInfo;
+
+    const width = this.p2fer.browserInfo.scrollWidth;
+    const height = this.p2fer.browserInfo.scrollHeight;
+    const tileSize = this.finalScoreObj.plotterConfig.tileSize;
+
+    canvas.width = width;
+    canvas.height = height;
+
+    const ctx = canvas.getContext('2d');
+
+    ctx.drawImage(this.finalScoreObj.displayCanvas, 0, 0);
+    ctx.strokeStyle = 'blue';
+    ctx.lineWidth = 6;
+    ctx.beginPath();
+    ctx.moveTo(browserInfo.pageXOffset + 5, browserInfo.pageYOffset);
+    ctx.lineTo(browserInfo.pageXOffset + browserInfo.viewportWidth - 5, browserInfo.pageYOffset);
+    ctx.lineTo(browserInfo.pageXOffset + browserInfo.viewportWidth - 5, browserInfo.pageYOffset + browserInfo.viewportHeight);
+    ctx.lineTo(browserInfo.pageXOffset + 5, browserInfo.pageYOffset + browserInfo.viewportHeight);
+    ctx.closePath();
+    ctx.stroke();
+
+
+    Object.keys(this.p2fer.alignmentPoints.yAlignmentPoints).forEach((axis) => {
+      if (this.p2fer.alignmentPoints.yAlignmentPoints[axis] > 8192) {
+        ctx.strokeStyle = 'rgba(255,0,0,1)';
+        ctx.lineWidth = 4;
+        ctx.beginPath();
+        ctx.moveTo(0, Number(axis));
+        ctx.lineTo(browserInfo.viewportWidth, Number(axis));
+        ctx.stroke();
+        ctx.closePath();
+      }
+    });
 
     return false;
   }

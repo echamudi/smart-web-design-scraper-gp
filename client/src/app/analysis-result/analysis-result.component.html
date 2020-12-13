@@ -531,7 +531,7 @@
                       <!-- ECONOMY (IMAGES) -->
                       <div *ngIf="currentPage == 'Economy (Images)'">
                         <div class="h2">Economy (Images)</div>
-                        <p>The economy-images algorithm checks the consistency of image area.</p>
+                        <p>The economy-images algorithm checks the consistency of image elements area.</p>
                         <p><b>Detection Scope : </b> Entire Page</p>
                         <hr>
                         <h3>Score</h3>
@@ -597,6 +597,54 @@
                           [yAxisLabel]="'Total Objects'"
                           >
                         </ngx-charts-bar-vertical>
+                        <div class="clearfix"></div>
+                      </div>
+
+                      <!-- SIMPLICITY (HORIZONTAL) -->
+                      <div *ngIf="currentPage == 'Simplicity (H)'">
+                        <div class="h2">Simplicity (H)</div>
+                        <p>The simplicity-horizontal algorithm checks total number of alignment points in x-axis.</p>
+                        <p><b>Detection Scope : </b> Visible Viewport Area</p>
+                        <hr>
+                        <canvas #simplicityHorizontalCanvas height="1" style="margin-top: 10px; width: 100%; border: solid 2px red;"></canvas>
+                        <ng-container *ngIf="drawSimplicityHorizontalCanvas()"></ng-container>
+                        <hr>
+                        <h3>Score</h3>
+                        <p><b>Simplicity (H) Score:</b> {{ fiSimplicityHorizontalScore }}%</p>
+                        <ngx-charts-gauge
+                          [view]="[500, 300]"
+                          [scheme]="{
+                            domain: ['#563d7c']
+                          }"
+                          [min]="0"
+                          [max]="100"
+                          [results]="[{name: 'Score', value: fiSimplicityHorizontalScore }]"
+                        >
+                        </ngx-charts-gauge>
+                        <div class="clearfix"></div>
+                      </div>
+
+                      <!-- SIMPLICITY (VERTICAL) -->
+                      <div *ngIf="currentPage == 'Simplicity (V)'">
+                        <div class="h2">Simplicity (V)</div>
+                        <p>The simplicity-vertical algorithm checks total number of alignment points in y-axis.</p>
+                        <p><b>Detection Scope : </b> Visible Viewport Area</p>
+                        <hr>
+                        <canvas #simplicityVerticalCanvas height="1" style="margin-top: 10px; width: 100%; border: solid 2px red;"></canvas>
+                        <ng-container *ngIf="drawSimplicityVerticalCanvas()"></ng-container>
+                        <hr>
+                        <h3>Score</h3>
+                        <p><b>Simplicity (V) Score:</b> {{ fiSimplicityVerticalScore }}%</p>
+                        <ngx-charts-gauge
+                          [view]="[500, 300]"
+                          [scheme]="{
+                            domain: ['#563d7c']
+                          }"
+                          [min]="0"
+                          [max]="100"
+                          [results]="[{name: 'Score', value: fiSimplicityVerticalScore }]"
+                        >
+                        </ngx-charts-gauge>
                         <div class="clearfix"></div>
                       </div>
 

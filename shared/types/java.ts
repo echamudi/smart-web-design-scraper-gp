@@ -1,49 +1,49 @@
 export interface JavaResponse {
-    symmetryResult: {
-        horizontalSymmetry: {
+    symmetryResult?: {
+        horizontalSymmetry?: {
             /**
              * 0-100
              */
-            percentage: number,
-            allVisitedPixels: number,
-            symmetricalPixels: number,
-            nonSymmetricalPixels: number
+            percentage?: number,
+            allVisitedPixels?: number,
+            symmetricalPixels?: number,
+            nonSymmetricalPixels?: number
         },
-        verticalSymmetry: {
+        verticalSymmetry?: {
             /**
              * 0-100
              */
-            percentage: number,
-            allVisitedPixels: number,
-            symmetricalPixels: number,
-            nonSymmetricalPixels: number
+            percentage?: number,
+            allVisitedPixels?: number,
+            symmetricalPixels?: number,
+            nonSymmetricalPixels?: number
         }
     },
-    densityResult: {
+    densityResult?: {
         /**
          * 0-100
          */
-        densityPercentage: number,
-        allPixels: number,
-        backgroundColor: number,
-        backgroundPixels: number
+        densityPercentage?: number,
+        allPixels?: number,
+        backgroundColor?: number,
+        backgroundPixels?: number
     },
-    negativeSpaceResult: {
+    negativeSpaceResult?: {
         /**
          * 0-100 (100 - densityPercentage)
          */
-        negativeSpacePercentage: number,
-        allPixels: number,
-        backgroundColor: number,
-        backgroundPixels: number
+        negativeSpacePercentage?: number,
+        allPixels?: number,
+        backgroundColor?: number,
+        backgroundPixels?: number
     },
-    shapeDetectionResult: Array<{
-        points: [
-            {x: number, y: number},
-            {x: number, y: number},
-            {x: number, y: number},
-            {x: number, y: number}
+    shapeDetectionResult?: Array<{
+        points?: [
+            {x?: number, y?: number},
+            {x?: number, y?: number},
+            {x?: number, y?: number},
+            {x?: number, y?: number}
         ],
-        area: number
+        area?: number
     }>
 }

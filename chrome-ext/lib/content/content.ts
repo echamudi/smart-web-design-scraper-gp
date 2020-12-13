@@ -1,12 +1,3 @@
-import { textSize } from 'Shared/evaluator/content-side/text-size';
-import { AnalysisConfig, ElementPosition } from 'Shared/types/types';
-// import { textFontType } from 'Shared/evaluator/content-side/text-font-type';
-// import { pictures } from 'Shared/evaluator/content-side/pictures';
-// import { elementCount } from 'Shared/evaluator/data-extractor/element-count';
-// import { browserInfo } from 'Shared/evaluator/data-extractor/browser-info';
-// import { negativeSpace } from 'Shared/evaluator/content-side/negative-space';
-// import { videos } from 'Shared/evaluator/content-side/videos';
-
 import { alignmentPointsExtract } from 'Shared/evaluator/feature-extractor/alignment-points';
 import { majorElementsExtract } from 'Shared/evaluator/feature-extractor/major-elements';
 import { browserInfoExtract } from 'Shared/evaluator/feature-extractor/browser-info';
@@ -15,6 +6,16 @@ import { imageElementsExtract } from 'Shared/evaluator/feature-extractor/image-e
 import { videoElementsExtract } from 'Shared/evaluator/feature-extractor/video-elements';
 import { anchorElementsExtract } from 'Shared/evaluator/feature-extractor/anchor-elements';
 import { Phase1FeatureExtractorResult } from 'Shared/types/feature-extractor';
+
+import { textSize, textSizeStyler } from '../evaluator/content-side/text-size';
+import { AnalysisConfig, AnalysisResult } from 'Shared/types/types-legacy';
+import { textFontType } from '../evaluator/content-side/text-font-type';
+import { pictures } from '../evaluator/content-side/pictures';
+import { elementCount } from '../evaluator/content-side/element-count';
+import { browserInfo as browserInfoTemp } from '../evaluator/content-side/browser-info';
+import { negativeSpace } from '../evaluator/content-side/negative-space';
+import { videos } from '../evaluator/content-side/videos';
+
 
 if ((window as any).SWDS === undefined) {
     (window as any).SWDS = {};
@@ -50,8 +51,44 @@ if ((window as any).SWDS === undefined) {
             };
 
             console.log('phase1FeatureExtractorResult', phase1FeatureExtractorResult);
-            sendResponse(phase1FeatureExtractorResult);
-            return;
+                sendResponse(phase1FeatureExtractorResult);
+
+            const analysisResult = (() => {
+                // Analyze Contents
+                const html = document.documentElement.outerHTML;
+
+                const textSizeResult = textSize(document);
+                // textSizeStyler(config.textSize);
+
+                const textFontTypeResult = textFontType(window);
+
+                const picturesResult = pictures(document);
+
+                const videosResult = videos(document);
+
+                const elementCountResult = elementCount(document);
+
+                const browserInfoResult = browserInfoTemp(window);
+
+                const negativeSpaceResult = negativeSpace(window, document, browserInfoResult);
+
+                // Result
+
+                const analysisResult: Partial<AnalysisResult> = {
+                    html,
+                    textSizeResult,
+                    textFontTypeResult,
+                    analysisConfig: config,
+                    picturesResult,
+                    elementCountResult,
+                    browserInfoResult,
+                    negativeSpaceResult,
+                    videosResult
+                };
+
+                return analysisResult;
+            })();
+            // return;
 
             // Analyze Contents
             // const html = document.documentElement.outerHTML;

@@ -35,6 +35,15 @@
                         <button type="button" class="list-group-item list-group-item-action" [ngClass]="{'active': currentPage === 'Element Count'}" (click)="currentPage = 'Element Count'">
                           Element Count
                         </button>
+                        <button type="button" class="list-group-item list-group-item-action list-header" disabled>
+                          Detection Visualization
+                        </button>
+                        <button type="button" class="list-group-item d-flex justify-content-between align-items-center">
+                          Element Detection
+                        </button>
+                        <button type="button" class="list-group-item d-flex justify-content-between align-items-center">
+                          Object Detection
+                        </button>
 
                         <button type="button" class="list-group-item list-group-item-action list-header" disabled>
                           Distribution of Components
@@ -42,8 +51,44 @@
                         <button type="button" class="list-group-item d-flex justify-content-between align-items-center" [ngClass]="{'active': currentPage === 'Symmetry'}" (click)="currentPage = 'Symmetry'">
                           Symmetry
                         </button>
+                        <button type="button" class="list-group-item d-flex justify-content-between align-items-center">
+                          Balance
+                        </button>
+                        <button type="button" class="list-group-item d-flex justify-content-between align-items-center">
+                          Complexity
+                        </button>
                         <button type="button" class="list-group-item d-flex justify-content-between align-items-center" [ngClass]="{'active': currentPage === 'Density'}" (click)="currentPage = 'Density'">
-                          Density
+                          Density (Pixel)
+                        </button>
+                        <button type="button" class="list-group-item d-flex justify-content-between align-items-center">
+                          Density (DOM)
+                        </button>
+
+                        <button type="button" class="list-group-item list-group-item-action list-header" disabled>
+                          Appearance of Components
+                        </button>
+                        <button type="button" class="list-group-item d-flex justify-content-between align-items-center">
+                          Cohesion
+                        </button>
+                        <button type="button" class="list-group-item d-flex justify-content-between align-items-center">
+                          Economy (images)
+                        </button>
+                        <button type="button" class="list-group-item d-flex justify-content-between align-items-center">
+                          Economy (text)
+                        </button>
+
+                        <button type="button" class="list-group-item list-group-item-action list-header" disabled>
+                          Alignment of Components
+                        </button>
+                        <button type="button" class="list-group-item d-flex justify-content-between align-items-center">
+                          Simplicity
+                        </button>
+
+                        <button type="button" class="list-group-item list-group-item-action list-header" disabled>
+                          Color Usage
+                        </button>
+                        <button type="button" class="list-group-item d-flex justify-content-between align-items-center" [ngClass]="{'active': currentPage === 'Dominant Colors'}" (click)="currentPage = 'Dominant Colors'">
+                          Dominant Colors
                         </button>
 
                         <button type="button" class="list-group-item list-group-item-action list-header" disabled>
@@ -64,13 +109,6 @@
                         </button>
                         <button type="button" class="list-group-item d-flex justify-content-between align-items-center" [ngClass]="{'active': currentPage === 'Type of Font'}" (click)="currentPage = 'Type of Font'">
                           Type of Font
-                        </button>
-
-                        <button type="button" class="list-group-item list-group-item-action list-header" disabled>
-                          Color Usage
-                        </button>
-                        <button type="button" class="list-group-item d-flex justify-content-between align-items-center" [ngClass]="{'active': currentPage === 'Dominant Colors'}" (click)="currentPage = 'Dominant Colors'">
-                          Dominant Colors
                         </button>
 
                         <button type="button" class="list-group-item list-group-item-action list-header" disabled>

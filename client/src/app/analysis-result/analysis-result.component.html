@@ -150,7 +150,7 @@
                         </table>
                         <hr>
                         <div class="h3">Viewport Range</div>
-                        <p>The viewport snapshot above covers the following section of the web page:</p>
+                        <p>The following figure visualize the displayed viewport snapshot out of the web page:</p>
                         <div style="position: relative;">
                           <div style="width: 300px; border: solid 2px; background: #f1f1f1;"
                             [ngStyle]="{'height': ( p2fer.browserInfo.scrollHeight / p2fer.browserInfo.scrollWidth * 300 ) + 'px' }">
@@ -167,6 +167,11 @@
                             }">
                             <span>Visible Viewport</span>
                           </div>
+                        </div>
+                        <div>
+                          <br>
+                          <p><span style="display: inline-block; width: 20px; height: 20px; border: solid 2px; background: #f1f1f1;"></span> Page Area</p>
+                          <p><span style="display: inline-block; width: 20px; height: 20px; border: solid 2px blue; background: #e5e5ff;"></span> Visible Viewport Area</p>
                         </div>
                         <hr>
                       </div>

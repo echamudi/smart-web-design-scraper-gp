@@ -111,6 +111,26 @@
                           </tr>
                         </table>
                         <hr>
+                        <div class="h3">Viewport Range</div>
+                        <p>The viewport snapshot above covers the following section of the web page:</p>
+                        <div style="position: relative;">
+                          <div style="width: 300px; border: solid 2px; background: #f1f1f1;"
+                            [ngStyle]="{'height': ( p2fer.browserInfo.scrollHeight / p2fer.browserInfo.scrollWidth * 300 ) + 'px' }">
+                          </div>
+                          <div style="display: flex; justify-content: center; align-items: center;"
+                            [ngStyle]="{
+                              width: '290px',
+                              position: 'absolute',
+                              border: 'solid 2px blue',
+                              background: '#e5e5ff',
+                              height: ( p2fer.browserInfo.viewportHeight / p2fer.browserInfo.viewportWidth * 300 ) + 'px',
+                              top: (p2fer.browserInfo.pageYOffset * (300 / p2fer.browserInfo.viewportWidth)) + 'px',
+                              left: '5px'
+                            }">
+                            <span>Visible Viewport</span>
+                          </div>
+                        </div>
+                        <hr>
                       </div>
 
                       <!-- SYMMETRY -->

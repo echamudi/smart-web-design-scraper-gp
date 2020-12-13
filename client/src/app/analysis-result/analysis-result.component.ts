@@ -63,6 +63,9 @@ export class AnalysisResultComponent implements OnInit {
   pictureComponentCanvas: HTMLCanvasElement;
   @ViewChild('picturesCanvas', {static: false}) picturesCanvas: ElementRef;
 
+  p2fer: Phase2FeatureExtractorResult;
+  finalScoreObjNew: FinalScoreGetAllScores;
+
   ngOnInit(): void {
     this.showResult = false;
     this.showError = false;
@@ -105,9 +108,13 @@ export class AnalysisResultComponent implements OnInit {
           } = JSON.parse(data.data.getAnalysis.data);
 
           this.analysisResult = responseObj.analysisResultLegacy;
+          this.p2fer = responseObj.phase2FeatureExtractorResult;
+          this.finalScoreObjNew = responseObj.finalScore;
           this.analysisResultRaw = JSON.stringify(this.analysisResult, null, 2);
 
           console.log('analysisResult (Legacy)', this.analysisResult);
+          console.log('phase2FeatureExtractorResult (Legacy)', this.p2fer);
+          console.log('finalScoreObjNew (Legacy)', this.finalScoreObjNew);
           this.buildReport();
         },
         err => {
@@ -287,14 +294,14 @@ export class AnalysisResultComponent implements OnInit {
     const allCharsNew: number = Object
       .keys(textSizeMap)
       .reduce((prev, curr) => prev += textSizeMap[curr], 0);
-    console.log('allCharsNew', allCharsNew);
+    // console.log('allCharsNew', allCharsNew);
 
     const affectedChars: number = Object
       .keys(textSizeMap)
       .filter((size) => Number(size) < minimumSize)
       .reduce((prev, curr) => prev += textSizeMap[curr], 0);
     const nonAffectedChars: number = allCharsNew - affectedChars;
-    console.log('affectedChars', affectedChars);
+    // console.log('affectedChars', affectedChars);
 
     this.fiTextSizeScore = Math.floor(nonAffectedChars * 100 / allCharsNew);
 

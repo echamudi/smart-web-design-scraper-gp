@@ -54,10 +54,10 @@
                         <button type="button" class="list-group-item d-flex justify-content-between align-items-center" [ngClass]="{'active': currentPage === 'Symmetry (Pixel TB)'}" (click)="currentPage = 'Symmetry (Pixel TB)'">
                           Symmetry (Pixel TB)
                         </button>
-                        <button type="button" class="list-group-item d-flex justify-content-between align-items-center" [ngClass]="{'active': currentPage === 'Balance'}" (click)="currentPage = 'Balance'">
+                        <!-- <button type="button" class="list-group-item d-flex justify-content-between align-items-center" [ngClass]="{'active': currentPage === 'Balance'}" (click)="currentPage = 'Balance'">
                           Balance
-                        </button>
-                        <button type="button" class="list-group-item d-flex justify-content-between align-items-center">
+                        </button> -->
+                        <button type="button" class="list-group-item d-flex justify-content-between align-items-center" [ngClass]="{'active': currentPage === 'Complexity'}" (click)="currentPage = 'Complexity'">
                           Complexity
                         </button>
                         <button type="button" class="list-group-item d-flex justify-content-between align-items-center" [ngClass]="{'active': currentPage === 'Density'}" (click)="currentPage = 'Density'">
@@ -330,6 +330,17 @@
                         </table>
                         <hr>
                       </div>
+
+                      <!-- COMPLEXITY -->
+                      <div *ngIf="currentPage == 'Complexity'">
+                        <div class="h2">Text Complexity</div>
+                        <hr>
+                        <p>Complexity is defined by the amount of information in each section of the web page. We calculate the complexity by checking the Text area for each grid.</p>
+                        <p><b>Detection Scope : </b> Entire Page</p>
+                        <canvas #complexityCanvas height="1" style="margin-top: 10px; width: 100%; border: solid 2px red;"></canvas>
+                        <ng-container *ngIf="drawComplexityCanvas()"></ng-container>
+                      </div>
+
 
                       <!-- TEXT SIZE -->
                       <div *ngIf="currentPage == 'Text Size'">

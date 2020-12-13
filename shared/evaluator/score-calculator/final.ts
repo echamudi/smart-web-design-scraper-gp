@@ -18,7 +18,9 @@ export class FinalScore {
 
     // Visible detected DOM elements
     public imageElements: ImageElement[];
+    public imageElementPositions: ElementPosition[];
     public textElements: TextElement[];
+    public textElementPositions: ElementPosition[];
 
     // Element distributions
     public textElementDistribution: number[][];
@@ -62,6 +64,7 @@ export class FinalScore {
         });
         this.textElementDistribution = plotter(textPlotCanvas, textElementPositions, this.plotterConfig).distribution;
         this.textElements = textElements;
+        this.textElementPositions = textElementPositions;
 
         // Image Elements
         const imagePlotCanvas: HTMLCanvasElement = doc.createElement('canvas');
@@ -75,6 +78,7 @@ export class FinalScore {
         });
         this.imageElementDistribution = plotter(imagePlotCanvas, imageElementPositions, this.plotterConfig).distribution;
         this.imageElements = imageElements;
+        this.imageElementPositions = imageElementPositions;
 
         // Major Elements
         const majorPlotCanvas: HTMLCanvasElement = doc.createElement('canvas');

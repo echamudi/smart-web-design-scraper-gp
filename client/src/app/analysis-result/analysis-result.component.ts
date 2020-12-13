@@ -10,6 +10,7 @@ import { MatSliderChange } from '@angular/material/slider';
 import { TextSizeResult, TextSizeConfig, SymmetryResult } from 'Shared/types/factors-legacy';
 import { Phase2FeatureExtractorResult } from 'Shared/types/feature-extractor';
 import { FinalScoreGetAllScores, FinalScore } from 'Shared/evaluator/score-calculator/final';
+import { plotter } from 'Shared/utils/canvas';
 
 @Component({
   selector: 'app-analysis-result',
@@ -70,6 +71,7 @@ export class AnalysisResultComponent implements OnInit {
 
   @ViewChild('domElementDetectionCanvas', {static: false}) domElementDetectionCanvas: ElementRef;
   @ViewChild('objectDetectionCanvas', {static: false}) objectDetectionCanvas: ElementRef;
+  @ViewChild('complexityCanvas', {static: false}) complexityCanvas: ElementRef;
 
   screenshot: HTMLImageElement;
 
@@ -521,6 +523,46 @@ export class AnalysisResultComponent implements OnInit {
       ctx.stroke();
       ctx.closePath();
     });
+
+    return false;
+  }
+
+  // Draw Element Detection Visualization
+  drawComplexityCanvas(): false {
+    const canvas = this.complexityCanvas?.nativeElement as HTMLCanvasElement;
+
+    if (!canvas) { return false; }
+    if (!this.finalScoreObj?.textElementPositions) { return false; }
+
+    const width = this.p2fer.browserInfo.scrollWidth;
+    const height = this.p2fer.browserInfo.scrollHeight;
+    const tileSize = this.finalScoreObj.plotterConfig.tileSize;
+
+    canvas.width = width;
+    canvas.height = height;
+
+    const ctx = canvas.getContext('2d');
+
+    plotter(canvas, this.finalScoreObj.textElementPositions, { ...this.finalScoreObj.plotterConfig, backgroundColor: '#FFFFFF', blockColor: '#19b5fe' });
+
+    // Draw Grid
+    ctx.strokeStyle = 'red';
+    ctx.lineWidth = 5;
+
+    for (let i = 0; i < width; i += tileSize) {
+        ctx.beginPath();
+        ctx.moveTo(i, 0);
+        ctx.lineTo(i, height);
+        ctx.stroke();
+        ctx.closePath();
+    }
+
+    for (let i = 0; i < height; i += tileSize) {
+        ctx.beginPath();
+        ctx.moveTo(0, i);
+        ctx.lineTo(width, i);
+        ctx.stroke();
+    }
 
     return false;
   }

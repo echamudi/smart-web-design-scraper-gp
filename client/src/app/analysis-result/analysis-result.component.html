@@ -339,6 +339,46 @@
                         <p><b>Detection Scope : </b> Entire Page</p>
                         <canvas #complexityCanvas height="1" style="margin-top: 10px; width: 100%; border: solid 2px red;"></canvas>
                         <ng-container *ngIf="drawComplexityCanvas()"></ng-container>
+                        <hr>
+
+                        <div class="h3">Score</div>
+                        <p><b>Complexity Score:</b> {{ fiComplexityScore }}%</p>
+                        <ngx-charts-gauge
+                          [view]="[500, 300]"
+                          [scheme]="{
+                            domain: ['#563d7c']
+                          }"
+                          [min]="0"
+                          [max]="100"
+                          [results]="[{name: 'Complexity', value: fiComplexityScore}]"
+                          [legend]="false"
+                          [legendPosition]="'bottom'"
+                          >
+                        </ngx-charts-gauge>
+                        <div class="clearfix"></div>
+                        <hr>
+
+                        <div class="h3">Analysis</div>
+                        <table class="table">
+                          <tbody>
+                            <tr>
+                              <th scope="row">Score [0,100]</th>
+                              <td>{{ fiComplexityScore }}</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Maximum Grid Complexity [0,1]</th>
+                              <td>{{ finalScoreObj.complexityTextDom.data.maxDensity }}</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Minimum Grid Complexity Score [0,1]</th>
+                              <td>{{ finalScoreObj.complexityTextDom.data.minDensity }}</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Average [0,1]</th>
+                              <td>{{ finalScoreObj.complexityTextDom.data.average }}</td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
 
 

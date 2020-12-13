@@ -75,6 +75,8 @@ export class AnalysisResultComponent implements OnInit {
 
   screenshot: HTMLImageElement;
 
+  fiComplexityScore: number = 0;
+
   ngOnInit(): void {
     this.showResult = false;
     this.showError = false;
@@ -252,6 +254,10 @@ export class AnalysisResultComponent implements OnInit {
       }
     });
 
+    // Factor Item: Complexity
+    this.fiComplexityUpdateScore();
+
+    // Update All
     this.updateFinalScore();
   }
 
@@ -414,6 +420,12 @@ export class AnalysisResultComponent implements OnInit {
     this.updateFinalScore();
   }
 
+  // Factor Item: Complexity
+  fiComplexityUpdateScore() {
+    this.fiComplexityScore = Math.floor(this.finalScoreObj.complexityTextDom.score * 100);
+    this.updateFinalScore();
+  }
+
   // Final Score
 
   updateFinalScore(): void {
@@ -476,6 +488,7 @@ export class AnalysisResultComponent implements OnInit {
     const destCtx = picturesCanvas.getContext('2d');
     destCtx.drawImage(this.pictureComponentCanvas, 0, 0);
   }
+
 
   // Draw Element Detection Visualization
   drawDomElementDetectionCanvas(): false {

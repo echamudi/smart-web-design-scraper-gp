@@ -82,6 +82,12 @@ export class AnalysisResultComponent implements OnInit {
   fiCohesionImageAspectRatioData: {name: string, value: number}[] = [];
   fiCohesionScore: number = 0;
 
+  fiEconomyImagesData: {name: string, value: number}[] = [];
+  fiEconomyImagesScore: number = 0;
+
+  fiEconomyTextData: {name: string, value: number}[] = [];
+  fiEconomyTextScore: number = 0;
+
   ngOnInit(): void {
     this.showResult = false;
     this.showError = false;
@@ -266,26 +272,22 @@ export class AnalysisResultComponent implements OnInit {
     this.fiDensityMajorDomUpdateScore();
 
     // Factor Item: Cohesion
-    this.fiCohesionImageAspectRatioData = [];
-    const cohesionAspectRatioRecord: Record<string, number> = {};
-    this.finalScoreObj.cohesionImageDom.data.transformedMembers.forEach((el) => {
-      if (cohesionAspectRatioRecord[el] === undefined) {
-        cohesionAspectRatioRecord[el] = 1;
-      } else {
-        cohesionAspectRatioRecord[el] += 1;
-      }
-    });
-    Object.keys(cohesionAspectRatioRecord).forEach((key) => {
-      this.fiCohesionImageAspectRatioData.push({
-        name: key,
-        value: cohesionAspectRatioRecord[key]
-      });
-    });
-    this.fiCohesionImageAspectRatioData = this.fiCohesionImageAspectRatioData.sort((a, b) => {
-      if (Number(a.name) < Number(b.name)) { return -1; }
-      else { return 1; }
-    });
+    this.fiCohesionImageAspectRatioData = this.utilArrayToChartData(
+      this.finalScoreObj.cohesionImageDom.data.transformedMembers
+    );
     this.fiCohesionUpdateScore();
+
+    // Factor Item: Economy Images
+    this.fiEconomyImagesData = this.utilArrayToChartData(
+      this.finalScoreObj.economyImageDom.data.transformedMembers
+    );
+    this.fiEconomyImagesUpdateScore();
+
+    // Factor Item: Economy Text
+    this.fiEconomyTextData = this.utilArrayToChartData(
+      this.finalScoreObj.economyTextDom.data.transformedMembers
+    );
+    this.fiEconomyTextUpdateScore();
 
     // Update All
     this.updateFinalScore();
@@ -465,6 +467,18 @@ export class AnalysisResultComponent implements OnInit {
   // Factor Item: Complexity
   fiCohesionUpdateScore() {
     this.fiCohesionScore = Math.floor(this.finalScoreObj.cohesionImageDom.score * 100);
+    this.updateFinalScore();
+  }
+
+  // Factor Item: Economy Images
+  fiEconomyImagesUpdateScore() {
+    this.fiEconomyImagesScore = Math.floor(this.finalScoreObj.economyImageDom.score * 100);
+    this.updateFinalScore();
+  }
+
+  // Factor Item: Economy Text
+  fiEconomyTextUpdateScore() {
+    this.fiEconomyTextScore = Math.floor(this.finalScoreObj.economyTextDom.score * 100);
     this.updateFinalScore();
   }
 
@@ -661,5 +675,28 @@ export class AnalysisResultComponent implements OnInit {
     }
 
     return false;
+  }
+
+  utilArrayToChartData(theArray: number[]): {name: string, value: number}[] {
+    let result: {name: string, value: number}[] = [];
+    const record: Record<string, number> = {};
+    theArray.forEach((el) => {
+      if (record[el] === undefined) {
+        record[el] = 1;
+      } else {
+        record[el] += 1;
+      }
+    });
+    Object.keys(record).forEach((key) => {
+      result.push({
+        name: key,
+        value: record[key]
+      });
+    });
+    result = result.sort((a, b) => {
+      if (Number(a.name) < Number(b.name)) { return -1; }
+      else { return 1; }
+    });
+    return result;
   }
 }

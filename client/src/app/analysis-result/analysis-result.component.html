@@ -495,7 +495,7 @@
                       <!-- COHESION -->
                       <div *ngIf="currentPage == 'Cohesion'">
                         <div class="h2">Cohesion</div>
-                        <p>Our cohesion algorithm checks the consistency of image aspect ratio.</p>
+                        <p>The cohesion algorithm checks the consistency of image aspect ratio.</p>
                         <p><b>Detection Scope : </b> Entire Page</p>
                         <hr>
                         <h3>Score</h3>
@@ -522,6 +522,78 @@
                           [showYAxisLabel]="true"
                           [view]="[600, 300]"
                           [xAxisLabel]="'Aspect Ratio'"
+                          [yAxisLabel]="'Total Objects'"
+                          >
+                        </ngx-charts-bar-vertical>
+                        <div class="clearfix"></div>
+                      </div>
+
+                      <!-- ECONOMY (IMAGES) -->
+                      <div *ngIf="currentPage == 'Economy (Images)'">
+                        <div class="h2">Economy (Images)</div>
+                        <p>The economy-images algorithm checks the consistency of image area.</p>
+                        <p><b>Detection Scope : </b> Entire Page</p>
+                        <hr>
+                        <h3>Score</h3>
+                        <p><b>Economy-images Score:</b> {{ fiEconomyImagesScore }}%</p>
+                        <ngx-charts-gauge
+                          [view]="[500, 300]"
+                          [scheme]="{
+                            domain: ['#563d7c']
+                          }"
+                          [min]="0"
+                          [max]="100"
+                          [results]="[{name: 'Score', value: fiEconomyImagesScore }]"
+                        >
+                        </ngx-charts-gauge>
+                        <div class="clearfix"></div>
+                        <h3>Image Area Distribution</h3>
+                        <ngx-charts-bar-vertical
+                          style="display: block;"
+                          [showDataLabel]="true"
+                          [results]="fiEconomyImagesData"
+                          [xAxis]="true"
+                          [yAxis]="true"
+                          [showXAxisLabel]="true"
+                          [showYAxisLabel]="true"
+                          [view]="[600, 300]"
+                          [xAxisLabel]="'Area (in 100px²)'"
+                          [yAxisLabel]="'Total Objects'"
+                          >
+                        </ngx-charts-bar-vertical>
+                        <div class="clearfix"></div>
+                      </div>
+
+                      <!-- ECONOMY (TEXT) -->
+                      <div *ngIf="currentPage == 'Economy (Text)'">
+                        <div class="h2">Economy (Text)</div>
+                        <p>The economy-text algorithm checks the consistency of text elements area.</p>
+                        <p><b>Detection Scope : </b> Entire Page</p>
+                        <hr>
+                        <h3>Score</h3>
+                        <p><b>Economy-text Score:</b> {{ fiEconomyTextScore }}%</p>
+                        <ngx-charts-gauge
+                          [view]="[500, 300]"
+                          [scheme]="{
+                            domain: ['#563d7c']
+                          }"
+                          [min]="0"
+                          [max]="100"
+                          [results]="[{name: 'Score', value: fiEconomyTextScore }]"
+                        >
+                        </ngx-charts-gauge>
+                        <div class="clearfix"></div>
+                        <h3>Image Area Distribution</h3>
+                        <ngx-charts-bar-vertical
+                          style="display: block;"
+                          [showDataLabel]="true"
+                          [results]="fiEconomyTextData"
+                          [xAxis]="true"
+                          [yAxis]="true"
+                          [showXAxisLabel]="true"
+                          [showYAxisLabel]="true"
+                          [view]="[600, 300]"
+                          [xAxisLabel]="'Area (in 100px²)'"
                           [yAxisLabel]="'Total Objects'"
                           >
                         </ngx-charts-bar-vertical>

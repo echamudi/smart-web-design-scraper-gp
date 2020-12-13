@@ -79,6 +79,9 @@ export class AnalysisResultComponent implements OnInit {
   fiComplexityScore: number = 0;
   fiDensityMajorDomScore: number = 0;
 
+  fiCohesionImageAspectRatioData: {name: string, value: number}[] = [];
+  fiCohesionScore: number = 0;
+
   ngOnInit(): void {
     this.showResult = false;
     this.showError = false;
@@ -262,6 +265,24 @@ export class AnalysisResultComponent implements OnInit {
     // Factor Item: Density Major DOM
     this.fiDensityMajorDomUpdateScore();
 
+    // Factor Item: Cohesion
+    this.fiCohesionImageAspectRatioData = [];
+    const cohesionAspectRatioRecord: Record<string, number> = {};
+    this.finalScoreObj.cohesionImageDom.data.transformedMembers.forEach((el) => {
+      if (cohesionAspectRatioRecord[el] === undefined) {
+        cohesionAspectRatioRecord[el] = 1;
+      } else {
+        cohesionAspectRatioRecord[el] += 1;
+      }
+    });
+    Object.keys(cohesionAspectRatioRecord).forEach((key) => {
+      this.fiCohesionImageAspectRatioData.push({
+        name: key,
+        value: cohesionAspectRatioRecord[key]
+      });
+    });
+    this.fiCohesionUpdateScore();
+
     // Update All
     this.updateFinalScore();
   }
@@ -434,6 +455,12 @@ export class AnalysisResultComponent implements OnInit {
   // Factor Item: Complexity
   fiDensityMajorDomUpdateScore() {
     this.fiDensityMajorDomScore = Math.floor(this.finalScoreObj.densityMajorDom.score * 100);
+    this.updateFinalScore();
+  }
+
+  // Factor Item: Complexity
+  fiCohesionUpdateScore() {
+    this.fiCohesionScore = Math.floor(this.finalScoreObj.cohesionImageDom.score * 100);
     this.updateFinalScore();
   }
 

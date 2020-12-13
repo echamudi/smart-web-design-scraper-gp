@@ -384,7 +384,7 @@
                         </table>
                       </div>
 
-                      <!-- DENSITY -->
+                      <!-- DENSITY (PIXEL) -->
                       <div *ngIf="currentPage == 'Density'">
                         <div class="h2">Density (Pixel)</div>
                         <hr>
@@ -490,6 +490,42 @@
                             </tr>
                           </tbody>
                         </table>
+                      </div>
+
+                      <!-- COHESION -->
+                      <div *ngIf="currentPage == 'Cohesion'">
+                        <div class="h2">Cohesion</div>
+                        <p>Our cohesion algorithm checks the consistency of image aspect ratio.</p>
+                        <p><b>Detection Scope : </b> Entire Page</p>
+                        <hr>
+                        <h3>Score</h3>
+                        <p><b>Cohesion Score:</b> {{ fiCohesionScore }}%</p>
+                        <ngx-charts-gauge
+                          [view]="[500, 300]"
+                          [scheme]="{
+                            domain: ['#563d7c']
+                          }"
+                          [min]="0"
+                          [max]="100"
+                          [results]="[{name: 'Score', value: fiCohesionScore}]"
+                        >
+                        </ngx-charts-gauge>
+                        <div class="clearfix"></div>
+                        <h3>Image Aspect Ratio Distribution</h3>
+                        <ngx-charts-bar-vertical
+                          style="display: block;"
+                          [showDataLabel]="true"
+                          [results]="fiCohesionImageAspectRatioData"
+                          [xAxis]="true"
+                          [yAxis]="true"
+                          [showXAxisLabel]="true"
+                          [showYAxisLabel]="true"
+                          [view]="[600, 300]"
+                          [xAxisLabel]="'Aspect Ratio'"
+                          [yAxisLabel]="'Total Objects'"
+                          >
+                        </ngx-charts-bar-vertical>
+                        <div class="clearfix"></div>
                       </div>
 
                       <!-- TEXT SIZE -->

@@ -22,7 +22,7 @@ export class AnalysisResultComponent implements OnInit {
   constructor(private activatedRoute: ActivatedRoute, private tokenStorage: TokenStorageService, private authService: AuthService) { }
 
   q: string;
-  analysisResultRaw: string;
+  // analysisResultRaw: string;
   // size: string;
   // imageFontSizeURL: string;
   // imageVanillaURL: string;
@@ -137,7 +137,7 @@ export class AnalysisResultComponent implements OnInit {
           // Save responses to object property
           this.analysisResult = responseObj.analysisResultLegacy;
           this.p2fer = responseObj.phase2FeatureExtractorResult;
-          this.analysisResultRaw = JSON.stringify(this.analysisResult, null, 2);
+          // this.analysisResultRaw = JSON.stringify(this.analysisResult, null, 2);
 
           this.finalScoreObj = new FinalScore(document, this.p2fer);
 

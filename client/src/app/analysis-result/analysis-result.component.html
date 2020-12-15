@@ -124,12 +124,12 @@
                           Negative Space
                         </button>
 
-                        <button type="button" class="list-group-item list-group-item-action list-header" disabled>
+                        <!-- <button type="button" class="list-group-item list-group-item-action list-header" disabled>
                           Debug
                         </button>
                         <button type="button" class="list-group-item list-group-item-action" [ngClass]="{'active': currentPage === 'Raw JSON'}" (click)="currentPage = 'Raw JSON'">
                           Raw JSON
-                        </button>
+                        </button> -->
                       </div>
                     </div>
                     <div class="col-9">
@@ -779,11 +779,11 @@
                       </div>
 
                       <!-- RAW JSON -->
-                      <div *ngIf="currentPage == 'Raw JSON'">
+                      <!-- <div *ngIf="currentPage == 'Raw JSON'">
                         <pre>
-      {{ analysisResultRaw }}
+                          {{ analysisResultRaw }}
                         </pre>
-                      </div>
+                      </div> -->
 
                       <!-- USE OF PICTURES -->
                       <div *ngIf="currentPage == 'Use of Pictures'">

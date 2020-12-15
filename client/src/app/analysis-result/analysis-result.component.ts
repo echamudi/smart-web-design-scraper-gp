@@ -709,7 +709,7 @@ export class AnalysisResultComponent implements OnInit {
 
 
     Object.keys(this.p2fer.alignmentPoints.xAlignmentPoints).forEach((axis) => {
-      if (this.p2fer.alignmentPoints.xAlignmentPoints[axis] > 8192) {
+      if (this.p2fer.alignmentPoints.xAlignmentPoints[axis] > 4096) {
         ctx.strokeStyle = 'rgba(255,0,0,1)';
         ctx.lineWidth = 4;
         ctx.beginPath();
@@ -717,6 +717,14 @@ export class AnalysisResultComponent implements OnInit {
         ctx.lineTo(Number(axis), browserInfo.pageYOffset + browserInfo.viewportHeight);
         ctx.stroke();
         ctx.closePath();
+      } else {
+        // ctx.strokeStyle = 'rgba(255,0,0,0.1)';
+        // ctx.lineWidth = 4;
+        // ctx.beginPath();
+        // ctx.moveTo(Number(axis), browserInfo.pageYOffset);
+        // ctx.lineTo(Number(axis), browserInfo.pageYOffset + browserInfo.viewportHeight);
+        // ctx.stroke();
+        // ctx.closePath();
       }
     });
 

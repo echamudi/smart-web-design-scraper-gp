@@ -937,7 +937,7 @@
       <table class="table">
         <tbody>
           <tr>
-            <th scope="row" style="width: 120px;">Left-Right Symmetry</th>
+            <th scope="row" style="width: 120px;">Left-Right Pixel Symmetry</th>
             <td style="width: 50px;">{{ fiSymmetryLRScore }}</td>
             <td>
               <div class="progress">
@@ -946,8 +946,8 @@
             </td>
           </tr>
           <tr>
-            <th scope="row">Top-Bottom Symmetry</th>
-            <td>{{ fiSymmetryTBScore }}</td>
+            <th scope="row" style="width: 120px;">Top-Bottom Pixel Symmetry</th>
+            <td style="width: 50px;">{{ fiSymmetryTBScore }}</td>
             <td>
               <div class="progress">
                 <div class="progress-bar" role="progressbar" [ngStyle]="{width: fiSymmetryTBScore + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
@@ -955,8 +955,17 @@
             </td>
           </tr>
           <tr>
-            <th scope="row">Density</th>
-            <td>{{ fiDensityScore }}</td>
+            <th scope="row" style="width: 120px;">Text Element Complexity</th>
+            <td style="width: 50px;">{{ fiComplexityScore }}</td>
+            <td>
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" [ngStyle]="{width: fiComplexityScore + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row" style="width: 120px;">Pixel Density</th>
+            <td style="width: 50px;">{{ fiDensityScore }}</td>
             <td>
               <div class="progress">
                 <div class="progress-bar" role="progressbar" [ngStyle]="{width: fiDensityScore + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
@@ -964,26 +973,62 @@
             </td>
           </tr>
           <tr>
-            <th scope="row">Use of Pictures</th>
-            <td>{{ fiPicturesScore }}</td>
+            <th scope="row" style="width: 120px;">DOM Element Density</th>
+            <td style="width: 50px;">{{ fiDensityMajorDomScore }}</td>
             <td>
               <div class="progress">
-                <div class="progress-bar" role="progressbar" [ngStyle]="{width: fiPicturesScore + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="progress-bar" role="progressbar" [ngStyle]="{width: fiDensityMajorDomScore + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
             </td>
           </tr>
           <tr>
-            <th scope="row">Text Size</th>
-            <td>{{ fiTextSizeScore }}</td>
+            <th scope="row" style="width: 120px;">Image Element Cohesion</th>
+            <td style="width: 50px;">{{ fiCohesionScore }}</td>
             <td>
               <div class="progress">
-                <div class="progress-bar" role="progressbar" [ngStyle]="{width: fiTextSizeScore + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="progress-bar" role="progressbar" [ngStyle]="{width: fiCohesionScore + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
             </td>
           </tr>
           <tr>
-            <th scope="row">Dominant Colors Area</th>
-            <td>{{ fiDominantColorsVibrantScore }}</td>
+            <th scope="row" style="width: 120px;">Image Element Economy</th>
+            <td style="width: 50px;">{{ fiEconomyImagesScore }}</td>
+            <td>
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" [ngStyle]="{width: fiEconomyImagesScore + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row" style="width: 120px;">Text Element Economy</th>
+            <td style="width: 50px;">{{ fiEconomyTextScore }}</td>
+            <td>
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" [ngStyle]="{width: fiEconomyTextScore + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row" style="width: 120px;">Horizontal Simplicity</th>
+            <td style="width: 50px;">{{ fiSimplicityHorizontalScore }}</td>
+            <td>
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" [ngStyle]="{width: fiSimplicityHorizontalScore + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row" style="width: 120px;">Vertical Simplicity</th>
+            <td style="width: 50px;">{{ fiSimplicityVerticalScore }}</td>
+            <td>
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" [ngStyle]="{width: fiSimplicityVerticalScore + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row" style="width: 120px;">Dominant Color</th>
+            <td style="width: 50px;">{{ fiDominantColorsVibrantScore }}</td>
             <td>
               <div class="progress">
                 <div class="progress-bar" role="progressbar" [ngStyle]="{width: fiDominantColorsVibrantScore + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
@@ -991,8 +1036,26 @@
             </td>
           </tr>
           <tr>
-            <th scope="row">Text Negative Space</th>
-            <td>{{ fiNegativeSpaceScore }}</td>
+            <th scope="row" style="width: 120px;">Picture Usage</th>
+            <td style="width: 50px;">{{ fiPicturesScore }}</td>
+            <td>
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" [ngStyle]="{width: fiPicturesScore + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row" style="width: 120px;">Text Size</th>
+            <td style="width: 50px;">{{ fiTextSizeScore }}</td>
+            <td>
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" [ngStyle]="{width: fiTextSizeScore + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row" style="width: 120px;">Text Negative Space</th>
+            <td style="width: 50px;">{{ fiNegativeSpaceScore }}</td>
             <td>
               <div class="progress">
                 <div class="progress-bar" role="progressbar" [ngStyle]="{width: fiNegativeSpaceScore + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>

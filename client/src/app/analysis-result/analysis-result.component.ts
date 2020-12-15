@@ -509,28 +509,6 @@ export class AnalysisResultComponent implements OnInit {
     this.updateFinalScore();
   }
 
-  // Final Score
-
-  updateFinalScore(): void {
-    // TODO: Update this and add weight
-    const score = Math.floor(
-      (
-        this.fiSymmetryLRScore +
-        this.fiSymmetryTBScore +
-        this.fiTextSizeScore +
-        this.fiPicturesScore +
-        this.fiDominantColorsVibrantScore +
-        this.fiDensityScore +
-        this.fiNegativeSpaceScore
-      )
-      / 7
-    );
-
-    if (score < 1) { this.finalScore = 1; }
-    else if (score > 100) { this.finalScore = 100; }
-    else { this.finalScore = score; }
-  }
-
   // Factor Item: Negative Space
 
   fiNegativeSpaceDrawCanvas() {
@@ -573,8 +551,8 @@ export class AnalysisResultComponent implements OnInit {
     destCtx.drawImage(this.pictureComponentCanvas, 0, 0);
   }
 
+  // DRAW CANVASES
 
-  // Draw Element Detection Visualization
   drawDomElementDetectionCanvas(): false {
     const dedc = this.domElementDetectionCanvas?.nativeElement as HTMLCanvasElement;
 
@@ -590,7 +568,6 @@ export class AnalysisResultComponent implements OnInit {
     return false;
   }
 
-  // Draw Element Detection Visualization
   drawObjectDetectionCanvas(): false {
     const canvas = this.objectDetectionCanvas?.nativeElement as HTMLCanvasElement;
 
@@ -624,7 +601,6 @@ export class AnalysisResultComponent implements OnInit {
     return false;
   }
 
-  // Draw Element Detection Visualization
   drawComplexityCanvas(): false {
     const canvas = this.complexityCanvas?.nativeElement as HTMLCanvasElement;
 
@@ -664,7 +640,6 @@ export class AnalysisResultComponent implements OnInit {
     return false;
   }
 
-  // Draw Element Detection Visualization
   drawDensityMajorDomCanvas(): false {
     console.log('drawDensityMajorDomCanvas 1');
     const dedc = this.densityMajorDomCanvas?.nativeElement;
@@ -791,6 +766,8 @@ export class AnalysisResultComponent implements OnInit {
     return false;
   }
 
+  // UTILS
+
   utilArrayToChartData(theArray: number[]): {name: string, value: number}[] {
     let result: {name: string, value: number}[] = [];
     const record: Record<string, number> = {};
@@ -812,5 +789,41 @@ export class AnalysisResultComponent implements OnInit {
       else { return 1; }
     });
     return result;
+  }
+
+  // FINAL SCORE
+
+  updateFinalScore(): void {
+    // TODO: Update this and add weight
+    const score = Math.floor(
+      (
+        this.fiSymmetryLRScore +
+        this.fiSymmetryTBScore +
+
+        this.fiComplexityScore + // text dom
+        this.fiDensityScore + // pixel
+        this.fiDensityMajorDomScore +
+        this.fiCohesionScore + // image dom
+
+        this.fiEconomyImagesScore +
+        this.fiEconomyTextScore +
+
+        this.fiSimplicityHorizontalScore +
+        this.fiSimplicityVerticalScore +
+
+        this.fiDominantColorsVibrantScore +
+
+        this.fiPicturesScore +
+
+        this.fiTextSizeScore +
+
+        this.fiNegativeSpaceScore // text
+      )
+      / 14
+    );
+
+    if (score < 1) { this.finalScore = 1; }
+    else if (score > 100) { this.finalScore = 100; }
+    else { this.finalScore = score; }
   }
 }

@@ -61,7 +61,8 @@ public class BalanceTestResource {
         int rightHandPoints = 0 ;
 
         for(int i = 0 ; i< objects.size() ; i++) {
-
+             leftHandPoints = 0 ;
+             rightHandPoints = 0 ;
             // loop through points of each object...
             ArrayList<Points> points = objects.get(i).getPoints() ;
             for (int j = 0 ; j <points.size() ; j++) {
@@ -106,9 +107,6 @@ public class BalanceTestResource {
         // if the result is more than 1  it means that the left hand side has more objects...
         // if the result is less than 1 it means that the right hand side has more objects...
         // if the ratio is 1 it means that the objects are identical on both left and right sides...
-
-
-        // building the return ...
 
 
         // the score is the ratio between left objects and right objects...

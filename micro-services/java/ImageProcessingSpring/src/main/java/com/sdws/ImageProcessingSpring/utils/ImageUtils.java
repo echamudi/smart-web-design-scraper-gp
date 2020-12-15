@@ -182,7 +182,7 @@ public class ImageUtils {
           System.out.println("Point (" + points[i].x +"," + points[i].y +")" ) ;
              }
         */
-        System.out.println(squares.get(0).toArray()[0].toString()) ;
+//        System.out.println(squares.get(0).toArray()[0].toString()) ;
         return result ;
     }
 

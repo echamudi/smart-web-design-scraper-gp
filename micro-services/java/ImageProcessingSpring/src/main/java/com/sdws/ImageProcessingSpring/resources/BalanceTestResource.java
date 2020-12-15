@@ -92,7 +92,6 @@ public class BalanceTestResource {
                 // something is wrong...
                 System.out.println("leftHandPoints = " + leftHandPoints + " | " +"middle objects = "+ middleObjects+"|" + "rightHandPoints = " + rightHandPoints) ;
             }
-
         }
 
 

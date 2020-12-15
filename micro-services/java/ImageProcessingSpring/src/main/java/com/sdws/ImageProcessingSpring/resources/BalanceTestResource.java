@@ -89,23 +89,30 @@ public class BalanceTestResource {
                 middleObjects++;
             }else {
                 // something is wrong...
-                System.out.println("something went wrong ...") ;
-                System.out.println("Debug :: "+"leftHandPoints = " + leftHandPoints + " | " +"middle objects = "+ middleObjects+"|" + "rightHandPoints = " + rightHandPoints) ;
+                System.err.println("something went wrong ...") ;
+                System.err.println("Debug :: "+"leftHandPoints = " + leftHandPoints + " | " +"middle objects = "+ middleObjects+"|" + "rightHandPoints = " + rightHandPoints) ;
             }
         }
 
 
 
-        System.out.println("Debug :: "+"leftHandPoints = " + leftHandPoints + " | " +"middle objects = "+ middleObjects+"|" + "rightHandPoints = " + rightHandPoints) ;
+        System.out.println("Debug :: "+"leftHandObjects = " + leftHandObjects + " | " +"middle objects = "+ middleObjects+"|" + "rightHandObjects = " + rightHandObjects) ;
 
 
         // scoring the image on objects on left and right sides of the image...
-//        System.out.println() ;
-
         // score balance ...
+        // getting the ratio of of the objects on let
+        int ratioBetweenRightAndLeftObjects = leftHandObjects/ rightHandObjects  ;
+        // if the result is more than 1  it means that the left hand side has more objects...
+        // if the result is less than 1 it means that the right hand side has more objects...
+        // if the ratio is 1 it means that the objects are identical on both left and right sides...
 
-        //
-        return new BalanceResult(leftHandObjects,rightHandObjects,middleObjects,0) ;
+
+        // building the return ...
+
+
+        // the score is the ratio between left objects and right objects...
+        return new BalanceResult(leftHandObjects,rightHandObjects,middleObjects,ratioBetweenRightAndLeftObjects) ;
     }
 
 

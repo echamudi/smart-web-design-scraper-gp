@@ -120,8 +120,8 @@
                         <button type="button" class="list-group-item list-group-item-action list-header" disabled>
                           Structure
                         </button>
-                        <button type="button" class="list-group-item d-flex justify-content-between text-left align-items-center" [ngClass]="{'active': currentPage === 'Negative Space'}" (click)="currentPage = 'Negative Space'">
-                          Negative Space
+                        <button type="button" class="list-group-item d-flex justify-content-between text-left align-items-center" [ngClass]="{'active': currentPage === 'Negative Space (Text)'}" (click)="currentPage = 'Negative Space (Text)'">
+                          Negative Space (Text)
                         </button>
 
                         <!-- <button type="button" class="list-group-item list-group-item-action list-header" disabled>
@@ -188,7 +188,7 @@
                         <div class="h2">Element Tag Distribution</div>
                         <hr>
                         <p>The following graph describes which DOM elements are mostly used in the web page.</p>
-                        <p><b>Detection Scope : </b> Entire Page Area</p>
+                        <p><b>Detection Scope : </b> Entire Page</p>
                         <ngx-charts-bar-horizontal
                         [view]="[500, fiElementCountBarData.length * 50]"
                         [showDataLabel]="true"
@@ -207,7 +207,7 @@
                         <div class="h2">DOM Element Detection</div>
                         <hr>
                         <p>The following figure visualizes the detected text elements and image elements by using the DOM inspection algorithm.</p>
-                        <p><b>Detection Scope : </b> Entire Page Area</p>
+                        <p><b>Detection Scope : </b> Entire Page</p>
                         <p><span style="display: inline-block; width: 20px; height: 20px; background: #19b5fe;"></span> Text DOM Elements</p>
                         <p><span style="display: inline-block; width: 20px; height: 20px; background: #f2784b;"></span> Image DOM Elements</p>
                         <canvas #domElementDetectionCanvas height="1" style="margin-top: 10px; width: 100%; padding: 5px; border: solid 3px black;"></canvas>
@@ -652,6 +652,7 @@
                       <div *ngIf="currentPage == 'Text Size'">
                         <div class="h2">Text Size</div>
                         <hr>
+                        <p><b>Detection Scope : </b> Entire Page</p>
                         <img [src]="analysisResult.screenshot" alt="" width="100%">
                         <hr>
                         <h3>Score</h3>
@@ -698,6 +699,7 @@
                       <div *ngIf="currentPage == 'Dominant Colors'">
                         <h2>Dominant Colors</h2>
                         <hr>
+                        <p><b>Detection Scope : </b> Visible Viewport Area</p>
                         <img [src]="analysisResult.screenshot" alt="" width="100%">
                         <hr>
                         <h3>Colors</h3>
@@ -754,6 +756,7 @@
                           Type of Font
                         </h2>
                         <hr>
+                        <p><b>Detection Scope : </b> Entire Page</p>
                         <img [src]="analysisResult.screenshot" alt="" width="100%">
                         <hr>
                         <p>
@@ -789,6 +792,7 @@
                       <div *ngIf="currentPage == 'Use of Pictures'">
                         <div class="h2">Use of Pictures</div>
                         <hr>
+                        <p><b>Detection Scope : </b> Entire Page</p>
                         <img [src]="analysisResult.screenshot" alt="" width="100%">
                         <hr>
                         <h3>Score</h3>
@@ -836,13 +840,14 @@
                       </div>
 
                       <!-- NEGATIVE SPACE -->
-                      <div *ngIf="currentPage === 'Negative Space'">
-                        <div class="h2">Negative Space</div>
+                      <div *ngIf="currentPage === 'Negative Space (Text)'">
+                        <div class="h2">Negative Space (Text)</div>
                         <hr>
+                        <p><b>Detection Scope : </b> Entire Page</p>
                         <img [src]="analysisResult.screenshot" alt="" width="100%">
                         <hr>
                         <h3>Score</h3>
-                        <p><b>Text Negative Space Score:</b> {{ fiNegativeSpaceScore }}</p>
+                        <p><b>Text Negative Space (Text) Score:</b> {{ fiNegativeSpaceScore }}</p>
                         <ngx-charts-gauge
                           [view]="[500, 300]"
                           [scheme]="{
@@ -881,6 +886,7 @@
                       <div *ngIf="currentPage === 'Use of Videos'">
                         <div class="h2">Use of Videos</div>
                         <hr>
+                        <p><b>Detection Scope : </b> Entire Page</p>
                         <img [src]="analysisResult.screenshot" alt="" width="100%">
                         <hr>
                         <h3>Analysis</h3>

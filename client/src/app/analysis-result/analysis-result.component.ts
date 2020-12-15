@@ -395,8 +395,8 @@ export class AnalysisResultComponent implements OnInit {
       / this.analysisResult.analysisConfig.pictures.acceptableThreshold
     ) * 100;
 
-    if (score > 100) score = 100;
-    if (score < 1) score = 1;
+    if (score > 100) { score = 100; }
+    if (score < 1) { score = 1; }
 
     this.fiPicturesScore = Math.floor(score);
 

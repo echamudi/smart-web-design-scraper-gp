@@ -57,13 +57,13 @@ public class BalanceTestResource {
         int middleObjects  = 0 ;
         int rightHandObjects = 0 ;
         int numberofObjects = objects.size() ;
+        int leftHandPoints = 0 ;
+        int rightHandPoints = 0 ;
 
         for(int i = 0 ; i< objects.size() ; i++) {
 
             // loop through points of each object...
             ArrayList<Points> points = objects.get(i).getPoints() ;
-            int leftHandPoints = 0 ;
-            int rightHandPoints = 0 ;
             for (int j = 0 ; j <points.size() ; j++) {
                 if (points.get(j).getX() > halfWidth) {
                 // point is on the right half of the image...
@@ -71,7 +71,6 @@ public class BalanceTestResource {
                 } else if (points.get(j).getX() < halfWidth) {
                 // point is on the left half of the image...
                     leftHandPoints++ ;
-
                 }else {
                 // point is exactly on the middle (not counted for now)...
                 System.out.println("point is exactly on the middle of the image...") ;
@@ -90,13 +89,18 @@ public class BalanceTestResource {
                 middleObjects++;
             }else {
                 // something is wrong...
-                System.out.println("leftHandPoints = " + leftHandPoints + " | " +"middle objects = "+ middleObjects+"|" + "rightHandPoints = " + rightHandPoints) ;
+                System.out.println("something went wrong ...") ;
+                System.out.println("Debug :: "+"leftHandPoints = " + leftHandPoints + " | " +"middle objects = "+ middleObjects+"|" + "rightHandPoints = " + rightHandPoints) ;
             }
         }
 
 
+
+        System.out.println("Debug :: "+"leftHandPoints = " + leftHandPoints + " | " +"middle objects = "+ middleObjects+"|" + "rightHandPoints = " + rightHandPoints) ;
+
+
         // scoring the image on objects on left and right sides of the image...
-        System.out.println() ;
+//        System.out.println() ;
 
         // score balance ...
 

@@ -1,4 +1,5 @@
 import { PicturesResult, PictureData } from 'Shared/types/factors-legacy';
+import { isVisible } from 'Shared/utils/is-visible';
 
 export function pictures(doc: Document): PicturesResult {
     let picturesResult: PicturesResult = {
@@ -22,7 +23,7 @@ export function pictures(doc: Document): PicturesResult {
             area: el.clientWidth * el.clientHeight,
             x: bound.left,
             y: bound.top,
-            visible: el.offsetParent !== null
+            visible: isVisible(el)
         })
     });
 
@@ -40,7 +41,7 @@ export function pictures(doc: Document): PicturesResult {
             area: el.clientWidth * el.clientHeight,
             x: bound.left,
             y: bound.top,
-            visible: !invisible
+            visible: isVisible(el)
         })
     });
 
@@ -61,7 +62,7 @@ export function pictures(doc: Document): PicturesResult {
                 area: el.clientWidth * el.clientHeight,
                 x: bound.left,
                 y: bound.top,
-                visible: el.offsetParent !== null
+                visible: isVisible(el)
             })
         }
     })

@@ -52,10 +52,19 @@ public class BalanceTestResource {
 
 
         int halfWidth = width / 2 ;
-        // loop through objects ...
+        int halfHeight=  height/ 2 ;
+
+
+        // objects counts vertical ...
         int leftHandObjects = 0 ;
         int middleObjects  = 0 ;
         int rightHandObjects = 0 ;
+
+        // objects counts horizontal...
+
+
+
+
         int numberofObjects = objects.size() ;
         int leftHandPoints = 0 ;
         int rightHandPoints = 0 ;
@@ -66,6 +75,7 @@ public class BalanceTestResource {
             // loop through points of each object...
             ArrayList<Points> points = objects.get(i).getPoints() ;
             for (int j = 0 ; j <points.size() ; j++) {
+                // vertical Axis check ...
                 if (points.get(j).getX() > halfWidth) {
                 // point is on the right half of the image...
                     rightHandPoints++;
@@ -76,6 +86,11 @@ public class BalanceTestResource {
                 // point is exactly on the middle (not counted for now)...
                 System.out.println("point is exactly on the middle of the image...") ;
                 }
+                // horizontal Axis Check...
+
+
+
+
             }
             // the addition of the two variables leftHandPoints and rightHandPoints should be equal to the 4 points of the object...
             // if the object has more than three or more points on one side then the object is considered to be on that side...
@@ -103,10 +118,12 @@ public class BalanceTestResource {
         // scoring the image on objects on left and right sides of the image...
         // score balance ...
         // getting the ratio of of the objects on let
-        int ratioBetweenRightAndLeftObjects = leftHandObjects/ rightHandObjects  ;
+        int ratioBetweenRightAndLeftObjects = leftHandObjects / rightHandObjects  ;
         // if the result is more than 1  it means that the left hand side has more objects...
         // if the result is less than 1 it means that the right hand side has more objects...
         // if the ratio is 1 it means that the objects are identical on both left and right sides...
+//        int ratioBetweenTopAndDown =  ;
+
 
 
         // the score is the ratio between left objects and right objects...

@@ -31,7 +31,7 @@ public class TestAllResource {
         ShapeDetectionResource shapeDetection = new ShapeDetectionResource() ;
 
 
-        return new TestAllResult(symmetry.checkSymmetry(bufImage),density.checkDensity(bufImage),negativeSpace.checkNegativeSpace(bufImage),shapeDetection.shapeDetection(bufImage));
+        return new TestAllResult(symmetry.checkSymmetry(bufImage),density.checkDensity(bufImage),negativeSpace.checkNegativeSpace(bufImage),ImageUtils.shapeDetection(ImageUtils.img2Mat(ImageUtils.decodeImage(bufImage))));
     }
 
 

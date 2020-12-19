@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class DetectedObject {
 
+
     private ArrayList<Points> points ;
     private double area ;
 

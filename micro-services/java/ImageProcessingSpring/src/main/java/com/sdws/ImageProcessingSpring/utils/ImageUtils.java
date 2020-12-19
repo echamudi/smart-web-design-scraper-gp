@@ -170,7 +170,6 @@ public class ImageUtils {
                     }
                     result.add(new Square(p , Imgproc.contourArea(approx)));
                 }
-
             }
         }
 

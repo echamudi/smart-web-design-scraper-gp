@@ -182,7 +182,7 @@ public class ImageUtils {
 */
         }
 
-        System.out.println("number of Accepted shapes  ==>  " + squares.size()) ;
+        System.out.println("number of Accepted shapes  ==>  " + result.size()) ;
         // test getting the exact points...
         /*
         Point[] points = squares.get(0).toArray() ;

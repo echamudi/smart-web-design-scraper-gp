@@ -2,7 +2,7 @@ package com.sdws.ImageProcessingSpring.models.testAll;
 
 import com.sdws.ImageProcessingSpring.models.density.DensityResult;
 import com.sdws.ImageProcessingSpring.models.negativespace.NegativeSpaceResult;
-import com.sdws.ImageProcessingSpring.models.shapdetection.Square;
+import com.sdws.ImageProcessingSpring.models.shapdetection.DetectedObject;
 import com.sdws.ImageProcessingSpring.models.symmetry.SymmetryResult;
 
 import java.util.ArrayList;
@@ -11,11 +11,11 @@ public class TestAllResult {
     private SymmetryResult symmetryResult ;
     private DensityResult densityResult;
     private NegativeSpaceResult negativeSpaceResult;
-    private ArrayList<Square> shapeDetectionResult ;
+    private ArrayList<DetectedObject> shapeDetectionResult ;
     public TestAllResult() {
     }
 
-    public TestAllResult(SymmetryResult symmetryResult, DensityResult densityResult , NegativeSpaceResult negativeSpaceResult , ArrayList<Square> shapeDetectionResult) {
+    public TestAllResult(SymmetryResult symmetryResult, DensityResult densityResult , NegativeSpaceResult negativeSpaceResult , ArrayList<DetectedObject> shapeDetectionResult) {
         this.symmetryResult = symmetryResult;
         this.densityResult = densityResult;
         this.negativeSpaceResult = negativeSpaceResult ;
@@ -23,11 +23,11 @@ public class TestAllResult {
     }
 
 
-    public ArrayList<Square> getShapeDetectionResult() {
+    public ArrayList<DetectedObject> getShapeDetectionResult() {
         return shapeDetectionResult;
     }
 
-    public void setShapeDetectionResult(ArrayList<Square> shapeDetectionResult) {
+    public void setShapeDetectionResult(ArrayList<DetectedObject> shapeDetectionResult) {
         this.shapeDetectionResult = shapeDetectionResult;
     }
 

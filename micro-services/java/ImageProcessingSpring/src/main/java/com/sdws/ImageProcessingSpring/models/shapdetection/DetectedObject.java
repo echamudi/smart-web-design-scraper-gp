@@ -2,13 +2,13 @@ package com.sdws.ImageProcessingSpring.models.shapdetection;
 
 import java.util.ArrayList;
 
-public class Square {
+public class DetectedObject {
 
     private ArrayList<Points> points ;
     private double area ;
 
 
-    public Square(ArrayList<Points> points, double area) {
+    public DetectedObject(ArrayList<Points> points, double area) {
         this.points = points;
         this.area = area;
     }

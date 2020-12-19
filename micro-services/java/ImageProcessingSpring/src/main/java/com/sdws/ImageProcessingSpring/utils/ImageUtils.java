@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.util.*;
 
 import com.sdws.ImageProcessingSpring.models.shapdetection.Points;
-import com.sdws.ImageProcessingSpring.models.shapdetection.Square;
+import com.sdws.ImageProcessingSpring.models.shapdetection.DetectedObject;
 import org.opencv.core.*;
 import org.opencv.imgproc.Imgproc;
 
@@ -87,7 +87,7 @@ public class ImageUtils {
     }
 
 
-    public static ArrayList<Square> shapeDetection(Mat source) {
+    public static ArrayList<DetectedObject> shapeDetection(Mat source) {
         Mat grey = new Mat();
         Imgproc.cvtColor(source,grey,Imgproc.COLOR_BGR2GRAY);
 //        Imgcodecs.imwrite("C:\\Users\\akumanotatsujin\\Pictures\\grey.png",grey);
@@ -128,7 +128,7 @@ public class ImageUtils {
         approx.convertTo(approx,CvType.CV_32F);
 
         // looping through contours ...
-        ArrayList<Square> result = new ArrayList();
+        ArrayList<DetectedObject> result = new ArrayList();
         for(MatOfPoint contour : contours) {
             // convex hull of border ...
             Imgproc.convexHull(contour,hull);
@@ -148,7 +148,19 @@ public class ImageUtils {
             // a convex quadrilateral with an area greater than a certain threshold and with an angle close to right angle is selected ...
             MatOfPoint approxf1 = new MatOfPoint();
             approx.convertTo(approxf1,CvType.CV_32S);
-            // area check is skipped cause i'm also after small squares ...
+
+            // gettiing the point of the the object and the area ...
+            Point[] points = approxf1.toArray() ;
+            ArrayList<Points> p = new ArrayList<Points>();
+            for (int i = 0 ; i < points.length ; i++){
+                p.add(new Points(points[i].x,points[i].y));
+            }
+            // adding the object to the result set...
+            result.add(new DetectedObject(p , Imgproc.contourArea(approxf1)));
+
+
+
+/*
             if(approx.rows() == 4 && Imgproc.isContourConvex(approxf1)) {
                 System.out.println("contour(square) area ==> " + Math.abs(Imgproc.contourArea(approx)) ) ;
                 double maxCosine = 0 ;
@@ -164,16 +176,13 @@ public class ImageUtils {
                     // points...
                     hulls.add(tmp) ;
                     Point[] points = approx.toArray() ;
-                    ArrayList<Points> p = new ArrayList<Points>();
-                    for (int i = 0 ; i < points.length ; i++){
-                        p.add(new Points(points[i].x,points[i].y));
-                    }
-                    result.add(new Square(p , Imgproc.contourArea(approx)));
+                    result.add(new DetectedObject(p , Imgproc.contourArea(approx)));
                 }
             }
+*/
         }
 
-        System.out.println("number of Accepted squares ==>" + squares.size()) ;
+        System.out.println("number of Accepted shapes  ==>  " + squares.size()) ;
         // test getting the exact points...
         /*
         Point[] points = squares.get(0).toArray() ;

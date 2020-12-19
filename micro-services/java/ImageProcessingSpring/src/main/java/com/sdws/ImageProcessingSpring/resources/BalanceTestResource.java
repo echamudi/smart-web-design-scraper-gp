@@ -1,25 +1,15 @@
 package com.sdws.ImageProcessingSpring.resources;
 
 
-import com.sdws.ImageProcessingSpring.ImageProcessingSpringApplication;
 import com.sdws.ImageProcessingSpring.models.balance.BalanceCallBody;
 import com.sdws.ImageProcessingSpring.models.balance.BalanceResult;
 import com.sdws.ImageProcessingSpring.models.shapdetection.Points;
-import com.sdws.ImageProcessingSpring.models.shapdetection.Square;
-import com.sdws.ImageProcessingSpring.utils.ColorsUtils;
+import com.sdws.ImageProcessingSpring.models.shapdetection.DetectedObject;
 import com.sdws.ImageProcessingSpring.utils.ImageUtils;
-import jdk.jshell.ImportSnippet;
-import org.opencv.core.*;
 import org.springframework.web.bind.annotation.*;
-import org.opencv.imgcodecs.Imgcodecs;
+
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.List;
-
-import org.opencv.imgcodecs.*;
-import org.opencv.imgproc.Imgproc;
-
-import static org.opencv.imgproc.Imgproc.RETR_EXTERNAL;
 
 
 @RestController
@@ -48,7 +38,7 @@ public class BalanceTestResource {
         int width = buffImage.getWidth();
         int height = buffImage.getHeight() ;
 
-        ArrayList<Square> objects = ImageUtils.shapeDetection(ImageUtils.img2Mat(buffImage));
+        ArrayList<DetectedObject> detectedObjects = ImageUtils.shapeDetection(ImageUtils.img2Mat(buffImage));
 
 
         int halfWidth = width / 2 ;
@@ -65,15 +55,15 @@ public class BalanceTestResource {
 
 
 
-        int numberofObjects = objects.size() ;
+        int numberofObjects = detectedObjects.size() ;
         int leftHandPoints = 0 ;
         int rightHandPoints = 0 ;
 
-        for(int i = 0 ; i< objects.size() ; i++) {
+        for(int i = 0; i< detectedObjects.size() ; i++) {
              leftHandPoints = 0 ;
              rightHandPoints = 0 ;
             // loop through points of each object...
-            ArrayList<Points> points = objects.get(i).getPoints() ;
+            ArrayList<Points> points = detectedObjects.get(i).getPoints() ;
             for (int j = 0 ; j <points.size() ; j++) {
                 // vertical Axis check ...
                 if (points.get(j).getX() > halfWidth) {

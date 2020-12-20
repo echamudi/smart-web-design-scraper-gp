@@ -891,4 +891,38 @@ export class AnalysisResultComponent implements OnInit {
   floor(x: number): number {
     return Math.floor(x);
   }
+
+  configAllEqual() {
+    this.weightFiSymmetryLRScore = 1;
+    this.weightFiSymmetryTBScore = 1;
+    this.weightFiComplexityScore = 1;
+    this.weightFiDensityScore = 1;
+    this.weightFiDensityMajorDomScore = 1;
+    this.weightFiCohesionScore = 1;
+    this.weightFiEconomyImagesScore = 1;
+    this.weightFiEconomyTextScore = 1;
+    this.weightFiSimplicityHorizontalScore = 1;
+    this.weightFiSimplicityVerticalScore = 1;
+    this.weightFiDominantColorsVibrantScore = 1;
+    this.weightFiPicturesScore = 1;
+    this.weightFiTextSizeScore = 1;
+    this.weightFiNegativeSpaceScore = 1;
+  }
+
+  configMultimedia() {
+    this.weightFiSymmetryLRScore = 0.8;
+    this.weightFiSymmetryTBScore = 0.8;
+    this.weightFiComplexityScore = 0.5;
+    this.weightFiDensityScore = 0.5;
+    this.weightFiDensityMajorDomScore = 0.5;
+    this.weightFiCohesionScore = 0.2;
+    this.weightFiEconomyImagesScore = 0.2;
+    this.weightFiEconomyTextScore = 0.2;
+    this.weightFiSimplicityHorizontalScore = 0.5;
+    this.weightFiSimplicityVerticalScore = 0.5;
+    this.weightFiDominantColorsVibrantScore = 1;
+    this.weightFiPicturesScore = 1;
+    this.weightFiTextSizeScore = 1;
+    this.weightFiNegativeSpaceScore = 0.8;
+  }
 }

@@ -209,7 +209,11 @@
                       <div *ngIf="currentPage == 'Factor Weights'">
                         <div class="h2">Factor Weights</div>
                         <hr>
-                        <p>You may change the weight of each factor.</p>
+                        <p>Load Presets:</p>
+                        <button class="btn btn-primary" style="margin-right: 10px;" (click)="configAllEqual()">All Equal</button>
+                        <button class="btn btn-primary" (click)="configMultimedia()">Multimedia</button>
+                        <hr>
+                        <p>You may change the weight of each factor:</p>
                         <p><b>Symmetry (Pixel LR)</b></p>
                         <mat-slider style="width: 500px" min="0" max="1" step="0.01" thumbLabel
                         [(value)]="weightFiSymmetryLRScore"

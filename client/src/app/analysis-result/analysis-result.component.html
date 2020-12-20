@@ -35,6 +35,9 @@
                         <button type="button" class="list-group-item list-group-item-action" [ngClass]="{'active': currentPage === 'Element Count'}" (click)="currentPage = 'Element Count'">
                           Element Count
                         </button>
+                        <button type="button" class="list-group-item list-group-item-action" [ngClass]="{'active': currentPage === 'Factor Weights'}" (click)="currentPage = 'Factor Weights'">
+                          Factor Weights
+                        </button>
                         <button type="button" class="list-group-item list-group-item-action list-header" disabled>
                           Detection Visualization
                         </button>
@@ -200,6 +203,82 @@
                         [xAxisLabel]="'count'"
                         >
                         </ngx-charts-bar-horizontal>
+                      </div>
+
+                      <!-- FACTOR WEIGHTS -->
+                      <div *ngIf="currentPage == 'Factor Weights'">
+                        <div class="h2">Factor Weights</div>
+                        <hr>
+                        <p>You may change the weight of each factor.</p>
+                        <p><b>Symmetry (Pixel LR)</b></p>
+                        <mat-slider style="width: 500px" min="0" max="1" step="0.01" thumbLabel
+                        [(value)]="weightFiSymmetryLRScore"
+                        (change)="updateFinalScore()"></mat-slider>
+
+                        <p><b>Symmetry (Pixel TB)</b></p>
+                        <mat-slider style="width: 500px" min="0" max="1" step="0.01" thumbLabel
+                        [(value)]="weightFiSymmetryTBScore"
+                        (change)="updateFinalScore()"></mat-slider>
+
+                        <p><b>Complexity (Text Elements)</b></p>
+                        <mat-slider style="width: 500px" min="0" max="1" step="0.01" thumbLabel
+                        [(value)]="weightFiComplexityScore"
+                        (change)="updateFinalScore()"></mat-slider>
+
+                        <p><b>Density (Pixel)</b></p>
+                        <mat-slider style="width: 500px" min="0" max="1" step="0.01" thumbLabel
+                        [(value)]="weightFiDensityScore"
+                        (change)="updateFinalScore()"></mat-slider>
+
+                        <p><b>Density (DOM)</b></p>
+                        <mat-slider style="width: 500px" min="0" max="1" step="0.01" thumbLabel
+                        [(value)]="weightFiDensityMajorDomScore"
+                        (change)="updateFinalScore()"></mat-slider>
+
+                        <p><b>Cohesion</b></p>
+                        <mat-slider style="width: 500px" min="0" max="1" step="0.01" thumbLabel
+                        [(value)]="weightFiCohesionScore"
+                        (change)="updateFinalScore()"></mat-slider>
+
+                        <p><b>Economy (Images)</b></p>
+                        <mat-slider style="width: 500px" min="0" max="1" step="0.01" thumbLabel
+                        [(value)]="weightFiEconomyImagesScore"
+                        (change)="updateFinalScore()"></mat-slider>
+
+                        <p><b>Economy (Text)</b></p>
+                        <mat-slider style="width: 500px" min="0" max="1" step="0.01" thumbLabel
+                        [(value)]="weightFiEconomyTextScore"
+                        (change)="updateFinalScore()"></mat-slider>
+
+                        <p><b>Simplicity (H)</b></p>
+                        <mat-slider style="width: 500px" min="0" max="1" step="0.01" thumbLabel
+                        [(value)]="weightFiSimplicityHorizontalScore"
+                        (change)="updateFinalScore()"></mat-slider>
+
+                        <p><b>Simplicity (V)</b></p>
+                        <mat-slider style="width: 500px" min="0" max="1" step="0.01" thumbLabel
+                        [(value)]="weightFiSimplicityVerticalScore"
+                        (change)="updateFinalScore()"></mat-slider>
+
+                        <p><b>Dominant Colors</b></p>
+                        <mat-slider style="width: 500px" min="0" max="1" step="0.01" thumbLabel
+                        [(value)]="weightFiDominantColorsVibrantScore"
+                        (change)="updateFinalScore()"></mat-slider>
+
+                        <p><b>Use of Pictures</b></p>
+                        <mat-slider style="width: 500px" min="0" max="1" step="0.01" thumbLabel
+                        [(value)]="weightFiPicturesScore"
+                        (change)="updateFinalScore()"></mat-slider>
+
+                        <p><b>Text Size</b></p>
+                        <mat-slider style="width: 500px" min="0" max="1" step="0.01" thumbLabel
+                        [(value)]="weightFiTextSizeScore"
+                        (change)="updateFinalScore()"></mat-slider>
+
+                        <p><b>Negative Space (Text)</b></p>
+                        <mat-slider style="width: 500px" min="0" max="1" step="0.01" thumbLabel
+                        [(value)]="weightFiNegativeSpaceScore"
+                        (change)="updateFinalScore()"></mat-slider>
                       </div>
 
                       <!-- ELEMENT DETECTION -->
@@ -1086,132 +1165,132 @@
           [tooltipDisabled]="true">
         </ngx-charts-pie-grid>
       </div>
-      <div class="h3">Score Breakdown</div>
+      <div class="h3">Weighted Scores</div>
       <table class="table">
         <tbody>
           <tr>
             <th scope="row" style="width: 120px;">Left-Right Pixel Symmetry</th>
-            <td style="width: 50px;">{{ fiSymmetryLRScore }}</td>
+            <td style="width: 50px;">{{ floor(fiSymmetryLRScore * weightFiSymmetryLRScore) }}</td>
             <td>
               <div class="progress">
-                <div class="progress-bar" role="progressbar" [ngStyle]="{width: fiSymmetryLRScore + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="progress-bar" role="progressbar" [ngStyle]="{width: (fiSymmetryLRScore * weightFiSymmetryLRScore) + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
             </td>
           </tr>
           <tr>
             <th scope="row" style="width: 120px;">Top-Bottom Pixel Symmetry</th>
-            <td style="width: 50px;">{{ fiSymmetryTBScore }}</td>
+            <td style="width: 50px;">{{ floor(fiSymmetryTBScore * weightFiSymmetryTBScore) }}</td>
             <td>
               <div class="progress">
-                <div class="progress-bar" role="progressbar" [ngStyle]="{width: fiSymmetryTBScore + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="progress-bar" role="progressbar" [ngStyle]="{width: (fiSymmetryTBScore * weightFiSymmetryTBScore) + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
             </td>
           </tr>
           <tr>
             <th scope="row" style="width: 120px;">Text Element Complexity</th>
-            <td style="width: 50px;">{{ fiComplexityScore }}</td>
+            <td style="width: 50px;">{{ floor(fiComplexityScore * weightFiComplexityScore) }}</td>
             <td>
               <div class="progress">
-                <div class="progress-bar" role="progressbar" [ngStyle]="{width: fiComplexityScore + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="progress-bar" role="progressbar" [ngStyle]="{width: (fiComplexityScore * weightFiComplexityScore) + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
             </td>
           </tr>
           <tr>
             <th scope="row" style="width: 120px;">Pixel Density</th>
-            <td style="width: 50px;">{{ fiDensityScore }}</td>
+            <td style="width: 50px;">{{ floor(fiDensityScore * weightFiDensityScore) }}</td>
             <td>
               <div class="progress">
-                <div class="progress-bar" role="progressbar" [ngStyle]="{width: fiDensityScore + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="progress-bar" role="progressbar" [ngStyle]="{width: (fiDensityScore * weightFiDensityScore) + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
             </td>
           </tr>
           <tr>
             <th scope="row" style="width: 120px;">DOM Element Density</th>
-            <td style="width: 50px;">{{ fiDensityMajorDomScore }}</td>
+            <td style="width: 50px;">{{ floor(fiDensityMajorDomScore * weightFiDensityMajorDomScore) }}</td>
             <td>
               <div class="progress">
-                <div class="progress-bar" role="progressbar" [ngStyle]="{width: fiDensityMajorDomScore + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="progress-bar" role="progressbar" [ngStyle]="{width: (fiDensityMajorDomScore * weightFiDensityMajorDomScore) + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
             </td>
           </tr>
           <tr>
             <th scope="row" style="width: 120px;">Image Element Cohesion</th>
-            <td style="width: 50px;">{{ fiCohesionScore }}</td>
+            <td style="width: 50px;">{{ floor(fiCohesionScore * weightFiCohesionScore) }}</td>
             <td>
               <div class="progress">
-                <div class="progress-bar" role="progressbar" [ngStyle]="{width: fiCohesionScore + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="progress-bar" role="progressbar" [ngStyle]="{width: (fiCohesionScore * weightFiCohesionScore) + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
             </td>
           </tr>
           <tr>
             <th scope="row" style="width: 120px;">Image Element Economy</th>
-            <td style="width: 50px;">{{ fiEconomyImagesScore }}</td>
+            <td style="width: 50px;">{{ floor(fiEconomyImagesScore * weightFiEconomyImagesScore) }}</td>
             <td>
               <div class="progress">
-                <div class="progress-bar" role="progressbar" [ngStyle]="{width: fiEconomyImagesScore + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="progress-bar" role="progressbar" [ngStyle]="{width: (fiEconomyImagesScore * weightFiEconomyImagesScore) + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
             </td>
           </tr>
           <tr>
             <th scope="row" style="width: 120px;">Text Element Economy</th>
-            <td style="width: 50px;">{{ fiEconomyTextScore }}</td>
+            <td style="width: 50px;">{{ floor(fiEconomyTextScore * weightFiEconomyTextScore) }}</td>
             <td>
               <div class="progress">
-                <div class="progress-bar" role="progressbar" [ngStyle]="{width: fiEconomyTextScore + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="progress-bar" role="progressbar" [ngStyle]="{width: (fiEconomyTextScore * weightFiEconomyTextScore) + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
             </td>
           </tr>
           <tr>
             <th scope="row" style="width: 120px;">Horizontal Simplicity</th>
-            <td style="width: 50px;">{{ fiSimplicityHorizontalScore }}</td>
+            <td style="width: 50px;">{{ floor(fiSimplicityHorizontalScore * weightFiSimplicityHorizontalScore) }}</td>
             <td>
               <div class="progress">
-                <div class="progress-bar" role="progressbar" [ngStyle]="{width: fiSimplicityHorizontalScore + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="progress-bar" role="progressbar" [ngStyle]="{width: (fiSimplicityHorizontalScore * weightFiSimplicityHorizontalScore) + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
             </td>
           </tr>
           <tr>
             <th scope="row" style="width: 120px;">Vertical Simplicity</th>
-            <td style="width: 50px;">{{ fiSimplicityVerticalScore }}</td>
+            <td style="width: 50px;">{{ floor(fiSimplicityVerticalScore * weightFiSimplicityVerticalScore) }}</td>
             <td>
               <div class="progress">
-                <div class="progress-bar" role="progressbar" [ngStyle]="{width: fiSimplicityVerticalScore + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="progress-bar" role="progressbar" [ngStyle]="{width: (fiSimplicityVerticalScore * weightFiSimplicityVerticalScore) + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
             </td>
           </tr>
           <tr>
             <th scope="row" style="width: 120px;">Dominant Color</th>
-            <td style="width: 50px;">{{ fiDominantColorsVibrantScore }}</td>
+            <td style="width: 50px;">{{ floor(fiDominantColorsVibrantScore * weightFiDominantColorsVibrantScore) }}</td>
             <td>
               <div class="progress">
-                <div class="progress-bar" role="progressbar" [ngStyle]="{width: fiDominantColorsVibrantScore + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="progress-bar" role="progressbar" [ngStyle]="{width: (fiDominantColorsVibrantScore * weightFiDominantColorsVibrantScore) + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
             </td>
           </tr>
           <tr>
             <th scope="row" style="width: 120px;">Picture Usage</th>
-            <td style="width: 50px;">{{ fiPicturesScore }}</td>
+            <td style="width: 50px;">{{ floor(fiPicturesScore * weightFiPicturesScore) }}</td>
             <td>
               <div class="progress">
-                <div class="progress-bar" role="progressbar" [ngStyle]="{width: fiPicturesScore + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="progress-bar" role="progressbar" [ngStyle]="{width: (fiPicturesScore * weightFiPicturesScore) + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
             </td>
           </tr>
           <tr>
             <th scope="row" style="width: 120px;">Text Size</th>
-            <td style="width: 50px;">{{ fiTextSizeScore }}</td>
+            <td style="width: 50px;">{{ floor(fiTextSizeScore * weightFiTextSizeScore) }}</td>
             <td>
               <div class="progress">
-                <div class="progress-bar" role="progressbar" [ngStyle]="{width: fiTextSizeScore + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="progress-bar" role="progressbar" [ngStyle]="{width: (fiTextSizeScore * weightFiTextSizeScore) + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
             </td>
           </tr>
           <tr>
             <th scope="row" style="width: 120px;">Text Negative Space</th>
-            <td style="width: 50px;">{{ fiNegativeSpaceScore }}</td>
+            <td style="width: 50px;">{{ floor(fiNegativeSpaceScore * weightFiNegativeSpaceScore) }}</td>
             <td>
               <div class="progress">
-                <div class="progress-bar" role="progressbar" [ngStyle]="{width: fiNegativeSpaceScore + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="progress-bar" role="progressbar" [ngStyle]="{width: (fiNegativeSpaceScore * weightFiNegativeSpaceScore) + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
             </td>
           </tr>

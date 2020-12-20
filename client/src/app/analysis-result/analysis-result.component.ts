@@ -801,37 +801,88 @@ export class AnalysisResultComponent implements OnInit {
 
   // FINAL SCORE
 
+  weightFiSymmetryLRScore: number = 1;
+  weightFiSymmetryTBScore: number = 1;
+  weightFiComplexityScore: number = 1;
+  weightFiDensityScore: number = 1;
+  weightFiDensityMajorDomScore: number = 1;
+  weightFiCohesionScore: number = 1;
+  weightFiEconomyImagesScore: number = 1;
+  weightFiEconomyTextScore: number = 1;
+  weightFiSimplicityHorizontalScore: number = 1;
+  weightFiSimplicityVerticalScore: number = 1;
+  weightFiDominantColorsVibrantScore: number = 1;
+  weightFiPicturesScore: number = 1;
+  weightFiTextSizeScore: number = 1;
+  weightFiNegativeSpaceScore: number = 1;
+
   updateFinalScore(): void {
-    // TODO: Update this and add weight
+    // DEBUG
+    console.log('ORIGINAL SCORES');
+    console.log(
+      this.fiSymmetryLRScore + '\t' +
+      this.fiSymmetryTBScore + '\t' +
+      this.fiComplexityScore + '\t' +
+      this.fiDensityScore + '\t' +
+      this.fiDensityMajorDomScore + '\t' +
+      this.fiCohesionScore + '\t' +
+      this.fiEconomyImagesScore + '\t' +
+      this.fiEconomyTextScore + '\t' +
+      this.fiSimplicityHorizontalScore + '\t' +
+      this.fiSimplicityVerticalScore + '\t' +
+      this.fiDominantColorsVibrantScore + '\t' +
+      this.fiPicturesScore + '\t' +
+      this.fiTextSizeScore + '\t' +
+      this.fiNegativeSpaceScore
+    );
+
+    const divisor =
+      this.weightFiSymmetryLRScore +
+      this.weightFiSymmetryTBScore +
+      this.weightFiComplexityScore +
+      this.weightFiDensityScore +
+      this.weightFiDensityMajorDomScore +
+      this.weightFiCohesionScore +
+      this.weightFiEconomyImagesScore +
+      this.weightFiEconomyTextScore +
+      this.weightFiSimplicityHorizontalScore +
+      this.weightFiSimplicityVerticalScore +
+      this.weightFiDominantColorsVibrantScore +
+      this.weightFiPicturesScore +
+      this.weightFiTextSizeScore +
+      this.weightFiNegativeSpaceScore ;
+
+    if (divisor === 0) {
+      this.finalScore = 100;
+      return;
+    }
+
     const score = Math.floor(
       (
-        this.fiSymmetryLRScore +
-        this.fiSymmetryTBScore +
-
-        this.fiComplexityScore + // text dom
-        this.fiDensityScore + // pixel
-        this.fiDensityMajorDomScore +
-        this.fiCohesionScore + // image dom
-
-        this.fiEconomyImagesScore +
-        this.fiEconomyTextScore +
-
-        this.fiSimplicityHorizontalScore +
-        this.fiSimplicityVerticalScore +
-
-        this.fiDominantColorsVibrantScore +
-
-        this.fiPicturesScore +
-
-        this.fiTextSizeScore +
-
-        this.fiNegativeSpaceScore // text
+      this.weightFiSymmetryLRScore * this.fiSymmetryLRScore +
+      this.weightFiSymmetryTBScore * this.fiSymmetryTBScore +
+      this.weightFiComplexityScore * this.fiComplexityScore + // text dom
+      this.weightFiDensityScore * this.fiDensityScore + // pixel
+      this.weightFiDensityMajorDomScore * this.fiDensityMajorDomScore +
+      this.weightFiCohesionScore * this.fiCohesionScore + // image dom
+      this.weightFiEconomyImagesScore * this.fiEconomyImagesScore +
+      this.weightFiEconomyTextScore * this.fiEconomyTextScore +
+      this.weightFiSimplicityHorizontalScore * this.fiSimplicityHorizontalScore +
+      this.weightFiSimplicityVerticalScore * this.fiSimplicityVerticalScore +
+      this.weightFiDominantColorsVibrantScore * this.fiDominantColorsVibrantScore +
+      this.weightFiPicturesScore * this.fiPicturesScore +
+      this.weightFiTextSizeScore * this.fiTextSizeScore +
+      this.weightFiNegativeSpaceScore * this.fiNegativeSpaceScore // text
       )
-      / 14
+      / divisor
     );
 
     if (score < 1) { this.finalScore = 1; }
     else if (score > 100) { this.finalScore = 100; }
     else { this.finalScore = score; }
+  }
+
+  floor(x: number): number {
+    return Math.floor(x);
   }
 }

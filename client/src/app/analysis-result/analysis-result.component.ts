@@ -483,12 +483,14 @@ export class AnalysisResultComponent implements OnInit {
   // Factor Item: Complexity
   fiCohesionUpdateScore() {
     this.fiCohesionScore = Math.floor(this.finalScoreObj.cohesionImageDom.score * 100);
+    if (Object.is(this.fiCohesionScore, NaN)) { this.fiCohesionScore = 50; }
     this.updateFinalScore();
   }
 
   // Factor Item: Economy Images
   fiEconomyImagesUpdateScore() {
     this.fiEconomyImagesScore = Math.floor(this.finalScoreObj.economyImageDom.score * 100);
+    if (Object.is(this.fiEconomyImagesScore, NaN)) { this.fiEconomyImagesScore = 50; }
     this.updateFinalScore();
   }
 
@@ -777,6 +779,10 @@ export class AnalysisResultComponent implements OnInit {
   // UTILS
 
   utilArrayToChartData(theArray: number[]): {name: string, value: number}[] {
+    if (theArray === undefined) {
+      return [];
+    }
+
     let result: {name: string, value: number}[] = [];
     const record: Record<string, number> = {};
     theArray.forEach((el) => {

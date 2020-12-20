@@ -80,7 +80,13 @@ class App extends React.Component {
     });
   }
 
-  handleSubmit() {
+  handleSubmit(ev: React.MouseEvent | React.KeyboardEvent) {
+    if ('charCode' in ev) {
+      if(ev.keyCode !== 13){
+        return;
+      }
+    }
+
     login(client, this.state.loginUsername, this.state.loginPassword)
     .then(result => {
         chrome.storage.local.set({ token: result.data.login.token }, () => {
@@ -109,11 +115,11 @@ class App extends React.Component {
             <form>
               <div className="form-group">
                 <label>Username</label>
-                <input type="text" className="form-control" name="loginUsername" onChange={this.handleHTMLInputElement} />
+                <input type="text" className="form-control" name="loginUsername" onChange={this.handleHTMLInputElement} onKeyDown={this.handleSubmit}  />
               </div>
               <div className="form-group">
                 <label>Password</label>
-                <input type="password" className="form-control" name="loginPassword" onChange={this.handleHTMLInputElement} />
+                <input type="password" className="form-control" name="loginPassword" onChange={this.handleHTMLInputElement} onKeyDown={this.handleSubmit} />
               </div>
             </form>
             <button className="btn btn-primary" onClick={this.handleSubmit}>Submit</button>
@@ -245,21 +251,22 @@ class Analyzer extends React.Component {
 
     // === START OF LEGACY CODES ===
 
-    const ipsTestAll = await new Promise<JavaResponse>((resolve, reject) => {
-      fetch("http://localhost:3003/test/all", {
-          method: "POST",
-          body: JSON.stringify({img: image}),
-          headers: {
-              'Content-Type': 'application/json'
-          },
-      }).then((res) => {
-          res.json().then((obj) => {
-              resolve(obj);
-          })
-      }).catch(err => {
-          reject(err);
-      })
-    });
+    // const ipsTestAll = await new Promise<JavaResponse>((resolve, reject) => {
+    //   fetch("http://localhost:3003/test/all", {
+    //       method: "POST",
+    //       body: JSON.stringify({img: image}),
+    //       headers: {
+    //           'Content-Type': 'application/json'
+    //       },
+    //   }).then((res) => {
+    //       res.json().then((obj) => {
+    //           resolve(obj);
+    //       })
+    //   }).catch(err => {
+    //       reject(err);
+    //   })
+    // });
+    const ipsTestAll = javaCall.value;
 
     console.log('ipsTestAll (legacy)', ipsTestAll);
 

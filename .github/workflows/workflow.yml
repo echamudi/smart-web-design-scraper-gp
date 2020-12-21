@@ -44,9 +44,9 @@ jobs:
           (cd server && npm run build)
           (cd chrome-ext && npm run build)
 
-      - name: Run Docker containers
+      - name: Run Docker containers (Mongo, Express, Angular)
         run: |
-          docker-compose -f test.docker-compose.yml up --build
+          docker-compose -f test.docker-compose.yml up --build --detach
   
       - name: Test JS/TS codes using Jest
         run: |

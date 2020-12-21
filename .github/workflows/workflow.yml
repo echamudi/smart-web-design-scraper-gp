@@ -1,4 +1,4 @@
-name: CI
+name: CDCI
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
 
     steps:
@@ -29,6 +29,14 @@ jobs:
           (cd server && npm install)
           (cd chrome-ext && npm install)
           (cd test && npm install)
+      
+      - name: Download Java Jars
+        run: |
+          mkdir -p micro-services/java/ImageProcessingSpring/lib
+          (cd micro-services/java/ImageProcessingSpring/lib &&
+          curl https://raw.githubusercontent.com/echamudi/java-jars/main/javacpp-1.5.4.jar -OJ &&
+          curl https://raw.githubusercontent.com/echamudi/java-jars/main/openblas-0.3.10-1.5.4.jar -OJ &&
+          curl https://raw.githubusercontent.com/echamudi/java-jars/main/opencv-4.4.0-1.5.4.jar -OJ)
 
       - name: Build Angular, Chrome Extension, and Express
         run: |

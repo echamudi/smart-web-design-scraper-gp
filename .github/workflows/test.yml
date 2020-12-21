@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  push:
+    branches: [ ezzat-dev, develop, master ]
+  pull_request:
+    branches: [ ezzat-dev, develop, master ]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Check docker and node versions
+        run: |
+          docker -v
+          docker-compose -v
+          node -v
+
+      - name: Install node modules
+        run: |
+          npm install
+          (cd shared && npm install)
+          (cd client && npm install)
+          (cd server && npm install)
+          (cd chrome-ext && npm install)
+          (cd test && npm install)
+
+      - name: Build Angular, Chrome Extension, and Express
+        run: |
+          (cd client && npm run build)
+          (cd server && npm run build)
+          (cd chrome-ext && npm run build)
+
+      - name: Build Java container and run servers
+        run: |
+          docker-compose up -d
+  
+      - name: Test JS/TS codes using Jest
+        run: |
+          npx jest
+
+      - name: Test Express server using Mocha
+        run: |
+          (cd test && npx mocha server-graphql.js)

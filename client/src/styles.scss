@@ -243,3 +243,25 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .analysis-result-final-score svg {
   float: none;
 }
+
+.example-good {
+  border: solid 2px green;
+  background: #d5f4d5;
+  padding: 10px;
+  margin: 20px 0;
+}
+
+.example-good > img {
+  margin: 10px 0;
+}
+
+.example-bad {
+  border: solid 2px #d10000;
+  background: #ffd3d3;
+  padding: 10px;
+  margin: 20px 0;
+}
+
+.example-bad > img {
+  margin: 10px 0;
+}

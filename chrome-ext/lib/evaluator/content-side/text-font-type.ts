@@ -1,5 +1,5 @@
-import { styleInPage } from "../../helpers/style-parser";
-import { TextFontTypeResult } from 'Shared/types/factors';
+import { styleInPage } from "Shared/utils/style-parser";
+import { TextFontTypeResult } from 'Shared/types/factors-legacy';
 
 
 export function textFontType(win: Window): TextFontTypeResult {

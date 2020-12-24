@@ -1,13 +1,17 @@
 import React, { SyntheticEvent } from 'react';
 import ReactDOM from 'react-dom';
-import { AppState, AnalysisConfig, AnalysisResult, ImageProcessingSpringTestAll } from 'Shared/types/types';
-import { DominantColorsResult, SymmetryResult, ColorCountResult } from 'Shared/types/factors';
-import { dominantColors } from '../evaluator/extension-side/dominant-colors';
+import { AppState, AnalysisConfig, AnalysisResult } from 'Shared/types/types-legacy';
+import { DominantColorsResult, ColorCountResult } from 'Shared/types/factors-legacy';
 import { ApolloClient, InMemoryCache, NormalizedCacheObject, gql } from 'Shared/node_modules/@apollo/client/core';
 import { login } from 'Shared/apollo-client/auth'
-import { symmetry } from '../evaluator/extension-side/symmetry';
-import { colorCount } from '../evaluator/extension-side/color-count';
-import { density } from '../evaluator/extension-side/density';
+import { symmetry } from 'Shared/evaluator/extension-side/symmetry';
+import { colorCount } from 'Shared/evaluator/extension-side/color-count';
+import { density } from 'Shared/evaluator/extension-side/density';
+import { Phase1FeatureExtractorResult, Phase2FeatureExtractorResult } from 'Shared/types/feature-extractor';
+import { FinalScore } from 'Shared/evaluator/score-calculator/final';
+import { vibrantColorsExtract } from 'Shared/evaluator/feature-extractor/vibrant-colors';
+import { JavaResponse } from 'Shared/types/java';
+import { dominantColors } from '../evaluator/extension-side/dominant-colors';
 
 const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
   uri: 'http://localhost:3001/graphql',
@@ -27,6 +31,11 @@ async function init(): Promise<number> {
       });
     });
   });
+}
+
+type ContentRes = {
+  phase1FeatureExtractorResult: Phase1FeatureExtractorResult,
+  analysisResultLegacy: AnalysisResult
 }
 
 // chrome.tabs.captureVisibleTab({}, function (image) {
@@ -71,7 +80,13 @@ class App extends React.Component {
     });
   }
 
-  handleSubmit() {
+  handleSubmit(ev: React.MouseEvent | React.KeyboardEvent) {
+    if ('charCode' in ev) {
+      if(ev.keyCode !== 13){
+        return;
+      }
+    }
+
     login(client, this.state.loginUsername, this.state.loginPassword)
     .then(result => {
         chrome.storage.local.set({ token: result.data.login.token }, () => {
@@ -100,11 +115,11 @@ class App extends React.Component {
             <form>
               <div className="form-group">
                 <label>Username</label>
-                <input type="text" className="form-control" name="loginUsername" onChange={this.handleHTMLInputElement} />
+                <input type="text" className="form-control" name="loginUsername" onChange={this.handleHTMLInputElement} onKeyDown={this.handleSubmit}  />
               </div>
               <div className="form-group">
                 <label>Password</label>
-                <input type="password" className="form-control" name="loginPassword" onChange={this.handleHTMLInputElement} />
+                <input type="password" className="form-control" name="loginPassword" onChange={this.handleHTMLInputElement} onKeyDown={this.handleSubmit} />
               </div>
             </form>
             <button className="btn btn-primary" onClick={this.handleSubmit}>Submit</button>
@@ -131,13 +146,13 @@ class Analyzer extends React.Component {
         minimumSize: 12
       },
       pictures: {
-        acceptableThreshold: 300000
+        acceptableThreshold: 10
       },
       symmetry: {
-        acceptablePercentage: 80
+        acceptablePercentage: 100
       },
       dominantColors: {
-        vibrantMaxAreaPercentage: 2
+        vibrantMaxAreaPercentage: 5
       },
       density: {
         acceptableThreshold: 80
@@ -171,37 +186,96 @@ class Analyzer extends React.Component {
       });
     });
 
-    // Fetch Java ImageProcessingSpring TestAll
-
-    const ipsTestAll = await new Promise<ImageProcessingSpringTestAll>((resolve, reject) => {
-      fetch("http://localhost:3003/test/all", {
-          method: "POST",
-          body: JSON.stringify({img: image}),
-          headers: {
-              'Content-Type': 'application/json'
-          },
-      }).then((res) => {
-          res.json().then((obj) => {
-              resolve(obj);
-          })
-      }).catch(err => {
-          reject(err);
+    // Calculate all async values
+    const [
+      contentRes,
+      vibrantColorsExtractSettledResult,
+      javaCall
+    ] = await Promise.allSettled([
+      new Promise<ContentRes>((resolve, reject) => {
+        chrome.tabs.sendMessage(tabId, { message: "extract-features", config: this.state.config }, (response: ContentRes) => {
+          resolve(response);
+        });
+      }),
+      vibrantColorsExtract(image),
+      new Promise<JavaResponse>((resolve, reject) => {
+        fetch("http://localhost:3003/test/all", {
+            method: "POST",
+            body: JSON.stringify({img: image}),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        }).then((res) => {
+            res.json().then((obj) => {
+                resolve(obj);
+            })
+        }).catch(err => {
+            reject(err);
+        })
       })
-    });
+    ]);
 
-    console.log('ipsTestAll', ipsTestAll);
+    if (contentRes.status === 'rejected') {
+      console.log('failed to do content script');
+      this.setState(() => ({ analyzingStatus: 'Done!' }));
+      return;
+    }
+
+    if (vibrantColorsExtractSettledResult.status === 'rejected') {
+      console.log('failed to do vibrantColorsExtract');
+      this.setState(() => ({ analyzingStatus: 'Done!' }));
+      return;
+    }
+
+    if (javaCall.status === 'rejected') {
+      console.log('failed to do Java Image Processing');
+      this.setState(() => ({ analyzingStatus: 'Done!' }));
+      return;
+    }
+
+    const analysisResultLegacy = contentRes.value.analysisResultLegacy;
+    const phase1FeatureExtractorResult = contentRes.value.phase1FeatureExtractorResult;
+    const vibrantColorsExtractResult = vibrantColorsExtractSettledResult.value;
+    const javaResponse = javaCall.value;
+
+    const phase2FeatureExtractorResult: Phase2FeatureExtractorResult = {
+      ...phase1FeatureExtractorResult,
+      vibrantColors: vibrantColorsExtractResult,
+      javaResponse
+    }
+
+    const finalScore = new FinalScore(document, phase2FeatureExtractorResult);
+
+    console.log('phase2FeatureExtractorResult', phase2FeatureExtractorResult);
+    console.log('finalScore', finalScore.getAllScores());
+
+    // === START OF LEGACY CODES ===
+
+    // const ipsTestAll = await new Promise<JavaResponse>((resolve, reject) => {
+    //   fetch("http://localhost:3003/test/all", {
+    //       method: "POST",
+    //       body: JSON.stringify({img: image}),
+    //       headers: {
+    //           'Content-Type': 'application/json'
+    //       },
+    //   }).then((res) => {
+    //       res.json().then((obj) => {
+    //           resolve(obj);
+    //       })
+    //   }).catch(err => {
+    //       reject(err);
+    //   })
+    // });
+    const ipsTestAll = javaCall.value;
+
+    console.log('ipsTestAll (legacy)', ipsTestAll);
 
     // Calculate all sync values
     const symmetryResult = symmetry(ipsTestAll.symmetryResult);
     const densityResult = density(ipsTestAll.densityResult);
 
     // Calculate all async values
-    let [analysisResult, dominantColorsResult, colorCountResult] = await Promise.allSettled([
-      new Promise<Partial<AnalysisResult>>((resolve, reject) => {
-        chrome.tabs.sendMessage(tabId, { message: "analyze", config: this.state.config }, (response: Partial<AnalysisResult>) => {
-          resolve(response);
-        });
-      }),
+    let [dominantColorsResult, colorCountResult] = await Promise.allSettled([
       new Promise<DominantColorsResult>((resolve, reject) => {
         chrome.tabs.captureVisibleTab({}, async (image) => {
           const result = await dominantColors(image);
@@ -214,14 +288,9 @@ class Analyzer extends React.Component {
       }),
     ]);
 
-    if (analysisResult.status === 'rejected') {
-      console.log('Can\'t get analysisResult');
-      return;
-    }
-
     // Combine contentside result with extensionside result
     const finalAnalysisResult: Partial<AnalysisResult> = {
-      ...analysisResult.value,
+      ...analysisResultLegacy,
       html: '', // remove html for now
       symmetryResult,
       densityResult,
@@ -230,10 +299,6 @@ class Analyzer extends React.Component {
       screenshot: image
     };
 
-    // if (this.state.snapshot) {
-    //   analysisResult.screnshot = this.state.snapshot;
-    // }
-
     // Get token
     const token: string = await new Promise<string>((resolve, reject) => {
       chrome.storage.local.get('token', (items) => {
@@ -241,15 +306,35 @@ class Analyzer extends React.Component {
       });
     });
 
-    console.log('finalAnalysisResult', finalAnalysisResult);
+    console.log('finalAnalysisResult (legacy)', finalAnalysisResult);
+
+    // ({
+    //   // Legacy
+    //   analysisResultLegacy: finalAnalysisResult,
+
+    //   // New
+    //   phase2FeatureExtractorResult,
+    //   finalScore: finalScore.getAllScores(),
+    // })
+
 
     // Send result to server
     const sentReceipt = await client.mutate({
-      mutation: gql`mutation ($data: String!) {
-        saveAnalysis(data: $data)
+      mutation: gql`mutation ($data: String!, $url: String!) {
+        saveAnalysis(data: $data, url: $url)
       }`,
       variables: {
-        data: JSON.stringify(finalAnalysisResult)
+        data: JSON.stringify(
+          {
+            // Legacy
+            analysisResultLegacy: finalAnalysisResult,
+      
+            // New
+            phase2FeatureExtractorResult,
+            finalScore: finalScore.getAllScores(),
+          }
+        ),
+        url: finalAnalysisResult.browserInfoResult?.url
       },
       context: {
           headers: {
@@ -261,6 +346,8 @@ class Analyzer extends React.Component {
     console.log('sentReceipt', sentReceipt);
 
     this.setState(() => ({ analyzingStatus: 'Done!', result: finalAnalysisResult, snapshot: image, lastReceiptId: sentReceipt.data?.saveAnalysis }));
+
+    // === END OF LEGACY CODES ===
   };
 
   marktextSizeToggle(e: React.ChangeEvent<HTMLInputElement>) {

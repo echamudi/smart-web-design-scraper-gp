@@ -1,8 +1,9 @@
-import { TextSizeConfig, TextSizeResult, BrowserInfoResult, SymmetryResult, DominantColorsConfig, PicturesConfig, SymmetryConfig, ColorCountResult, DensityResult, DensityConfig, NegativeSpaceResult, VideosResult } from "./factors";
-import { TextFontTypeResult } from "./factors";
-import { PicturesResult } from "./factors";
-import { DominantColorsResult } from "./factors";
-import { ElementCountResult } from "./factors";
+import { TextSizeConfig, TextSizeExtractResult, SymmetryExtractResult, DominantColorsConfig, PicturesConfig, SymmetryConfig, ColorCountExtractResult, DensityExtractResult, DensityConfig, NegativeSpaceExtractResult, VideosExtractResult } from "./factors";
+import { TextFontTypeExtractResult } from "./factors";
+import { PicturesExtractResult } from "./factors";
+import { DominantColorsExtractResult } from "./factors";
+import { ElementCountExtractResult } from "./factors";
+import { ImageElementsExtractResult, TextElementsExtractResult, BrowserInfoExtractResult } from './feature-extractor';
 
 export interface AnalysisConfig {
     textSize: TextSizeConfig,
@@ -13,60 +14,41 @@ export interface AnalysisConfig {
 }
 
 export interface AnalysisResult {
-    html: string;
-    analysisConfig: AnalysisConfig;
+    html: string,
+    analysisConfig: AnalysisConfig,
 
-    screenshot: string;
-    textSizeResult: TextSizeResult;
-    textFontTypeResult: TextFontTypeResult;
-    picturesResult: PicturesResult;
-    dominantColorsResult: DominantColorsResult;
-    elementCountResult: ElementCountResult;
-    browserInfoResult: BrowserInfoResult;
-    symmetryResult: SymmetryResult;
-    colorCountResult: ColorCountResult;
-    densityResult: DensityResult;
-    negativeSpaceResult: NegativeSpaceResult;
-    videosResult: VideosResult;
+    screenshot: string,
+    textSizeResult: TextSizeExtractResult,
+    textFontTypeResult: TextFontTypeExtractResult,
+    picturesResult: PicturesExtractResult,
+    dominantColorsResult: DominantColorsExtractResult,
+    elementCountResult: ElementCountExtractResult,
+    browserInfoResult: BrowserInfoExtractResult,
+    symmetryResult: SymmetryExtractResult,
+    colorCountResult: ColorCountExtractResult,
+    densityResult: DensityExtractResult,
+    negativeSpaceResult: NegativeSpaceExtractResult,
+    videosResult: VideosExtractResult,
+    imageElementsResult: ImageElementsExtractResult,
+    textElementsResult: TextElementsExtractResult
 }
 
 export interface AppState {
-    analyzingStatus: string;
-    config: AnalysisConfig;
-    result: Partial<AnalysisResult>;
+    analyzingStatus: string,
+    config: AnalysisConfig,
+    result: Partial<AnalysisResult>,
     lastReceiptId?: string,
 
     /**
      * viewport snapshot
      */
-    snapshot: string | null;
+    snapshot: string | null,
 }
 
-export interface ImageProcessingSpringTestAll {
-    symmetryResult?: {
-        horizontalSymmetry?: {
-            percentage?: number,
-            allVisitedPixels?: number,
-            symmetricalPixels?: number,
-            nonSymmetricalPixels?: number
-        },
-        verticalSymmetry?: {
-            percentage?: number,
-            allVisitedPixels?: number,
-            symmetricalPixels?: number,
-            nonSymmetricalPixels?: number
-        }
-    },
-    densityResult?: {
-        densityPercentage?: number,
-        allPixels?: number,
-        backgroundColor?: number,
-        backgroundPixels?: number
-    },
-    negativeSpaceResult?: {
-        negativeSpacePercentage?: number,
-        allPixels?: number,
-        backgroundColor?: number,
-        backgroundPixels?: number
-    }
+// Helpers
+export interface ElementPosition {
+    x: number,
+    y: number,
+    w: number,
+    h: number
 }

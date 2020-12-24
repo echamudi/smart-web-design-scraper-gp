@@ -1,4 +1,4 @@
-import { VideosResult, VideoData } from 'Shared/types/factors';
+import { VideosResult, VideoData } from 'Shared/types/factors-legacy';
 
 export function videos(doc: Document): VideosResult {
     let videosResult: VideosResult = {

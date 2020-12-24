@@ -2,6 +2,10 @@
 
 {
   "compilerOptions": {
+    "lib": ["DOM", "ES2015", "ES2020.Promise"],
+    "strict": true,
+    "downlevelIteration": true,
+    "esModuleInterop": true,
     "baseUrl": "./",
     "paths": {
       "Shared/*": ["../shared/*"],

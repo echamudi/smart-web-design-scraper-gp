@@ -1,4 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { gql } from '@apollo/client/core';
+import { from as observableFrom } from 'rxjs';
+import { TokenStorageService } from '../_services/token-storage.service';
+import { AuthService } from '../_services/auth.service';
+
+type AnalysisLite = {id: string, date: string, url: string};
 
 @Component({
   selector: 'app-previous-analysis',
@@ -7,9 +13,48 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PreviousAnalysisComponent implements OnInit {
 
-  constructor() { }
+  constructor(private tokenStorage: TokenStorageService, private authService: AuthService) { }
+
+  analyses: AnalysisLite[] = [];
 
   ngOnInit(): void {
+    const tok = this.tokenStorage.getToken();
+
+    observableFrom(
+      this.authService.client.query({
+        query: gql`query {
+          getAnalyses {
+            id,
+            date,
+            url
+          }
+        }`,
+        variables: {
+        },
+        context: {
+          headers: {
+            'x-access-token': tok
+          }
+        }
+      })
+    ).subscribe(
+      data => {
+        const rawAnalyses: any[] = data?.data?.getAnalyses ?? [];
+
+        this.analyses = rawAnalyses
+          .slice()
+          .sort((a, b) => a.date > b.date ? -1 : 1)
+          .map((el) => ({
+            ...el,
+            date: (new Date(parseInt(el.date, 10))).toLocaleString()
+          }));
+
+        console.log('Analyses', this.analyses);
+      },
+      err => {
+        console.log('Err', err);
+      }
+    );
   }
 
 }

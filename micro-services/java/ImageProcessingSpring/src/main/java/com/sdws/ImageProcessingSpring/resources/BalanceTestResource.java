@@ -1,123 +1,129 @@
 package com.sdws.ImageProcessingSpring.resources;
 
 
+import com.sdws.ImageProcessingSpring.ImageProcessingSpringApplication;
 import com.sdws.ImageProcessingSpring.models.balance.BalanceCallBody;
 import com.sdws.ImageProcessingSpring.models.balance.BalanceResult;
+import com.sdws.ImageProcessingSpring.models.shapdetection.Points;
+import com.sdws.ImageProcessingSpring.models.shapdetection.Square;
 import com.sdws.ImageProcessingSpring.utils.ColorsUtils;
 import com.sdws.ImageProcessingSpring.utils.ImageUtils;
+import jdk.jshell.ImportSnippet;
 import org.opencv.core.*;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.*;
+import org.opencv.imgcodecs.Imgcodecs;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.opencv.imgcodecs.*;
 import org.opencv.imgproc.Imgproc;
 
+import static org.opencv.imgproc.Imgproc.RETR_EXTERNAL;
+
 
 @RestController
 @RequestMapping("/balance")
+@CrossOrigin(origins = "*") // Temporarily allowing all origins
 public class BalanceTestResource {
 
 
     @PostMapping("/test")
     public BalanceResult balanceTest(@RequestBody BalanceCallBody body){
-
+//        System.loadLibrary("opencv_java440");
+//        System.loadLibrary( Core.NATIVE_LIBRARY_NAME );
         System.out.println("balance route...");
-        balanceTest( ImageUtils.decodeImage(body.getImg()));
-        return new BalanceResult("is working...") ;
+      //  balanceTest( ImageUtils.decodeImage(body.getImg()));
+//        return new BalanceResult("is working...") ;
+    return balanceTest(ImageUtils.decodeImage(body.getImg())) ;
     }
 
 
     private BalanceResult balanceTest(BufferedImage buffImage) {
-        try {
-            // preparing the image before using detection tools...
-            int backgroundColor = ColorsUtils.getMostCommonColor(ImageUtils.getColorCounts(buffImage));
-            BufferedImage imageWithWhiteBackground = ImageUtils.setAllBackgroundToWhite(buffImage, backgroundColor);
+        // test all of the points of the objects if they're on the right side or the left side of the image
+        // if x is more than the half of width then the point is on the right side...
+        // if x is less than the half of the width then the point is on the left side...
+        // if an object have two points at each side , it means that the object is in the middle of the image...
 
-            // convert to Mat ...
-            Mat source = ImageUtils.img2Mat(imageWithWhiteBackground);
-//        // a place to hold the greyed out version of the image...
-            Mat greyedOutImage = new Mat(source.rows(), source.cols(), source.type());
-//        // greying out the image and storing it...
-            Imgproc.cvtColor(source, greyedOutImage, Imgproc.COLOR_RGB2GRAY);
-//        // equalizing the histogram of the image ... (improving the contrast of the image)
-////        Imgproc.equalizeHist(greyedOutImage,greyedOutImage);
-//        // blurring the image ...
-            Imgproc.GaussianBlur(greyedOutImage, greyedOutImage, new Size(5, 5), 0, 0, Core.BORDER_DEFAULT);
-//
-//        Imgproc.Canny(greyedOutImage,);
-            Mat edges = new Mat();
-            // Canny detect edges...
-            Imgproc.Canny(greyedOutImage, edges, 100, 300);
-            // Expnad , connect edges...
-            Imgproc.dilate(greyedOutImage, greyedOutImage, new Mat(), new Point(-1, -1), 3, 1, new Scalar(1));
-            // find contours
-            ArrayList<MatOfPoint> contours = new ArrayList<>();
-            Mat hierarchy = new Mat();
-            Imgproc.findContours(greyedOutImage, contours, hierarchy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
+        int width = buffImage.getWidth();
+        int height = buffImage.getHeight() ;
+
+        ArrayList<Square> objects = ImageUtils.shapeDetection(ImageUtils.img2Mat(buffImage));
 
 
-            // find Squares ... or rectangles...
-            ArrayList<MatOfPoint> rectangles = new ArrayList<>();
-            MatOfInt hull = new MatOfInt();
-            for (MatOfPoint contour : contours) {
-                Imgproc.convexHull(contour, hull);
-                // array of points for each of the detected contours...
-                Point[] contourPoints = contour.toArray();
-                int[] indices = hull.toArray();
-                ArrayList<Point> newPoints = new ArrayList<>();
-                for (int index : indices) {
-                    newPoints.add(contourPoints[index]);
+        int halfWidth = width / 2 ;
+        // loop through objects ...
+        int leftHandObjects = 0 ;
+        int middleObjects  = 0 ;
+        int rightHandObjects = 0 ;
+        int numberofObjects = objects.size() ;
+
+        for(int i = 0 ; i< objects.size() ; i++) {
+
+            // loop through points of each object...
+            ArrayList<Points> points = objects.get(i).getPoints() ;
+            int leftHandPoints = 0 ;
+            int rightHandPoints = 0 ;
+            for (int j = 0 ; j <points.size() ; j++) {
+                if (points.get(j).getX() > halfWidth) {
+                // point is on the right half of the image...
+                    rightHandPoints++;
+                } else if (points.get(j).getX() < halfWidth) {
+                // point is on the left half of the image...
+                    leftHandPoints++ ;
+
+                }else {
+                // point is exactly on the middle (not counted for now)...
+                System.out.println("point is exactly on the middle of the image...") ;
                 }
-                MatOfPoint2f contourHull = new MatOfPoint2f();
-                MatOfPoint2f approx = new MatOfPoint2f();
-                contourHull.fromList(newPoints);
-
-                // polygon fitting convex hull borders (less accurate fitting at this point).
-                Imgproc.approxPolyDP(contourHull, approx, Imgproc.arcLength(contourHull, true) * 0.02, true);
-
-                // A convex quadrilateral with an area greater than a certain threshold and a quadrilateral with angles close to right angles is selected...
-                MatOfPoint approxf1 = new MatOfPoint();
-                approx.convertTo(approxf1, CvType.CV_32S);
-                if (approx.rows() == 4 && Math.abs(Imgproc.contourArea(approx)) > 40000 && Imgproc.isContourConvex(approxf1)) {
-                    // contour is a rectangle...
-                    double maxCosine = 0;
-
-                    for (int j = 2; j < 5; j++) {
-                        double cosine = Math.abs(getAngle(approxf1.toArray()[j % 4], approxf1.toArray()[j - 2], approxf1.toArray()[j - 1]));
-                        maxCosine = Math.max(maxCosine, cosine);
-                    }
-                    // the angle should be about 72 degrees...
-                    if (maxCosine < 0.3) {
-                        MatOfPoint tmp = new MatOfPoint();
-                        contourHull.convertTo(tmp, CvType.CV_32S);
-                        rectangles.add(approxf1);
-//                    hulls.add() ;
-                    }
-                }
-
-
             }
-        }catch(Exception e) {
-            e.printStackTrace();
+            // the addition of the two variables leftHandPoints and rightHandPoints should be equal to the 4 points of the object...
+            // if the object has more than three or more points on one side then the object is considered to be on that side...
+            if (leftHandPoints >= 3) {
+                // the object is on the left side...
+                leftHandObjects++;
+            }else if (rightHandPoints >= 3 ) {
+                // the object is on the right side...
+                rightHandObjects++;
+            }else if(rightHandPoints == leftHandPoints) {
+                // object is in the middle...
+                middleObjects++;
+            }else {
+                // something is wrong...
+                System.out.println("leftHandPoints = " + leftHandPoints + " | " +"middle objects = "+ middleObjects+"|" + "rightHandPoints = " + rightHandPoints) ;
+            }
+
         }
 
-        return null ;
+
+        // scoring the image on objects on left and right sides of the image...
+        System.out.println() ;
+
+        // score balance ...
+
+        //
+        return new BalanceResult(leftHandObjects,rightHandObjects,middleObjects,0) ;
     }
 
 
-    private static double getAngle(Point pt1, Point pt2, Point pt0)
-    {
-        double dx1 = pt1.x - pt0.x;
-        double dy1 = pt1.y - pt0.y;
-        double dx2 = pt2.x - pt0.x;
-        double dy2 = pt2.y - pt0.y;
-        return (dx1*dx2 + dy1*dy2)/Math.sqrt((dx1*dx1 + dy1*dy1)*(dx2*dx2 + dy2*dy2) + 1e-10);
-    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

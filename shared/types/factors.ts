@@ -6,10 +6,10 @@ export interface SymmetryConfig {
     /**
      * 0-100
      */
-    acceptablePercentage: number;
+    acceptablePercentage: number,
 }
 
-export interface SymmetryResult {
+export interface SymmetryExtractResult {
     visitedPixels: number,
 
     /**
@@ -29,19 +29,19 @@ export interface PicturesConfig {
     /**
      * Minimum picture area (px^2)
      */
-    acceptableThreshold: number;
+    acceptableThreshold: number,
 }
 
-export interface PicturesResult {
+export interface PicturesExtractResult {
     /**
      * Number of pictures in the page (visible + invisible)
      */
-    allCount: number;
+    allCount: number,
     /**
      * Number of pictures in the page (visible)
      */
-    visibleCount: number;
-    data: PictureData[];
+    visibleCount: number,
+    data: PictureData[],
 }
 
 export type PictureData = {
@@ -57,16 +57,16 @@ export type PictureData = {
 
 // factor id: videos
 
-export interface VideosResult {
+export interface VideosExtractResult {
     /**
      * Number of pictures in the page (visible + invisible)
      */
-    allCount: number;
+    allCount: number,
     /**
      * Number of pictures in the page (visible)
      */
-    visibleCount: number;
-    data: VideoData[];
+    visibleCount: number,
+    data: VideoData[],
 }
 
 export type VideoData = {
@@ -81,16 +81,16 @@ export type VideoData = {
 
 // factor id: text-font-type
 
-export interface TextFontTypeResult {
+export interface TextFontTypeExtractResult {
     /**
      * all font stacks
      */
-    stacks: string[];
+    stacks: string[],
 
     /**
      * The first font of each font stack in allFonts
      */
-    usedFonts: string[];
+    usedFonts: string[],
 }
 
 // factor id: text-size
@@ -107,31 +107,31 @@ export interface TextSizeConfig {
     minimumSize: number,
 }
 
-export interface TextSizeResult {
+export interface TextSizeExtractResult {
     /**
      * total elements with font size under threshold
      */
-    // totalElements: number;
+    // totalElements: number,
 
     /**
      * total characters
      */
-    totalCharacters: number;
+    totalCharacters: number,
 
     /**
      * total characters with font size under threshold
      */
-    // totalSmallCharacters: number;
+    // totalSmallCharacters: number,
 
     /**
      * Characters counter for each font size
      */
-    textSizeMap: Record<number, number>;
+    textSizeMap: Record<number, number>,
 
     /**
      * Score
      */
-    // score: number;
+    // score: number,
 }
 
 // factor id: color-harmony
@@ -140,42 +140,31 @@ export interface DominantColorsConfig {
     /**
      * In percentage (0-100)
      */
-    vibrantMaxAreaPercentage: number;
+    vibrantMaxAreaPercentage: number,
 }
 
-export interface DominantColorsResult {
-    vibrant: Palette | undefined;
-    totalPixels: number;
-    vibrantPixelCount: number;
+export interface DominantColorsExtractResult {
+    vibrant: Palette | undefined,
+    totalPixels: number,
+    vibrantPixelCount: number,
 }
 
 export type DominantColorsPallete = Palette;
 
 // factor id: element-count
 
-export interface ElementCountResult {
-    count: number;
+export interface ElementCountExtractResult {
+    count: number,
 
     /**
      * Count of each tag name
      */
-    list: Record<string, number>;
-}
-
-// factor id: browser-info
-
-export interface BrowserInfoResult {
-    url: string;
-    userAgent: string;
-    viewportWidth: number;
-    viewportHeight: number;
-    scrollHeight: number;
-    scrollWidth: number;
+    list: Record<string, number>,
 }
 
 // factor id: color-count
 
-export interface ColorCountResult {
+export interface ColorCountExtractResult {
     rank: Array<{color: string, pixelCount: number}>,
 }
 
@@ -184,23 +173,23 @@ export interface DensityConfig {
     /**
      * In percentage (0-100)
      */
-    acceptableThreshold: number;
+    acceptableThreshold: number,
 }
 
-export interface DensityResult {
+export interface DensityExtractResult {
     /** 
      * (all pixels other than most used divided by all pixels) * 100
      **/
-    percentage: number;
+    percentage: number,
 
-    visitedPixels: number;
-    bgPixels: number;
+    visitedPixels: number,
+    bgPixels: number,
 }
 
 // factor id: negative space
-export interface NegativeSpaceResult {
-    scrollWidth: number;
-    scrollHeight: number;
-    textElementCount: number;
-    components: {x: number, y: number; w: number; h: number}[];
+export interface NegativeSpaceExtractResult {
+    scrollWidth: number,
+    scrollHeight: number,
+    textElementCount: number,
+    components: {x: number, y: number, w: number, h: number}[],
 }

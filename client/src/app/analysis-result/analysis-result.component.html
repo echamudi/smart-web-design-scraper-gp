@@ -35,65 +35,113 @@
                         <button type="button" class="list-group-item list-group-item-action" [ngClass]="{'active': currentPage === 'Element Count'}" (click)="currentPage = 'Element Count'">
                           Element Count
                         </button>
+                        <button type="button" class="list-group-item list-group-item-action" [ngClass]="{'active': currentPage === 'Factor Weights'}" (click)="currentPage = 'Factor Weights'">
+                          Factor Weights
+                        </button>
+                        <button type="button" class="list-group-item list-group-item-action list-header" disabled>
+                          Detection Visualization
+                        </button>
+                        <button type="button" class="list-group-item d-flex justify-content-between text-left align-items-center" [ngClass]="{'active': currentPage === 'Element Detection'}" (click)="currentPage = 'Element Detection'">
+                          Element Detection
+                        </button>
+                        <button type="button" class="list-group-item d-flex justify-content-between text-left align-items-center" [ngClass]="{'active': currentPage === 'Object Detection'}" (click)="currentPage = 'Object Detection'">
+                          Object Detection
+                        </button>
 
                         <button type="button" class="list-group-item list-group-item-action list-header" disabled>
                           Distribution of Components
                         </button>
-                        <button type="button" class="list-group-item d-flex justify-content-between align-items-center" [ngClass]="{'active': currentPage === 'Symmetry'}" (click)="currentPage = 'Symmetry'">
-                          Symmetry
+                        <button type="button" class="list-group-item d-flex justify-content-between text-left align-items-center" [ngClass]="{'active': currentPage === 'Symmetry (Pixel LR)'}" (click)="currentPage = 'Symmetry (Pixel LR)'">
+                          Symmetry (Pixel LR)
                         </button>
-                        <button type="button" class="list-group-item d-flex justify-content-between align-items-center" [ngClass]="{'active': currentPage === 'Density'}" (click)="currentPage = 'Density'">
-                          Density
+                        <button type="button" class="list-group-item d-flex justify-content-between text-left align-items-center" [ngClass]="{'active': currentPage === 'Symmetry (Pixel TB)'}" (click)="currentPage = 'Symmetry (Pixel TB)'">
+                          Symmetry (Pixel TB)
+                        </button>
+                        <!-- <button type="button" class="list-group-item d-flex justify-content-between text-left align-items-center" [ngClass]="{'active': currentPage === 'Balance'}" (click)="currentPage = 'Balance'">
+                          Balance
+                        </button> -->
+                        <button type="button" class="list-group-item d-flex justify-content-between text-left align-items-center" [ngClass]="{'active': currentPage === 'Complexity'}" (click)="currentPage = 'Complexity'">
+                          Complexity
+                        </button>
+                        <button type="button" class="list-group-item d-flex justify-content-between text-left align-items-center" [ngClass]="{'active': currentPage === 'Density'}" (click)="currentPage = 'Density'">
+                          Density (Pixel)
+                        </button>
+                        <button type="button" class="list-group-item d-flex justify-content-between text-left align-items-center" [ngClass]="{'active': currentPage === 'Density (DOM)'}" (click)="currentPage = 'Density (DOM)'">
+                          Density (DOM)
+                        </button>
+
+                        <button type="button" class="list-group-item list-group-item-action list-header" disabled>
+                          Appearance of Components
+                        </button>
+                        <button type="button" class="list-group-item d-flex justify-content-between text-left align-items-center" [ngClass]="{'active': currentPage === 'Cohesion'}" (click)="currentPage = 'Cohesion'">
+                          Cohesion
+                        </button>
+                        <button type="button" class="list-group-item d-flex justify-content-between text-left align-items-center" [ngClass]="{'active': currentPage === 'Economy (Images)'}" (click)="currentPage = 'Economy (Images)'">
+                          Economy (Images)
+                        </button>
+                        <button type="button" class="list-group-item d-flex justify-content-between text-left align-items-center" [ngClass]="{'active': currentPage === 'Economy (Text)'}" (click)="currentPage = 'Economy (Text)'">
+                          Economy (Text)
+                        </button>
+
+                        <button type="button" class="list-group-item list-group-item-action list-header" disabled>
+                          Alignment of Components
+                        </button>
+                        <button type="button" class="list-group-item d-flex justify-content-between text-left align-items-center" [ngClass]="{'active': currentPage === 'Simplicity (H)'}" (click)="currentPage = 'Simplicity (H)'">
+                          Simplicity (H)
+                        </button>
+                        <button type="button" class="list-group-item d-flex justify-content-between text-left align-items-center" [ngClass]="{'active': currentPage === 'Simplicity (V)'}" (click)="currentPage = 'Simplicity (V)'">
+                          Simplicity (V)
+                        </button>
+
+                        <button type="button" class="list-group-item list-group-item-action list-header" disabled>
+                          Color Usage
+                        </button>
+                        <button type="button" class="list-group-item d-flex justify-content-between text-left align-items-center" [ngClass]="{'active': currentPage === 'Dominant Colors'}" (click)="currentPage = 'Dominant Colors'">
+                          Dominant Colors
                         </button>
 
                         <button type="button" class="list-group-item list-group-item-action list-header" disabled>
                           Graphics
                         </button>
-                        <button type="button" class="list-group-item d-flex justify-content-between align-items-center" [ngClass]="{'active': currentPage === 'Use of Pictures'}" (click)="currentPage = 'Use of Pictures'">
+                        <button type="button" class="list-group-item d-flex justify-content-between text-left align-items-center" [ngClass]="{'active': currentPage === 'Use of Pictures'}" (click)="currentPage = 'Use of Pictures'">
                           Use of Pictures
                         </button>
-                        <button type="button" class="list-group-item d-flex justify-content-between align-items-center" [ngClass]="{'active': currentPage === 'Use of Videos'}" (click)="currentPage = 'Use of Videos'">
+                        <button type="button" class="list-group-item d-flex justify-content-between text-left align-items-center" [ngClass]="{'active': currentPage === 'Use of Videos'}" (click)="currentPage = 'Use of Videos'">
                           Use of Videos
                         </button>
 
                         <button type="button" class="list-group-item list-group-item-action list-header" disabled>
                           Typography
                         </button>
-                        <button type="button" class="list-group-item d-flex justify-content-between align-items-center" [ngClass]="{'active': currentPage === 'Text Size'}" (click)="currentPage = 'Text Size'">
+                        <button type="button" class="list-group-item d-flex justify-content-between text-left align-items-center" [ngClass]="{'active': currentPage === 'Text Size'}" (click)="currentPage = 'Text Size'">
                           Text Size
                         </button>
-                        <button type="button" class="list-group-item d-flex justify-content-between align-items-center" [ngClass]="{'active': currentPage === 'Type of Font'}" (click)="currentPage = 'Type of Font'">
+                        <button type="button" class="list-group-item d-flex justify-content-between text-left align-items-center" [ngClass]="{'active': currentPage === 'Type of Font'}" (click)="currentPage = 'Type of Font'">
                           Type of Font
-                        </button>
-
-                        <button type="button" class="list-group-item list-group-item-action list-header" disabled>
-                          Color Usage
-                        </button>
-                        <button type="button" class="list-group-item d-flex justify-content-between align-items-center" [ngClass]="{'active': currentPage === 'Dominant Colors'}" (click)="currentPage = 'Dominant Colors'">
-                          Dominant Colors
                         </button>
 
                         <button type="button" class="list-group-item list-group-item-action list-header" disabled>
                           Structure
                         </button>
-                        <button type="button" class="list-group-item d-flex justify-content-between align-items-center" [ngClass]="{'active': currentPage === 'Negative Space'}" (click)="currentPage = 'Negative Space'">
-                          Negative Space
+                        <button type="button" class="list-group-item d-flex justify-content-between text-left align-items-center" [ngClass]="{'active': currentPage === 'Negative Space (Text)'}" (click)="currentPage = 'Negative Space (Text)'">
+                          Negative Space (Text)
                         </button>
 
-                        <button type="button" class="list-group-item list-group-item-action list-header" disabled>
+                        <!-- <button type="button" class="list-group-item list-group-item-action list-header" disabled>
                           Debug
                         </button>
                         <button type="button" class="list-group-item list-group-item-action" [ngClass]="{'active': currentPage === 'Raw JSON'}" (click)="currentPage = 'Raw JSON'">
                           Raw JSON
-                        </button>
+                        </button> -->
                       </div>
                     </div>
                     <div class="col-9">
 
                       <!-- OVERVIEW -->
                       <div *ngIf="currentPage == 'Overview'">
-                        <div class="h3">URL</div>
-                          <a [href]="analysisResult.browserInfoResult.url">{{ analysisResult.browserInfoResult.url }}</a>
+                        <div class="h2">Overview</div>
+                        <hr>
+                        <p><b>URL : </b> <a [href]="analysisResult.browserInfoResult.url">{{ analysisResult.browserInfoResult.url }}</a></p>
                         <hr>
                         <div class="h3">Viewport Snapshot</div>
                         <table class="table table-bordered">
@@ -111,37 +159,193 @@
                           </tr>
                         </table>
                         <hr>
+                        <div class="h3">Viewport Range</div>
+                        <p>The following figure visualize the displayed viewport snapshot out of the web page:</p>
+                        <div style="position: relative;">
+                          <div style="width: 300px; border: solid 2px; background: #f1f1f1;"
+                            [ngStyle]="{'height': ( p2fer.browserInfo.scrollHeight / p2fer.browserInfo.scrollWidth * 300 ) + 'px' }">
+                          </div>
+                          <div style="display: flex; justify-content: center; align-items: center;"
+                            [ngStyle]="{
+                              width: '290px',
+                              position: 'absolute',
+                              border: 'solid 2px blue',
+                              background: '#e5e5ff',
+                              height: ( p2fer.browserInfo.viewportHeight / p2fer.browserInfo.viewportWidth * 300 ) + 'px',
+                              top: (p2fer.browserInfo.pageYOffset * (300 / p2fer.browserInfo.viewportWidth)) + 'px',
+                              left: '5px'
+                            }">
+                            <span>Visible Viewport</span>
+                          </div>
+                        </div>
+                        <div>
+                          <br>
+                          <p><span style="display: inline-block; width: 20px; height: 20px; border: solid 2px; background: #f1f1f1;"></span> Page Area</p>
+                          <p><span style="display: inline-block; width: 20px; height: 20px; border: solid 2px blue; background: #e5e5ff;"></span> Visible Viewport Area</p>
+                        </div>
+                        <hr>
                       </div>
 
-                      <!-- SYMMETRY -->
-                      <div *ngIf="currentPage == 'Symmetry'">
-                        <div class="h2">Symmetry</div>
+                      <!-- ELEMENT COUNT -->
+                      <div *ngIf="currentPage == 'Element Count'">
+                        <div class="h2">Element Tag Distribution</div>
                         <hr>
-                        <img [src]="analysisResult.screenshot" alt="" width="100%">
+                        <p>The following graph describes which DOM elements are mostly used in the web page.</p>
+                        <p><b>Detection Scope : </b> Entire Page</p>
+                        <ngx-charts-bar-horizontal
+                        [view]="[500, fiElementCountBarData.length * 50]"
+                        [showDataLabel]="true"
+                        [results]="fiElementCountBarData"
+                        [xAxis]="true"
+                        [yAxis]="true"
+                        [showXAxisLabel]="true"
+                        [showYAxisLabel]="true"
+                        [xAxisLabel]="'count'"
+                        >
+                        </ngx-charts-bar-horizontal>
+                      </div>
+
+                      <!-- FACTOR WEIGHTS -->
+                      <div *ngIf="currentPage == 'Factor Weights'">
+                        <div class="h2">Factor Weights</div>
+                        <hr>
+                        <p>Load Presets:</p>
+                        <button class="btn btn-primary" style="margin-right: 10px;" (click)="configAllEqual()">All Equal</button>
+                        <button class="btn btn-primary" (click)="configMultimedia()">Multimedia</button>
+                        <hr>
+                        <p>You may change the weight of each factor:</p>
+                        <p><b>Symmetry (Pixel LR)</b></p>
+                        <mat-slider style="width: 500px" min="0" max="1" step="0.01" thumbLabel
+                        [(value)]="weightFiSymmetryLRScore"
+                        (change)="updateFinalScore()"></mat-slider>
+
+                        <p><b>Symmetry (Pixel TB)</b></p>
+                        <mat-slider style="width: 500px" min="0" max="1" step="0.01" thumbLabel
+                        [(value)]="weightFiSymmetryTBScore"
+                        (change)="updateFinalScore()"></mat-slider>
+
+                        <p><b>Complexity (Text Elements)</b></p>
+                        <mat-slider style="width: 500px" min="0" max="1" step="0.01" thumbLabel
+                        [(value)]="weightFiComplexityScore"
+                        (change)="updateFinalScore()"></mat-slider>
+
+                        <p><b>Density (Pixel)</b></p>
+                        <mat-slider style="width: 500px" min="0" max="1" step="0.01" thumbLabel
+                        [(value)]="weightFiDensityScore"
+                        (change)="updateFinalScore()"></mat-slider>
+
+                        <p><b>Density (DOM)</b></p>
+                        <mat-slider style="width: 500px" min="0" max="1" step="0.01" thumbLabel
+                        [(value)]="weightFiDensityMajorDomScore"
+                        (change)="updateFinalScore()"></mat-slider>
+
+                        <p><b>Cohesion</b></p>
+                        <mat-slider style="width: 500px" min="0" max="1" step="0.01" thumbLabel
+                        [(value)]="weightFiCohesionScore"
+                        (change)="updateFinalScore()"></mat-slider>
+
+                        <p><b>Economy (Images)</b></p>
+                        <mat-slider style="width: 500px" min="0" max="1" step="0.01" thumbLabel
+                        [(value)]="weightFiEconomyImagesScore"
+                        (change)="updateFinalScore()"></mat-slider>
+
+                        <p><b>Economy (Text)</b></p>
+                        <mat-slider style="width: 500px" min="0" max="1" step="0.01" thumbLabel
+                        [(value)]="weightFiEconomyTextScore"
+                        (change)="updateFinalScore()"></mat-slider>
+
+                        <p><b>Simplicity (H)</b></p>
+                        <mat-slider style="width: 500px" min="0" max="1" step="0.01" thumbLabel
+                        [(value)]="weightFiSimplicityHorizontalScore"
+                        (change)="updateFinalScore()"></mat-slider>
+
+                        <p><b>Simplicity (V)</b></p>
+                        <mat-slider style="width: 500px" min="0" max="1" step="0.01" thumbLabel
+                        [(value)]="weightFiSimplicityVerticalScore"
+                        (change)="updateFinalScore()"></mat-slider>
+
+                        <p><b>Dominant Colors</b></p>
+                        <mat-slider style="width: 500px" min="0" max="1" step="0.01" thumbLabel
+                        [(value)]="weightFiDominantColorsVibrantScore"
+                        (change)="updateFinalScore()"></mat-slider>
+
+                        <p><b>Use of Pictures</b></p>
+                        <mat-slider style="width: 500px" min="0" max="1" step="0.01" thumbLabel
+                        [(value)]="weightFiPicturesScore"
+                        (change)="updateFinalScore()"></mat-slider>
+
+                        <p><b>Text Size</b></p>
+                        <mat-slider style="width: 500px" min="0" max="1" step="0.01" thumbLabel
+                        [(value)]="weightFiTextSizeScore"
+                        (change)="updateFinalScore()"></mat-slider>
+
+                        <p><b>Negative Space (Text)</b></p>
+                        <mat-slider style="width: 500px" min="0" max="1" step="0.01" thumbLabel
+                        [(value)]="weightFiNegativeSpaceScore"
+                        (change)="updateFinalScore()"></mat-slider>
+                      </div>
+
+                      <!-- ELEMENT DETECTION -->
+                      <div *ngIf="currentPage == 'Element Detection'">
+                        <div class="h2">DOM Element Detection</div>
+                        <hr>
+                        <p>The following figure visualizes the detected text elements and image elements by using the DOM inspection algorithm.</p>
+                        <p><b>Detection Scope : </b> Entire Page</p>
+                        <p><span style="display: inline-block; width: 20px; height: 20px; background: #19b5fe;"></span> Text DOM Elements</p>
+                        <p><span style="display: inline-block; width: 20px; height: 20px; background: #f2784b;"></span> Image DOM Elements</p>
+                        <canvas #domElementDetectionCanvas height="1" style="margin-top: 10px; width: 100%; padding: 5px; border: solid 3px black;"></canvas>
+                        <ng-container *ngIf="drawDomElementDetectionCanvas()"></ng-container>
+                      </div>
+
+                      <!-- OBJECT DETECTION -->
+                      <div *ngIf="currentPage == 'Object Detection'">
+                        <div class="h2">OpenCV Object Detection</div>
+                        <hr>
+                        <p>The following figure visualizes the elements using OpenCV.</p>
+                        <p><b>Detection Scope : </b> Visible Viewport Area</p>
+                        <canvas #objectDetectionCanvas height="1" style="margin-top: 10px; width: 100%; padding: 5px; border: solid 3px black;"></canvas>
+                        <ng-container *ngIf="drawObjectDetectionCanvas()"></ng-container>
+                      </div>
+
+                      <!-- SYMMETRY (PIXEL LR) -->
+                      <div *ngIf="currentPage == 'Symmetry (Pixel LR)'">
+                        <div class="h2">Pixel-based LR Symmetry</div>
+                        <hr>
+                        <p>LR Symmetry tells the symmetry of the page using a vertical line as the symmetry axis at the middle of the page.
+                          The method of symmetry checking is by comparing the pixels from both sides and check the similarity of the color.
+                        </p>
+                        <p><b>Detection Scope : </b> Visible Viewport Area</p>
+                        <div style="position: relative; margin: 20px 0;">
+                          <img [src]="analysisResult.screenshot" style="border: solid 2px black;" alt="" width="100%">
+                          <div style="height: 100%; width: 100%; position: absolute; top: 0; display: flex; align-items: center; justify-content: center;">
+                            <div style="width: 5px; height: 100%; background:#9a12b3;">
+                            </div>
+                          </div>
+                        </div>
+                        <p><span style="display: inline-block; width: 20px; height: 20px; background: #9a12b3;"></span> Vertical Symmetry Line</p>
                         <hr>
                         <div class="h3">Score</div>
                         <p><b>Left-Right Symmetry Score:</b> {{ fiSymmetryLRScore }}%</p>
-                        <p><b>Top-Bottom Symmetry Score:</b> {{ fiSymmetryTBScore }}%</p>
                         <ngx-charts-gauge
                           [view]="[500, 300]"
                           [scheme]="{
-                            domain: ['#5AA454', '#563d7c']
+                            domain: ['#563d7c']
                           }"
                           [min]="0"
                           [max]="100"
-                          [results]="[{name: 'Left-Right', value: fiSymmetryLRScore}, {name: 'Top-Bottom', value: fiSymmetryTBScore}]"
-                          [legend]="true"
+                          [results]="[{name: 'LR Symmetry', value: fiSymmetryLRScore}]"
+                          [legend]="false"
                           [legendPosition]="'bottom'"
                           >
                         </ngx-charts-gauge>
                         <div class="clearfix"></div>
                         <hr>
-                        <h3>Config</h3>
-                        <p><b>Acceptable Threshold:</b> {{ analysisResult.analysisConfig.symmetry.acceptablePercentage }}%</p>
+                        <!-- <h3>Config</h3>
+                        <p><b>Acceptable Threshold (for all symmetry factors):</b> {{ analysisResult.analysisConfig.symmetry.acceptablePercentage }}%</p>
                         <mat-slider style="width: 500px" min="0" max="100" step="5" thumbLabel
                         [value]="analysisResult.analysisConfig.symmetry.acceptablePercentage"
                         (change)="fiSymmetryAcceptableThresholdChange($event)"></mat-slider>
-                        <hr>
+                        <hr> -->
                         <div class="h3">Analysis</div>
                         <table class="table">
                           <tbody>
@@ -153,6 +357,75 @@
                               <th scope="row">Left-Right Symmetrical Pixels</th>
                               <td>{{ analysisResult.symmetryResult.lrExactSymmetricalPixels }}</td>
                             </tr>
+                          </tbody>
+                        </table>
+                        <hr>
+                        <div class="h3">Other Examples</div>
+                        <div class="example-good">
+                          Example of design with high LR symmetry score
+                          <img src="https://swds-imgs.netlify.app/symmetry-pixel-l-r-pic1.png" class="img-fluid">
+                        </div>
+                        <div class="example-bad">
+                          Example of design with low LR symmetry score
+                          <img src="https://swds-imgs.netlify.app/symmetry-pixel-l-r-pic2.png" class="img-fluid">
+                        </div>
+                        <hr>
+                        <div class="h3">References</div>
+                        <ol>
+                          <li>D. C. L. Ngo, "Measuring the aesthetic elements of screen designs," Displays, vol. 22, no. 3, pp. 73-78, 2001. </li>
+                          <li>U. Bhaskar, P. Naidu, S. Babu and P. Govindarajulu, "Principles of Good Screen Design in Websites," International Journal of Human Computer Interaction, vol. 2, pp. 48-57, 2011. </li>
+                          <li>M. Seckler, K. Opwis and A. N. Tuch, "Linking objective design factors with subjective aesthetics: An experimental study on how structure and color of websites affect the facets of users’ visual aesthetic perception," Computers in Human Behavior, vol. 49, pp. 375-389, 2015. </li>
+                          <li>M. Bauerly and Y. Liu, "Computational modeling and experimental investigation of effects of compositional elements on interface and design aesthetics," International Journal of Human-Computer Studies, vol. 64, pp. 670-682, August 2006. </li>
+                        </ol>
+                        <hr>
+                      </div>
+
+                      <!-- SYMMETRY (PIXEL TB) -->
+                      <div *ngIf="currentPage == 'Symmetry (Pixel TB)'">
+                        <div class="h2">Pixel-based TB Symmetry</div>
+                        <hr>
+                        <p>TB Symmetry tells the symmetry of the page using a horizontal line as the symmetry axis at the middle of the page.
+                          The method of symmetry checking is by comparing the pixels from both sides and check the similarity of the color.
+                        </p>
+                        <p><b>Detection Scope : </b> Visible Viewport Area</p>
+                        <div style="position: relative; margin: 20px 0;">
+                          <img [src]="analysisResult.screenshot" style="border: solid 2px black;" alt="" width="100%">
+                          <div style="height: 100%; width: 100%; position: absolute; top: 0; display: flex; align-items: center; justify-content: center;">
+                            <div style="width: 100%; height: 5px; background:#9a12b3;">
+                            </div>
+                          </div>
+                        </div>
+                        <p><span style="display: inline-block; width: 20px; height: 20px; background: #9a12b3;"></span> Horizontal Symmetry Line</p>
+                        <hr>
+                        <div class="h3">Score</div>
+                        <p><b>Top-Bottom Symmetry Score:</b> {{ fiSymmetryTBScore }}%</p>
+                        <ngx-charts-gauge
+                          [view]="[500, 300]"
+                          [scheme]="{
+                            domain: ['#563d7c']
+                          }"
+                          [min]="0"
+                          [max]="100"
+                          [results]="[{name: 'TB Symmetry', value: fiSymmetryTBScore}]"
+                          [legend]="false"
+                          [legendPosition]="'bottom'"
+                          >
+                        </ngx-charts-gauge>
+                        <div class="clearfix"></div>
+                        <hr>
+                        <!-- <h3>Config</h3>
+                        <p><b>Acceptable Threshold (for all symmetry factors):</b> {{ analysisResult.analysisConfig.symmetry.acceptablePercentage }}%</p>
+                        <mat-slider style="width: 500px" min="0" max="100" step="5" thumbLabel
+                        [value]="analysisResult.analysisConfig.symmetry.acceptablePercentage"
+                        (change)="fiSymmetryAcceptableThresholdChange($event)"></mat-slider>
+                        <hr> -->
+                        <div class="h3">Analysis</div>
+                        <table class="table">
+                          <tbody>
+                            <tr>
+                              <th scope="row">Total Pixels</th>
+                              <td>{{ analysisResult.symmetryResult.visitedPixels }}</td>
+                            </tr>
                             <tr>
                               <th scope="row">Top-Bottom Symmetrical Pixels</th>
                               <td>{{ analysisResult.symmetryResult.tbExactSymmetricalPixels }}</td>
@@ -160,12 +433,489 @@
                           </tbody>
                         </table>
                         <hr>
+                        <div class="h3">Other Examples</div>
+                        <div class="example-good">
+                          Example of design with high TB symmetry score
+                          <img src="https://swds-imgs.netlify.app/symmetry-pixel-t-b-pic1.png" class="img-fluid">
+                        </div>
+                        <div class="example-bad">
+                          Example of design with low TB symmetry score
+                          <img src="https://swds-imgs.netlify.app/symmetry-pixel-t-b-pic2.png" class="img-fluid">
+                        </div>
+                        <hr>
+                        <div class="h3">References</div>
+                        <ol>
+                          <li>D. C. L. Ngo, "Measuring the aesthetic elements of screen designs," Displays, vol. 22, no. 3, pp. 73-78, 2001. </li>
+                          <li>U. Bhaskar, P. Naidu, S. Babu and P. Govindarajulu, "Principles of Good Screen Design in Websites," International Journal of Human Computer Interaction, vol. 2, pp. 48-57, 2011. </li>
+                          <li>M. Seckler, K. Opwis and A. N. Tuch, "Linking objective design factors with subjective aesthetics: An experimental study on how structure and color of websites affect the facets of users’ visual aesthetic perception," Computers in Human Behavior, vol. 49, pp. 375-389, 2015. </li>
+                          <li>M. Bauerly and Y. Liu, "Computational modeling and experimental investigation of effects of compositional elements on interface and design aesthetics," International Journal of Human-Computer Studies, vol. 64, pp. 670-682, August 2006. </li>
+                        </ol>
+                        <hr>
+                      </div>
+
+                      <!-- COMPLEXITY -->
+                      <div *ngIf="currentPage == 'Complexity'">
+                        <div class="h2">Text Complexity</div>
+                        <hr>
+                        <p>Complexity is defined by the amount of information in each section of the web page. We calculate the complexity by checking the Text area for each grid.</p>
+                        <p><b>Detection Scope : </b> Entire Page</p>
+                        <canvas #complexityCanvas height="1" style="margin-top: 10px; width: 100%; border: solid 2px red;"></canvas>
+                        <ng-container *ngIf="drawComplexityCanvas()"></ng-container>
+                        <hr>
+
+                        <div class="h3">Score</div>
+                        <p><b>Complexity Score:</b> {{ fiComplexityScore }}%</p>
+                        <ngx-charts-gauge
+                          [view]="[500, 300]"
+                          [scheme]="{
+                            domain: ['#563d7c']
+                          }"
+                          [min]="0"
+                          [max]="100"
+                          [results]="[{name: 'Complexity', value: fiComplexityScore}]"
+                          [legend]="false"
+                          [legendPosition]="'bottom'"
+                          >
+                        </ngx-charts-gauge>
+                        <div class="clearfix"></div>
+                        <hr>
+
+                        <div class="h3">Analysis</div>
+                        <table class="table">
+                          <tbody>
+                            <tr>
+                              <th scope="row">Score [0,100]</th>
+                              <td>{{ fiComplexityScore }}</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Maximum Grid Complexity [0,1]</th>
+                              <td>{{ finalScoreObj.complexityTextDom.data.maxDensity }}</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Minimum Grid Complexity Score [0,1]</th>
+                              <td>{{ finalScoreObj.complexityTextDom.data.minDensity }}</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Average [0,1]</th>
+                              <td>{{ finalScoreObj.complexityTextDom.data.average }}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        <hr>
+                        <div class="h3">Other Examples</div>
+                        <div class="example-good">
+                          Example of design with low complexity value (high complexity score)
+                          <img src="https://swds-imgs.netlify.app/complexity-pic1.png" class="img-fluid">
+                        </div>
+                        <div class="example-bad">
+                          Example of design with high complexity value (low complexity score)
+                          <img src="https://swds-imgs.netlify.app/complexity-pic2.png" class="img-fluid">
+                        </div>
+                        <hr>
+                        <div class="h3">References</div>
+                        <ol>
+                          <li>M. Seckler, K. Opwis and A. N. Tuch, "Linking objective design factors with subjective aesthetics: An experimental study on how structure and color of websites affect the facets of users’ visual aesthetic perception," Computers in Human Behavior, vol. 49, pp. 375-389, 2015. </li>
+                          <li>O. Wu, W. Hu and L. Shi, "Measuring the Visual Complexities of Web Pages," ACM Transactions on the Web, vol. 7, no. 1, pp. 1-34, 2013. </li>
+                        </ol>
+                        <hr>
+                      </div>
+
+                      <!-- DENSITY (PIXEL) -->
+                      <div *ngIf="currentPage == 'Density'">
+                        <div class="h2">Density (Pixel)</div>
+                        <hr>
+                        <p>In pixel-based density, the algorithm checks the most used color and compare the number with total pixels.
+                          Low density value will output higher score.
+                        </p>
+                        <p><b>Detection Scope : </b> Visible Viewport Area</p>
+                        <img [src]="analysisResult.screenshot" alt="" style="border: 1px solid;" width="100%">
+                        <hr>
+                        <h3>Score</h3>
+                        <p><b>Density Score:</b> {{ fiDensityScore }}</p>
+                        <ngx-charts-gauge
+                          [view]="[500, 300]"
+                          [scheme]="{
+                            domain: ['#563d7c']
+                          }"
+                          [min]="0"
+                          [max]="100"
+                          [results]="[{name: 'Score', value: fiDensityScore}]">
+                        </ngx-charts-gauge>
+                        <div class="clearfix"></div>
+                        <hr>
+                        <h3>Config</h3>
+                        <p><b>Acceptable Density Threshold:</b> {{ analysisResult.analysisConfig.density.acceptableThreshold }}%</p>
+                        <mat-slider style="width: 500px" min="0" max="100" step="1" thumbLabel
+                        [value]="analysisResult.analysisConfig.density.acceptableThreshold"
+                        (change)="fiDensityAcceptableThresholdChange($event)"></mat-slider>
+                        <h3>Analysis</h3>
+                        <table class="table">
+                          <tbody>
+                            <tr>
+                              <th scope="row">Total Pixels</th>
+                              <td>{{ analysisResult.densityResult.visitedPixels }}</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Most used color in the snapshot</th>
+                              <td>
+                                <div style="width: 50px; height: 50px; border: solid 1px;" [ngStyle]="{'background-color': '#' + analysisResult.colorCountResult.rank[0].color }"></div>
+                                  #{{ analysisResult.colorCountResult.rank[0].color }}
+                              </td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Total pixels of the most used color</th>
+                              <td>{{ analysisResult.colorCountResult.rank[0].pixelCount }}</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Pixel negative space percentage</th>
+                              <td>{{ 100 - analysisResult.densityResult.percentage }}%</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Density Percentage</th>
+                              <td>{{ analysisResult.densityResult.percentage }}%</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        <hr>
+                        <div class="h3">Other Examples</div>
+                        <div class="example-good">
+                          Example of design with low density value (high density score)
+                          <img src="https://swds-imgs.netlify.app/density-pic1.png" class="img-fluid">
+                        </div>
+                        <div class="example-bad">
+                          Example of design with high density value (low density score)
+                          <img src="https://swds-imgs.netlify.app/density-pic2.png" class="img-fluid">
+                        </div>
+                        <hr>
+                        <div class="h3">References</div>
+                        <ol>
+                          <li>D. C. L. Ngo, "Measuring the aesthetic elements of screen designs," Displays, vol. 22, no. 3, pp. 73-78, 2001. </li>
+                          <li>K. Alemerien and K. Magel, "GUIEvaluator: A Metric-tool for Evaluating the Complexity of Graphical User Interfaces," Proceedings of the International Conference on Software Engineering and Knowledge Engineering, SEKE, pp. 13-18, 2014.</li>
+                        </ol>
+                        <hr>
+                      </div>
+
+                      <!-- DENSITY (DOM) -->
+                      <div *ngIf="currentPage == 'Density (DOM)'">
+                        <div class="h2">Density (DOM)</div>
+                        <hr>
+                        <p>In DOM based density, we compared the major elements towards empty area.</p>
+                        <p><b>Detection Scope : </b> Entire Page</p>
+                        <canvas #densityMajorDomCanvas height="1" style="margin-top: 10px; width: 100%; border: solid 2px red;"></canvas>
+                        <ng-container *ngIf="drawDensityMajorDomCanvas()"></ng-container>
+                        <hr>
+
+                        <div class="h3">Score</div>
+                        <p><b>Density Score:</b> {{ fiDensityMajorDomScore }}%</p>
+                        <ngx-charts-gauge
+                          [view]="[500, 300]"
+                          [scheme]="{
+                            domain: ['#563d7c']
+                          }"
+                          [min]="0"
+                          [max]="100"
+                          [results]="[{name: 'Density', value: fiDensityMajorDomScore}]"
+                          [legend]="false"
+                          [legendPosition]="'bottom'"
+                          >
+                        </ngx-charts-gauge>
+                        <div class="clearfix"></div>
+                        <hr>
+
+                        <div class="h3">Analysis</div>
+                        <table class="table">
+                          <tbody>
+                            <tr>
+                              <th scope="row">Score [0,100]</th>
+                              <td>{{ fiDensityMajorDomScore }}</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Maximum Grid Density [0,1]</th>
+                              <td>{{ finalScoreObj.densityMajorDom.data.maxDensity }}</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Minimum Grid Density [0,1]</th>
+                              <td>{{ finalScoreObj.densityMajorDom.data.minDensity }}</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Average [0,1]</th>
+                              <td>{{ finalScoreObj.densityMajorDom.data.average }}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+
+                        <hr>
+                        <div class="h3">Other Examples</div>
+                        <div class="example-good">
+                          Example of design with low density value (high density score)
+                          <img src="https://swds-imgs.netlify.app/density-pic1.png" class="img-fluid">
+                        </div>
+                        <div class="example-bad">
+                          Example of design with high density value (low density score)
+                          <img src="https://swds-imgs.netlify.app/density-pic2.png" class="img-fluid">
+                        </div>
+                        <hr>
+                        <div class="h3">References</div>
+                        <ol>
+                          <li>D. C. L. Ngo, "Measuring the aesthetic elements of screen designs," Displays, vol. 22, no. 3, pp. 73-78, 2001. </li>
+                          <li>K. Alemerien and K. Magel, "GUIEvaluator: A Metric-tool for Evaluating the Complexity of Graphical User Interfaces," Proceedings of the International Conference on Software Engineering and Knowledge Engineering, SEKE, pp. 13-18, 2014.</li>
+                        </ol>
+                        <hr>
+                      </div>
+
+                      <!-- COHESION -->
+                      <div *ngIf="currentPage == 'Cohesion'">
+                        <div class="h2">Cohesion</div>
+                        <p>The cohesion algorithm checks the consistency of image aspect ratio.</p>
+                        <p><b>Detection Scope : </b> Entire Page</p>
+                        <hr>
+                        <h3>Score</h3>
+                        <p><b>Cohesion Score:</b> {{ fiCohesionScore }}%</p>
+                        <ngx-charts-gauge
+                          [view]="[500, 300]"
+                          [scheme]="{
+                            domain: ['#563d7c']
+                          }"
+                          [min]="0"
+                          [max]="100"
+                          [results]="[{name: 'Score', value: fiCohesionScore}]"
+                        >
+                        </ngx-charts-gauge>
+                        <div class="clearfix"></div>
+                        <h3>Image Aspect Ratio Distribution</h3>
+                        <ngx-charts-bar-vertical
+                          style="display: block;"
+                          [showDataLabel]="true"
+                          [results]="fiCohesionImageAspectRatioData"
+                          [xAxis]="true"
+                          [yAxis]="true"
+                          [showXAxisLabel]="true"
+                          [showYAxisLabel]="true"
+                          [view]="[600, 300]"
+                          [xAxisLabel]="'Aspect Ratio'"
+                          [yAxisLabel]="'Total Objects'"
+                          >
+                        </ngx-charts-bar-vertical>
+                        <div class="clearfix"></div>
+                        <hr>
+                        <div class="h3">Other Examples</div>
+                        <div class="example-good">
+                          Example of design with high cohesion score
+                          <img src="https://swds-imgs.netlify.app/cohesion-image-dom-pic1.png" class="img-fluid">
+                          In the design above, the image elements have similar aspect ratio.
+                        </div>
+                        <div class="example-bad">
+                          Example of design with low cohesion score
+                          <img src="https://swds-imgs.netlify.app/cohesion-image-dom-pic2.png" class="img-fluid">
+                          In the design above, the image elements have inconsistent aspect ratio.
+                        </div>
+                        <hr>
+                        <div class="h3">References</div>
+                        <ol>
+                          <li>D. C. L. Ngo, "Measuring the aesthetic elements of screen designs," Displays, vol. 22, no. 3, pp. 73-78, 2001. </li>
+                        </ol>
+                        <hr>
+                      </div>
+
+                      <!-- ECONOMY (IMAGES) -->
+                      <div *ngIf="currentPage == 'Economy (Images)'">
+                        <div class="h2">Economy (Images)</div>
+                        <p>The economy-images algorithm checks the consistency of image elements area.</p>
+                        <p><b>Detection Scope : </b> Entire Page</p>
+                        <hr>
+                        <h3>Score</h3>
+                        <p><b>Economy-images Score:</b> {{ fiEconomyImagesScore }}%</p>
+                        <ngx-charts-gauge
+                          [view]="[500, 300]"
+                          [scheme]="{
+                            domain: ['#563d7c']
+                          }"
+                          [min]="0"
+                          [max]="100"
+                          [results]="[{name: 'Score', value: fiEconomyImagesScore }]"
+                        >
+                        </ngx-charts-gauge>
+                        <div class="clearfix"></div>
+                        <h3>Image Area Distribution</h3>
+                        <ngx-charts-bar-vertical
+                          style="display: block;"
+                          [showDataLabel]="true"
+                          [results]="fiEconomyImagesData"
+                          [xAxis]="true"
+                          [yAxis]="true"
+                          [showXAxisLabel]="true"
+                          [showYAxisLabel]="true"
+                          [view]="[600, 300]"
+                          [xAxisLabel]="'Area (in 100px²)'"
+                          [yAxisLabel]="'Total Objects'"
+                          >
+                        </ngx-charts-bar-vertical>
+                        <div class="clearfix"></div>
+                        <hr>
+                        <div class="h3">Other Examples</div>
+                        <div class="example-good">
+                          Example of design with high economy score
+                          <img src="https://swds-imgs.netlify.app/economy-image-dom-pic1.png" class="img-fluid">
+                          The images in the design above have the same similar area, despite of different aspect ratio.
+                        </div>
+                        <div class="example-bad">
+                          Example of design with low economy score
+                          <img src="https://swds-imgs.netlify.app/economy-image-dom-pic2.png" class="img-fluid">
+                          The area of images in the design above are inconsistent.
+                        </div>
+                        <hr>
+                        <div class="h3">References</div>
+                        <ol>
+                        </ol>
+                        <hr>
+                      </div>
+
+                      <!-- ECONOMY (TEXT) -->
+                      <div *ngIf="currentPage == 'Economy (Text)'">
+                        <div class="h2">Economy (Text)</div>
+                        <p>The economy-text algorithm checks the consistency of text elements area.</p>
+                        <p><b>Detection Scope : </b> Entire Page</p>
+                        <hr>
+                        <h3>Score</h3>
+                        <p><b>Economy-text Score:</b> {{ fiEconomyTextScore }}%</p>
+                        <ngx-charts-gauge
+                          [view]="[500, 300]"
+                          [scheme]="{
+                            domain: ['#563d7c']
+                          }"
+                          [min]="0"
+                          [max]="100"
+                          [results]="[{name: 'Score', value: fiEconomyTextScore }]"
+                        >
+                        </ngx-charts-gauge>
+                        <div class="clearfix"></div>
+                        <h3>Image Area Distribution</h3>
+                        <ngx-charts-bar-vertical
+                          style="display: block;"
+                          [showDataLabel]="true"
+                          [results]="fiEconomyTextData"
+                          [xAxis]="true"
+                          [yAxis]="true"
+                          [showXAxisLabel]="true"
+                          [showYAxisLabel]="true"
+                          [view]="[600, 300]"
+                          [xAxisLabel]="'Area (in 100px²)'"
+                          [yAxisLabel]="'Total Objects'"
+                          >
+                        </ngx-charts-bar-vertical>
+                        <div class="clearfix"></div>
+                        <hr>
+                        <div class="h3">Other Examples</div>
+                        <div class="example-good">
+                          Example of design with high economy score
+                          <img src="https://swds-imgs.netlify.app/economy-text-dom-pic1.png" class="img-fluid">
+                          The text elements in the design above have the same similar area, despite of different aspect ratio.
+                        </div>
+                        <div class="example-bad">
+                          Example of design with low economy score
+                          <img src="https://swds-imgs.netlify.app/economy-text-dom-pic2.png" class="img-fluid">
+                          The area of text elements in the design above are inconsistent.
+                        </div>
+                        <hr>
+                        <div class="h3">References</div>
+                        <ol>
+                          <li>D. C. L. Ngo, "Measuring the aesthetic elements of screen designs," Displays, vol. 22, no. 3, pp. 73-78, 2001. </li>
+                          <li>U. Bhaskar, P. Naidu, S. Babu and P. Govindarajulu, "Principles of Good Screen Design in Websites," International Journal of Human Computer Interaction, vol. 2, pp. 48-57, 2011. </li>
+                        </ol>
+                        <hr>
+                      </div>
+
+                      <!-- SIMPLICITY (HORIZONTAL) -->
+                      <div *ngIf="currentPage == 'Simplicity (H)'">
+                        <div class="h2">Simplicity (H)</div>
+                        <p>The simplicity-horizontal algorithm checks total number of alignment points in x-axis.</p>
+                        <p><b>Detection Scope : </b> Visible Viewport Area</p>
+                        <hr>
+                        <canvas #simplicityHorizontalCanvas height="1" style="margin-top: 10px; width: 100%; border: solid 2px red;"></canvas>
+                        <ng-container *ngIf="drawSimplicityHorizontalCanvas()"></ng-container>
+                        <hr>
+                        <h3>Score</h3>
+                        <p><b>Simplicity (H) Score:</b> {{ fiSimplicityHorizontalScore }}%</p>
+                        <ngx-charts-gauge
+                          [view]="[500, 300]"
+                          [scheme]="{
+                            domain: ['#563d7c']
+                          }"
+                          [min]="0"
+                          [max]="100"
+                          [results]="[{name: 'Score', value: fiSimplicityHorizontalScore }]"
+                        >
+                        </ngx-charts-gauge>
+                        <div class="clearfix"></div>
+                        <hr>
+                        <div class="h3">Other Examples</div>
+                        <div class="example-good">
+                          Example of design with high horizontal simplicity score
+                          <img src="https://swds-imgs.netlify.app/simplicity-horizontal-pic1.png" class="img-fluid">
+                          In the design above, the search result items are aligned to a single line. The items have the same horizontal translation.
+                        </div>
+                        <div class="example-bad">
+                          Example of design with low horizontal simplicity score
+                          <img src="https://swds-imgs.netlify.app/simplicity-horizontal-pic2.png" class="img-fluid">
+                          <img src="https://swds-imgs.netlify.app/simplicity-horizontal-pic3.png" class="img-fluid">
+                          In the design above, the search result items are aligned to multiple lines. The items have inconsistent horizontal translation.
+                        </div>
+                        <hr>
+                        <div class="h3">References</div>
+                        <ol>
+                          <li>D. C. L. Ngo, "Measuring the aesthetic elements of screen designs," Displays, vol. 22, no. 3, pp. 73-78, 2001. </li>
+                        </ol>
+                        <hr>
+                      </div>
+
+                      <!-- SIMPLICITY (VERTICAL) -->
+                      <div *ngIf="currentPage == 'Simplicity (V)'">
+                        <div class="h2">Simplicity (V)</div>
+                        <p>The simplicity-vertical algorithm checks total number of alignment points in y-axis.</p>
+                        <p><b>Detection Scope : </b> Visible Viewport Area</p>
+                        <hr>
+                        <canvas #simplicityVerticalCanvas height="1" style="margin-top: 10px; width: 100%; border: solid 2px red;"></canvas>
+                        <ng-container *ngIf="drawSimplicityVerticalCanvas()"></ng-container>
+                        <hr>
+                        <h3>Score</h3>
+                        <p><b>Simplicity (V) Score:</b> {{ fiSimplicityVerticalScore }}%</p>
+                        <ngx-charts-gauge
+                          [view]="[500, 300]"
+                          [scheme]="{
+                            domain: ['#563d7c']
+                          }"
+                          [min]="0"
+                          [max]="100"
+                          [results]="[{name: 'Score', value: fiSimplicityVerticalScore }]"
+                        >
+                        </ngx-charts-gauge>
+                        <div class="clearfix"></div>
+                        <hr>
+                        <div class="h3">Other Examples</div>
+                        <div class="example-good">
+                          Example of design with high vertical simplicity score
+                          <img src="https://swds-imgs.netlify.app/simplicity-vertical-pic1.png" class="img-fluid">
+                          In the design above, the elements are aligned to a single line. All items have the same vertical translation.
+                        </div>
+                        <div class="example-bad">
+                          Example of design with low vertical simplicity score
+                          <img src="https://swds-imgs.netlify.app/simplicity-vertical-pic2.png" class="img-fluid">
+                          <img src="https://swds-imgs.netlify.app/simplicity-vertical-pic3.png" class="img-fluid">
+                          In the design above, the elements are aligned to multiple lines. The items have inconsistent vertical translation.
+                        </div>
+                        <hr>
+                        <div class="h3">References</div>
+                        <ol>
+                          <li>D. C. L. Ngo, "Measuring the aesthetic elements of screen designs," Displays, vol. 22, no. 3, pp. 73-78, 2001. </li>
+                        </ol>
+                        <hr>
                       </div>
 
                       <!-- TEXT SIZE -->
                       <div *ngIf="currentPage == 'Text Size'">
                         <div class="h2">Text Size</div>
                         <hr>
+                        <p><b>Detection Scope : </b> Entire Page</p>
                         <img [src]="analysisResult.screenshot" alt="" width="100%">
                         <hr>
                         <h3>Score</h3>
@@ -173,7 +923,7 @@
                         <ngx-charts-gauge
                           [view]="[500, 300]"
                           [scheme]="{
-                            domain: ['#5AA454']
+                            domain: ['#563d7c']
                           }"
                           [min]="0"
                           [max]="100"
@@ -206,12 +956,21 @@
                           >
                         </ngx-charts-bar-vertical>
                         <div class="clearfix"></div>
+                        <hr>
+                        <div class="h3">References</div>
+                        <ol>
+                          <li>W3C, "Contrast (Minimum)," 2016. [Online]. Available: https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-contrast.html#larger-scaledef. [Accessed 7 March 2020].</li>
+                          <li>The Pennsylavnia State University, "Accessibility at PennState | Font Size on the Web," PennState, 2019. [Online]. Available: https://accessibility.psu.edu/fontsizehtml/. [Accessed 19 March 2020].</li>
+                          <li>P.-C. Yeh, "Impact of button position and touchscreen font size on healthcare device operation by older adults," Heliyon, vol. 6, p. e04147, June 2020. </li>
+                        </ol>
+                        <hr>
                       </div>
 
                       <!-- DOMINANT COLORS -->
                       <div *ngIf="currentPage == 'Dominant Colors'">
                         <h2>Dominant Colors</h2>
                         <hr>
+                        <p><b>Detection Scope : </b> Visible Viewport Area</p>
                         <img [src]="analysisResult.screenshot" alt="" width="100%">
                         <hr>
                         <h3>Colors</h3>
@@ -229,7 +988,7 @@
                         <ngx-charts-gauge
                           [view]="[500, 300]"
                           [scheme]="{
-                            domain: ['#5AA454']
+                            domain: ['#563d7c']
                           }"
                           [min]="0"
                           [max]="100"
@@ -239,7 +998,7 @@
                         <div class="clearfix"></div>
                         <h3>Config</h3>
                         <p><b>Maximum Vibrant Area Percentage:</b> {{ analysisResult.analysisConfig.dominantColors.vibrantMaxAreaPercentage }}%</p>
-                        <mat-slider style="width: 500px" min="0" max="100" step="1" thumbLabel
+                        <mat-slider style="width: 100%" min="0" max="20" step="0.01" thumbLabel
                         [value]="analysisResult.analysisConfig.dominantColors.vibrantMaxAreaPercentage"
                         (change)="fiDominantColorsVibrantMaxAreaPercentageChange($event)"></mat-slider>
                         <hr>
@@ -260,6 +1019,25 @@
                             </tr>
                           </tbody>
                         </table>
+                        <hr>
+                        <div class="h3">Other Examples</div>
+                        <div class="example-good">
+                          Example of design with high dominant color score
+                          <img src="https://swds-imgs.netlify.app/dominant-colors-pic1.png" class="img-fluid">
+                          In the design above, the vibrant color is used minimally. The color is used for highlighting some elements.
+                        </div>
+                        <div class="example-bad">
+                          Example of design with low dominant color score
+                          <img src="https://swds-imgs.netlify.app/dominant-colors-pic2.png" class="img-fluid">
+                          In the design above, the vibrant color is used too much.
+                        </div>
+                        <hr>
+                        <div class="h3">References</div>
+                        <ol>
+                          <li>J. Beaird, The Principles of Beautiful Web Design, Canada: SitePoint Pty. Ltd., 2010. </li>
+                          <li>S. Sasidharan, S. Maheshwari and G. Dhanesh, "The Impact of Website Design on B2C E-Commerce Trust," Technology Review, vol. 6, pp. 48-55, March 2010. </li>
+                        </ol>
+                        <hr>
                       </div>
 
                       <!-- TYPE OF FONT -->
@@ -268,6 +1046,7 @@
                           Type of Font
                         </h2>
                         <hr>
+                        <p><b>Detection Scope : </b> Entire Page</p>
                         <img [src]="analysisResult.screenshot" alt="" width="100%">
                         <hr>
                         <p>
@@ -286,39 +1065,24 @@
                             </tr>
                           </thead>
                           <tr *ngFor="let item of analysisResult.textFontTypeResult.stacks; let i = index">
-                            <td>{{ i }}</td>
+                            <td>{{ i + 1 }}</td>
                             <td>{{ item }}</td>
                           </tr>
                         </table>
                       </div>
 
-                      <!-- ELEMENT COUNT -->
-                      <div *ngIf="currentPage == 'Element Count'">
-                        <h3>Element Tag Distribution</h3>
-                        <ngx-charts-bar-horizontal
-                        [view]="[500, fiElementCountBarData.length * 50]"
-                        [showDataLabel]="true"
-                        [results]="fiElementCountBarData"
-                        [xAxis]="true"
-                        [yAxis]="true"
-                        [showXAxisLabel]="true"
-                        [showYAxisLabel]="true"
-                        [xAxisLabel]="'count'"
-                        >
-                        </ngx-charts-bar-horizontal>
-                      </div>
-
                       <!-- RAW JSON -->
-                      <div *ngIf="currentPage == 'Raw JSON'">
+                      <!-- <div *ngIf="currentPage == 'Raw JSON'">
                         <pre>
-      {{ analysisResultRaw }}
+                          {{ analysisResultRaw }}
                         </pre>
-                      </div>
+                      </div> -->
 
                       <!-- USE OF PICTURES -->
                       <div *ngIf="currentPage == 'Use of Pictures'">
                         <div class="h2">Use of Pictures</div>
                         <hr>
+                        <p><b>Detection Scope : </b> Entire Page</p>
                         <img [src]="analysisResult.screenshot" alt="" width="100%">
                         <hr>
                         <h3>Score</h3>
@@ -326,7 +1090,7 @@
                         <ngx-charts-gauge
                           [view]="[500, 300]"
                           [scheme]="{
-                            domain: ['#5AA454']
+                            domain: ['#563d7c']
                           }"
                           [min]="0"
                           [max]="100"
@@ -335,8 +1099,8 @@
                         <div class="clearfix"></div>
                         <hr>
                         <h3>Config</h3>
-                        <p><b>Minimum Acceptable Pictures Area:</b> {{ analysisResult.analysisConfig.pictures.acceptableThreshold }} px²</p>
-                        <mat-slider style="width: 500px" min="0" max="500000" step="10000" thumbLabel
+                        <p><b>Minimum Acceptable Pictures Area Percentage:</b> {{ analysisResult.analysisConfig.pictures.acceptableThreshold }}%</p>
+                        <mat-slider style="width: 500px" min="0" max="100" step="1" thumbLabel
                         [value]="analysisResult.analysisConfig.pictures.acceptableThreshold"
                         (change)="fiPicturesAcceptableThresholdChange($event)"></mat-slider>
                         <h3>Analysis</h3>
@@ -347,83 +1111,44 @@
                               <td>{{ analysisResult.picturesResult.allCount }}</td>
                             </tr>
                             <tr>
-                              <th scope="row">Total Visible Images</th>
-                              <td>{{ analysisResult.picturesResult.visibleCount }}</td>
-                            </tr>
-                            <tr>
                               <th scope="row">Total Image Area</th>
-                              <td>{{ fiPicturesTotalArea }}</td>
+                              <td>{{ fiPicturesTotalArea }}px²</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Total Page Area</th>
+                              <td>{{ analysisResult.browserInfoResult.scrollHeight * analysisResult.browserInfoResult.scrollWidth }}px²</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Image Percentage</th>
+                              <td>{{ fiPicturesTotalArea * 100 / (analysisResult.browserInfoResult.scrollHeight * analysisResult.browserInfoResult.scrollWidth) }}%</td>
                             </tr>
                           </tbody>
                         </table>
-                      </div>
-
-                      <!-- DENSITY -->
-                      <div *ngIf="currentPage == 'Density'">
-                        <div class="h2">Density</div>
+                        <h3>Visualization</h3>
+                        <button class="btn btn-primary" (click)="fiPicturesDrawCanvas()">Show Visualization</button>
+                        <canvas #picturesCanvas height="1" style="margin-top: 10px; width: 100%; padding: 5px; border: solid 3px black;"></canvas>
                         <hr>
-                        <img [src]="analysisResult.screenshot" alt="" width="100%">
+                        <div class="h3">References</div>
+                        <ol>
+                          <li>R. J. Nathan and P. H. P. Yeow, "An empirical study of factors affecting the perceived usability of websites for student Internet users," Universal Access in the Information Society, vol. 8, no. 3, pp. 165-184, 2008.</li>
+                          <li>J. Beaird, The Principles of Beautiful Web Design, Canada: SitePoint Pty. Ltd., 2010. </li>
+                        </ol>
                         <hr>
-                        <h3>Score</h3>
-                        <p><b>Density Score:</b> {{ fiDensityScore }}</p>
-                        <ngx-charts-gauge
-                          [view]="[500, 300]"
-                          [scheme]="{
-                            domain: ['#5AA454']
-                          }"
-                          [min]="0"
-                          [max]="100"
-                          [results]="[{name: 'Score', value: fiDensityScore}]">
-                        </ngx-charts-gauge>
-                        <div class="clearfix"></div>
-                        <hr>
-                        <h3>Config</h3>
-                        <p><b>Acceptable Density Threshold:</b> {{ analysisResult.analysisConfig.density.acceptableThreshold }}%</p>
-                        <mat-slider style="width: 500px" min="0" max="100" step="1" thumbLabel
-                        [value]="analysisResult.analysisConfig.density.acceptableThreshold"
-                        (change)="fiDensityAcceptableThresholdChange($event)"></mat-slider>
-                        <h3>Analysis</h3>
-                        <table class="table">
-                          <tbody>
-                            <tr>
-                              <th scope="row">Total Pixels</th>
-                              <td>{{ analysisResult.densityResult.visitedPixels }}</td>
-                            </tr>
-                            <tr>
-                              <th scope="row">Most used color in the snapshot</th>
-                              <td>
-                                <div style="width: 50px; height: 50px;" [ngStyle]="{'background-color': '#' + analysisResult.colorCountResult.rank[0].color }"></div>
-                                  #{{ analysisResult.colorCountResult.rank[0].color }}
-                              </td>
-                            </tr>
-                            <tr>
-                              <th scope="row">Total pixels of the most used color</th>
-                              <td>{{ analysisResult.colorCountResult.rank[0].pixelCount }}</td>
-                            </tr>
-                            <tr>
-                              <th scope="row">Pixel negative space percentage</th>
-                              <td>{{ 100 - analysisResult.densityResult.percentage }}%</td>
-                            </tr>
-                            <tr>
-                              <th scope="row">Density Percentage</th>
-                              <td>{{ analysisResult.densityResult.percentage }}%</td>
-                            </tr>
-                          </tbody>
-                        </table>
                       </div>
 
                       <!-- NEGATIVE SPACE -->
-                      <div *ngIf="currentPage === 'Negative Space'">
-                        <div class="h2">Negative Space</div>
+                      <div *ngIf="currentPage === 'Negative Space (Text)'">
+                        <div class="h2">Negative Space (Text)</div>
                         <hr>
+                        <p><b>Detection Scope : </b> Entire Page</p>
                         <img [src]="analysisResult.screenshot" alt="" width="100%">
                         <hr>
                         <h3>Score</h3>
-                        <p><b>Text Negative Space Score:</b> {{ fiNegativeSpaceScore }}</p>
+                        <p><b>Text Negative Space (Text) Score:</b> {{ fiNegativeSpaceScore }}</p>
                         <ngx-charts-gauge
                           [view]="[500, 300]"
                           [scheme]="{
-                            domain: ['#5AA454']
+                            domain: ['#563d7c']
                           }"
                           [min]="0"
                           [max]="100"
@@ -452,12 +1177,32 @@
                         <h3>Visualization</h3>
                         <button class="btn btn-primary" (click)="fiNegativeSpaceDrawCanvas()">Show Visualization</button>
                         <canvas #negativeSpaceCanvas height="1" style="margin-top: 10px; width: 100%; padding: 5px; border: solid 3px black;"></canvas>
+                        <hr>
+                        <div class="h3">Other Examples</div>
+                        <div class="example-good">
+                          Example of design with high negative space score
+                          <img src="https://swds-imgs.netlify.app/negative-space-text-pic1.png" class="img-fluid">
+                          In the design above, the text doesn't fill the entire screen. It leaves enough empty spaces around the design.
+                        </div>
+                        <div class="example-bad">
+                          Example of design with low negative space score
+                          <img src="https://swds-imgs.netlify.app/negative-space-text-pic2.png" class="img-fluid">
+                          In the design above, the text almost fills the entire screen.
+                        </div>
+                        <hr>
+                        <div class="h3">References</div>
+                        <ol>
+                          <li>ISO, ISO 9241-151:2008 Ergonomics of human-system interaction, 2008. </li>
+                          <li>U.S. Department of Health and Human Services Guideline</li>
+                        </ol>
+                        <hr>
                       </div>
 
                       <!-- VIDEOS -->
                       <div *ngIf="currentPage === 'Use of Videos'">
                         <div class="h2">Use of Videos</div>
                         <hr>
+                        <p><b>Detection Scope : </b> Entire Page</p>
                         <img [src]="analysisResult.screenshot" alt="" width="100%">
                         <hr>
                         <h3>Analysis</h3>
@@ -473,6 +1218,13 @@
                         <h3>Visualization</h3>
                         <button class="btn btn-primary" (click)="fiVideosDrawCanvas()">Show Visualization</button>
                         <canvas #videosCanvas height="1" style="margin-top: 10px; width: 100%; padding: 5px; border: solid 3px black;"></canvas>
+                        <hr>
+                        <div class="h3">References</div>
+                        <ol>
+                          <li>R. J. Nathan and P. H. P. Yeow, "An empirical study of factors affecting the perceived usability of websites for student Internet users," Universal Access in the Information Society, vol. 8, no. 3, pp. 165-184, 2008.</li>
+                          <li>J. Beaird, The Principles of Beautiful Web Design, Canada: SitePoint Pty. Ltd., 2010. </li>
+                        </ol>
+                        <hr>
                       </div>
 
                     </div>
@@ -510,69 +1262,132 @@
           [tooltipDisabled]="true">
         </ngx-charts-pie-grid>
       </div>
-      <div class="h3">Score Breakdown</div>
+      <div class="h3">Weighted Scores</div>
       <table class="table">
         <tbody>
           <tr>
-            <th scope="row" style="width: 120px;">Left-Right Symmetry</th>
-            <td style="width: 50px;">{{ fiSymmetryLRScore }}</td>
+            <th scope="row" style="width: 120px;">Left-Right Pixel Symmetry</th>
+            <td style="width: 50px;">{{ floor(fiSymmetryLRScore * weightFiSymmetryLRScore) }}</td>
             <td>
               <div class="progress">
-                <div class="progress-bar" role="progressbar" [ngStyle]="{width: fiSymmetryLRScore + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="progress-bar" role="progressbar" [ngStyle]="{width: (fiSymmetryLRScore * weightFiSymmetryLRScore) + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
             </td>
           </tr>
           <tr>
-            <th scope="row">Top-Bottom Symmetry</th>
-            <td>{{ fiSymmetryTBScore }}</td>
+            <th scope="row" style="width: 120px;">Top-Bottom Pixel Symmetry</th>
+            <td style="width: 50px;">{{ floor(fiSymmetryTBScore * weightFiSymmetryTBScore) }}</td>
             <td>
               <div class="progress">
-                <div class="progress-bar" role="progressbar" [ngStyle]="{width: fiSymmetryTBScore + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="progress-bar" role="progressbar" [ngStyle]="{width: (fiSymmetryTBScore * weightFiSymmetryTBScore) + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
             </td>
           </tr>
           <tr>
-            <th scope="row">Density</th>
-            <td>{{ fiDensityScore }}</td>
+            <th scope="row" style="width: 120px;">Text Element Complexity</th>
+            <td style="width: 50px;">{{ floor(fiComplexityScore * weightFiComplexityScore) }}</td>
             <td>
               <div class="progress">
-                <div class="progress-bar" role="progressbar" [ngStyle]="{width: fiDensityScore + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="progress-bar" role="progressbar" [ngStyle]="{width: (fiComplexityScore * weightFiComplexityScore) + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
             </td>
           </tr>
           <tr>
-            <th scope="row">Use of Pictures</th>
-            <td>{{ fiPicturesScore }}</td>
+            <th scope="row" style="width: 120px;">Pixel Density</th>
+            <td style="width: 50px;">{{ floor(fiDensityScore * weightFiDensityScore) }}</td>
             <td>
               <div class="progress">
-                <div class="progress-bar" role="progressbar" [ngStyle]="{width: fiPicturesScore + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="progress-bar" role="progressbar" [ngStyle]="{width: (fiDensityScore * weightFiDensityScore) + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
             </td>
           </tr>
           <tr>
-            <th scope="row">Text Size</th>
-            <td>{{ fiTextSizeScore }}</td>
+            <th scope="row" style="width: 120px;">DOM Element Density</th>
+            <td style="width: 50px;">{{ floor(fiDensityMajorDomScore * weightFiDensityMajorDomScore) }}</td>
             <td>
               <div class="progress">
-                <div class="progress-bar" role="progressbar" [ngStyle]="{width: fiTextSizeScore + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="progress-bar" role="progressbar" [ngStyle]="{width: (fiDensityMajorDomScore * weightFiDensityMajorDomScore) + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
             </td>
           </tr>
           <tr>
-            <th scope="row">Dominant Colors Area</th>
-            <td>{{ fiDominantColorsVibrantScore }}</td>
+            <th scope="row" style="width: 120px;">Image Element Cohesion</th>
+            <td style="width: 50px;">{{ floor(fiCohesionScore * weightFiCohesionScore) }}</td>
             <td>
               <div class="progress">
-                <div class="progress-bar" role="progressbar" [ngStyle]="{width: fiDominantColorsVibrantScore + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="progress-bar" role="progressbar" [ngStyle]="{width: (fiCohesionScore * weightFiCohesionScore) + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
             </td>
           </tr>
           <tr>
-            <th scope="row">Text Negative Space</th>
-            <td>{{ fiNegativeSpaceScore }}</td>
+            <th scope="row" style="width: 120px;">Image Element Economy</th>
+            <td style="width: 50px;">{{ floor(fiEconomyImagesScore * weightFiEconomyImagesScore) }}</td>
             <td>
               <div class="progress">
-                <div class="progress-bar" role="progressbar" [ngStyle]="{width: fiNegativeSpaceScore + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="progress-bar" role="progressbar" [ngStyle]="{width: (fiEconomyImagesScore * weightFiEconomyImagesScore) + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row" style="width: 120px;">Text Element Economy</th>
+            <td style="width: 50px;">{{ floor(fiEconomyTextScore * weightFiEconomyTextScore) }}</td>
+            <td>
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" [ngStyle]="{width: (fiEconomyTextScore * weightFiEconomyTextScore) + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row" style="width: 120px;">Horizontal Simplicity</th>
+            <td style="width: 50px;">{{ floor(fiSimplicityHorizontalScore * weightFiSimplicityHorizontalScore) }}</td>
+            <td>
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" [ngStyle]="{width: (fiSimplicityHorizontalScore * weightFiSimplicityHorizontalScore) + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row" style="width: 120px;">Vertical Simplicity</th>
+            <td style="width: 50px;">{{ floor(fiSimplicityVerticalScore * weightFiSimplicityVerticalScore) }}</td>
+            <td>
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" [ngStyle]="{width: (fiSimplicityVerticalScore * weightFiSimplicityVerticalScore) + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row" style="width: 120px;">Dominant Color</th>
+            <td style="width: 50px;">{{ floor(fiDominantColorsVibrantScore * weightFiDominantColorsVibrantScore) }}</td>
+            <td>
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" [ngStyle]="{width: (fiDominantColorsVibrantScore * weightFiDominantColorsVibrantScore) + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row" style="width: 120px;">Picture Usage</th>
+            <td style="width: 50px;">{{ floor(fiPicturesScore * weightFiPicturesScore) }}</td>
+            <td>
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" [ngStyle]="{width: (fiPicturesScore * weightFiPicturesScore) + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row" style="width: 120px;">Text Size</th>
+            <td style="width: 50px;">{{ floor(fiTextSizeScore * weightFiTextSizeScore) }}</td>
+            <td>
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" [ngStyle]="{width: (fiTextSizeScore * weightFiTextSizeScore) + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row" style="width: 120px;">Text Negative Space</th>
+            <td style="width: 50px;">{{ floor(fiNegativeSpaceScore * weightFiNegativeSpaceScore) }}</td>
+            <td>
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" [ngStyle]="{width: (fiNegativeSpaceScore * weightFiNegativeSpaceScore) + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
             </td>
           </tr>

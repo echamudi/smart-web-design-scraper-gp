@@ -9,7 +9,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class ImageProcessingSpringApplication {
 
 	public static void main(String[] args) {
-//		System.loadLibrary( Core.NATIVE_LIBRARY_NAME );
+		System.loadLibrary("opencv_java440");
+		System.loadLibrary( Core.NATIVE_LIBRARY_NAME );
 		SpringApplication.run(ImageProcessingSpringApplication.class, args);
 
 /*

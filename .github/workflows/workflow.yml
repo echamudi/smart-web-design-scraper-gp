@@ -1,0 +1,57 @@
+name: CDCI
+
+on:
+  push:
+    branches: [ ezzat-dev, develop, master ]
+  pull_request:
+    branches: [ ezzat-dev, develop, master ]
+
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Check docker and node versions
+        run: |
+          docker -v
+          docker-compose -v
+          node -v
+
+      - name: Install node modules
+        run: |
+          npm install
+          (cd shared && npm install)
+          (cd client && npm install)
+          (cd server && npm install)
+          (cd chrome-ext && npm install)
+          (cd test && npm install)
+      
+      - name: Download Java Jars
+        run: |
+          mkdir -p micro-services/java/ImageProcessingSpring/lib
+          (cd micro-services/java/ImageProcessingSpring/lib &&
+          curl https://raw.githubusercontent.com/echamudi/java-jars/main/javacpp-1.5.4.jar -OJ &&
+          curl https://raw.githubusercontent.com/echamudi/java-jars/main/openblas-0.3.10-1.5.4.jar -OJ &&
+          curl https://raw.githubusercontent.com/echamudi/java-jars/main/opencv-4.4.0-1.5.4.jar -OJ)
+
+      - name: Build Angular, Chrome Extension, and Express
+        run: |
+          (cd client && npm run build)
+          (cd server && npm run build)
+          (cd chrome-ext && npm run build)
+
+      - name: Run Docker containers (Mongo, Express, Angular)
+        run: |
+          docker-compose -f test.docker-compose.yml up --build --detach
+  
+      - name: Test JS/TS codes using Jest
+        run: |
+          npx jest
+
+      - name: Test Express server using Mocha
+        run: |
+          (cd test && npx mocha server-graphql.js)

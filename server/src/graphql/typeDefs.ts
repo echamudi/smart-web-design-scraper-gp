@@ -5,6 +5,13 @@ export const typeDefs = gql`
         getCurrentUser: User
         login(username: String!, password: String!): LoginResult
         getAnalysis(id: ID!): Analysis
+        getAnalyses: [AnalysisLite]
+    }
+
+    type AnalysisLite {
+        id: ID
+        date: String
+        url: String
     }
 
     type Analysis {
@@ -32,7 +39,7 @@ export const typeDefs = gql`
 
     type Mutation {
         signup(username: String!, password: String!, email: String!): SignupResult
-        saveAnalysis(data: String!): ID
+        saveAnalysis(data: String!, url: String!): ID
     }
 
     type SignupResult {

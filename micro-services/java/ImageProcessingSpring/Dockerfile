@@ -75,5 +75,7 @@ COPY --from=build /home/gradle/src/build/libs/*.jar /app/spring-boot-application
 CMD bash
 #ADD target/build/libs/*.jar app.jar
 
-ENTRYPOINT ["java", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseCGroupMemoryLimitForHeap", "-Djava.security.egd=file:/dev/./urandom","-jar","/app/spring-boot-application.jar"]
+#ENTRYPOINT ["java", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseCGroupMemoryLimitForHeap", "-Djava.security.egd=file:/dev/./urandom","-jar","/app/spring-boot-application.jar"]
 #ENTRYPOINT ["java","-jar","/app.jar"]
+ENTRYPOINT ["java","-cp","/opt/local/lib/opencv-440.jar","-Djava.library.path=/opt/local/lib","-XX:+UnlockExperimentalVMOptions", "-XX:+UseCGroupMemoryLimitForHeap", "-Djava.security.egd=file:/dev/./urandom","-jar","/app/spring-boot-application.jar"]
+

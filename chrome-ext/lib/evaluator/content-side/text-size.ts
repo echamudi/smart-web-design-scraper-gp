@@ -1,5 +1,5 @@
-import { styleElementFactory, getStyleElement } from "../../helpers/style-tools";
-import { TextSizeConfig, TextSizeResult } from 'Shared/types/factors';
+import { styleElementFactory, getStyleElement } from 'Shared/utils/style-tools';
+import { TextSizeConfig, TextSizeResult } from 'Shared/types/factors-legacy';
 
 /**
  * @param doc elements to be evaluated, ideally all elements in the page

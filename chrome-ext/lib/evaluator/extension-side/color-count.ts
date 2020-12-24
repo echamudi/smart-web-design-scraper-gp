@@ -1,5 +1,6 @@
-import { equalWithTolerance, rgbToHex } from 'Shared/utils/color';
-import { ColorCountResult } from 'Shared/types/factors';
+import { equalWithTolerance } from 'Shared/utils/equality';
+import { rgbToHex } from 'Shared/utils/color';
+import { ColorCountResult } from 'Shared/types/factors-legacy';
 import { imageToCanvas } from 'Shared/utils/image-canvas';
 
 /**

@@ -907,6 +907,8 @@ export class AnalysisResultComponent implements OnInit {
     this.weightFiPicturesScore = 1;
     this.weightFiTextSizeScore = 1;
     this.weightFiNegativeSpaceScore = 1;
+
+    this.updateFinalScore();
   }
 
   configMultimedia() {
@@ -924,5 +926,7 @@ export class AnalysisResultComponent implements OnInit {
     this.weightFiPicturesScore = 1;
     this.weightFiTextSizeScore = 1;
     this.weightFiNegativeSpaceScore = 0.8;
+
+    this.updateFinalScore();
   }
 }

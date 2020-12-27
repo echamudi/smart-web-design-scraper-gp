@@ -824,23 +824,23 @@ export class AnalysisResultComponent implements OnInit {
 
   updateFinalScore(): void {
     // DEBUG
-    console.log('ORIGINAL SCORES');
-    console.log(
-      this.fiSymmetryLRScore + '\t' +
-      this.fiSymmetryTBScore + '\t' +
-      this.fiComplexityScore + '\t' +
-      this.fiDensityScore + '\t' +
-      this.fiDensityMajorDomScore + '\t' +
-      this.fiCohesionScore + '\t' +
-      this.fiEconomyImagesScore + '\t' +
-      this.fiEconomyTextScore + '\t' +
-      this.fiSimplicityHorizontalScore + '\t' +
-      this.fiSimplicityVerticalScore + '\t' +
-      this.fiDominantColorsVibrantScore + '\t' +
-      this.fiPicturesScore + '\t' +
-      this.fiTextSizeScore + '\t' +
-      this.fiNegativeSpaceScore
-    );
+    // console.log('ORIGINAL SCORES');
+    // console.log(
+    //   this.fiSymmetryLRScore + '\t' +
+    //   this.fiSymmetryTBScore + '\t' +
+    //   this.fiComplexityScore + '\t' +
+    //   this.fiDensityScore + '\t' +
+    //   this.fiDensityMajorDomScore + '\t' +
+    //   this.fiCohesionScore + '\t' +
+    //   this.fiEconomyImagesScore + '\t' +
+    //   this.fiEconomyTextScore + '\t' +
+    //   this.fiSimplicityHorizontalScore + '\t' +
+    //   this.fiSimplicityVerticalScore + '\t' +
+    //   this.fiDominantColorsVibrantScore + '\t' +
+    //   this.fiPicturesScore + '\t' +
+    //   this.fiTextSizeScore + '\t' +
+    //   this.fiNegativeSpaceScore
+    // );
 
     const divisor =
       this.weightFiSymmetryLRScore +

@@ -2,6 +2,17 @@
 
 The archived repo of "Smart Web Design Scraper" graduation project.
 
+## Technologies
+
+This project uses the following libraries
+
+- Docker
+- Angular
+- Express
+- OpenCV
+- Java Spring
+- Apollo GraphQL
+
 ## Preparation
 
 These steps are required before development or production compilation.

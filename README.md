@@ -2,6 +2,9 @@
 
 The archived repo of "Smart Web Design Scraper" graduation project.
 
+![screenshots](images/screenshots.jpg)
+
+
 ## Technologies
 
 This project uses the following libraries

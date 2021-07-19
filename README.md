@@ -5,6 +5,8 @@ The archived repo of "Smart Web Design Scraper" graduation project.
 ![screenshots](images/screenshots.jpg)
 
 
+Note : this project was created while Node 14 was the latest version of node so it will work with no problems on that version and the project is not tested on newer versions of NodeJS
+
 ## Technologies
 
 This project uses the following libraries
